@@ -1,0 +1,213 @@
+fileFormatVersion: 2
+guid: 57634258fe45a4e46bb583fbd2e71dc3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: black_grass0002
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 4
+  maxTextureSize: 246
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 9
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: black_grass0002
+      rect:
+        serializedVersion: 2
+        x: 7.0761204
+        y: 0
+        width: 104.84776
+        height: 240.92387
+      alignment: 9
+      pivot: {x: 0.5190753, y: 0.5105347}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -2.5, y: -98.46194}
+        - {x: -3.5, y: -86.46194}
+        - {x: -0.5, y: -62.461937}
+        - {x: 0.5, y: -57.461937}
+        - {x: 1.5, y: -56.461937}
+        - {x: 2.5, y: -50.461937}
+        - {x: 3.5, y: -47.461937}
+        - {x: 2.5, y: -48.461937}
+        - {x: 2.5, y: -50.461937}
+        - {x: -1.5, y: -63.461937}
+        - {x: -8.5, y: -120.46194}
+        - {x: -18.5, y: -120.46194}
+        - {x: -18.5, y: -18.461937}
+        - {x: 37.5, y: 48.538063}
+        - {x: 52.5, y: 48.538063}
+        - {x: 52.5, y: -6.461937}
+        - {x: 23.5, y: -120.46194}
+        - {x: 3.5, y: -120.46194}
+        - {x: 2.5, y: -119.46194}
+        - {x: 1.5, y: -115.46194}
+      - - {x: -50.5, y: -118.46194}
+        - {x: -52.5, y: -110.46194}
+        - {x: -52.5, y: 120.53806}
+        - {x: -31.5, y: 120.53806}
+        - {x: -19.5, y: -39.461937}
+        - {x: -19.5, y: -120.46194}
+        - {x: -28.5, y: -120.46194}
+        - {x: -37.5, y: -105.46194}
+        - {x: -37.5, y: -120.46194}
+        - {x: -48.5, y: -120.46194}
+      physicsShape:
+      - - {x: -30.5, y: -95.46194}
+        - {x: -30.5, y: -106.46194}
+        - {x: -27.5, y: -120.46194}
+        - {x: -20.5, y: -120.46194}
+        - {x: -20.5, y: -92.46194}
+        - {x: -21.5, y: -74.46194}
+        - {x: -24.5, y: -44.461937}
+        - {x: -24.5, y: -37.461937}
+        - {x: -26.5, y: -2.461937}
+        - {x: -33.5, y: 21.538063}
+        - {x: -35.5, y: 21.538063}
+        - {x: -35.5, y: 117.53806}
+        - {x: -37.5, y: 118.53806}
+        - {x: -42.5, y: 118.53806}
+        - {x: -44.5, y: 114.53806}
+        - {x: -48.5, y: 73.53806}
+        - {x: -51.5, y: 46.538063}
+        - {x: -51.5, y: 15.538063}
+        - {x: -49.5, y: -4.461937}
+        - {x: -47.5, y: -16.461937}
+        - {x: -43.5, y: -29.461937}
+        - {x: -51.5, y: -69.46194}
+        - {x: -51.5, y: -104.46194}
+        - {x: -47.5, y: -117.46194}
+        - {x: -46.5, y: -120.46194}
+        - {x: -38.5, y: -120.46194}
+        - {x: -38.5, y: -106.46194}
+        - {x: -35.5, y: -63.461937}
+        - {x: -34.5, y: -75.46194}
+      - - {x: 17.5, y: -14.461937}
+        - {x: 39.5, y: 19.538063}
+        - {x: 51.5, y: 41.538063}
+        - {x: 51.5, y: 44.538063}
+        - {x: 49.5, y: 46.538063}
+        - {x: 45.5, y: 45.538063}
+        - {x: 36.5, y: 37.538063}
+        - {x: 30.5, y: 29.538063}
+        - {x: 15.5, y: 13.538063}
+        - {x: 5.5, y: -0.46193695}
+        - {x: -1.5, y: -11.461937}
+        - {x: -10.5, y: -30.461937}
+        - {x: -16.5, y: -57.461937}
+        - {x: -17.5, y: -70.46194}
+        - {x: -17.5, y: -112.46194}
+        - {x: -16.5, y: -120.46194}
+        - {x: -9.5, y: -120.46194}
+        - {x: -7.5, y: -87.46194}
+        - {x: -2.5, y: -63.461937}
+        - {x: 8.5, y: -31.461937}
+      - - {x: 42.5, y: -4.461937}
+        - {x: 41.5, y: -2.461937}
+        - {x: 33.5, y: -2.461937}
+        - {x: 12.5, y: -21.461937}
+        - {x: 2.5, y: -49.461937}
+        - {x: 0.5, y: -62.461937}
+        - {x: -0.5, y: -65.46194}
+        - {x: -0.5, y: -105.46194}
+        - {x: 3.5, y: -119.46194}
+        - {x: 4.5, y: -120.46194}
+        - {x: 13.5, y: -120.46194}
+        - {x: 12.5, y: -77.46194}
+        - {x: 32.5, y: -21.461937}
+        - {x: 42.5, y: -8.461937}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d2dcba703ce4695a0a09f45ac3fbb5c
+      internalID: 21300000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,363 @@
+fileFormatVersion: 2
+guid: 9191dd041e241024dbfea70182c42044
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Dream_Gate_Other_pieces_0001_2
+  - first:
+      213: 21300002
+    second: Dream_Gate_Object_0002_1
+  - first:
+      213: 21300004
+    second: Dream_Gate_Other_pieces_0000_1
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 12
+  maxTextureSize: 256
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Dream_Gate_Other_pieces_0001_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 183.04065
+        width: 109
+        height: 72.95935
+      alignment: 9
+      pivot: {x: 0.5, y: 0.49972147}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 38.5, y: 36.47968}
+        - {x: 39.5, y: 35.47968}
+        - {x: 39.5, y: 35.47968}
+        - {x: 40.5, y: 36.47968}
+        - {x: 54.5, y: 36.47968}
+        - {x: 54.5, y: 31.47968}
+        - {x: 42.5, y: 31.47968}
+        - {x: 54.5, y: 14.479679}
+        - {x: 54.5, y: -36.52032}
+        - {x: -54.5, y: -36.52032}
+        - {x: -54.5, y: 15.479679}
+        - {x: -36.5, y: 36.47968}
+      physicsShape:
+      - - {x: 39.5, y: -13.520321}
+        - {x: 34.5, y: -23.52032}
+        - {x: 37.5, y: -24.52032}
+        - {x: 43.5, y: -25.52032}
+        - {x: 48.5, y: -25.52032}
+        - {x: 50.5, y: -22.52032}
+        - {x: 50.5, y: -1.5203209}
+        - {x: 41.5, y: 15.479679}
+        - {x: 29.5, y: 27.47968}
+        - {x: 10.5, y: 34.47968}
+        - {x: -14.5, y: 34.47968}
+        - {x: -32.5, y: 25.47968}
+        - {x: -44.5, y: 14.479679}
+        - {x: -51.5, y: -5.520321}
+        - {x: -51.5, y: -23.52032}
+        - {x: -45.5, y: -25.52032}
+        - {x: -36.5, y: -25.52032}
+        - {x: -36.5, y: -13.520321}
+        - {x: -34.5, y: -24.52032}
+        - {x: -21.5, y: -22.52032}
+        - {x: -8.5, y: -25.52032}
+        - {x: 25.5, y: -25.52032}
+        - {x: 33.5, y: -23.52032}
+        - {x: 30.5, y: -15.520321}
+      - - {x: -14.5, y: -14.520321}
+        - {x: -12.5, y: -15.520321}
+        - {x: -12.5, y: -14.520321}
+        - {x: -13.5, y: -15.520321}
+        - {x: -13.5, y: -14.520321}
+      - - {x: 11.5, y: -15.520321}
+        - {x: 15.5, y: -14.520321}
+        - {x: 14.5, y: -13.520321}
+        - {x: 12.5, y: -15.520321}
+        - {x: 11.5, y: -14.520321}
+      - - {x: -27.5, y: -8.520321}
+        - {x: -29.5, y: -7.520321}
+        - {x: -30.5, y: -4.520321}
+        - {x: -27.5, y: -1.5203209}
+        - {x: -27.5, y: -0.5203209}
+        - {x: -30.5, y: 2.479679}
+        - {x: -33.5, y: 2.479679}
+        - {x: -34.5, y: 5.479679}
+        - {x: -33.5, y: 6.479679}
+        - {x: -33.5, y: 8.479679}
+        - {x: -32.5, y: 9.479679}
+        - {x: -30.5, y: 9.479679}
+        - {x: -29.5, y: 10.479679}
+        - {x: -26.5, y: 10.479679}
+        - {x: -26.5, y: 4.479679}
+        - {x: -25.5, y: 3.479679}
+        - {x: -25.5, y: 4.479679}
+        - {x: -29.5, y: 0.4796791}
+        - {x: -29.5, y: -0.5203209}
+        - {x: -26.5, y: -3.520321}
+        - {x: -23.5, y: -3.520321}
+        - {x: -23.5, y: -4.520321}
+        - {x: -19.5, y: -9.520321}
+        - {x: -22.5, y: -10.520321}
+        - {x: -24.5, y: -10.520321}
+        - {x: -24.5, y: -9.520321}
+      - - {x: 18.5, y: -9.520321}
+        - {x: 21.5, y: -7.520321}
+        - {x: 23.5, y: -3.520321}
+        - {x: 26.5, y: -3.520321}
+        - {x: 27.5, y: -2.520321}
+        - {x: 30.5, y: -4.520321}
+        - {x: 27.5, y: -8.520321}
+        - {x: 26.5, y: -8.520321}
+        - {x: 24.5, y: -10.520321}
+        - {x: 21.5, y: -9.520321}
+      - - {x: -15.5, y: -4.520321}
+        - {x: -12.5, y: -6.520321}
+        - {x: -11.5, y: -6.520321}
+        - {x: -10.5, y: -7.520321}
+        - {x: -11.5, y: -6.520321}
+      - - {x: 14.5, y: -5.520321}
+        - {x: 15.5, y: -4.520321}
+        - {x: 14.5, y: -4.520321}
+        - {x: 9.5, y: -7.520321}
+      - - {x: -6.5, y: 3.479679}
+        - {x: -5.5, y: 2.479679}
+        - {x: -4.5, y: -1.5203209}
+        - {x: -4.5, y: -2.520321}
+      - - {x: 4.5, y: 1.4796791}
+        - {x: 5.5, y: 3.479679}
+        - {x: 4.5, y: -1.5203209}
+        - {x: 3.5, y: -2.520321}
+        - {x: 4.5, y: -2.520321}
+      - - {x: -17.5, y: 3.479679}
+        - {x: -18.5, y: 4.479679}
+        - {x: -19.5, y: 10.479679}
+        - {x: -18.5, y: 9.479679}
+        - {x: -15.5, y: 9.479679}
+        - {x: -12.5, y: 7.479679}
+        - {x: -11.5, y: 1.4796791}
+        - {x: -12.5, y: 2.479679}
+      - - {x: 12.5, y: 7.479679}
+        - {x: 15.5, y: 9.479679}
+        - {x: 17.5, y: 9.479679}
+        - {x: 18.5, y: 10.479679}
+        - {x: 18.5, y: 6.479679}
+        - {x: 16.5, y: 3.479679}
+        - {x: 15.5, y: 3.479679}
+        - {x: 12.5, y: 1.4796791}
+      - - {x: 25.5, y: 4.479679}
+        - {x: 25.5, y: 10.479679}
+        - {x: 29.5, y: 10.479679}
+        - {x: 33.5, y: 6.479679}
+        - {x: 33.5, y: 3.479679}
+        - {x: 32.5, y: 2.479679}
+        - {x: 29.5, y: 2.479679}
+        - {x: 28.5, y: 1.4796791}
+        - {x: 28.5, y: 2.479679}
+      - - {x: -0.5, y: 7.479679}
+        - {x: -2.5, y: 10.479679}
+        - {x: -4.5, y: 11.479679}
+        - {x: -3.5, y: 14.479679}
+        - {x: -3.5, y: 16.47968}
+        - {x: -1.5, y: 18.47968}
+        - {x: 0.5, y: 18.47968}
+        - {x: 2.5, y: 16.47968}
+        - {x: 3.5, y: 12.479679}
+        - {x: 4.5, y: 11.479679}
+        - {x: -0.5, y: 6.479679}
+      - - {x: -17.5, y: 17.47968}
+        - {x: -17.5, y: 19.47968}
+        - {x: -15.5, y: 21.47968}
+        - {x: -11.5, y: 22.47968}
+        - {x: -10.5, y: 23.47968}
+        - {x: -6.5, y: 23.47968}
+        - {x: -9.5, y: 19.47968}
+        - {x: -10.5, y: 15.479679}
+        - {x: -13.5, y: 16.47968}
+      - - {x: 7.5, y: 22.47968}
+        - {x: 5.5, y: 23.47968}
+        - {x: 9.5, y: 23.47968}
+        - {x: 10.5, y: 22.47968}
+        - {x: 14.5, y: 21.47968}
+        - {x: 16.5, y: 19.47968}
+        - {x: 16.5, y: 17.47968}
+        - {x: 15.5, y: 17.47968}
+        - {x: 12.5, y: 15.479679}
+        - {x: 10.5, y: 15.479679}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c471e215db2485297ec4ebb9596a7fd
+      internalID: 21300000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dream_Gate_Object_0002_1
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 100
+        width: 84
+        height: 95.92388
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5264591}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 42, y: -47.96194}
+        - {x: -42, y: -47.96194}
+        - {x: -42, y: 46.03806}
+        - {x: -41, y: 48.03806}
+        - {x: 38, y: 48.03806}
+        - {x: 42, y: 38.03806}
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3fdcb58f71994ca99b750e6ecc053f79
+      internalID: 21300002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dream_Gate_Other_pieces_0000_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 149
+        height: 179
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -71.5, y: -65.5}
+        - {x: -74.5, y: -62.5}
+        - {x: -74.5, y: 8.5}
+        - {x: -18.5, y: 89.5}
+        - {x: 27.5, y: 89.5}
+        - {x: 74.5, y: -37.5}
+        - {x: 74.5, y: -61.5}
+        - {x: 40.5, y: -69.5}
+        - {x: -41.5, y: -69.5}
+        - {x: -62.5, y: -67.5}
+      - - {x: -40.5, y: -89.5}
+        - {x: -45.5, y: -89.5}
+        - {x: -43.5, y: -86.5}
+        - {x: -40.5, y: -87.5}
+      physicsShape:
+      - - {x: 53.5, y: -54.5}
+        - {x: 50.5, y: -49.5}
+        - {x: 31.5, y: -39.5}
+        - {x: 15.5, y: -35.5}
+        - {x: 10.5, y: -1.5}
+        - {x: 6.5, y: 43.5}
+        - {x: 4.5, y: 45.5}
+        - {x: 0.5, y: 44.5}
+        - {x: -1.5, y: 19.5}
+        - {x: -4.5, y: -24.5}
+        - {x: -15.5, y: -40.5}
+        - {x: -22.5, y: -48.5}
+        - {x: -42.5, y: -51.5}
+        - {x: -43.5, y: -54.5}
+        - {x: -42.5, y: -58.5}
+        - {x: -10.5, y: -63.5}
+        - {x: 25.5, y: -63.5}
+        - {x: 44.5, y: -59.5}
+        - {x: 48.5, y: -58.5}
+        - {x: 53.5, y: -56.5}
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5c74d26933e44febcfa7999482b1383
+      internalID: 21300004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

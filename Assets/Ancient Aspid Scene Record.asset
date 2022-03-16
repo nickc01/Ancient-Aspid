@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cadd3b89a5f8f4498288dbb561d8478, type: 3}
+  m_Name: Ancient Aspid Scene Record
+  m_EditorClassIdentifier: 
+  sceneAdditions:
+  - {fileID: 102900000, guid: b40d8462b894bb641b32a6f88b48466e, type: 3}
+  sceneReplacements: []
+  sceneUnions: []
+  transitionRedirects:
+  - GateScene: GG_Workshop
+    GateToChange: left1
+    NewScene: Ancient Aspid Room
+    NewGate: left1
+  sceneAdditionPaths:
+  - Assets/Ancient Aspid Room.unity
+  sceneToReplacePaths: []
+  sceneReplacementPaths: []
+  sceneToUnionizePaths: []
+  sceneUnionPaths: []
+  transitionRedirects_containingScenes:
+  - GG_Workshop
+  transitionRedirects_gatesToRedirect:
+  - left1
+  transitionRedirects_newDestinationScenes:
+  - Ancient Aspid Room
+  transitionRedirects_newDestinationGateNames:
+  - left1
