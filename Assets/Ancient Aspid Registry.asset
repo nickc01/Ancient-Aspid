@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e940547fdce306f4294a2b2dc6c8e311, type: 3}
   m_Name: Ancient Aspid Registry
   m_EditorClassIdentifier: 
-  modTypeName: AncientAspid
+  modTypeName: AncientAspidMod
   modAssemblyName: Assembly-CSharp
   features:
   - {fileID: 11400000, guid: 4f9959fde18456244a732b7492a230cc, type: 2}

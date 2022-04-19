@@ -1,0 +1,53 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public static class RoomScanner
+{
+    const float maxDistance = 200;
+
+    static RaycastHit2D[] hits = new RaycastHit2D[1];
+
+    public static Rect GetRoomBoundaries(Vector3 position)
+    {
+        return GetRoomBoundaries(position, LayerMask.GetMask("Terrain"));
+    }
+
+    public static Rect GetRoomBoundaries(Vector3 position,int layerMask)
+    {
+        float leftSide = position.x - maxDistance;
+
+        if (Physics2D.RaycastNonAlloc(position, Vector2.left, hits, maxDistance, layerMask) > 0)
+        {
+            //Debug.DrawLine(position, hits[0].point, Color.green,0.25f);
+            leftSide = hits[0].point.x;
+        }
+
+        float rightSide = position.x + maxDistance;
+
+        if (Physics2D.RaycastNonAlloc(position, Vector2.right, hits, maxDistance, layerMask) > 0)
+        {
+            //Debug.DrawLine(position, hits[0].point, Color.green, 0.25f);
+            rightSide = hits[0].point.x;
+        }
+
+        float topSide = position.y + maxDistance;
+
+        if (Physics2D.RaycastNonAlloc(position, Vector2.up, hits, maxDistance, layerMask) > 0)
+        {
+            //Debug.DrawLine(position, hits[0].point, Color.green, 0.25f);
+            topSide = hits[0].point.y;
+        }
+
+
+        float bottomSide = position.y - maxDistance;
+
+        if (Physics2D.RaycastNonAlloc(position, Vector2.down, hits, maxDistance, layerMask) > 0)
+        {
+            //Debug.DrawLine(position, hits[0].point, Color.green, 0.25f);
+            bottomSide = hits[0].point.y;
+        }
+
+        return new Rect(leftSide, bottomSide, rightSide - leftSide, topSide - bottomSide);
+    }
+}

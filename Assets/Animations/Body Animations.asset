@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467cfd72665795c4f89e874c3c17252a, type: 3}
+  m_Name: Body Animations
+  m_EditorClassIdentifier: 
+  clipNames:
+  - Default
+  - TailLowered-Up
+  - TailLowered-Down
+  - Change Direction
+  - Centerize
+  - TailLowered-Up-Centered
+  - TailLowered-Down-Centered
+  - Decenterize
+  clipFrameStartIndexes: 0000000005000000080000000a0000000e000000110000001400000016000000
+  clipFrameCounts: 0500000003000000020000000400000003000000030000000200000003000000
+  frames:
+  - {fileID: 21300000, guid: e9ff976fad1598f4cb4ebd470cafb5fb, type: 3}
+  - {fileID: 21300000, guid: 824e4a1399c50664bae9140cbf9d07d8, type: 3}
+  - {fileID: 21300000, guid: ceeca4a777e40324c8ce444a792f705e, type: 3}
+  - {fileID: 21300000, guid: 66f17498e0362f34f8b657f827eb8937, type: 3}
+  - {fileID: 21300000, guid: c136db98e31805a4682a4f852a65559a, type: 3}
+  - {fileID: 21300000, guid: e9ff976fad1598f4cb4ebd470cafb5fb, type: 3}
+  - {fileID: 21300000, guid: 824e4a1399c50664bae9140cbf9d07d8, type: 3}
+  - {fileID: 21300000, guid: ceeca4a777e40324c8ce444a792f705e, type: 3}
+  - {fileID: 21300000, guid: 66f17498e0362f34f8b657f827eb8937, type: 3}
+  - {fileID: 21300000, guid: c136db98e31805a4682a4f852a65559a, type: 3}
+  - {fileID: 21300000, guid: 13170cb9e868e104abc4b3a733f06b02, type: 3}
+  - {fileID: 21300000, guid: 842a9a6844aaf2d49af80572b0731e54, type: 3}
+  - {fileID: 21300000, guid: e65571a5c00f02b46b0f31a598d5773d, type: 3}
+  - {fileID: 21300000, guid: fb8137cccd301074488ef33bb37cb099, type: 3}
+  - {fileID: 21300000, guid: 13170cb9e868e104abc4b3a733f06b02, type: 3}
+  - {fileID: 21300000, guid: 842a9a6844aaf2d49af80572b0731e54, type: 3}
+  - {fileID: 21300000, guid: e65571a5c00f02b46b0f31a598d5773d, type: 3}
+  - {fileID: 21300000, guid: 7879e43f619a1224593e8b8a5bc328fb, type: 3}
+  - {fileID: 21300000, guid: ce451695f00e9ab4d9c3ee00d5679972, type: 3}
+  - {fileID: 21300000, guid: 301a35e644b98d84caa79cdcef7a3a24, type: 3}
+  - {fileID: 21300000, guid: 463a8cbd962d8e64b8e94cdc035158e6, type: 3}
+  - {fileID: 21300000, guid: 1862723fc97430543a4ebbc158117acd, type: 3}
+  - {fileID: 21300000, guid: e65571a5c00f02b46b0f31a598d5773d, type: 3}
+  - {fileID: 21300000, guid: 842a9a6844aaf2d49af80572b0731e54, type: 3}
+  - {fileID: 21300000, guid: 13170cb9e868e104abc4b3a733f06b02, type: 3}
+  clipFPSs:
+  - 4
+  - 4
+  - 4
+  - 8
+  - 8
+  - 4
+  - 4
+  - 8
+  clipWrapModes: 0100000000000000000000000000000000000000000000000000000000000000
+  clipLoopStarts: 0000000000000000000000000000000000000000000000000000000000000000

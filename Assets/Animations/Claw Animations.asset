@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467cfd72665795c4f89e874c3c17252a, type: 3}
+  m_Name: Claw Animations
+  m_EditorClassIdentifier: 
+  clipNames:
+  - DefaultOLD
+  - Default
+  clipFrameStartIndexes: 000000000a000000
+  clipFrameCounts: 0a0000000a000000
+  frames:
+  - {fileID: 21300000, guid: 309655187b7f66b42b6fb5e47c383985, type: 3}
+  - {fileID: 21300000, guid: 366332e794225d44486125ad89d48db4, type: 3}
+  - {fileID: 21300000, guid: b5833f19314aac942914c17a50ef744d, type: 3}
+  - {fileID: 21300000, guid: e6c587f55570cb6428faf3a373dfd3e9, type: 3}
+  - {fileID: 21300000, guid: bfe094d01243578408c8f16a43a6a90e, type: 3}
+  - {fileID: 21300000, guid: 7a35d4b62dce76c489264baf4a6bba85, type: 3}
+  - {fileID: 21300000, guid: 6504704f1910a7a41a29fc85ba8b54d5, type: 3}
+  - {fileID: 21300000, guid: 16fa7f1c4d7224042af41d2108d4bebd, type: 3}
+  - {fileID: 21300000, guid: 985c39d3ecaceba449904db9b6e0da09, type: 3}
+  - {fileID: 21300000, guid: 3a5dbdb72790fa9419018cc7cac6bb35, type: 3}
+  - {fileID: 21300000, guid: 47f614941a94b6744a48fa3c7d864c94, type: 3}
+  - {fileID: 21300000, guid: d83c4281024c65e4b99ebcc32db21a74, type: 3}
+  - {fileID: 21300000, guid: 1971e7f30401c4548aca1a83ab0e6497, type: 3}
+  - {fileID: 21300000, guid: 3c6df589bef24dc41aeff6252e707ca5, type: 3}
+  - {fileID: 21300000, guid: 15a4a07e0ffc4dd48b201033bc14bdd4, type: 3}
+  - {fileID: 21300000, guid: ce5ee592ed38c68418d53590f64d483f, type: 3}
+  - {fileID: 21300000, guid: f738fbfbd9d5a3149bd937c348d6a007, type: 3}
+  - {fileID: 21300000, guid: 40270568e8a93f348825995041538f9c, type: 3}
+  - {fileID: 21300000, guid: 2a3f6f81ae3beec44bd0d45b8628a774, type: 3}
+  - {fileID: 21300000, guid: 488d3bd0a4769f64aa381158cc303cab, type: 3}
+  clipFPSs:
+  - 12
+  - 12
+  clipWrapModes: 0100000001000000
+  clipLoopStarts: 0000000000000000
