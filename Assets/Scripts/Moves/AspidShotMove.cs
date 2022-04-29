@@ -37,7 +37,9 @@ public class AspidShotMove : AncientAspidMove
 
     public override bool MoveEnabled => moveEnabled;// Boss.AspidMode == AncientAspid.Mode.Tactical || Boss.AspidMode == AncientAspid.Mode.Offensive;
 
-    public override IEnumerator DoMove()
+    public override float PostDelay => 0.5f;
+
+    /*public override IEnumerator DoMove()
     {
         float angle = Boss.GetHeadAngle();
 
@@ -60,6 +62,25 @@ public class AspidShotMove : AncientAspidMove
         Boss.Head.EnableFollowPlayer();
 
         yield return new WaitForSeconds(0.5f);
+    }*/
+
+    public override IEnumerator DoMove()
+    {
+        yield return Boss.Head.LockHead(Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left, headSpeed);
+
+        var oldState = Boss.Head.MainRenderer.TakeSnapshot();
+
+        Boss.Head.MainRenderer.flipX = Boss.Head.LookingDirection >= 0f;
+
+        yield return Boss.Head.Animator.PlayAnimationTillDone($"Fire - {attackVariant} - Prepare");
+
+        Fire(Boss.Head.LookingDirection);
+
+        yield return Boss.Head.Animator.PlayAnimationTillDone($"Fire - {attackVariant} - Attack");
+
+        Boss.Head.MainRenderer.Restore(oldState);
+
+        Boss.Head.UnlockHead();
     }
 
     void Fire(float angle)
@@ -70,6 +91,9 @@ public class AspidShotMove : AncientAspidMove
         }
 
         var sourcePos = GetFireSource(angle);
+
+        Blood.SpawnBlood(sourcePos, new Blood.BloodSpawnInfo(3, 7, 10f, 25f, angle - 90f - 40f, angle - 90f + 40f, null));
+        //Blood.SpawnBlood(sourcePos, new Blood.BloodSpawnInfo(3, 4, 10f, 15f, 120f, 150f, null));
 
         float gravityScale = 1;
         if (ShotPrefab.TryGetComponent(out Rigidbody2D rb))
@@ -123,6 +147,6 @@ public class AspidShotMove : AncientAspidMove
 
     public override void OnStun()
     {
-        Boss.Head.EnableFollowPlayer();
+        Boss.Head.UnlockHead();
     }
 }

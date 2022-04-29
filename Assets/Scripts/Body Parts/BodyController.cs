@@ -17,9 +17,9 @@ public class BodyController : AspidBodyPart
 
     WeaverAnimationPlayer animator;
 
-    WeaverAnimationData.Clip changeDirectionClip;
+    /*WeaverAnimationData.Clip changeDirectionClip;
     WeaverAnimationData.Clip centerizeClip;
-    WeaverAnimationData.Clip decenterizeClip;
+    WeaverAnimationData.Clip decenterizeClip;*/
 
     Coroutine defaultAnimationRoutine;
 
@@ -31,10 +31,10 @@ public class BodyController : AspidBodyPart
     {
         base.Awake();
         animator = GetComponent<WeaverAnimationPlayer>();
-        changeDirectionClip = animator.AnimationData.GetClip("Change Direction");
+        /*changeDirectionClip = animator.AnimationData.GetClip("Change Direction");
         centerizeClip = animator.AnimationData.GetClip("Centerize");
-        decenterizeClip = animator.AnimationData.GetClip("Decenterize");
-        defaultAnimationRoutine = StartCoroutine(DefaultAnimationRoutine(Orientation));
+        decenterizeClip = animator.AnimationData.GetClip("Decenterize");*/
+        defaultAnimationRoutine = StartCoroutine(DefaultAnimationRoutine(CurrentOrientation));
     }
 
     IEnumerator DefaultAnimationRoutine(AspidOrientation orientation)
@@ -135,7 +135,7 @@ public class BodyController : AspidBodyPart
         VerifyState();
         ChangingDirection = true;
         StopDefaultAnimation();
-        float fps = changeDirectionClip.FPS;
+        float fps = DEFAULT_FPS;
         if (PulsingUp)
         {
             float timer = 0;
@@ -172,7 +172,37 @@ public class BodyController : AspidBodyPart
         }
     }
 
-    protected override IEnumerator ChangeDirectionRoutine(AspidOrientation newOrientation)
+    protected override IEnumerator ChangeDirectionRoutine()
+    {
+        /*if (CurrentOrientation == AspidOrientation.Center)
+        {
+            MainCollider.offset += new Vector2(0f, 1.17f);
+        }
+        else if (PreviousOrientation == AspidOrientation.Center)
+        {
+            MainCollider.offset -= new Vector2(0f, 1.17f);
+        }*/
+
+        if (PreviousOrientation == AspidOrientation.Center && CurrentOrientation != AspidOrientation.Center)
+        {
+            MainCollider.offset += new Vector2(0f, 1.17f);
+        }
+
+
+        yield return base.ChangeDirectionRoutine();
+
+        if (CurrentOrientation == AspidOrientation.Center)
+        {
+            MainCollider.offset -= new Vector2(0f, 1.17f);
+        }
+
+        PulsingUp = true;
+        currentFrame = 0;
+        ChangingDirection = false;
+        defaultAnimationRoutine = StartCoroutine(DefaultAnimationRoutine(CurrentOrientation));
+    }
+
+    /*protected override IEnumerator ChangeDirectionRoutine(AspidOrientation newOrientation)
     {
         IEnumerator ApplyClip(WeaverAnimationData.Clip clip)
         {
@@ -211,7 +241,7 @@ public class BodyController : AspidBodyPart
             MainCollider.offset -= new Vector2(0f, 1.17f);
         }
         ChangingDirection = false;
-    }
+    }*/
 
     public IEnumerator RaiseTail(float speed = 1f)
     {
@@ -243,7 +273,7 @@ public class BodyController : AspidBodyPart
         animator.PlaybackSpeed = 1f;
         TailRaised = false;
         ChangingTailState = false;
-        defaultAnimationRoutine = StartCoroutine(DefaultAnimationRoutine(Orientation));
+        defaultAnimationRoutine = StartCoroutine(DefaultAnimationRoutine(CurrentOrientation));
     }
 
     void VerifyState()

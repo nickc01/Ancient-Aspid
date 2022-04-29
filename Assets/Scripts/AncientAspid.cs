@@ -7,6 +7,7 @@ using WeaverCore.Features;
 using WeaverCore;
 using WeaverCore.Utilities;
 using System.Linq;
+using WeaverCore.Assets.Components;
 
 public class AncientAspid : Boss
 {
@@ -133,7 +134,13 @@ public class AncientAspid : Boss
 
     public EntityHealth HealthManager { get; private set; }
 
+    /// <summary>
+    /// Returns true if the player is to the right of the boss.
+    /// </summary>
+    public bool PlayerRightOfBoss => Player.Player1.transform.position.x >= transform.position.x;
+
     PlayerDamager[] damagers;
+    float origOrbitReductionAmount;
 
     public int Damage
     {
@@ -200,21 +207,39 @@ public class AncientAspid : Boss
             //START THE FIGHT IN TACTICAL MODE
             float tacticalTime = 10f;
             float tacticalStart = Time.time;
+
+            int currentMoveIndex = 0;
+            float lastMoveTime = Time.time;
+            ShuffleMoves(Moves);
             while (Time.time - tacticalStart < tacticalTime)
             {
-                yield return CheckDirectionToPlayer();
-                //RUN TACTICAL MOVES
-
-                ShuffleMoves(Moves);
-                foreach (var move in Moves)
+                if (currentMoveIndex == Moves.Count)
                 {
-                    if (move.MoveEnabled)
-                    {
-                        yield return RunMove(move);
-                    }
+                    currentMoveIndex = 0;
+                    ShuffleMoves(Moves);
                 }
-                yield return null;
+                yield return new WaitUntil(() => !Head.HeadLocked);
+                yield return CheckDirectionToPlayer();
+
+                var move = Moves[currentMoveIndex];
+
+                if (!move.MoveEnabled)
+                {
+                    currentMoveIndex++;
+                    continue;
+                }
+
+                if (Time.time - lastMoveTime < move.PreDelay)
+                {
+                    continue;
+                }
+
+                yield return RunMove(move);
+
+                lastMoveTime = Time.time + move.PostDelay;
+                currentMoveIndex++;
             }
+            yield return new WaitUntil(() => !Head.HeadLocked);
 
             //SWITCH TO OFFENSIVE MODE
             float offensiveTime = 10f;
@@ -223,9 +248,38 @@ public class AncientAspid : Boss
             yield return EnterCenterMode();
             AspidMode = Mode.Offensive;
 
+            currentMoveIndex = 0;
+            lastMoveTime = Time.time;
+            ShuffleMoves(Moves);
+
             while (Time.time - offensiveStart < offensiveTime)
             {
-                //RUN OFFENSIVE MOVES
+                if (currentMoveIndex == Moves.Count)
+                {
+                    currentMoveIndex = 0;
+                    ShuffleMoves(Moves);
+                }
+                yield return new WaitUntil(() => !Head.HeadLocked);
+                yield return CheckDirectionToPlayer();
+
+                var move = Moves[currentMoveIndex];
+
+                if (!move.MoveEnabled)
+                {
+                    currentMoveIndex++;
+                    continue;
+                }
+
+                if (Time.time - lastMoveTime < move.PreDelay)
+                {
+                    continue;
+                }
+
+                yield return RunMove(move);
+
+                lastMoveTime = Time.time + move.PostDelay;
+                currentMoveIndex++;
+                /*//RUN OFFENSIVE MOVES
                 foreach (var move in Moves)
                 {
                     if (move.MoveEnabled)
@@ -234,9 +288,10 @@ public class AncientAspid : Boss
                     }
                 }
 
-                yield return null;
+                yield return null;*/
             }
 
+            yield return new WaitUntil(() => !Head.HeadLocked);
             yield return ExitCenterMode();
             AspidMode = Mode.Tactical;
         }
@@ -284,9 +339,17 @@ public class AncientAspid : Boss
         homeInOnTarget = true;
         //orbitReductionAmount *= 4f;
         flightSpeed /= 2f;
+
+        origOrbitReductionAmount = orbitReductionAmount;
+
         yield return ChangeDirection(AspidOrientation.Center);
 
-        yield return new WaitUntil(() => Vector3.Distance(transform.position, newTarget) <= 1f);
+        while (Vector3.Distance(transform.position, newTarget) > 1f)
+        {
+            orbitReductionAmount += orbitReductionAmount * Time.deltaTime;
+            yield return null;
+        }
+        //yield return new WaitUntil(() => Vector3.Distance(transform.position, newTarget) <= 1f);
         yield return new WaitForSeconds(0.25f);
     }
 
@@ -301,7 +364,7 @@ public class AncientAspid : Boss
         flightOffset *= 4f;
         minimumFlightSpeed *= 4f;
         homeInOnTarget = false;
-        //orbitReductionAmount *= 4f;
+        orbitReductionAmount = origOrbitReductionAmount;
         flightSpeed *= 2f;
         yield return ChangeDirection(orientation);
 
@@ -410,8 +473,9 @@ public class AncientAspid : Boss
             yield break;
         }
 
+        WeaverLog.Log("CHANGING DIRECTION to = " + newOrientation);
         yield return Body.PrepareChangeDirection();
-
+        WeaverLog.Log("PREP DONE");
         IEnumerator bodyRoutine = Body.ChangeDirection(newOrientation);
         IEnumerator wingPlateRoutine = WingPlates.ChangeDirection(newOrientation);
         IEnumerator wingRoutine = Wings.ChangeDirection(newOrientation);
@@ -426,6 +490,7 @@ public class AncientAspid : Boss
             clawsRoutine);
 
         yield return new WaitUntil(() => awaiter.Done);
+        WeaverLog.Log("FINISHED CHANGING DIRECTION to = " + newOrientation);
         Orientation = newOrientation;
     }
 
@@ -527,15 +592,16 @@ public class AncientAspid : Boss
         Gizmos.DrawCube(TargetPosition, Vector3.one);
     }
 
-    private void SetTarget(Transform targetTransform)
+    public void SetTarget(Transform targetTransform)
     {
         targetingTransform = targetTransform != null;
         TargetTransform = targetTransform;
     }
 
-    private void SetTarget(Vector3 fixedTarget)
+    public void SetTarget(Vector3 fixedTarget)
     {
         targetingTransform = false;
+        TargetTransform = null;
         fixedTargetPos = fixedTarget;
     }
 }

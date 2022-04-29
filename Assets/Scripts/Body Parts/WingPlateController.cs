@@ -6,19 +6,19 @@ using WeaverCore.Utilities;
 
 public class WingPlateController : AspidBodyPart
 {
-    WeaverAnimationData.Clip changeDirectionClip;
+    /*WeaverAnimationData.Clip changeDirectionClip;
     WeaverAnimationData.Clip centerizeClip;
-    WeaverAnimationData.Clip decenterizeClip;
+    WeaverAnimationData.Clip decenterizeClip;*/
 
-    protected override void Awake()
+    /*protected override void Awake()
     {
         base.Awake();
         changeDirectionClip = AnimationPlayer.AnimationData.GetClip("Change Direction");
         centerizeClip = AnimationPlayer.AnimationData.GetClip("Centerize");
         decenterizeClip = AnimationPlayer.AnimationData.GetClip("Decenterize");
-    }
+    }*/
 
-    protected override IEnumerator ChangeDirectionRoutine(AspidOrientation newOrientation)
+    /*protected override IEnumerator ChangeDirectionRoutine(AspidOrientation newOrientation)
     {
         IEnumerator ApplyClip(WeaverAnimationData.Clip clip)
         {
@@ -54,5 +54,5 @@ public class WingPlateController : AspidBodyPart
         {
             yield return ApplyClip(centerizeClip);
         }
-    }
+    }*/
 }

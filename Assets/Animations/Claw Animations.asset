@@ -15,8 +15,15 @@ MonoBehaviour:
   clipNames:
   - DefaultOLD
   - Default
-  clipFrameStartIndexes: 000000000a000000
-  clipFrameCounts: 0a0000000a000000
+  - Attack Left Antic
+  - Attack Right Antic
+  - Attack Left Full
+  - Attack Right Full
+  - Attack Left
+  - Attack Right
+  - Attack Slash
+  clipFrameStartIndexes: 000000000a00000014000000170000001a000000240000002e000000350000003c000000
+  clipFrameCounts: 0a0000000a00000003000000030000000a0000000a000000070000000700000002000000
   frames:
   - {fileID: 21300000, guid: 309655187b7f66b42b6fb5e47c383985, type: 3}
   - {fileID: 21300000, guid: 366332e794225d44486125ad89d48db4, type: 3}
@@ -38,8 +45,57 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 40270568e8a93f348825995041538f9c, type: 3}
   - {fileID: 21300000, guid: 2a3f6f81ae3beec44bd0d45b8628a774, type: 3}
   - {fileID: 21300000, guid: 488d3bd0a4769f64aa381158cc303cab, type: 3}
+  - {fileID: 21300000, guid: cd7b8009c72decf4fa12e3c832ee4c65, type: 3}
+  - {fileID: 21300000, guid: 0250112fc3379e144b894c084dfd96c4, type: 3}
+  - {fileID: 21300000, guid: 34edf8e89d23efc4aa07f286852e69fa, type: 3}
+  - {fileID: 21300000, guid: cd7b8009c72decf4fa12e3c832ee4c65, type: 3}
+  - {fileID: 21300000, guid: 0250112fc3379e144b894c084dfd96c4, type: 3}
+  - {fileID: 21300000, guid: 34edf8e89d23efc4aa07f286852e69fa, type: 3}
+  - {fileID: 21300000, guid: cd7b8009c72decf4fa12e3c832ee4c65, type: 3}
+  - {fileID: 21300000, guid: 0250112fc3379e144b894c084dfd96c4, type: 3}
+  - {fileID: 21300000, guid: 34edf8e89d23efc4aa07f286852e69fa, type: 3}
+  - {fileID: 21300000, guid: 824a67d367ae28a47a688636df875a18, type: 3}
+  - {fileID: 21300000, guid: f46f07ca5c5287e4196c0c7c4b7816b7, type: 3}
+  - {fileID: 21300000, guid: cbd5d4a75c9b03a478f4d52bfd7b9e97, type: 3}
+  - {fileID: 21300000, guid: 58f56418b2d92df4590c90ec99c874c6, type: 3}
+  - {fileID: 21300000, guid: 4b9109e21dfe6f1459728e32b018392d, type: 3}
+  - {fileID: 21300000, guid: 9c1fa6fc763ad3142ae88ecf44bea680, type: 3}
+  - {fileID: 21300000, guid: 90ea546a907e8304b83428a5ac32f798, type: 3}
+  - {fileID: 21300000, guid: cd7b8009c72decf4fa12e3c832ee4c65, type: 3}
+  - {fileID: 21300000, guid: 0250112fc3379e144b894c084dfd96c4, type: 3}
+  - {fileID: 21300000, guid: 34edf8e89d23efc4aa07f286852e69fa, type: 3}
+  - {fileID: 21300000, guid: 824a67d367ae28a47a688636df875a18, type: 3}
+  - {fileID: 21300000, guid: f46f07ca5c5287e4196c0c7c4b7816b7, type: 3}
+  - {fileID: 21300000, guid: cbd5d4a75c9b03a478f4d52bfd7b9e97, type: 3}
+  - {fileID: 21300000, guid: 58f56418b2d92df4590c90ec99c874c6, type: 3}
+  - {fileID: 21300000, guid: 4b9109e21dfe6f1459728e32b018392d, type: 3}
+  - {fileID: 21300000, guid: 9c1fa6fc763ad3142ae88ecf44bea680, type: 3}
+  - {fileID: 21300000, guid: 90ea546a907e8304b83428a5ac32f798, type: 3}
+  - {fileID: 21300000, guid: 824a67d367ae28a47a688636df875a18, type: 3}
+  - {fileID: 21300000, guid: f46f07ca5c5287e4196c0c7c4b7816b7, type: 3}
+  - {fileID: 21300000, guid: cbd5d4a75c9b03a478f4d52bfd7b9e97, type: 3}
+  - {fileID: 21300000, guid: 58f56418b2d92df4590c90ec99c874c6, type: 3}
+  - {fileID: 21300000, guid: 4b9109e21dfe6f1459728e32b018392d, type: 3}
+  - {fileID: 21300000, guid: 9c1fa6fc763ad3142ae88ecf44bea680, type: 3}
+  - {fileID: 21300000, guid: 90ea546a907e8304b83428a5ac32f798, type: 3}
+  - {fileID: 21300000, guid: 824a67d367ae28a47a688636df875a18, type: 3}
+  - {fileID: 21300000, guid: f46f07ca5c5287e4196c0c7c4b7816b7, type: 3}
+  - {fileID: 21300000, guid: cbd5d4a75c9b03a478f4d52bfd7b9e97, type: 3}
+  - {fileID: 21300000, guid: 58f56418b2d92df4590c90ec99c874c6, type: 3}
+  - {fileID: 21300000, guid: 4b9109e21dfe6f1459728e32b018392d, type: 3}
+  - {fileID: 21300000, guid: 9c1fa6fc763ad3142ae88ecf44bea680, type: 3}
+  - {fileID: 21300000, guid: 90ea546a907e8304b83428a5ac32f798, type: 3}
+  - {fileID: 21300000, guid: cf4b72aa524b0b347aa1faffb01bafe8, type: 3}
+  - {fileID: 21300000, guid: e00eafdba1d186a44ba3af064b6afeba, type: 3}
   clipFPSs:
   - 12
   - 12
-  clipWrapModes: 0100000001000000
-  clipLoopStarts: 0000000000000000
+  - 12
+  - 12
+  - 12
+  - 12
+  - 12
+  - 12
+  - 12
+  clipWrapModes: 010000000100000000000000000000000000000000000000000000000000000000000000
+  clipLoopStarts: 000000000000000000000000000000000000000000000000000000000000000000000000

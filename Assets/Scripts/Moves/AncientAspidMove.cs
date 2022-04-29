@@ -16,6 +16,9 @@ public abstract class AncientAspidMove : MonoBehaviour, IBossMove
 
     public abstract IEnumerator DoMove();
 
+    public virtual float PreDelay => 0f;
+    public virtual float PostDelay => 0f;
+
     public virtual void OnCancel()
     {
         OnStun();

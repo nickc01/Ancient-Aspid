@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using WeaverCore.Features;
 
 public class RoutineAwaiter
 {
@@ -28,6 +29,11 @@ public class RoutineAwaiter
     RoutineAwaiter()
     {
 
+    }
+
+    public IEnumerator WaitTillDone()
+    {
+        yield return new WaitUntil(() => Done);
     }
 
     public static RoutineAwaiter AwaitRoutine(IEnumerator routine, MonoBehaviour source = null)
@@ -72,6 +78,19 @@ public class RoutineAwaiter
         foreach (var routine in routines)
         {
             source.StartCoroutine(awaiter.RoutineRunner(routine, index++));
+        }
+        return awaiter;
+    }
+
+    public static RoutineAwaiter AwaitBoundRoutines(Enemy source, params IEnumerator[] routines)
+    {
+        int count = routines.Count();
+        var awaiter = new RoutineAwaiter();
+        awaiter.completedTasks = new bool[count];
+        int index = 0;
+        foreach (var routine in routines)
+        {
+            source.StartBoundRoutine(awaiter.RoutineRunner(routine, index++));
         }
         return awaiter;
     }
