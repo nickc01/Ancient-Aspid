@@ -43,8 +43,7 @@ public class AncientAspid : Boss
 
 
     [Header("Flight")]
-    [SerializeField]
-    private float orbitReductionAmount = 0.1f;
+    public float orbitReductionAmount = 0.1f;
 
     [Tooltip("How much offset should be applied when moving towards a target?")]
     public Vector2 flightOffset = new Vector2(3f, 3f);
@@ -105,14 +104,20 @@ public class AncientAspid : Boss
     {
         get
         {
+            Vector3 target;
             if (targetingTransform && TargetTransform != null)
             {
-                return TargetTransform.position + TargetOffset;
+                target = TargetTransform.position + TargetOffset;
             }
             else
             {
-                return fixedTargetPos + TargetOffset;
+                target = fixedTargetPos + TargetOffset;
             }
+
+            target.x = Mathf.Clamp(target.x, CurrentRoomRect.xMin,CurrentRoomRect.xMax);
+            target.y = Mathf.Clamp(target.y, CurrentRoomRect.yMin,CurrentRoomRect.yMax);
+
+            return target;
         }
     }
 
@@ -126,6 +131,8 @@ public class AncientAspid : Boss
     public HeadController Head { get; private set; }
     public WingsController Wings { get; private set; }
     public ClawController Claws { get; private set; }
+
+    public Recoiler Recoil { get; private set; }
 
     /// <summary>
     /// The moves for the boss. Note: The order of the moves isn't guaranteed and can change anytime
@@ -168,6 +175,7 @@ public class AncientAspid : Boss
         Wings = GetComponentInChildren<WingsController>();
         Head = GetComponentInChildren<HeadController>();
         Claws = GetComponentInChildren<ClawController>();
+        Recoil = GetComponent<Recoiler>();
         SetTarget(playerTarget);
         StartCoroutine(VarianceResetter());
 
@@ -325,6 +333,7 @@ public class AncientAspid : Boss
 
     IEnumerator EnterCenterMode()
     {
+        Recoil.SetRecoilSpeed(0f);
         //var roomBounds = RoomScanner.GetRoomBoundaries(transform.position);
         //Debug.DrawLine(new Vector3(roomBounds.xMin,roomBounds.yMin), new Vector3(roomBounds.xMax,roomBounds.yMax), Color.cyan, 5f);
         //Debug.DrawLine(transform.position, new Vector3(roomBounds.xMin, transform.position.y), Color.cyan, 5f);
@@ -344,13 +353,24 @@ public class AncientAspid : Boss
 
         yield return ChangeDirection(AspidOrientation.Center);
 
-        while (Vector3.Distance(transform.position, newTarget) > 1f)
+        float timer = 0f;
+
+        while (timer <= 0.25f/*Vector3.Distance(transform.position, newTarget) > 0.5f*/)
         {
-            orbitReductionAmount += orbitReductionAmount * Time.deltaTime;
+            orbitReductionAmount += 3f * orbitReductionAmount * Time.deltaTime;
+            if (Vector3.Distance(transform.position, newTarget) <= 0.25f)
+            {
+                timer += Time.deltaTime;
+            }
+            else
+            {
+                timer = 0f;
+            }
             yield return null;
         }
+        Recoil.ResetRecoilSpeed();
         //yield return new WaitUntil(() => Vector3.Distance(transform.position, newTarget) <= 1f);
-        yield return new WaitForSeconds(0.25f);
+        //yield return new WaitForSeconds(0.25f);
     }
 
     IEnumerator ExitCenterMode()
@@ -603,5 +623,12 @@ public class AncientAspid : Boss
         targetingTransform = false;
         TargetTransform = null;
         fixedTargetPos = fixedTarget;
+    }
+
+    public float GetAngleToPlayer()
+    {
+        var direction = (Player.Player1.transform.position - Head.transform.position).normalized;
+
+        return MathUtilities.CartesianToPolar(direction).x;
     }
 }

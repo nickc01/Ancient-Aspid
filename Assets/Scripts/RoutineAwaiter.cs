@@ -95,6 +95,19 @@ public class RoutineAwaiter
         return awaiter;
     }
 
+    public static RoutineAwaiter AwaitBoundRoutines(IEnumerable<IEnumerator> routines, Enemy source)
+    {
+        int count = routines.Count();
+        var awaiter = new RoutineAwaiter();
+        awaiter.completedTasks = new bool[count];
+        int index = 0;
+        foreach (var routine in routines)
+        {
+            source.StartBoundRoutine(awaiter.RoutineRunner(routine, index++));
+        }
+        return awaiter;
+    }
+
     IEnumerator RoutineRunner(IEnumerator routine, int completionIndex)
     {
         try

@@ -2,10 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WeaverCore;
+using WeaverCore.Utilities;
 
 public class BeBetweenPlayerAndAspid : MonoBehaviour
 {
-    public float DistanceFromPlayer = 5f;
+    //public float DistanceFromPlayer = 5f;
+    //public Vector2 DistanceFromPlayerMinMax = new Vector2(7f,12f);
+
+    public Vector2 FarDistanceRange = new Vector2(10f,13f);
+    public Vector2 NearDistanceRange = new Vector2(7.5f,10f);
+
+    public float ShortenDistanceRate = 0.75f;
+    public float LengthenDistanceRate = 4.5f;
 
     public float DistanceFromPlayerWhenAbove = 2f;
 
@@ -23,11 +31,15 @@ public class BeBetweenPlayerAndAspid : MonoBehaviour
     public float minDistanceFromLeftWall = 5f;
     public float minDistanceFromCeiling = 5f;
 
+    public float currentDistanceToPlayer = 0f;
+
     public AncientAspid Aspid;
 
     float floorLevel = 0;
 
     RaycastHit2D[] resultStorage = new RaycastHit2D[1];
+
+    bool doFarDistance = false;
 
 
     /*private void Awake()
@@ -48,6 +60,36 @@ public class BeBetweenPlayerAndAspid : MonoBehaviour
         }
     }*/
 
+    private void Awake()
+    {
+        currentDistanceToPlayer = NearDistanceRange.RandomInRange();
+        StartCoroutine(DistanceRefresher());
+    }
+
+    IEnumerator DistanceRefresher()
+    {
+        while (true)
+        {
+            if (doFarDistance)
+            {
+                yield return new WaitForSeconds(ShortenDistanceRate);
+            }
+            else
+            {
+                yield return new WaitForSeconds(LengthenDistanceRate);
+            }
+            doFarDistance = !doFarDistance;
+            if (doFarDistance)
+            {
+                currentDistanceToPlayer = FarDistanceRange.RandomInRange();
+            }
+            else
+            {
+                currentDistanceToPlayer = NearDistanceRange.RandomInRange();
+            }
+        }
+    }
+
     private void Update()
     {
         var playerPos = Player.Player1.transform.position;
@@ -65,7 +107,7 @@ public class BeBetweenPlayerAndAspid : MonoBehaviour
         }
         else
         {
-            transform.position = playerPos + (vectorToObject.normalized * DistanceFromPlayer);
+            transform.position = playerPos + (vectorToObject.normalized * currentDistanceToPlayer);
         }
 
         var roomBoundaries = Aspid.CurrentRoomRect;

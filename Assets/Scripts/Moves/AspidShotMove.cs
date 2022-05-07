@@ -13,6 +13,12 @@ public class AspidShotMove : AncientAspidMove
     bool moveEnabled = true;
 
     [SerializeField]
+    float postDelay = 0.6f;
+
+    [SerializeField]
+    float minDistance = 5f;
+
+    [SerializeField]
     float headSpeed = 1.5f;
 
     [SerializeField]
@@ -35,9 +41,9 @@ public class AspidShotMove : AncientAspidMove
     AudioClip fireSound;
 
 
-    public override bool MoveEnabled => moveEnabled;// Boss.AspidMode == AncientAspid.Mode.Tactical || Boss.AspidMode == AncientAspid.Mode.Offensive;
+    public override bool MoveEnabled => moveEnabled && Vector2.Distance(Player.Player1.transform.position,Boss.Head.transform.position) >= minDistance;// Boss.AspidMode == AncientAspid.Mode.Tactical || Boss.AspidMode == AncientAspid.Mode.Offensive;
 
-    public override float PostDelay => 0.5f;
+    public override float PostDelay => postDelay;
 
     /*public override IEnumerator DoMove()
     {
@@ -90,7 +96,7 @@ public class AspidShotMove : AncientAspidMove
             shotSpeed = 0.01f;
         }
 
-        var sourcePos = GetFireSource(angle);
+        var sourcePos = Boss.Head.GetFireSource(angle);
 
         Blood.SpawnBlood(sourcePos, new Blood.BloodSpawnInfo(3, 7, 10f, 25f, angle - 90f - 40f, angle - 90f + 40f, null));
         //Blood.SpawnBlood(sourcePos, new Blood.BloodSpawnInfo(3, 4, 10f, 15f, 120f, 150f, null));
@@ -113,18 +119,6 @@ public class AspidShotMove : AncientAspidMove
         if (fireSound != null)
         {
             WeaverAudio.PlayAtPoint(fireSound, sourcePos);
-        }
-    }
-
-    Vector3 GetFireSource(float angle)
-    {
-        if (angle >= 0f)
-        {
-            return Boss.SpitTargetRight;
-        }
-        else
-        {
-            return Boss.SpitTargetLeft;
         }
     }
 

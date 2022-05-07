@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -129,21 +130,20 @@ public class ClawAnimator : MonoBehaviour
         playDefaultAnimation = true;
     }
 
-
-
-    public IEnumerator PlayAttackAnimationNEW(bool playSounds)
+    public IEnumerator PlayAttackAnimation(bool playAntic, bool playSwingSound, bool doAttack, Action onSwing = null)
     {
+        doAttack = doAttack && slashObject != null;
         var defaultRotation = Quaternion.Euler(0f, 0f, transform.GetZLocalRotation());
         var maxRotation = Quaternion.Euler(0f, 0f, attackRotation);
         var attackClip = Animator.AnimationData.GetClip(attackFullAnimation);
-        //var attackAnticClip = Animator.AnimationData.GetClip(attackAnticAnimation);
 
-        if (playSounds && anticSoundEffect != null)
+        if (playAntic && anticSoundEffect != null)
         {
             WeaverAudio.PlayAtPoint(anticSoundEffect, transform.position);
         }
         Flasher.FlashColor = Color.white;
-        Flasher.DoFlash(0.1f, anticTime / 2f, 1f, 0f);
+        //Flasher.DoFlash(maxRotationFrameRange.x * (1f / attackClip.FPS), (attackClip.Frames.Count - maxRotationFrameRange.x) * (1f / attackClip.FPS), 1f, anticTime);
+        Flasher.DoFlash(0.1f, anticTime / 2f, 1f, 0.1f);
 
         for (int i = 0; i < attackClip.Frames.Count; i++)
         {
@@ -165,18 +165,22 @@ public class ClawAnimator : MonoBehaviour
             if (i == maxRotationFrameRange.x)
             {
                 yield return new WaitForSeconds(anticTime);
-                if (playSounds && anticSwingSound != null)
+                if (playSwingSound && anticSwingSound != null)
                 {
                     WeaverAudio.PlayAtPoint(anticSwingSound, transform.position);
                 }
-                slashObject.SetActive(true);
+                if (doAttack)
+                {
+                    slashObject.SetActive(true);
+                }
+                onSwing?.Invoke();
             }
 
         }
         transform.localRotation = defaultRotation;
     }
 
-    public IEnumerator PlayAttackAnimation(bool playSounds)
+    /*public IEnumerator PlayAttackAnimation(bool playSounds)
     {
         var defaultRotation = Quaternion.Euler(0f, 0f, transform.GetZLocalRotation());
         var maxRotation = Quaternion.Euler(0f,0f, attackRotation);
@@ -213,23 +217,8 @@ public class ClawAnimator : MonoBehaviour
                 
             }
 
-            /*if (i == 3)
-            {
-                firstCollider.enabled = true;
-            }
-            else if (i == 4)
-            {
-                firstCollider.enabled = false;
-                secondCollider.enabled = true;
-            }
-            else
-            {
-                firstCollider.enabled = false;
-                secondCollider.enabled = false;
-            }*/
-
             yield return new WaitForSeconds(1f / attackClip.FPS);
         }
         transform.localRotation = defaultRotation;
-    }
+    }*/
 }

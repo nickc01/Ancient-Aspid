@@ -136,6 +136,11 @@ public class HeadController : AspidBodyPart
         }
     }
 
+    public IEnumerator LockHead(float lockSpeed = 1f)
+    {
+        return Boss.Head.LockHead(Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left,lockSpeed);
+    }
+
     /// <summary>
     /// Locks the head so other scripts can play animations and other effects on it. Make sure to call <see cref="UnlockHead"/> when done
     /// 
@@ -294,6 +299,18 @@ public class HeadController : AspidBodyPart
         return -1;
     }
 
+    public Vector3 GetFireSource(float angleORPosition)
+    {
+        if (angleORPosition >= 0f)
+        {
+            return Boss.SpitTargetRight;
+        }
+        else
+        {
+            return Boss.SpitTargetLeft;
+        }
+    }
+
     public IdleSprite GetIdleSprite(int index)
     {
         return new IdleSprite
@@ -303,7 +320,6 @@ public class HeadController : AspidBodyPart
             XFlipped = idle_Flip[index]
         };
     }
-
 }
 
 /*public class HeadControllerOLD : AspidBodyPartOLD

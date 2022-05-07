@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 114336396217132852}
   - component: {fileID: 114553303624634376}
   - component: {fileID: 60710159498065496}
-  - component: {fileID: 6244096365225612752}
+  - component: {fileID: 3896674098910372123}
   m_Layer: 22
   m_Name: Aspid Shot
   m_TagString: Untagged
@@ -259,7 +259,7 @@ PolygonCollider2D:
       - {x: 0.37252972, y: -0.24682727}
       - {x: 0.41959217, y: 0.16488212}
       - {x: 0.29460907, y: 0.3780801}
---- !u!212 &6244096365225612752
+--- !u!212 &3896674098910372123
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
