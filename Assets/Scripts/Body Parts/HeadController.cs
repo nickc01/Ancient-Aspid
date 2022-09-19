@@ -71,6 +71,27 @@ public class HeadController : AspidBodyPart
         }
     }
 
+    public override float GetChangeDirectionTime()
+    {
+        var time = base.GetChangeDirectionTime();
+
+        if (lookAtPlayer)
+        {
+            if (CurrentOrientation == AspidOrientation.Center)
+            {
+                //yield return StartFollowingPlayer();
+                time += (1f / DEFAULT_FPS) * DEFAULT_CENTERIZE_FRAMES;
+            }
+            else if (CurrentOrientation != AspidOrientation.Center && PreviousOrientation == AspidOrientation.Center)
+            {
+                //yield return StopFollowingPlayer();
+                time += (1f / DEFAULT_FPS) * DEFAULT_CENTERIZE_FRAMES;
+            }
+        }
+
+        return time;
+    }
+
     protected override IEnumerator ChangeDirectionRoutine()
     {
         if (HeadLocked)

@@ -43,6 +43,28 @@ public class AncientAspid : Boss
 
 
     [Header("Flight")]
+
+    [SerializeField]
+    float flightAcceleration = 10f;
+
+    [SerializeField]
+    float flightSpeedOverDistance = 1f;
+
+    [SerializeField]
+    float leftWallBuffer = 3f;
+
+    [SerializeField]
+    float rightWallBuffer = 3f;
+
+    [SerializeField]
+    float ceilingBuffer = 3f;
+
+    [SerializeField]
+    float floorBuffer = 3f;
+
+    [SerializeField]
+    float minFlightSpeed = 0.25f;
+
     public float orbitReductionAmount = 0.1f;
 
     [Tooltip("How much offset should be applied when moving towards a target?")]
@@ -90,6 +112,9 @@ public class AncientAspid : Boss
     [SerializeField]
     AncientAspidPrefabs prefabs;
 
+    [SerializeField]
+    TailCollider tailCollider;
+
     public AspidOrientation Orientation { get; private set; } = AspidOrientation.Left;
     public Mode AspidMode { get; private set; } = Mode.Tactical;
 
@@ -114,8 +139,8 @@ public class AncientAspid : Boss
                 target = fixedTargetPos + TargetOffset;
             }
 
-            target.x = Mathf.Clamp(target.x, CurrentRoomRect.xMin,CurrentRoomRect.xMax);
-            target.y = Mathf.Clamp(target.y, CurrentRoomRect.yMin,CurrentRoomRect.yMax);
+            target.x = Mathf.Clamp(target.x, CurrentRoomRect.xMin + leftWallBuffer,CurrentRoomRect.xMax - rightWallBuffer);
+            target.y = Mathf.Clamp(target.y, CurrentRoomRect.yMin + floorBuffer,CurrentRoomRect.yMax - ceilingBuffer);
 
             return target;
         }
@@ -341,9 +366,10 @@ public class AncientAspid : Boss
 
         //Debug.DrawLine(transform.position, new Vector3(transform.position.x, roomBounds.yMin), Color.cyan, 5f);
         //Debug.DrawLine(transform.position, new Vector3(transform.position.x, roomBounds.yMax), Color.cyan, 5f);
+        minFlightSpeed /= 3f;
         var newTarget = new Vector3(Mathf.Lerp(CurrentRoomRect.xMin, CurrentRoomRect.xMax, 0.5f), CurrentRoomRect.yMin + offensiveHeight);
         SetTarget(newTarget);
-        flightOffset /= 4f;
+        //flightOffset /= 4f;
         minimumFlightSpeed /= 4f;
         homeInOnTarget = true;
         //orbitReductionAmount *= 4f;
@@ -358,7 +384,7 @@ public class AncientAspid : Boss
         while (timer <= 0.25f/*Vector3.Distance(transform.position, newTarget) > 0.5f*/)
         {
             orbitReductionAmount += 3f * orbitReductionAmount * Time.deltaTime;
-            if (Vector3.Distance(transform.position, newTarget) <= 0.25f)
+            if (Vector3.Distance(transform.position, newTarget) <= 2f)
             {
                 timer += Time.deltaTime;
             }
@@ -380,8 +406,9 @@ public class AncientAspid : Boss
 
     IEnumerator ExitCenterMode(AspidOrientation orientation)
     {
+        minFlightSpeed *= 3f;
         SetTarget(playerTarget);
-        flightOffset *= 4f;
+        //flightOffset *= 4f;
         minimumFlightSpeed *= 4f;
         homeInOnTarget = false;
         orbitReductionAmount = origOrbitReductionAmount;
@@ -502,6 +529,21 @@ public class AncientAspid : Boss
         IEnumerator headRoutine = Head.ChangeDirection(newOrientation);
         IEnumerator clawsRoutine = Claws.ChangeDirection(newOrientation);
 
+        var changeDirectionTime = Body.GetChangeDirectionTime();
+
+        switch (newOrientation)
+        {
+            case AspidOrientation.Left:
+                tailCollider.ChangeOrientation(TailCollider.Orientation.Left, changeDirectionTime);
+                break;
+            case AspidOrientation.Center:
+                tailCollider.ChangeOrientation(TailCollider.Orientation.Center, changeDirectionTime);
+                break;
+            case AspidOrientation.Right:
+                tailCollider.ChangeOrientation(TailCollider.Orientation.Right, changeDirectionTime);
+                break;
+        }
+
         RoutineAwaiter awaiter = RoutineAwaiter.AwaitRoutines(this,
             bodyRoutine,
             wingRoutine,
@@ -527,7 +569,9 @@ public class AncientAspid : Boss
             if (ApplyFlightVariance)
             {
                 Vector3 oldOffset = TargetOffset;
-                Vector2 newOffset = UnityEngine.Random.insideUnitCircle * flightOffset;
+                //MathUtilities.PolarToCartesian(Random.Range(0f,360f),1f)
+                //Random.insideUnitCircle
+                Vector2 newOffset = Random.insideUnitCircle * flightOffset;
                 for (float t = 0; t < flightOffsetChangeTime; t += Time.deltaTime)
                 {
                     TargetOffset = Vector2.Lerp(oldOffset, newOffset, Mathf.SmoothStep(0, 1, t / flightOffsetChangeTime));
@@ -565,7 +609,38 @@ public class AncientAspid : Boss
 
     private void Update()
     {
-        float distanceToTarget = Vector3.Distance(TargetPosition, transform.position);
+        var distanceToTarget = Vector2.Distance(TargetPosition,transform.position);
+        var directionToTarget = (Vector2)(TargetPosition - transform.position);
+
+        var maxVelocity = distanceToTarget * flightSpeedOverDistance;
+
+        if (maxVelocity < minFlightSpeed)
+        {
+            maxVelocity = minFlightSpeed;
+        }
+
+        //maxVelocity = float.PositiveInfinity;
+
+        var prevVelocity = Rbody.velocity;
+
+        var newVelocity = prevVelocity + (directionToTarget.normalized * (flightAcceleration * Time.deltaTime));
+
+        if (newVelocity.magnitude > maxVelocity)
+        {
+            newVelocity = newVelocity.normalized * maxVelocity;
+        }
+
+        Rbody.velocity = newVelocity;
+
+        /*var newVelocity = prevVelocity + flightSpeed * Time.deltaTime;
+        if (newVelocity >= maxVelocity)
+        {
+            newVelocity = maxVelocity;
+        }
+
+        Rbody.velocity = (TargetPosition - transform.position).normalized * newVelocity;*/
+
+        /*float distanceToTarget = Vector3.Distance(TargetPosition, transform.position);
         float distanceSquared = distanceToTarget * distanceToTarget;
         float velocity = flightSpeed + distanceSquared;
 
@@ -592,7 +667,7 @@ public class AncientAspid : Boss
             Rbody.velocity *= Mathf.Clamp(distanceToTarget,0.05f + homingAmount, 1f);
             //transform.position = Vector3.Lerp(transform.position,TargetPosition,homingAmount * Time.deltaTime / 100f);
             //Rbody.velocity = Vector3.RotateTowards(Rbody.velocity, (targetV2 - (Vector2)transform.position).normalized * Rbody.velocity.magnitude, homingAmount * (1f / Mathf.Clamp(distanceToTarget,0.1f,9999f)) * Time.deltaTime, 0f);
-        }
+        }*/
 
         if (Player.Player1.transform.position.y > transform.position.y && Mathf.Abs(Player.Player1.transform.position.x - transform.position.x) <= (Player.Player1.transform.position.y - transform.position.y))
         {

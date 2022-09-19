@@ -1,421 +1,395 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using WeaverCore;
 using WeaverCore.Components;
-using WeaverCore.Enums;
-using WeaverCore.Utilities;
 
 public class LaserShotgunMove : AncientAspidMove
 {
-    [SerializeField]
-    bool moveEnabled = true;
+    public List<LaserEmitter> lasers;
+
+    public List<float> laserTransparencies;
+
+    public List<float> laserRotations = new List<float>
+    {
+        -25f,
+        -10f,
+        0f,
+        10f,
+        25f
+    };
+
+    public List<int> laserBloodAmounts = new List<int>
+    {
+        3,3,3,3,3
+    };
 
     [SerializeField]
-    float postDelay = 0.5f;
+    Vector3 idlePosition;
 
     [SerializeField]
-    Vector2 relativeTargetPos;
-
-    [Space]
-    [Header("Preparation")]
-    [SerializeField]
-    float preparationDelay = 0.5f;
+    Vector3 idleRotation;
 
     [SerializeField]
-    LaserEmitter prepareShotGunEmitter;
+    Vector3 attackPosition;
 
     [SerializeField]
-    Transform prepareShotgunOrigin;
+    Vector3 attackRotation;
 
     [SerializeField]
-    ParticleSystem chargeUpEffects;
+    Vector3 targetOffset;
 
     [SerializeField]
-    float chargeUpTime = 1f;
+    float bloodSpawnRate = 0.1f;
+
+    [SerializeField]
+    float targetLerpSpeed = 7;
+
+    [SerializeField]
+    float prepareTime = 1f;
+
+    [SerializeField]
+    float attackDelay = 0.1f;
+
+    [SerializeField]
+    float attackTime = 1.2f;
+
+    [SerializeField]
+    float attackRotationSpeed = 5f;
+
+    [SerializeField]
+    Sprite attackSprite;
 
     [SerializeField]
     AudioClip chargeUpSound;
 
-    [Space]
-    [Header("Main Firing")]
     [SerializeField]
-    float initialFireDelay = 0.2f;
+    AudioClip fireSound;
 
     [SerializeField]
-    float subsequentFireDelay = 0.1f;
+    AudioClip fireLoop;
 
     [SerializeField]
-    LaserEmitter shotgunFireEmitter;
+    ParticleSystem shotgunMouthParticles;
 
     [SerializeField]
-    Transform shotgunFireRotationOrigin;
+    float fireSoundStaggerTime = 0.01f;
 
-    [SerializeField]
-    Sprite fireSprite;
-
-    [SerializeField]
-    float phase1AnimationSpeed = 1f;
-
-    [SerializeField]
-    int phase1Shots = 4;
-
-    [SerializeField]
-    float phase1FireDuration = 0.25f;
-
-    [SerializeField]
-    ShakeType phase1CameraShake = ShakeType.AverageShake;
-
-    [SerializeField]
-    AudioClip phase1FireSound;
-
-    [SerializeField]
-    bool doPhase1VolumeAdjust = true;
-
-    [SerializeField]
-    float volumeDecreaseDelay = 0.1f;
-
-    [SerializeField]
-    float volumeDecreaseTime = 0.5f;
-
-    [SerializeField]
-    Vector2 phase1FirePitch = new Vector2(1f,1f);
-
-    [SerializeField]
-    Vector2 angleRange = new Vector2(0,100f);
-
-    [SerializeField]
-    float headRotationAmount = 20f;
-
-    [SerializeField]
-    float headRotationFPS = 12f;
-
-    [SerializeField]
-    int headRotationFrames = 3;
-
-    [SerializeField]
-    float laserOriginDistance = 0.458f;
-
-    [SerializeField]
-    float laserMainOffset = 0f;
+    Transform oldBossTarget;
 
 
+    Vector3 targetPos;
+    Coroutine fireLaserRoutine;
+    List<Coroutine> bloodParticlesRoutines = new List<Coroutine>();
+    LaserRapidFireMove rapidFireMove;
+    AudioPlayer loopSound;
 
-    float prepareShotgunXOffset;
-    float fireShotgunXOffset;
-
-
-    Transform shotGunTarget;
-
-    Transform oldTarget;
-
-    FireLaserMove laserMove;
-
-    float originalOriginDistance;
-
-    public override bool MoveEnabled => moveEnabled && Boss.AspidMode == AncientAspid.Mode.Tactical;
+    public override bool MoveEnabled => false;
 
     private void Awake()
     {
-        prepareShotgunXOffset = prepareShotgunOrigin.GetXLocalPosition();
-        fireShotgunXOffset = shotgunFireRotationOrigin.GetXLocalPosition();
-        laserMove = GetComponent<FireLaserMove>();
+        rapidFireMove = GetComponent<LaserRapidFireMove>();
     }
 
-    private void OnDrawGizmosSelected()
+    IEnumerator PlaySoundsStaggered(AudioClip clip, float volume = 1f)
     {
-        Gizmos.color = Color.gray;
+        WeaverAudio.PlayAtPoint(clip, Boss.Head.transform.position, volume);
 
-        var firstAngle = MathUtilities.PolarToCartesian(-90f + angleRange.x,10f);
-        var secondAngle = MathUtilities.PolarToCartesian(-90f + angleRange.y,10f);
+        if (fireSoundStaggerTime > 0)
+        {
+            yield return new WaitForSeconds(fireSoundStaggerTime);
+        }
 
-        Gizmos.DrawRay(transform.position, firstAngle);
-        Gizmos.DrawRay(transform.position, secondAngle);
+        WeaverAudio.PlayAtPoint(clip, Boss.Head.transform.position, volume);
     }
 
-    uint targetRoutine = 0;
-
-    void StartTargetRoutine()
+    AudioPlayer PlayFireSound()
     {
-        targetRoutine = Boss.StartBoundRoutine(TargetRoutine());
-    }
-
-    void EndTargetRoutine()
-    {
-        if (targetRoutine != 0)
-        {
-            Boss.StopBoundRoutine(targetRoutine);
-            targetRoutine = 0;
-            Boss.SetTarget(oldTarget);
-        }
-    }
-
-    IEnumerator TargetRoutine()
-    {
-        if (shotGunTarget == null)
-        {
-            var target = new GameObject("Shotgun Target");
-            shotGunTarget = target.transform;
-        }
-
-        Vector3 targetPos;
-        if (Boss.Head.LookingDirection >= 0f)
-        {
-            targetPos = relativeTargetPos.With(x: -relativeTargetPos.x);
-        }
-        else
-        {
-            targetPos = relativeTargetPos;
-        }
-
-        oldTarget = Boss.TargetTransform;
-        Boss.SetTarget(shotGunTarget);
-
-        while (true)
-        {
-            shotGunTarget.transform.position = Player.Player1.transform.position + targetPos;
-            yield return null;
-        }
+        StartCoroutine(PlaySoundsStaggered(fireSound));
+        return WeaverAudio.PlayAtPointLooped(fireLoop, rapidFireMove.GetMiddleBeamContact(lasers[2]));
     }
 
     public override IEnumerator DoMove()
     {
-        Boss.orbitReductionAmount *= 3f;
-        yield return Boss.Head.LockHead();
-
-        StartTargetRoutine();
-        /*if (shotGunTarget == null)
-        {
-            shotGunTarget = Player.Player1.transform.Find("Shotgun Target");
-            if (shotGunTarget == null)
-            {
-                var target = new GameObject("Shotgun Target");
-                target.transform.SetParent(Player.Player1.transform);
-                shotGunTarget = target.transform;
-            }
-        }
+        shotgunMouthParticles.Play();
+        oldBossTarget = Boss.TargetTransform;
+        targetPos = Player.Player1.transform.position;
 
         if (Boss.Head.LookingDirection >= 0f)
         {
-            shotGunTarget.localPosition = relativeTargetPos.With(x: -relativeTargetPos.x);
+            Boss.SetTarget(Player.Player1.transform.position + targetOffset);
         }
         else
         {
-            shotGunTarget.localPosition = relativeTargetPos;
+            Boss.SetTarget(Player.Player1.transform.position + new Vector3(-targetOffset.x,targetOffset.y,targetOffset.z));
         }
 
-
-        oldTarget = Boss.TargetTransform;
-        Boss.SetTarget(shotGunTarget);*/
-
-        yield return new WaitForSeconds(preparationDelay);
-
-        prepareShotgunOrigin.SetXLocalPosition(Boss.Head.LookingDirection >= 0f ? -prepareShotgunXOffset : prepareShotgunXOffset);
-
-        chargeUpEffects.Play();
-
-        if (chargeUpSound != null)
+        for (int i = 0; i < lasers.Count; i++)
         {
-            var audio = WeaverAudio.PlayAtPoint(chargeUpSound, transform.position);
-            audio.transform.SetParent(transform, true);
+            lasers[i].ChargeUpLaser_P1();
         }
+        ApplyTransparencies();
 
-        //laserMove.Emitter.ChargeUpDuration = chargeUpTime;
-        prepareShotGunEmitter.ChargeUpDuration = chargeUpTime;
+        var center = lasers[2];
 
-        bool chargingUp = true;
+        SetAttackMode(false,Boss.Head.LookingDirection >= 0);
 
-        IEnumerator ChargeUpLaser()
+        StartCoroutine(PlaySoundsStaggered(chargeUpSound));
+
+        for (float i = 0; i < prepareTime; i += Time.deltaTime)
         {
-            yield return prepareShotGunEmitter.FireChargeUpOnlyRoutine();
-            chargingUp = false;
-        }
-
-        Vector2 angleLimits = angleRange;
-
-        if (Boss.Head.LookingDirection < 0f)
-        {
-            angleLimits = new Vector2(-angleLimits.x,-angleLimits.y);
-        }
-
-        originalOriginDistance = laserMove.Emitter.Laser.transform.GetYLocalPosition();
-        //laserMove.Emitter.Laser.transform.SetYLocalPosition(laserOriginDistance);
-        Boss.StartBoundRoutine(ChargeUpLaser());
-
-        //Debug.Log("PLAYER ANGLE = " + MathUtilities.ClampRotation(GetAngleToPlayer(prepareShotGunEmitter) + 90f));
-        //Debug.Log("MIN ANGLE = " + angleLimits.x);
-        //Debug.Log("MAX ANGLE = " + angleLimits.y);
-        //int oldIndex = -1;
-
-        //while (chargingUp)
-        for (float t = 0; t < chargeUpTime; t += Time.deltaTime)
-        {
-            //Debug.Log("TRUE ANGLE TO PLAYER = " + GetAngleToPlayer(prepareShotgunOrigin));
-
-            //Debug.DrawRay(prepareShotgunOrigin.position,MathUtilities.PolarToCartesian(GetAngleToPlayer(prepareShotgunOrigin),10f),Color.cyan);
-
-            //Debug.DrawLine(prepareShotgunOrigin.position, Player.Player1.transform.position, Color.Lerp(Color.red,Color.blue,0.5f));
-
-            var playerAngle = ClampWithinRange(MathUtilities.ClampRotation(GetAngleToPlayer(prepareShotgunOrigin) + 90f),angleLimits.x,angleLimits.y);
-            var destRotation = Quaternion.Euler(0f, 0f,playerAngle - 90f);
-
-            //Debug.Log("FINAL PLAYER ANGLE = " + playerAngle);
-            //var (main, extra) = laserMove.CalculateLaserRotation(destRotation,100f);
-
-            //laserMove.SetLaserRotation(laserMainOffset, main + extra - laserMainOffset);
-
-            SetPrepareLaserAngle(playerAngle);
-
-            chargeUpEffects.transform.localRotation = Quaternion.Euler(playerAngle - 90f, -90f, 0f);//destRotation * Quaternion.Euler(0f,-90f,0f);//Quaternion.Euler(-90f + main + extra,-90f,0f);
-            //laserMove.UpdateHeadRotation(ref oldIndex, main);
+            targetPos = Vector3.Lerp(targetPos, Player.Player1.transform.position, Time.deltaTime * targetLerpSpeed);
+            AimLasersAtTarget(targetPos);
             yield return null;
         }
 
-        chargeUpEffects.Stop();
-
-        yield return new WaitForSeconds(initialFireDelay);
-
-        shotgunFireRotationOrigin.SetXLocalPosition(Boss.Head.LookingDirection >= 0f ? -fireShotgunXOffset : fireShotgunXOffset);
-
-        Boss.Head.Animator.PlaybackSpeed = phase1AnimationSpeed;
-        var anticClip = Boss.Head.Animator.AnimationData.GetClip("Fire Laser Antic Quick");
-        var clipDuration = (1f / anticClip.FPS) * anticClip.Frames.Count;
-
-        for (int i = 0; i < phase1Shots; i++)
+        for (int i = 0; i < lasers.Count; i++)
         {
-            //Boss.Head.Animator.PlaybackSpeed = 20f / 12f;
-
-            shotgunFireEmitter.FireDuration = phase1FireDuration;
-            //shotgunFireEmitter.ChargeUpLaser_P1();
-            //shotgunFireEmitter.FireLaserQuick();
-
-            var playerRotation = MathUtilities.ClampRotation(GetAngleToPlayer(shotgunFireEmitter) + 90f);
-
-            shotgunFireRotationOrigin.transform.SetZLocalRotation(playerRotation);
-
-            Boss.StartBoundRoutine(FireLaser(clipDuration - shotgunFireEmitter.ChargeUpDuration));
-            yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser Antic Quick");
-
-            Boss.Head.MainRenderer.sprite = fireSprite;
-            shotgunFireEmitter.FireLaser_P2();
-
-            if (phase1FireSound != null)
-            {
-                StartCoroutine(PlayFireSound(phase1FireSound,shotgunFireRotationOrigin.position));
-            }
-
-            CameraShaker.Instance.Shake(phase1CameraShake);
-
-            for (float t = 0; t < phase1FireDuration; t += Time.deltaTime)
-            {
-
-                yield return null;
-            }
-
-            shotgunFireEmitter.EndLaser_P3();
-
-            yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser End Quick");
-
-            yield return new WaitUntil(() => !shotgunFireEmitter.FiringLaser);
+            lasers[i].EndLaser_P3();
         }
 
-        Boss.Head.Animator.PlaybackSpeed = 1f;
+        shotgunMouthParticles.Stop();
 
-        //ALSO MAKE SURE THAT THE BOSS STOPS THE ATTACK PREMATURELY IF THE PLAYER IS COMPLETELY OUT OF RANGE
+        Boss.SetTarget(Boss.transform.position);
 
-        Boss.Head.UnlockHead();
+        var totalDelay = attackDelay + Boss.Head.Animator.AnimationData.GetClipDuration("Fire Laser Antic Quick") - lasers[0].MinChargeUpDuration;
 
-        OnStun();
+        FireLasers(totalDelay);
 
-        yield break;
-    }
+        yield return new WaitForSeconds(attackDelay);
 
-    IEnumerator FireLaser(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        shotgunFireEmitter.ChargeUpLaser_P1();
-    }
+        yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser Antic Quick");
 
-    IEnumerator PlayFireSound(AudioClip clip, Vector3 position)
-    {
-        var audio = WeaverAudio.PlayAtPoint(clip, position);
-        audio.AudioSource.pitch = phase1FirePitch.RandomInRange();
-        yield return new WaitForSeconds(volumeDecreaseDelay);
-        for (float t = 0; t < volumeDecreaseTime; t += Time.deltaTime)
+        CameraShaker.Instance.SetRumble(WeaverCore.Enums.RumbleType.RumblingMed);
+
+        loopSound = PlayFireSound();
+
+        for (int i = 0; i < lasers.Count; i++)
         {
-            audio.AudioSource.volume = 1f - (t / volumeDecreaseTime);
-            yield return null;
+            bloodParticlesRoutines.Add(StartCoroutine(EmitParticlesRoutine(bloodSpawnRate, i)));
         }
-    }
 
-    public override float PostDelay => postDelay;
+        Boss.Head.Animator.SpriteRenderer.sprite = attackSprite;
 
-    float ClampWithinRange(float angle, float a, float b)
-    {
-        if (a > b)
-        {
-            var temp = b;
-            b = a;
-            a = temp;
-        }
-        if (angle < a)
-        {
-            return a;
-        }
-        else if (angle > b)
-        {
-            return b;
-        }
-        else
-        {
-            return angle;
-        }
-    }
 
-    bool AngleWithinRange(float angle, float a, float b)
-    {
-        if (a > b)
-        {
-            var temp = b;
-            b = a;
-            a = temp;
-        }
-        return angle >= a && angle <= b;
-    }
 
-    void UpdateLaserRotation()
-    {
-        //CalculateLaserRotation();
+        yield return new WaitUntil(() => fireLaserRoutine == null);
+        foreach (var routine in bloodParticlesRoutines)
+        {
+            StopCoroutine(routine);
+        }
+        bloodParticlesRoutines.Clear();
+
+        loopSound.Delete();
+        loopSound = null;
+
+        CameraShaker.Instance.SetRumble(WeaverCore.Enums.RumbleType.None);
+
+        Boss.SetTarget(oldBossTarget);
+
+        yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser End Quick");
+
+        SetAttackMode(false, Boss.Head.LookingDirection >= 0);
     }
 
     public override void OnStun()
     {
-        Boss.orbitReductionAmount /= 3f;
-        laserMove.Emitter.Laser.transform.SetYLocalPosition(originalOriginDistance);
-        EndTargetRoutine();
-        chargeUpEffects.Stop();
-        laserMove.Emitter.StopLaser();
-        Boss.SetTarget(oldTarget);
-        Boss.Head.Animator.PlaybackSpeed = 1f;
+        CameraShaker.Instance.SetRumble(WeaverCore.Enums.RumbleType.None);
+        StopLasers();
+        SetAttackMode(false, Boss.Head.LookingDirection >= 0);
+        Boss.SetTarget(oldBossTarget);
+
+        if (bloodParticlesRoutines.Count > 0)
+        {
+            foreach (var routine in bloodParticlesRoutines)
+            {
+                StopCoroutine(routine);
+            }
+            bloodParticlesRoutines.Clear();
+        }
+
+        if (loopSound != null)
+        {
+            loopSound.Delete();
+            loopSound = null;
+        }
+
+        shotgunMouthParticles.Stop();
     }
 
-    void SetShotgunLaserAngle(float downwardAngle)
+    float LaserLookAt(LaserEmitter emitter, Vector3 target)
     {
-        shotgunFireRotationOrigin.SetZLocalRotation(downwardAngle * shotgunFireRotationOrigin.transform.localScale.z);
+        var origin = GetOrigin(emitter);
+
+        var difference = new Vector2(target.x, target.y) - new Vector2(origin.position.x,origin.position.y);
+
+        difference = origin.transform.parent.InverseTransformVector(difference);
+
+        var angle = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+
+        origin.transform.SetRotationZ(angle + 90f);
+
+        return angle + 90f;
     }
 
-    void SetShotGunLaserAngle(Quaternion rotation)
+    void SetLaserRotation(LaserEmitter emitter, float zDegrees)
     {
-        var angle = MathUtilities.ClampRotation(rotation.eulerAngles.z + 90f);
-        SetShotgunLaserAngle(angle);
+        var origin = GetOrigin(emitter);
+        origin.transform.SetRotationZ(zDegrees);
     }
 
-    void SetPrepareLaserAngle(float downwardAngle)
+    IEnumerator EmitParticlesRoutine(float spawnRate, int laserIndex)
     {
-        prepareShotgunOrigin.SetZLocalRotation(downwardAngle);
+        float timer = UnityEngine.Random.Range(0,spawnRate);
+        while (true)
+        {
+            timer += Time.deltaTime;
+            if (timer >= spawnRate)
+            {
+                timer -= spawnRate;
+                rapidFireMove.PlayBloodEffects(laserBloodAmounts[laserIndex], lasers[laserIndex]);
+            }
+            yield return null;
+        }
     }
 
-    float GetAngleToPlayer(Component relativeComponent)
+    void FireLasers(float delay)
     {
-        return MathUtilities.CartesianToPolar(Player.Player1.transform.position - relativeComponent.transform.position).x;
+        IEnumerator FireRoutine()
+        {
+            yield return new WaitForSeconds(delay);
+
+            float duration = 0;
+
+            SetAttackMode(true, Boss.Head.LookingDirection >= 0);
+
+            foreach (var laser in lasers)
+            {
+                duration = laser.ChargeUpLaser_P1();
+            }
+
+            for (float t = 0; t < duration; t += Time.deltaTime)
+            {
+                AimLasersAtTarget(targetPos);
+                yield return null;
+            }
+
+            RemoveTransparencies();
+
+            foreach (var laser in lasers)
+            {
+                laser.FireLaser_P2();
+            }
+
+            for (float t = 0; t < attackTime; t += Time.deltaTime)
+            {
+                targetPos = Vector3.MoveTowards(targetPos, Player.Player1.transform.position, attackRotationSpeed * Time.deltaTime);
+                AimLasersAtTarget(targetPos);
+                yield return null;
+            }
+
+            float endTime = 0;
+
+            foreach (var laser in lasers)
+            {
+                endTime = laser.EndLaser_P3();
+            }
+
+            for (float t = 0; t < endTime; t += Time.deltaTime)
+            {
+                AimLasersAtTarget(targetPos);
+                yield return null;
+            }
+
+            fireLaserRoutine = null;
+        }
+
+        fireLaserRoutine = StartCoroutine(FireRoutine());
+    }
+
+    void StopLasers()
+    {
+        if (fireLaserRoutine != null)
+        {
+            fireLaserRoutine = null;
+            StopCoroutine(fireLaserRoutine);
+            foreach (var laser in lasers)
+            {
+                laser.StopLaser();
+            }
+        }
+    }
+
+    void AimLasersAtTarget(Vector3 target)
+    {
+        var center = lasers[2];
+
+        var rotation = LaserLookAt(center, target);
+
+        for (int i = 0; i < lasers.Count; i++)
+        {
+            lasers[i].Laser.transform.parent.SetRotationZ(rotation + laserRotations[i]);
+        }
+    }
+    
+
+    Transform GetOrigin(LaserEmitter emitter)
+    {
+        return emitter.Laser.transform.parent;
+    }
+
+    public void ApplyTransparencies()
+    {
+        for (int i = 0; i < lasers.Count; i++)
+        {
+            var color = lasers[i].Laser.Color;
+            color.a = laserTransparencies[i];
+            lasers[i].Laser.Color = color;
+        }
+    }
+
+    public void RemoveTransparencies()
+    {
+        for (int i = 0; i < lasers.Count; i++)
+        {
+            var color = lasers[i].Laser.Color;
+            color.a = 1;
+            lasers[i].Laser.Color = color;
+        }
+    }
+
+    public void SetAttackMode(bool attackMode, bool facingRight)
+    {
+        var parent = lasers[0].transform.parent;
+        if (attackMode)
+        {
+            parent.localPosition = FlipXIfOnRight(attackPosition, facingRight);
+            parent.localEulerAngles = FlipZIfOnRight(attackRotation, facingRight);
+        }
+        else
+        {
+            parent.localPosition = FlipXIfOnRight(idlePosition, facingRight);
+            parent.localEulerAngles = FlipZIfOnRight(idleRotation, facingRight);
+        }
+
+        parent.localScale = new Vector3(facingRight ? -1 : 1, 1f, 1f);
+    }
+
+    Vector3 FlipXIfOnRight(Vector3 position, bool facingRight)
+    {
+        if (facingRight)
+        {
+            position.x = -position.x;
+        }
+        return position;
+    }
+
+    Vector3 FlipZIfOnRight(Vector3 rotation, bool facingRight)
+    {
+        if (facingRight)
+        {
+            rotation.z = -rotation.z;
+        }
+        return rotation;
     }
 }
