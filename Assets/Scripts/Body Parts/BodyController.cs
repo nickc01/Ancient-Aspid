@@ -23,9 +23,35 @@ public class BodyController : AspidBodyPart
 
     Coroutine defaultAnimationRoutine;
 
+    bool playDefaultAnimation = true;
+
     float currentFrameTimer = 0;
     int currentFrame = 0;
     WeaverAnimationData.Clip currentClip;
+
+    public bool PlayDefaultAnimation
+    {
+        get => playDefaultAnimation;
+        set
+        {
+            if (value != playDefaultAnimation)
+            {
+                playDefaultAnimation = value;
+                if (playDefaultAnimation)
+                {
+                    defaultAnimationRoutine = StartCoroutine(DefaultAnimationRoutine(CurrentOrientation));
+                }
+                else
+                {
+                    if (defaultAnimationRoutine != null)
+                    {
+                        StopCoroutine(defaultAnimationRoutine);
+                        defaultAnimationRoutine = null;
+                    }
+                }
+            }
+        }
+    }
 
     protected override void Awake()
     {
@@ -37,12 +63,21 @@ public class BodyController : AspidBodyPart
         defaultAnimationRoutine = StartCoroutine(DefaultAnimationRoutine(CurrentOrientation));
     }
 
+    public override void OnStun()
+    {
+        transform.SetXLocalPosition(GetXForOrientation(CurrentOrientation));
+        transform.SetYLocalPosition(0f);
+        transform.localEulerAngles = default;
+        animator.PlaybackSpeed = 1f;
+        base.OnStun();
+    }
+
     IEnumerator DefaultAnimationRoutine(AspidOrientation orientation)
     {
-        if (TailRaised)
+        /*if (TailRaised)
         {
             yield break;
-        }
+        }*/
         while (true)
         {
             currentClip = GetClipForState(TailRaised, PulsingUp, orientation);
@@ -172,7 +207,7 @@ public class BodyController : AspidBodyPart
         }
     }
 
-    protected override IEnumerator ChangeDirectionRoutine()
+    protected override IEnumerator ChangeDirectionRoutine(float speedMultiplier = 1f)
     {
         /*if (CurrentOrientation == AspidOrientation.Center)
         {
@@ -188,8 +223,33 @@ public class BodyController : AspidBodyPart
             MainCollider.offset += new Vector2(0f, 1.17f);
         }
 
+        string tailState = TailRaised ? "Raised" : "Lowered";
 
-        yield return base.ChangeDirectionRoutine();
+        if (PreviousOrientation == AspidOrientation.Center)
+        {
+            if (CurrentOrientation != AspidOrientation.Center)
+            {
+                Animator.SpriteRenderer.flipX = CurrentOrientation == AspidOrientation.Right;
+                yield return PlayChangeDirectionClip(tailState + " - Decenterize", DEFAULT_FPS * speedMultiplier, DEFAULT_CENTERIZE_FRAMES);
+            }
+        }
+        else
+        {
+            if (CurrentOrientation == AspidOrientation.Center)
+            {
+                yield return PlayChangeDirectionClip(tailState + " - Centerize", DEFAULT_FPS * speedMultiplier, DEFAULT_CENTERIZE_FRAMES);
+            }
+            else
+            {
+                Sprite initialFrame = Animator.SpriteRenderer.sprite;
+
+                yield return PlayChangeDirectionClip(tailState + " - Change Direction", DEFAULT_FPS * speedMultiplier, DEFAULT_CHANGE_DIR_FRAMES);
+
+                Animator.SpriteRenderer.flipX = CurrentOrientation == AspidOrientation.Right;
+                Animator.SpriteRenderer.sprite = initialFrame;
+            }
+        }
+        //yield return base.ChangeDirectionRoutine();
 
         if (CurrentOrientation == AspidOrientation.Center)
         {
@@ -199,7 +259,116 @@ public class BodyController : AspidBodyPart
         PulsingUp = true;
         currentFrame = 0;
         ChangingDirection = false;
-        defaultAnimationRoutine = StartCoroutine(DefaultAnimationRoutine(CurrentOrientation));
+        if (PlayDefaultAnimation)
+        {
+            defaultAnimationRoutine = StartCoroutine(DefaultAnimationRoutine(CurrentOrientation));
+        }
+    }
+
+    public IEnumerator PlayLanding(bool slide)
+    {
+        if (!slide)
+        {
+            yield return new WaitForSeconds(Boss.lungeDownwardsLandDelay);
+        }
+        yield break;
+    }
+
+    public IEnumerator SlideSwitchDirection(AspidOrientation oldDirection, AspidOrientation newDirection)
+    {
+        yield return ChangeDirection(newDirection, Boss.lungeTurnaroundSpeed);
+        yield break;
+    }
+
+    public IEnumerator FinishLanding(bool slammedIntoWall)
+    {
+        yield break;
+    }
+
+    public IEnumerator GroundPrepareJump()
+    {
+        var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
+
+        for (int i = 0; i < Boss.groundJumpFrames; i++)
+        {
+            transform.localPosition += Boss.jumpPosIncrements;
+            transform.localEulerAngles += Boss.jumpRotIncrements * lookingDirection;
+            yield return new WaitForSeconds(1f / Boss.groundJumpPrepareFPS);
+        }
+        yield break;
+    }
+
+    public IEnumerator GroundLaunch()
+    {
+        animator.PlaybackSpeed = Boss.MidAirSwitchSpeed * 1.5f;
+        //StartCoroutine(PlayBodyAnim());
+        var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
+        for (int i = 0; i < Boss.groundJumpFrames; i++)
+        {
+            transform.localPosition -= Boss.jumpPosIncrements;
+            transform.localEulerAngles -= Boss.jumpRotIncrements * lookingDirection;
+            if (i == 1)
+            {
+                animator.PlayAnimation("Lower Tail Quick");
+            }
+            if (i != Boss.groundJumpFrames - 1)
+            {
+                yield return new WaitForSeconds(1f / Boss.groundJumpLaunchFPS);
+            }
+        }
+        yield break;
+    }
+
+    /*IEnumerator PlayBodyAnim()
+    {
+        yield return animator.PlayAnimationTillDone("Lower Tail");
+        yield return animator.PlayAnimationTillDone("Raise Tail");
+    }*/
+
+    public IEnumerator GroundLand(bool finalLanding)
+    {
+        var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
+
+        transform.localPosition += Boss.jumpPosIncrements * Boss.groundJumpFrames;
+        transform.localEulerAngles += Boss.jumpRotIncrements * lookingDirection * Boss.groundJumpFrames;
+
+        yield return new WaitForSeconds(Boss.groundJumpLandDelay);
+
+        if (finalLanding)
+        {
+            for (int i = 0; i < Boss.groundJumpFrames; i++)
+            {
+                transform.localPosition -= Boss.jumpPosIncrements;
+                transform.localEulerAngles -= Boss.jumpRotIncrements * lookingDirection;
+                yield return new WaitForSeconds(1f / Boss.groundJumpLaunchFPS);
+            }
+
+            yield return new WaitUntil(() => animator.PlayingGUID == default);
+
+            animator.PlaybackSpeed = 1f;
+
+            yield break;
+        }
+    }
+
+    public override IEnumerator WaitTillChangeDirectionMidJump()
+    {
+        return new WaitUntil(() => animator.PlayingGUID == default);
+    }
+
+    public override IEnumerator MidJumpChangeDirection(AspidOrientation oldOrientation, AspidOrientation newOrientation)
+    {
+        PreviousOrientation = CurrentOrientation;
+        animator.PlaybackSpeed = Boss.MidAirSwitchSpeed;
+        CurrentOrientation = newOrientation;
+        MainRenderer.flipX = oldOrientation == AspidOrientation.Right;
+        yield return animator.PlayAnimationTillDone("Lowered - Change Direction Quick");
+
+        MainRenderer.flipX = newOrientation == AspidOrientation.Right;
+        MainRenderer.sprite = animator.AnimationData.GetFrameFromClip("Lowered - Change Direction", 0);
+
+        animator.PlaybackSpeed = Boss.MidAirSwitchSpeed * 1.5f;
+        animator.PlayAnimation("Raise Tail Quick");
     }
 
     /*protected override IEnumerator ChangeDirectionRoutine(AspidOrientation newOrientation)
@@ -273,7 +442,10 @@ public class BodyController : AspidBodyPart
         animator.PlaybackSpeed = 1f;
         TailRaised = false;
         ChangingTailState = false;
-        defaultAnimationRoutine = StartCoroutine(DefaultAnimationRoutine(CurrentOrientation));
+        if (PlayDefaultAnimation)
+        {
+            defaultAnimationRoutine = StartCoroutine(DefaultAnimationRoutine(CurrentOrientation));
+        }
     }
 
     void VerifyState()

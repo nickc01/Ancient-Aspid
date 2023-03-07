@@ -12,7 +12,7 @@ public abstract class AspidBodyPart : MonoBehaviour
     protected const int DEFAULT_CHANGE_DIR_FRAMES = 4;
     protected const int DEFAULT_CENTERIZE_FRAMES = 3;
 
-    float startingLocalX;
+    public float StartingLocalX { get; private set; }
     float startingColliderOffsetX;
 
     AncientAspid _boss;
@@ -32,34 +32,38 @@ public abstract class AspidBodyPart : MonoBehaviour
 
     protected virtual void Awake()
     {
-        startingLocalX = transform.GetXLocalPosition();
+        StartingLocalX = transform.GetXLocalPosition();
         if (MainCollider != null)
         {
             startingColliderOffsetX = MainCollider.offset.x;
         }
     }
 
-    public IEnumerator ChangeDirection(AspidOrientation newDirection)
+    public IEnumerator ChangeDirection(AspidOrientation newDirection, float speedMultplier = 1f)
     {
         if (newDirection == CurrentOrientation)
         {
             //yield break;
+            //Debug.Log("NOT CHANGING DIRECTION");
             return Enumerable.Empty<byte>().GetEnumerator();
         }
         PreviousOrientation = CurrentOrientation;
         CurrentOrientation = newDirection;
 
-        return ChangeDirectionRoutine();
+        return ChangeDirectionRoutine(speedMultplier);
     }
 
-    IEnumerator PlayChangeDirectionClip(string clipName, float fps, int frameCount)
+    protected IEnumerator PlayChangeDirectionClip(string clipName, float fps, int frameCount)
     {
+        Debug.Log($"PLAYING FPS {fps} on {GetType().FullName}");
         if (Animator.HasAnimationClip(clipName))
         {
             var clip = Animator.AnimationData.GetClip(clipName);
             Boss.StartBoundRoutine(UpdateLocalPosition(clip.FPS,clip.Frames.Count));
             Boss.StartBoundRoutine(UpdateColliderOffset(clip.FPS, clip.Frames.Count));
+            Animator.PlaybackSpeed = fps / clip.FPS;
             yield return Animator.PlayAnimationTillDone(clipName);
+            Animator.PlaybackSpeed = 1f;
         }
         else
         {
@@ -68,7 +72,7 @@ public abstract class AspidBodyPart : MonoBehaviour
         }
     }
 
-    public virtual float GetChangeDirectionTime()
+    public virtual float GetChangeDirectionTime(float speedMultiplier = 1f)
     {
         if (PreviousOrientation == AspidOrientation.Center)
         {
@@ -76,7 +80,7 @@ public abstract class AspidBodyPart : MonoBehaviour
             {
                 //Animator.SpriteRenderer.flipX = CurrentOrientation == AspidOrientation.Right;
                 //yield return PlayChangeDirectionClip("Decenterize", DEFAULT_FPS, DEFAULT_CENTERIZE_FRAMES);
-                return (1f / DEFAULT_FPS) * DEFAULT_CENTERIZE_FRAMES;
+                return (1f / (DEFAULT_FPS * speedMultiplier)) * DEFAULT_CENTERIZE_FRAMES;
             }
         }
         else
@@ -84,7 +88,7 @@ public abstract class AspidBodyPart : MonoBehaviour
             if (CurrentOrientation == AspidOrientation.Center)
             {
                 //yield return PlayChangeDirectionClip("Centerize", DEFAULT_FPS, DEFAULT_CENTERIZE_FRAMES);
-                return (1f / DEFAULT_FPS) * DEFAULT_CENTERIZE_FRAMES;
+                return (1f / (DEFAULT_FPS * speedMultiplier)) * DEFAULT_CENTERIZE_FRAMES;
             }
             else
             {
@@ -95,34 +99,34 @@ public abstract class AspidBodyPart : MonoBehaviour
                 //Animator.SpriteRenderer.flipX = CurrentOrientation == AspidOrientation.Right;
                 //Animator.SpriteRenderer.sprite = initialFrame;
 
-                return (1f / DEFAULT_FPS) * DEFAULT_CHANGE_DIR_FRAMES;
+                return (1f / (DEFAULT_FPS * speedMultiplier)) * DEFAULT_CHANGE_DIR_FRAMES;
             }
         }
 
         return 0;
     }
 
-    protected virtual IEnumerator ChangeDirectionRoutine()
+    protected virtual IEnumerator ChangeDirectionRoutine(float speedMultiplier = 1f)
     {
         if (PreviousOrientation == AspidOrientation.Center)
         {
             if (CurrentOrientation != AspidOrientation.Center)
             {
                 Animator.SpriteRenderer.flipX = CurrentOrientation == AspidOrientation.Right;
-                yield return PlayChangeDirectionClip("Decenterize", DEFAULT_FPS, DEFAULT_CENTERIZE_FRAMES);
+                yield return PlayChangeDirectionClip("Decenterize", DEFAULT_FPS * speedMultiplier, DEFAULT_CENTERIZE_FRAMES);
             }
         }
         else
         {
             if (CurrentOrientation == AspidOrientation.Center)
             {
-                yield return PlayChangeDirectionClip("Centerize", DEFAULT_FPS, DEFAULT_CENTERIZE_FRAMES);
+                yield return PlayChangeDirectionClip("Centerize", DEFAULT_FPS * speedMultiplier, DEFAULT_CENTERIZE_FRAMES);
             }
             else
             {
                 Sprite initialFrame = Animator.SpriteRenderer.sprite;
 
-                yield return PlayChangeDirectionClip("Change Direction", DEFAULT_FPS, DEFAULT_CHANGE_DIR_FRAMES);
+                yield return PlayChangeDirectionClip("Change Direction", DEFAULT_FPS * speedMultiplier, DEFAULT_CHANGE_DIR_FRAMES);
 
                 Animator.SpriteRenderer.flipX = CurrentOrientation == AspidOrientation.Right;
                 Animator.SpriteRenderer.sprite = initialFrame;
@@ -162,7 +166,7 @@ public abstract class AspidBodyPart : MonoBehaviour
         yield break;*/
     }
 
-    static float GetXForOrientation(float startingX, AspidOrientation orientation)
+    public static float GetXForOrientation(float startingX, AspidOrientation orientation)
     {
         switch (orientation)
         {
@@ -175,6 +179,11 @@ public abstract class AspidBodyPart : MonoBehaviour
         }
     }
 
+    public float GetXForOrientation(AspidOrientation orientation)
+    {
+        return GetXForOrientation(StartingLocalX, orientation);
+    }
+
     protected IEnumerator UpdateColliderOffset(float fps, float frameCount)
     {
         if (MainCollider == null)
@@ -185,28 +194,95 @@ public abstract class AspidBodyPart : MonoBehaviour
         float newX = GetXForOrientation(startingColliderOffsetX, CurrentOrientation);
 
         float secondsPerFrame = 1f / fps;
+        float timer = 0;
 
         for (int i = 0; i < frameCount; i++)
         {
-            yield return new WaitForSeconds(secondsPerFrame);
-
-            MainCollider.offset = new Vector2(Mathf.Lerp(oldX, newX, i / (float)(frameCount - 1)), MainCollider.offset.y);
+            MainCollider.offset = new Vector2(Mathf.Lerp(oldX, newX, i / (float)(frameCount)), MainCollider.offset.y);
+            //yield return new WaitForSeconds(secondsPerFrame);
+            while (true)
+            {
+                yield return null;
+                timer += Time.deltaTime;
+                if (timer >= secondsPerFrame)
+                {
+                    timer -= secondsPerFrame;
+                    break;
+                }
+            }
         }
+
+        MainCollider.offset = new Vector2(Mathf.Lerp(oldX, newX, 1f), MainCollider.offset.y);
     }
 
     protected IEnumerator UpdateLocalPosition(float fps, float frameCount)
     {
-        float oldX = GetXForOrientation(startingLocalX, PreviousOrientation);
-        float newX = GetXForOrientation(startingLocalX, CurrentOrientation);
+        float oldX = GetXForOrientation(StartingLocalX, PreviousOrientation);
+        float newX = GetXForOrientation(StartingLocalX, CurrentOrientation);
 
-        float secondsPerFrame = 1f / fps;
+        return UpdateLocalPosition(fps, frameCount, oldX, newX);
+        /*float secondsPerFrame = 1f / fps;
+        float timer = 0;
+
 
         for (int i = 0; i < frameCount; i++)
         {
-            yield return new WaitForSeconds(secondsPerFrame);
-            transform.SetXLocalPosition(Mathf.Lerp(oldX, newX, i / (float)(frameCount - 1)));
+            transform.SetXLocalPosition(Mathf.Lerp(oldX, newX, i / (float)(frameCount)));
+            //yield return new WaitForSeconds(secondsPerFrame);
+            while (true)
+            {
+                yield return null;
+                timer += Time.deltaTime;
+                if (timer >= secondsPerFrame)
+                {
+                    timer -= secondsPerFrame;
+                    break;
+                }
+            }
         }
+        transform.SetXLocalPosition(Mathf.Lerp(oldX, newX, 1f));*/
     }
+
+    protected IEnumerator UpdateLocalPosition(float fps, float frameCount, float oldX, float newX)
+    {
+        float secondsPerFrame = 1f / fps;
+        float timer = 0;
+
+
+        for (int i = 0; i < frameCount; i++)
+        {
+            transform.SetXLocalPosition(Mathf.Lerp(oldX, newX, i / (float)(frameCount)));
+            //yield return new WaitForSeconds(secondsPerFrame);
+            while (true)
+            {
+                yield return null;
+                timer += Time.deltaTime;
+                if (timer >= secondsPerFrame)
+                {
+                    timer -= secondsPerFrame;
+                    break;
+                }
+            }
+        }
+        transform.SetXLocalPosition(Mathf.Lerp(oldX, newX, 1f));
+    }
+
+    public virtual void OnStun()
+    {
+
+    }
+
+    public virtual void OnDeath()
+    {
+
+    }
+
+    /// <summary>
+    /// This function is used to wait untill all the body parts are ready to change direction mid-air during a ground jump
+    /// </summary>
+    public abstract IEnumerator WaitTillChangeDirectionMidJump();
+
+    public abstract IEnumerator MidJumpChangeDirection(AspidOrientation oldOrientation, AspidOrientation newOrientation);
 
     /*protected IEnumerator 
 

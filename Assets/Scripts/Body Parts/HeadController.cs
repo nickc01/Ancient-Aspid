@@ -5,7 +5,9 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using WeaverCore;
 using WeaverCore.Components;
+using WeaverCore.Enums;
 using WeaverCore.Utilities;
+using static WeaverCore.Blood;
 
 public class HeadController : AspidBodyPart
 {
@@ -32,8 +34,52 @@ public class HeadController : AspidBodyPart
     [FormerlySerializedAs("followPlayer_Degrees")]
     List<float> idle_Degrees;
 
+    [Header("Lunge")]
+    [SerializeField]
+    Sprite lungeSprite;
+
     bool currentlyLookingAtPlayer = false;
     float currentHeadAngle = -60f;
+
+    [SerializeField]
+    List<Sprite> landSprites;
+
+    [SerializeField]
+    List<Vector2> landPositions;
+
+    [SerializeField]
+    float landFPS;
+
+    [Header("Ground Laser")]
+    [SerializeField]
+    List<Sprite> groundLaserSprites;
+
+    //[SerializeField]
+    //List<Vector3> groundLaserPositions;
+
+    [SerializeField]
+    List<Vector3> groundLaserRotations;
+
+    [SerializeField]
+    float groundLaserFPS = 12;
+
+    [SerializeField]
+    ParticleSystem groundLaserParticles;
+
+    [SerializeField]
+    LaserEmitter groundLaserEmitter;
+
+    [SerializeField]
+    Transform groundLaserOrigin;
+
+    [SerializeField]
+    AudioClip groundLaserSound;
+
+    [SerializeField]
+    float groundLaserBloodSpawnRate = 0.15f;
+
+    float laserOriginStartX;
+
 
     /// <summary>
     /// The current direction the head is looking in.
@@ -46,7 +92,17 @@ public class HeadController : AspidBodyPart
 
     public bool HeadLocked { get; private set; } = false;
 
+    public float LaserChargeUpDuration => groundLaserEmitter.ChargeUpDuration;
+
     uint unlockRoutine = 0;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        transform.SetLocalPosition(x: 0f, y: 0f);
+        MainRenderer.sprite = idle_Sprites[0];
+        laserOriginStartX = groundLaserOrigin.GetXLocalPosition();
+    }
 
     private void Update()
     {
@@ -71,7 +127,7 @@ public class HeadController : AspidBodyPart
         }
     }
 
-    public override float GetChangeDirectionTime()
+    public override float GetChangeDirectionTime(float speedMultiplier = 1f)
     {
         var time = base.GetChangeDirectionTime();
 
@@ -80,19 +136,19 @@ public class HeadController : AspidBodyPart
             if (CurrentOrientation == AspidOrientation.Center)
             {
                 //yield return StartFollowingPlayer();
-                time += (1f / DEFAULT_FPS) * DEFAULT_CENTERIZE_FRAMES;
+                time += (1f / (DEFAULT_FPS * speedMultiplier)) * DEFAULT_CENTERIZE_FRAMES;
             }
             else if (CurrentOrientation != AspidOrientation.Center && PreviousOrientation == AspidOrientation.Center)
             {
                 //yield return StopFollowingPlayer();
-                time += (1f / DEFAULT_FPS) * DEFAULT_CENTERIZE_FRAMES;
+                time += (1f / (DEFAULT_FPS * speedMultiplier)) * DEFAULT_CENTERIZE_FRAMES;
             }
         }
 
         return time;
     }
 
-    protected override IEnumerator ChangeDirectionRoutine()
+    protected override IEnumerator ChangeDirectionRoutine(float speedMultiplier = 1f)
     {
         if (HeadLocked)
         {
@@ -102,34 +158,34 @@ public class HeadController : AspidBodyPart
         {
             if (CurrentOrientation == AspidOrientation.Center)
             {
-                yield return StartFollowingPlayer();
+                yield return StartFollowingPlayer(speedMultiplier);
                 yield break;
             }
             else if (CurrentOrientation != AspidOrientation.Center && PreviousOrientation == AspidOrientation.Center)
             {
-                yield return StopFollowingPlayer();
+                yield return StopFollowingPlayer(speedMultiplier);
                 yield break;
             }
         }
 
         currentHeadAngle = OrientationToAngle(CurrentOrientation);
 
-        yield return base.ChangeDirectionRoutine();
+        yield return base.ChangeDirectionRoutine(speedMultiplier);
     }
 
-    IEnumerator StartFollowingPlayer()
+    IEnumerator StartFollowingPlayer(float speedMultiplier)
     {
         MainRenderer.flipX = false;
-        StartCoroutine(UpdateColliderOffset(DEFAULT_FPS,DEFAULT_CENTERIZE_FRAMES));
+        StartCoroutine(UpdateColliderOffset(DEFAULT_FPS * speedMultiplier, DEFAULT_CENTERIZE_FRAMES));
 
-        yield return InterpolateToFollowPlayer(DEFAULT_CENTERIZE_FRAMES, DEFAULT_FPS);
+        yield return InterpolateToFollowPlayer(DEFAULT_CENTERIZE_FRAMES, DEFAULT_FPS * speedMultiplier);
         currentlyLookingAtPlayer = true;
     }
 
-    IEnumerator StopFollowingPlayer()
+    IEnumerator StopFollowingPlayer(float speedMultiplier)
     {
-        StartCoroutine(UpdateColliderOffset(DEFAULT_FPS, DEFAULT_CENTERIZE_FRAMES));
-        yield return InterpolateToNewAngle(currentHeadAngle, () => OrientationToAngle(CurrentOrientation), DEFAULT_CENTERIZE_FRAMES, DEFAULT_FPS);
+        StartCoroutine(UpdateColliderOffset(DEFAULT_FPS * speedMultiplier, DEFAULT_CENTERIZE_FRAMES));
+        yield return InterpolateToNewAngle(currentHeadAngle, () => OrientationToAngle(CurrentOrientation), DEFAULT_CENTERIZE_FRAMES, DEFAULT_FPS * speedMultiplier);
 
         MainRenderer.sprite = idle_Sprites[0];
         MainRenderer.flipX = CurrentOrientation == AspidOrientation.Right;
@@ -160,6 +216,77 @@ public class HeadController : AspidBodyPart
     public IEnumerator LockHead(float lockSpeed = 1f)
     {
         return Boss.Head.LockHead(Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left,lockSpeed);
+    }
+
+    bool switchingDirections = false;
+
+    public IEnumerator SlideSwitchDirection(AspidOrientation oldDirection, AspidOrientation newDirection)
+    {
+        switchingDirections = true;
+        PreviousOrientation = oldDirection;
+        CurrentOrientation = newDirection;
+
+        //float trueNewDirection = orientation == AspidOrientation.Left ? -60f : 60f;
+        //var oldIndex = GetIdleIndexForAngle(oldHeadDirection);
+        //var newIndex = GetIdleIndexForAngle(trueNewDirection);
+        float oldDirectionAngle = oldDirection == AspidOrientation.Left ? -60f : 60f;
+        float newDirectionAngle = newDirection == AspidOrientation.Left ? -60f : 60f;
+
+
+        var changeDirectionRoutine = base.ChangeDirectionRoutine(Boss.lungeTurnaroundSpeed);
+
+        var interpolationRoutine = InterpolateToNewAngle(oldDirectionAngle, () => newDirectionAngle, DEFAULT_CHANGE_DIR_FRAMES, DEFAULT_FPS * Boss.lungeTurnaroundSpeed);
+
+        yield return RoutineAwaiter.AwaitBoundRoutines(Boss, changeDirectionRoutine, interpolationRoutine).WaitTillDone();
+
+        var idleIndex = GetIdleIndexForAngle(OrientationToAngle(newDirection));
+        MainRenderer.sprite = idle_Sprites[idleIndex];
+        MainRenderer.flipX = idle_Flip[idleIndex];
+        //yield return ChangeDirection(newDirection, Boss.lungeTurnaroundSpeed);
+        yield break;
+    }
+
+    public IEnumerator PlayLanding(bool slide)
+    {
+        if (!slide)
+        {
+            if (switchingDirections == false)
+            {
+                MainRenderer.sprite = landSprites[0];
+            }
+            if (CurrentOrientation == AspidOrientation.Right)
+            {
+                transform.SetLocalPosition(x: -landPositions[0].x, y: landPositions[0].y);
+            }
+            else
+            {
+                transform.SetLocalPosition(x: landPositions[0].x, y: landPositions[0].y);
+            }
+            yield return new WaitForSeconds(Boss.lungeDownwardsLandDelay);
+        }
+
+        switchingDirections = false;
+        for (int i = 0; i < landSprites.Count; i++)
+        {
+            if (switchingDirections == false)
+            {
+                MainRenderer.sprite = landSprites[i];
+            }
+            if (CurrentOrientation == AspidOrientation.Right)
+            {
+                transform.SetLocalPosition(x: -landPositions[i].x, y: landPositions[i].y);
+            }
+            else
+            {
+                transform.SetLocalPosition(x: landPositions[i].x, y: landPositions[i].y);
+            }
+            yield return new WaitForSeconds(1f / landFPS);
+        }
+    }
+
+    public IEnumerator FinishLanding(bool slammedIntoWall)
+    {
+        yield break;
     }
 
     /// <summary>
@@ -340,6 +467,295 @@ public class HeadController : AspidBodyPart
             Degrees = idle_Degrees[index],
             XFlipped = idle_Flip[index]
         };
+    }
+
+    public void DoLunge()
+    {
+        MainRenderer.sprite = lungeSprite;
+    }
+
+    public void ToggleLaserBubbles(bool enable)
+    {
+        if (enable)
+        {
+            groundLaserParticles.Play();
+        }
+        else
+        {
+            groundLaserParticles.Stop();
+        }
+    }
+
+    public IEnumerator PlayGroundLaserAntic(float delay)
+    {
+
+        if (delay > 0)
+        {
+            yield return new WaitForSeconds(delay);
+        }
+        MainRenderer.flipX = CurrentOrientation == AspidOrientation.Right;
+        for (int i = 0; i < 3; i++)
+        {
+            MainRenderer.sprite = groundLaserSprites[i];
+            transform.localEulerAngles = groundLaserRotations[i];
+
+            if (CurrentOrientation == AspidOrientation.Right)
+            {
+                transform.SetZLocalRotation(-transform.GetZLocalRotation());
+            }
+            yield return new WaitForSeconds(1f / groundLaserFPS);
+        }
+    }
+
+    public float GroundLaserFireDelay()
+    {
+        return 3f / groundLaserFPS;
+    }
+
+    public float GroundLaserEndDelay()
+    {
+        return (groundLaserSprites.Count - 6) / groundLaserFPS;
+    }
+
+    public IEnumerator PlayGroundLaser(float delay)
+    {
+        if (delay > 0)
+        {
+            yield return new WaitForSeconds(delay);
+        }
+        MainRenderer.flipX = CurrentOrientation == AspidOrientation.Right;
+        for (int i = 3; i < 6; i++)
+        {
+            MainRenderer.sprite = groundLaserSprites[i];
+            transform.localEulerAngles = groundLaserRotations[i];
+            if (CurrentOrientation == AspidOrientation.Right)
+            {
+                transform.SetZLocalRotation(-transform.GetZLocalRotation());
+            }
+            yield return new WaitForSeconds(1f / groundLaserFPS);
+        }
+    }
+
+    public IEnumerator PlayGroundLaserEnding(float delay)
+    {
+        if (delay > 0)
+        {
+            yield return new WaitForSeconds(delay);
+        }
+        MainRenderer.flipX = CurrentOrientation == AspidOrientation.Right;
+        for (int i = 6; i < groundLaserSprites.Count; i++)
+        {
+            MainRenderer.sprite = groundLaserSprites[i];
+            transform.localEulerAngles = groundLaserRotations[i];
+            if (CurrentOrientation == AspidOrientation.Right)
+            {
+                transform.SetZLocalRotation(-transform.GetZLocalRotation());
+            }
+            yield return new WaitForSeconds(1f / groundLaserFPS);
+        }
+    }
+
+    public IEnumerator FireLaser()
+    {
+        yield break;
+    }
+
+    public override void OnStun()
+    {
+        ToggleLaserBubbles(false);
+        transform.localEulerAngles = default;
+        transform.SetLocalPosition(x: 0f, y: 0f);
+        groundLaserOrigin.SetXLocalPosition(laserOriginStartX);
+        base.OnStun();
+    }
+
+    public IEnumerator FireGroundLaser(Quaternion startAngle, Quaternion endAngle, float duration, bool fadeOutAtEnd = false)
+    {
+        //TODO TODO - PLAY HEAD ANIMATIONS
+        groundLaserEmitter.ChargeUpLaser_P1();
+        var fireDelay = GroundLaserFireDelay();
+        var endDelay = GroundLaserEndDelay();
+
+        ToggleLaserBubbles(false);
+        //var endDuration = groundLaserEmitter.EndDuration;
+
+        Boss.StartBoundRoutine(AimLaser(startAngle, endAngle, duration + fireDelay + endDelay));
+
+        yield return PlayGroundLaser(0);
+        //yield return new WaitForSeconds(chargeDuration);
+
+        groundLaserEmitter.FireLaser_P2();
+        var laserSound = WeaverAudio.PlayAtPoint(groundLaserSound, transform.position);
+        CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.AverageShake);
+
+        //yield return new WaitForSeconds(duration);
+        float timer = 0f;
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            timer += Time.deltaTime;
+            if (timer > 0.15f)
+            {
+                Blood.SpawnDirectionalBlood(groundLaserOrigin.transform.position, DirectionUtilities.DegreesToDirection(startAngle.eulerAngles.z));
+                timer -= 0.15f;
+            }
+            yield return null;
+        }
+
+
+        var laserEndTime = groundLaserEmitter.EndLaser_P3();
+
+        var oldTime = Time.time;
+        //yield return new WaitForSeconds(endDelay);
+        if (fadeOutAtEnd)
+        {
+            StartCoroutine(FadeOutAudio(laserSound, laserEndTime));
+        }
+        yield return PlayGroundLaserEnding(0);
+        var dt = Time.time - oldTime;
+        if (laserEndTime - dt > 0)
+        {
+            yield return new WaitForSeconds(laserEndTime - dt);
+        }
+
+    }
+
+    IEnumerator FadeOutAudio(AudioPlayer audio, float time)
+    {
+        if (audio == null)
+        {
+            yield break;
+        }
+        var oldVolume = audio.Volume;
+        for (float t = 0; t < time; t += Time.deltaTime)
+        {
+            if (audio == null)
+            {
+                yield break;
+            }
+            audio.Volume = Mathf.Lerp(oldVolume,0f,t / time);
+            yield return null;
+        }
+    }
+
+    IEnumerator AimLaser(Quaternion start, Quaternion end, float time)
+    {
+        if (CurrentOrientation == AspidOrientation.Right)
+        {
+            //groundLaserOrigin.Translate(0.5f,0f,0f);
+            groundLaserOrigin.SetXLocalPosition(laserOriginStartX + 0.5f);
+        }
+        else
+        {
+            groundLaserOrigin.SetXLocalPosition(laserOriginStartX - 0.5f);
+            //groundLaserOrigin.Translate(0.5f, 0f, 0f);
+        }
+        var curve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+        var ninety = Quaternion.Euler(0f,0f,90f);
+
+        float bloodSpawnTimer = 0;
+
+        var startDegrees = start.eulerAngles.z;
+        var endDegrees = end.eulerAngles.z;
+
+        /*var bloodInfo = new Blood.BloodSpawnInfo
+        {
+            AngleMin = Mathf.Min(startDegrees, endDegrees),
+            AngleMax = Mathf.Max(startDegrees,endDegrees),
+            
+        }*/
+
+        var bloodInfo = new BloodSpawnInfo(3, 5, 20f, 30f, Mathf.Min(startDegrees, endDegrees), Mathf.Max(startDegrees, endDegrees), null);
+
+        for (float t = 0; t < time; t += Time.deltaTime)
+        {
+            var targetAngle = Quaternion.Slerp(start,end,curve.Evaluate(t / time));
+
+            groundLaserOrigin.localRotation = Quaternion.Inverse(transform.rotation) * ninety * targetAngle;
+
+            bloodSpawnTimer += Time.deltaTime;
+
+            if (bloodSpawnTimer >= groundLaserBloodSpawnRate)
+            {
+                bloodSpawnTimer -= groundLaserBloodSpawnRate;
+
+                Blood.SpawnBlood(groundLaserOrigin.position, bloodInfo);
+                //Blood.SpawnDirectionalBlood(groundLaserOrigin.position, CurrentOrientation == AspidOrientation.Right ? WeaverCore.Enums.CardinalDirection.Right : WeaverCore.Enums.CardinalDirection.Left);
+                //Blood.Spawn
+            }
+
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.25f);
+        groundLaserOrigin.SetXLocalPosition(laserOriginStartX);
+    }
+
+    public IEnumerator GroundPrepareJump()
+    {
+        var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
+
+        for (int i = 0; i < Boss.groundJumpFrames; i++)
+        {
+            transform.localPosition += Boss.jumpPosIncrements;
+            transform.localEulerAngles += Boss.jumpRotIncrements * lookingDirection;
+            yield return new WaitForSeconds(1f / Boss.groundJumpPrepareFPS);
+        }
+        yield break;
+    }
+
+    public IEnumerator GroundLaunch()
+    {
+        var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
+        for (int i = 0; i < Boss.groundJumpFrames; i++)
+        {
+            transform.localPosition -= Boss.jumpPosIncrements;
+            transform.localEulerAngles -= Boss.jumpRotIncrements * lookingDirection;
+            if (i != Boss.groundJumpFrames - 1)
+            {
+                yield return new WaitForSeconds(1f / Boss.groundJumpLaunchFPS);
+            }
+        }
+        yield break;
+    }
+
+    public IEnumerator GroundLand(bool finalLanding)
+    {
+        var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
+
+        transform.localPosition += Boss.jumpPosIncrements * Boss.groundJumpFrames;
+        transform.localEulerAngles += Boss.jumpRotIncrements * lookingDirection * Boss.groundJumpFrames;
+
+        yield return new WaitForSeconds(Boss.groundJumpLandDelay);
+
+        if (finalLanding)
+        {
+            for (int i = 0; i < Boss.groundJumpFrames; i++)
+            {
+                transform.localPosition -= Boss.jumpPosIncrements;
+                transform.localEulerAngles -= Boss.jumpRotIncrements * lookingDirection;
+                yield return new WaitForSeconds(1f / Boss.groundJumpLaunchFPS);
+            }
+            yield break;
+        }
+    }
+
+    public override IEnumerator WaitTillChangeDirectionMidJump()
+    {
+        yield break;
+    }
+
+    public override IEnumerator MidJumpChangeDirection(AspidOrientation oldOrientation, AspidOrientation newOrientation)
+    {
+        Animator.PlaybackSpeed = Boss.MidAirSwitchSpeed;
+        PreviousOrientation = CurrentOrientation;
+        CurrentOrientation = newOrientation;
+        MainRenderer.flipX = oldOrientation == AspidOrientation.Right;
+        yield return Animator.PlayAnimationTillDone("Change Direction Quick");
+
+        MainRenderer.flipX = newOrientation == AspidOrientation.Right;
+        MainRenderer.sprite = Animator.AnimationData.GetFrameFromClip("Change Direction", 0);
+        Animator.PlaybackSpeed = 1f;
     }
 }
 

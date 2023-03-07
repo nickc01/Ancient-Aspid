@@ -50,7 +50,8 @@ public class RoutineAwaiter
 
     public static RoutineAwaiter AwaitRoutines(IEnumerable<IEnumerator> routines, MonoBehaviour source = null)
     {
-        int count = routines.Count();
+        return AwaitRoutines(source, routines.ToArray());
+        /*int count = routines.Count();
         if (source == null)
         {
             source = AlternateRoutineSource.Instance;
@@ -62,12 +63,13 @@ public class RoutineAwaiter
         {
             source.StartCoroutine(awaiter.RoutineRunner(routine, index++));
         }
-        return awaiter;
+        return awaiter;*/
     }
 
     public static RoutineAwaiter AwaitRoutines(MonoBehaviour source = null, params IEnumerator[] routines)
     {
-        int count = routines.Count();
+        return AwaitRoutines(source, null, routines);
+        /*int count = routines.Count();
         if (source == null)
         {
             source = AlternateRoutineSource.Instance;
@@ -78,26 +80,53 @@ public class RoutineAwaiter
         foreach (var routine in routines)
         {
             source.StartCoroutine(awaiter.RoutineRunner(routine, index++));
+        }
+        return awaiter;*/
+    }
+
+    public static RoutineAwaiter AwaitRoutines(MonoBehaviour source = null, List<Coroutine> outputRoutines = null, params IEnumerator[] routines)
+    {
+        outputRoutines?.Clear();
+        int count = routines.Count();
+        if (source == null)
+        {
+            source = AlternateRoutineSource.Instance;
+        }
+        var awaiter = new RoutineAwaiter();
+        awaiter.completedTasks = new bool[count];
+        int index = 0;
+        foreach (var routine in routines)
+        {
+            var startedRoutine = source.StartCoroutine(awaiter.RoutineRunner(routine, index++));
+            outputRoutines?.Add(startedRoutine);
         }
         return awaiter;
     }
 
     public static RoutineAwaiter AwaitBoundRoutines(Enemy source, params IEnumerator[] routines)
     {
+        return AwaitBoundRoutines(source, null, routines);
+    }
+
+    public static RoutineAwaiter AwaitBoundRoutines(Enemy source, List<uint> outputRoutineIDs, params IEnumerator[] routines)
+    {
+        outputRoutineIDs?.Clear();
         int count = routines.Count();
         var awaiter = new RoutineAwaiter();
         awaiter.completedTasks = new bool[count];
         int index = 0;
         foreach (var routine in routines)
         {
-            source.StartBoundRoutine(awaiter.RoutineRunner(routine, index++));
+            var id = source.StartBoundRoutine(awaiter.RoutineRunner(routine, index++));
+            outputRoutineIDs?.Add(id);
         }
         return awaiter;
     }
 
     public static RoutineAwaiter AwaitBoundRoutines(IEnumerable<IEnumerator> routines, Enemy source)
     {
-        int count = routines.Count();
+        return AwaitBoundRoutines(source, null, routines.ToArray());
+        /*int count = routines.Count();
         var awaiter = new RoutineAwaiter();
         awaiter.completedTasks = new bool[count];
         int index = 0;
@@ -105,7 +134,7 @@ public class RoutineAwaiter
         {
             source.StartBoundRoutine(awaiter.RoutineRunner(routine, index++));
         }
-        return awaiter;
+        return awaiter;*/
     }
 
     IEnumerator RoutineRunner(IEnumerator routine, int completionIndex)

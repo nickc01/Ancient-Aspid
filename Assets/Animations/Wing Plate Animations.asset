@@ -16,8 +16,10 @@ MonoBehaviour:
   - Change Direction
   - Centerize
   - Decenterize
-  clipFrameStartIndexes: 000000000400000007000000
-  clipFrameCounts: 040000000300000003000000
+  - Lunge Land
+  - Change Direction Quick
+  clipFrameStartIndexes: 0000000004000000070000000a0000000b000000
+  clipFrameCounts: 0400000003000000030000000100000002000000
   frames:
   - {fileID: 21300000, guid: 9427cb2309e490b469f28eaf766df1b7, type: 3}
   - {fileID: 21300000, guid: 9dcffdfee4d778e4c914704a632ae925, type: 3}
@@ -29,9 +31,14 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b7bf1d14b12315641bd168ee0f896778, type: 3}
   - {fileID: 21300000, guid: 9dcffdfee4d778e4c914704a632ae925, type: 3}
   - {fileID: 21300000, guid: 9427cb2309e490b469f28eaf766df1b7, type: 3}
+  - {fileID: 21300000, guid: 47429799b4f1f3440a04206051bd0ed5, type: 3}
+  - {fileID: 21300000, guid: b7bf1d14b12315641bd168ee0f896778, type: 3}
+  - {fileID: 21300000, guid: 5af50ccc3c4fb54409ee35cb7ad3f1fa, type: 3}
   clipFPSs:
   - 8
   - 8
   - 8
-  clipWrapModes: 000000000000000000000000
-  clipLoopStarts: 000000000000000000000000
+  - 12
+  - 8
+  clipWrapModes: 0000000000000000000000000000000000000000
+  clipLoopStarts: 0000000000000000000000000000000000000000

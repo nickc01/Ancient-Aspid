@@ -15,8 +15,9 @@ MonoBehaviour:
   clipNames:
   - DefaultOLD
   - Default
-  clipFrameStartIndexes: 0000000005000000
-  clipFrameCounts: 0500000005000000
+  - Lunge Land
+  clipFrameStartIndexes: 00000000050000000a000000
+  clipFrameCounts: 050000000500000001000000
   frames:
   - {fileID: 21300000, guid: 796451ab5e1e9a8458956d5eadf475ca, type: 3}
   - {fileID: 21300000, guid: 270c22a77ef0bd24489fbeab2f16b338, type: 3}
@@ -28,8 +29,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 4701ff2561077e74ab3001f09805745a, type: 3}
   - {fileID: 21300000, guid: fe77b7881ff24b146adc0ff163042942, type: 3}
   - {fileID: 21300000, guid: 49065aee14598784ba9091f522afac0d, type: 3}
+  - {fileID: 21300000, guid: cd20ede38c78add43a0b5444d8b1cdc5, type: 3}
   clipFPSs:
   - 12
   - 12
-  clipWrapModes: 0700000001000000
-  clipLoopStarts: 0000000000000000
+  - 12
+  clipWrapModes: 070000000100000000000000
+  clipLoopStarts: 000000000000000000000000

@@ -16,13 +16,21 @@ MonoBehaviour:
   - Default
   - TailLowered-Up
   - TailLowered-Down
-  - Change Direction
-  - Centerize
+  - Lowered - Change Direction
+  - Lowered - Centerize
   - TailLowered-Up-Centered
   - TailLowered-Down-Centered
-  - Decenterize
-  clipFrameStartIndexes: 0000000005000000080000000a0000000e000000110000001400000016000000
-  clipFrameCounts: 0500000003000000020000000400000003000000030000000200000003000000
+  - Lowered - Decenterize
+  - Raise Tail
+  - Lower Tail
+  - Raised - Change Direction
+  - Raised - Centerize
+  - Raised - Decenterize
+  - Raise Tail Quick
+  - Lower Tail Quick
+  - Lowered - Change Direction Quick
+  clipFrameStartIndexes: 0000000005000000080000000a0000000e000000110000001400000016000000190000001e0000002200000026000000290000002c0000002f00000032000000
+  clipFrameCounts: 05000000030000000200000004000000030000000300000002000000030000000500000004000000040000000300000003000000030000000300000002000000
   frames:
   - {fileID: 21300000, guid: e9ff976fad1598f4cb4ebd470cafb5fb, type: 3}
   - {fileID: 21300000, guid: 824e4a1399c50664bae9140cbf9d07d8, type: 3}
@@ -49,6 +57,33 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e65571a5c00f02b46b0f31a598d5773d, type: 3}
   - {fileID: 21300000, guid: 842a9a6844aaf2d49af80572b0731e54, type: 3}
   - {fileID: 21300000, guid: 13170cb9e868e104abc4b3a733f06b02, type: 3}
+  - {fileID: 21300000, guid: 47ce2e0c842fbf74a9704b40ac7a16f0, type: 3}
+  - {fileID: 21300000, guid: 9a190c25ea7146d47ab3f3482eb87b98, type: 3}
+  - {fileID: 21300000, guid: 68eba72bc109049479442602aa1c89f6, type: 3}
+  - {fileID: 21300000, guid: 8dcf08f9b1d076e4b8811ee4ebb18662, type: 3}
+  - {fileID: 21300000, guid: 5a32cd0df1935bd4db39e29572d63090, type: 3}
+  - {fileID: 21300000, guid: 8dcf08f9b1d076e4b8811ee4ebb18662, type: 3}
+  - {fileID: 21300000, guid: 68eba72bc109049479442602aa1c89f6, type: 3}
+  - {fileID: 21300000, guid: 9a190c25ea7146d47ab3f3482eb87b98, type: 3}
+  - {fileID: 21300000, guid: 47ce2e0c842fbf74a9704b40ac7a16f0, type: 3}
+  - {fileID: 21300000, guid: 2310a53965dc7e44986d81960759924b, type: 3}
+  - {fileID: 21300000, guid: 7af132b870dad00499db29d2651f14f6, type: 3}
+  - {fileID: 21300000, guid: 4b1a833bff3fa7d4dab123f2e4727764, type: 3}
+  - {fileID: 21300000, guid: 6cd3aea4c6321864ea39ef6bd9acc9e6, type: 3}
+  - {fileID: 21300000, guid: 2310a53965dc7e44986d81960759924b, type: 3}
+  - {fileID: 21300000, guid: 7af132b870dad00499db29d2651f14f6, type: 3}
+  - {fileID: 21300000, guid: 4b1a833bff3fa7d4dab123f2e4727764, type: 3}
+  - {fileID: 21300000, guid: 4b1a833bff3fa7d4dab123f2e4727764, type: 3}
+  - {fileID: 21300000, guid: 6cd3aea4c6321864ea39ef6bd9acc9e6, type: 3}
+  - {fileID: 21300000, guid: 398c5095b35440740a3021d2bd7efdb8, type: 3}
+  - {fileID: 21300000, guid: 47ce2e0c842fbf74a9704b40ac7a16f0, type: 3}
+  - {fileID: 21300000, guid: 68eba72bc109049479442602aa1c89f6, type: 3}
+  - {fileID: 21300000, guid: 5a32cd0df1935bd4db39e29572d63090, type: 3}
+  - {fileID: 21300000, guid: 5a32cd0df1935bd4db39e29572d63090, type: 3}
+  - {fileID: 21300000, guid: 68eba72bc109049479442602aa1c89f6, type: 3}
+  - {fileID: 21300000, guid: 47ce2e0c842fbf74a9704b40ac7a16f0, type: 3}
+  - {fileID: 21300000, guid: e65571a5c00f02b46b0f31a598d5773d, type: 3}
+  - {fileID: 21300000, guid: 401ed293c9439c64c8c75ad01ed79c97, type: 3}
   clipFPSs:
   - 4
   - 4
@@ -58,5 +93,13 @@ MonoBehaviour:
   - 4
   - 4
   - 8
-  clipWrapModes: 0100000000000000000000000000000000000000000000000000000000000000
-  clipLoopStarts: 0000000000000000000000000000000000000000000000000000000000000000
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  - 8
+  clipWrapModes: 01000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  clipLoopStarts: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000

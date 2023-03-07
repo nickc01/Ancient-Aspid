@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using WeaverCore;
+using WeaverCore.Utilities;
+
 
 public class ClawController : AspidBodyPart
 {
@@ -29,11 +31,133 @@ public class ClawController : AspidBodyPart
     [SerializeField]
     float swingDistance = 3f;
 
+    //bool allowSwingAttack = true;
+    Coroutine attackRoutine = null;
+
+    bool attacking = false;
+
+    public bool SwingAttackEnabled { get; private set; }
+
+    [SerializeField]
+    Vector2 shakeAmount;
+
+    [SerializeField]
+    float shakeRate = 1f / 30f;
+
+    uint shakeRoutineID = 0;
+
+    public bool DoingBasicAttack { get; private set; }
+
+
+    [Header("Ground Jump")]
+    [SerializeField]
+    Transform rightClawsOrigin;
+
+    [SerializeField]
+    Transform leftClawsOrigin;
+
+    [SerializeField]
+    Sprite clawMidAirSprite;
+
+    /*[SerializeField]
+    PosAndRot groundJumpPrepareIncrement;
+
+    [SerializeField]
+    int groundJumpFrames = 3;
+
+    [SerializeField]
+    float groundJumpPrepareFPS = 8;
+
+    [SerializeField]
+    float groundJumpLaunchFPS = 16;
+
+    [SerializeField]
+    float groundJumpLandFPS = 16;*/
+
+
+
+
+
+    /*public bool AllowSwingAttack
+    {
+        get => allowSwingAttack;
+        set
+        {
+            if (allowSwingAttack != value)
+            {
+                allowSwingAttack = value;
+                if (allowSwingAttack)
+                {
+                    attackRoutine = StartCoroutine(AttackRoutine());
+                }
+                else
+                {
+                    if (attackRoutine != null)
+                    {
+                        StopCoroutine(attackRoutine);
+                        attackRoutine = null;
+                    }
+                }
+            }
+        }
+    }*/
+
+    Vector3 leftClawOriginBase;
+    Vector3 rightClawOriginBase;
+
     protected override void Awake()
     {
+        leftClawOriginBase = leftClawsOrigin.localPosition;
+        rightClawOriginBase = rightClawsOrigin.localPosition;
         base.Awake();
-        StartCoroutine(TestRoutine());
+        attackRoutine = StartCoroutine(AttackRoutine());
     }
+
+    public IEnumerator EnableSwingAttack(bool enabled)
+    {
+        if (enabled != SwingAttackEnabled)
+        {
+            if (attacking)
+            {
+                yield return new WaitUntil(() => !attacking);
+            }
+            SwingAttackEnabled = enabled;
+            if (SwingAttackEnabled)
+            {
+                attackRoutine = StartCoroutine(AttackRoutine());
+            }
+            else
+            {
+                if (attackRoutine != null)
+                {
+                    StopCoroutine(attackRoutine);
+                    attackRoutine = null;
+                }
+            }
+        }
+    }
+
+    public bool OnGround
+    {
+        get => claws[0].OnGround;
+        set
+        {
+            if (claws[0].OnGround != value)
+            {
+                foreach (var claw in claws)
+                {
+                    claw.OnGround = value;
+                }
+
+                if (value)
+                {
+                    leftClawsOrigin.localPosition = leftClawOriginBase;
+                    rightClawsOrigin.localPosition = rightClawOriginBase;
+                }
+            }
+        }
+    }
+
 
     /*private void OnDrawGizmosSelected()
     {
@@ -45,14 +169,16 @@ public class ClawController : AspidBodyPart
         
     }*/
 
-    IEnumerator TestRoutine()
+    IEnumerator AttackRoutine()
     {
         yield return new WaitForSeconds(1f);
         while (true)
         {
             if (Vector2.Distance(Boss.Head.transform.position,Player.Player1.transform.position) <= swingDistance && !FrontLeftClaw.ClawLocked && !FrontRightClaw.ClawLocked)
             {
-                yield return DoBasicAttackNEW();
+                DoingBasicAttack = true;
+                yield return DoBasicAttack();
+                DoingBasicAttack = false;
                 yield return new WaitForSeconds(0.5f);
             }
             yield return null;
@@ -99,8 +225,9 @@ public class ClawController : AspidBodyPart
         }
     }
 
-    public IEnumerator DoBasicAttackNEW()
+    public IEnumerator DoBasicAttack()
     {
+        attacking = true;
         if (FrontLeftClaw.ClawLocked || FrontRightClaw.ClawLocked)
         {
             yield break;
@@ -124,6 +251,191 @@ public class ClawController : AspidBodyPart
 
         FrontLeftClaw.UnlockClaw();
         FrontRightClaw.UnlockClaw();
+
+        attacking = false;
+    }
+
+    public void PrepareForLunge()
+    {
+        foreach (var claw in claws)
+        {
+            claw.Animator.PlayAnimation("Lunge Antic");
+        }
+    }
+
+    public void DoLunge()
+    {
+        foreach (var claw in claws)
+        {
+            claw.Animator.PlayAnimation("Lunge");
+        }
+    }
+
+    public IEnumerator PlayLanding(bool slide)
+    {
+        /*if (Boss.Orientation == AspidOrientation.Right)
+        {
+            transform.SetXLocalScale(-1f);
+        }
+        else
+        {
+            transform.SetXLocalScale(1f);
+        }*/
+        if (slide)
+        {
+            shakeRoutineID = Boss.StartBoundRoutine(ShakeRoutine());
+        }
+
+        List<IEnumerator> awaitables = new List<IEnumerator>();
+        foreach (var claw in claws)
+        {
+            awaitables.Add(claw.PlayLanding(slide));
+        }
+        var awaiter = RoutineAwaiter.AwaitBoundRoutines(Boss, awaitables.ToArray());
+
+        yield return awaiter.WaitTillDone();
+    }
+
+    public IEnumerator FinishLanding(bool slammedIntoWall)
+    {
+        if (shakeRoutineID != 0)
+        {
+            Boss.StopBoundRoutine(shakeRoutineID);
+            shakeRoutineID = 0;
+        }
+        transform.localPosition = transform.localPosition.With(x: 0f, y: 0f);
+
+        List<IEnumerator> awaitables = new List<IEnumerator>();
+        foreach (var claw in claws)
+        {
+            awaitables.Add(claw.FinishLanding(slammedIntoWall));
+        }
+        var awaiter = RoutineAwaiter.AwaitBoundRoutines(Boss, awaitables.ToArray());
+
+        yield return awaiter.WaitTillDone();
+    }
+
+    public IEnumerator SlideSwitchDirection(AspidOrientation oldDirection, AspidOrientation newDirection)
+    {
+        List<IEnumerator> awaitables = new List<IEnumerator>();
+        foreach (var claw in claws)
+        {
+            awaitables.Add(claw.SlideSwitchDirection(oldDirection, newDirection));
+        }
+        var awaiter = RoutineAwaiter.AwaitBoundRoutines(Boss, awaitables.ToArray());
+
+        yield return awaiter.WaitTillDone();
+    }
+
+    IEnumerator ShakeRoutine()
+    {
+        var parentBody = transform.parent.GetComponent<Rigidbody2D>();
+        while (true)
+        {
+            var newPos = UnityEngine.Random.insideUnitCircle * shakeAmount;
+            newPos *= new Vector3(Mathf.Clamp01(Mathf.Abs(parentBody.velocity.x / 3)), Mathf.Clamp01(Mathf.Abs(parentBody.velocity.y / 3)));
+            transform.localPosition = transform.localPosition.With(x: newPos.x,y: newPos.y);
+            yield return new WaitForSeconds(shakeRate);
+        }
+    }
+
+    public override void OnStun()
+    {
+        foreach (var claw in claws)
+        {
+            claw.OnStun();
+        }
+        if (shakeRoutineID != 0)
+        {
+            Boss.StopBoundRoutine(shakeRoutineID);
+            shakeRoutineID = 0;
+        }
+        transform.localPosition = transform.localPosition.With(x: 0f,y: 0f);
+    }
+
+    public IEnumerator GroundPrepareJump()
+    {
+        for (int i = 0; i < Boss.groundJumpFrames; i++)
+        {
+            leftClawsOrigin.transform.localPosition += Boss.jumpPosIncrements;
+            //leftClawsOrigin.transform.localEulerAngles -= Boss.jumpRotIncrements;
+            leftClawsOrigin.transform.localScale += Boss.jumpScaleIncrements;
+
+            rightClawsOrigin.transform.localPosition += Boss.jumpPosIncrements * 1.5f;
+            rightClawsOrigin.transform.localScale += Boss.jumpScaleIncrements;
+            //rightClawsOrigin.transform.localEulerAngles += Boss.jumpRotIncrements;
+            yield return new WaitForSeconds(1f / Boss.groundJumpPrepareFPS);
+        }
+        yield break;
+    }
+
+    public IEnumerator GroundLaunch()
+    {
+        for (int i = 0; i < Boss.groundJumpFrames; i++)
+        {
+            leftClawsOrigin.transform.localPosition -= Boss.jumpPosIncrements;
+            //leftClawsOrigin.transform.localEulerAngles += Boss.jumpRotIncrements;
+            leftClawsOrigin.transform.localScale -= Boss.jumpScaleIncrements;
+
+            rightClawsOrigin.transform.localPosition -= Boss.jumpPosIncrements * 1.5f;
+            //rightClawsOrigin.transform.localEulerAngles -= Boss.jumpRotIncrements;
+            rightClawsOrigin.transform.localScale -= Boss.jumpScaleIncrements;
+            if (i != Boss.groundJumpFrames - 1)
+            {
+                yield return new WaitForSeconds(1f / Boss.groundJumpLaunchFPS);
+            }
+        }
+
+        foreach (var claw in claws)
+        {
+            claw.MainRenderer.sprite = clawMidAirSprite;
+        }
+
+        yield break;
+    }
+
+    public IEnumerator GroundLand(bool finalLanding)
+    {
+        foreach (var claw in claws)
+        {
+            claw.UpdateGroundSprite();
+        }
+
+        leftClawsOrigin.transform.localPosition += Boss.jumpPosIncrements * Boss.groundJumpFrames;
+        //leftClawsOrigin.transform.localEulerAngles -= Boss.jumpRotIncrements * Boss.groundJumpFrames;
+        leftClawsOrigin.transform.localScale += Boss.jumpScaleIncrements * Boss.groundJumpFrames;
+
+        rightClawsOrigin.transform.localPosition += Boss.jumpPosIncrements * 1.5f * Boss.groundJumpFrames;
+        //rightClawsOrigin.transform.localEulerAngles += Boss.jumpRotIncrements * Boss.groundJumpFrames;
+        rightClawsOrigin.transform.localScale += Boss.jumpScaleIncrements * Boss.groundJumpFrames;
+
+        yield return new WaitForSeconds(Boss.groundJumpLandDelay);
+
+        if (finalLanding)
+        {
+            for (int i = 0; i < Boss.groundJumpFrames; i++)
+            {
+                leftClawsOrigin.transform.localPosition -= Boss.jumpPosIncrements;
+                //leftClawsOrigin.transform.localEulerAngles += Boss.jumpRotIncrements;
+                leftClawsOrigin.transform.localScale -= Boss.jumpScaleIncrements;
+
+                rightClawsOrigin.transform.localPosition -= Boss.jumpPosIncrements * 1.5f;
+                //rightClawsOrigin.transform.localEulerAngles -= Boss.jumpRotIncrements;
+                rightClawsOrigin.transform.localScale -= Boss.jumpScaleIncrements;
+                yield return new WaitForSeconds(1f / Boss.groundJumpLaunchFPS);
+            }
+            yield break;
+        }
+    }
+
+    public override IEnumerator WaitTillChangeDirectionMidJump()
+    {
+        yield break;
+    }
+
+    public override IEnumerator MidJumpChangeDirection(AspidOrientation oldOrientation, AspidOrientation newOrientation)
+    {
+        yield break;
     }
 
 
