@@ -51,7 +51,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0.06
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -90,7 +90,22 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: -208.52051, y: -44.912064}
+      - {x: -208.52051, y: -6.416009}
+      - {x: -218.14453, y: 9.624014}
+      - {x: -405.27832, y: 50.25874}
+      - {x: -444.84375, y: 72.71477}
+      - {x: -470.5078, y: 72.71477}
+      - {x: -490.8252, y: 60.952087}
+      - {x: -494.0332, y: -3.2080045}
+      - {x: -494.0332, y: -72.71477}
+      - {x: -458.74512, y: -161.46956}
+      - {x: -428.8037, y: -176.44025}
+      - {x: -413.833, y: -176.44025}
+      - {x: -330.4248, y: -122.97351}
+      - {x: -300.4834, y: -84.477455}
+      - {x: -223.49121, y: -59.88275}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -104,5 +119,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: ancientaspidmod_bundle
+  assetBundleName: 
   assetBundleVariant: 

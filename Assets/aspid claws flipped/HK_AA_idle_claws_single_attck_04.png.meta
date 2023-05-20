@@ -51,7 +51,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0.06
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -90,7 +90,28 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: 220.2832, y: 62.021423}
+      - {x: 183.92578, y: 106.93349}
+      - {x: 155.05371, y: 114.41883}
+      - {x: 144.36035, y: 114.41883}
+      - {x: 139.01367, y: 110.141495}
+      - {x: 140.08301, y: 26.733372}
+      - {x: 136.875, y: -56.674747}
+      - {x: 64.16016, y: -96.240135}
+      - {x: -16.04004, y: -102.65614}
+      - {x: -128.32031, y: -11.762684}
+      - {x: -238.46191, y: 14.970688}
+      - {x: -249.15527, y: -20.317362}
+      - {x: -249.15527, y: -57.744083}
+      - {x: -82.33887, y: -151.84555}
+      - {x: -48.120117, y: -186.06427}
+      - {x: -40.634766, y: -191.41093}
+      - {x: -13.901367, y: -191.41093}
+      - {x: 88.75488, y: -181.78693}
+      - {x: 177.50977, y: -126.18151}
+      - {x: 218.14453, y: -49.189404}
+      - {x: 220.2832, y: -29.941376}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -104,5 +125,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: ancientaspidmod_bundle
+  assetBundleName: 
   assetBundleVariant: 

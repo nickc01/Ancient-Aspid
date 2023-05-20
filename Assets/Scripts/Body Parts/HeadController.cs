@@ -756,6 +756,7 @@ public class HeadController : AspidBodyPart
         MainRenderer.flipX = newOrientation == AspidOrientation.Right;
         MainRenderer.sprite = Animator.AnimationData.GetFrameFromClip("Change Direction", 0);
         Animator.PlaybackSpeed = 1f;
+        currentHeadAngle = newOrientation == AspidOrientation.Right ? idle_Degrees[idle_Degrees.Count - 1] : idle_Degrees[0];
     }
 }
 

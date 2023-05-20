@@ -284,6 +284,16 @@ public abstract class AspidBodyPart : MonoBehaviour
 
     public abstract IEnumerator MidJumpChangeDirection(AspidOrientation oldOrientation, AspidOrientation newOrientation);
 
+    public virtual IEnumerator GroundJumpBeginFalling(bool switchedDirection)
+    {
+        yield break;
+    }
+
+    public virtual IEnumerator GroundMoveCancel(bool onGround)
+    {
+        yield break;
+    }
+
     /*protected IEnumerator 
 
     protected IEnumerator ChangeColliderOffset(float fromX, float toX, WeaverAnimationData.Clip clip, Collider2D collider = null)

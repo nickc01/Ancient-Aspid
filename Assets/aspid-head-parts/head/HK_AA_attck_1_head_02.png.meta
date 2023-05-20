@@ -51,7 +51,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0.06
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -90,7 +90,44 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: 60.95215, y: -98.37881}
+      - {x: 67.368164, y: -120.83484}
+      - {x: 105.86426, y: -87.685455}
+      - {x: 120.83496, y: -57.744083}
+      - {x: 133, y: -14.5}
+      - {x: 143.29102, y: -28.872042}
+      - {x: 163.6084, y: -63.090755}
+      - {x: 177, y: -71.5}
+      - {x: 193, y: -24.5}
+      - {x: 174, y: 50.5}
+      - {x: 246, y: 275.5}
+      - {x: 253, y: 337.5}
+      - {x: 212, y: 302.5}
+      - {x: 198, y: 375.5}
+      - {x: 176, y: 374.5}
+      - {x: 144, y: 259.5}
+      - {x: 103, y: 306.5}
+      - {x: 41, y: 208.5}
+      - {x: -3.2080078, y: 245.94702}
+      - {x: -51, y: 225.5}
+      - {x: -4, y: 302.5}
+      - {x: -82, y: 290.5}
+      - {x: -27, y: 360.5}
+      - {x: -89, y: 355.5}
+      - {x: -153, y: 308.5}
+      - {x: -199.96582, y: 228.83766}
+      - {x: -227, y: 53.5}
+      - {x: -271, y: 6.5}
+      - {x: -273.75, y: -38.496056}
+      - {x: -218.14453, y: -111.21082}
+      - {x: -167, y: -147.5}
+      - {x: -98, y: -10.5}
+      - {x: -82.33887, y: -43.842728}
+      - {x: -79, y: -150.5}
+      - {x: -12.832031, y: -119.7655}
+      - {x: 35.288086, y: -79.13078}
+      - {x: 59.882812, y: -38.496056}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -104,5 +141,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: ancientaspidmod_bundle
+  assetBundleName: 
   assetBundleVariant: 

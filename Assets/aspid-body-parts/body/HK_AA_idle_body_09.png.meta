@@ -51,7 +51,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0.06
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -87,10 +87,57 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: -177.50977, y: -352.8805}
+      - {x: -141.15234, y: -275.8884}
+      - {x: -113.34961, y: -247.01636}
+      - {x: -101.586914, y: -201.03496}
+      - {x: -55.60547, y: -163.60823}
+      - {x: 2.1386719, y: -192.48027}
+      - {x: 13.901367, y: -187.1336}
+      - {x: 25.664062, y: -164.67757}
+      - {x: 99.44824, y: -129.38951}
+      - {x: 145.42969, y: -75.922775}
+      - {x: 146.49902, y: -65.22942}
+      - {x: 146.49902, y: 7.485344}
+      - {x: 117.62695, y: 60.952087}
+      - {x: 86.61621, y: 87.685455}
+      - {x: 53.466797, y: 112.28016}
+      - {x: -51.328125, y: 150.77621}
+      - {x: -181.78711, y: 165.7469}
+      - {x: -229.90723, y: 165.7469}
+      - {x: -309.0381, y: 151.84555}
+      - {x: -420.24902, y: 126.18151}
+      - {x: -531.45996, y: 72.71477}
+      - {x: -621.2842, y: -20.317362}
+      - {x: -669.4043, y: -111.21082}
+      - {x: -693.999, y: -179.64825}
+      - {x: -701.4844, y: -223.49098}
+      - {x: -701.4844, y: -311.17645}
+      - {x: -683.30566, y: -377.47522}
+      - {x: -657.6416, y: -443.77396}
+      - {x: -606.3135, y: -509.0034}
+      - {x: -551.77734, y: -553.91547}
+      - {x: -482.2705, y: -600.9662}
+      - {x: -443.7744, y: -600.9662}
+      - {x: -387.0996, y: -503.6567}
+      - {x: -291.9287, y: -471.57666}
+      - {x: -211.72852, y: -399.93124}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -104,5 +151,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: ancientaspidmod_bundle
+  assetBundleName: 
   assetBundleVariant: 

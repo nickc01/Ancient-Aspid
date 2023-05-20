@@ -7,7 +7,7 @@ using WeaverCore.Utilities;
 
 public class MantisShotMove : AncientAspidMove
 {
-    public override bool MoveEnabled => moveEnabled && Boss.Orientation != AspidOrientation.Center && 
+    public override bool MoveEnabled => moveEnabled && Boss.AspidMode == AncientAspid.Mode.Tactical &&
         Boss.Claws.claws.All(c => !c.ClawLocked);
 
     [SerializeField]

@@ -51,7 +51,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0.06
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -65,7 +65,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -77,7 +77,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -89,7 +89,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -102,7 +102,39 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: 77, y: 156.5}
+      - {x: 139, y: 136.5}
+      - {x: 207.45117, y: 79.13078}
+      - {x: 217.0752, y: 82.33878}
+      - {x: 241.66992, y: 94.10147}
+      - {x: 301.55273, y: 135.80553}
+      - {x: 355.01953, y: 187.1336}
+      - {x: 366.78223, y: 201.03496}
+      - {x: 465.16113, y: 276.95773}
+      - {x: 507, y: 330.5}
+      - {x: 520, y: 367.5}
+      - {x: 515, y: 417.5}
+      - {x: 496, y: 451.5}
+      - {x: 419, y: 460.5}
+      - {x: 329, y: 469.5}
+      - {x: 252, y: 488.5}
+      - {x: 173, y: 514.5}
+      - {x: 91, y: 511.5}
+      - {x: -207, y: 426.5}
+      - {x: -224.56055, y: 364.6432}
+      - {x: -230.97656, y: 317.59247}
+      - {x: -230.97656, y: 275.8884}
+      - {x: -228.83789, y: 241.66968}
+      - {x: -211.72852, y: 193.5496}
+      - {x: -191.41113, y: 162.5389}
+      - {x: -148.6377, y: 109.07216}
+      - {x: -122.97363, y: 65.22942}
+      - {x: -103.725586, y: 57.744083}
+      - {x: -85.546875, y: 57.744083}
+      - {x: -71.64551, y: 66.29876}
+      - {x: -40.634766, y: 101.586815}
+      - {x: 5, y: 143.5}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000

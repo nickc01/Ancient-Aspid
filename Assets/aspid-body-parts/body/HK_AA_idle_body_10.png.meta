@@ -51,7 +51,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0.06
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -87,10 +87,52 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: 230.97656, y: -613.7982}
+      - {x: 251.29395, y: -564.6088}
+      - {x: 271.61133, y: -419.17926}
+      - {x: 272.68066, y: -412.76324}
+      - {x: 272.68066, y: -343.2565}
+      - {x: 266.26465, y: -322.93912}
+      - {x: 225.62988, y: -226.69899}
+      - {x: 155.05371, y: -88.75479}
+      - {x: 173.23242, y: -47.050735}
+      - {x: 173.23242, y: 81.26945}
+      - {x: 69.506836, y: 143.29088}
+      - {x: -38.496094, y: 143.29088}
+      - {x: -116.55762, y: 108.00282}
+      - {x: -160.40039, y: 68.43743}
+      - {x: -163.6084, y: 0}
+      - {x: -147.56836, y: -121.904175}
+      - {x: -158.26172, y: -137.9442}
+      - {x: -194.61914, y: -181.78693}
+      - {x: -259.84863, y: -324.00845}
+      - {x: -261.9873, y: -343.2565}
+      - {x: -261.9873, y: -420.2486}
+      - {x: -258.7793, y: -460.88333}
+      - {x: -232.0459, y: -579.57947}
+      - {x: -211.72852, y: -627.6996}
+      - {x: -66.29883, y: -778.47577}
+      - {x: -8.5546875, y: -806.2785}
+      - {x: 28.87207, y: -806.2785}
+      - {x: 117.62695, y: -749.60376}
+      - {x: 165.74707, y: -672.61163}
+      - {x: 213.86719, y: -635.18494}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -104,5 +146,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: ancientaspidmod_bundle
+  assetBundleName: 
   assetBundleVariant: 

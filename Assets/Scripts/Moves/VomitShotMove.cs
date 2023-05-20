@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using WeaverCore;
 using WeaverCore.Assets.Components;
@@ -88,7 +89,10 @@ public class VomitShotMove : AncientAspidMove
 
     public override IEnumerator DoMove()
     {
-        yield return Boss.Head.LockHead(Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left, headSpeed);
+        if (Boss.AspidMode != AncientAspid.Mode.Defensive)
+        {
+            yield return Boss.Head.LockHead(Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left, headSpeed);
+        }
 
         var oldState = Boss.Head.MainRenderer.TakeSnapshot();
 
@@ -102,7 +106,10 @@ public class VomitShotMove : AncientAspidMove
 
         Boss.Head.MainRenderer.Restore(oldState);
 
-        Boss.Head.UnlockHead();
+        if (Boss.AspidMode != AncientAspid.Mode.Defensive)
+        {
+            Boss.Head.UnlockHead();
+        }
 
         yield break;
     }

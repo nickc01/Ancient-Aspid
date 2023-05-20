@@ -15,23 +15,19 @@ MonoBehaviour:
   sceneAdditions:
   - {fileID: 102900000, guid: b40d8462b894bb641b32a6f88b48466e, type: 3}
   sceneReplacements: []
-  sceneUnions: []
-  transitionRedirects:
-  - GateScene: GG_Workshop
-    GateToChange: left1
-    NewScene: Ancient Aspid Room
-    NewGate: left1
+  sceneUnions:
+  - SceneToUniteWith: GG_Workshop
+    UnionScene: {fileID: 102900000, guid: 730b5bd578a25f149ad18c15ac2467ba, type: 3}
+  transitionRedirects: []
   sceneAdditionPaths:
-  - Assets/Ancient Aspid Room.unity
+  - Assets/Scenes/Ancient Aspid Room.unity
   sceneToReplacePaths: []
   sceneReplacementPaths: []
-  sceneToUnionizePaths: []
-  sceneUnionPaths: []
-  transitionRedirects_containingScenes:
+  sceneToUnionizePaths:
   - GG_Workshop
-  transitionRedirects_gatesToRedirect:
-  - left1
-  transitionRedirects_newDestinationScenes:
-  - Ancient Aspid Room
-  transitionRedirects_newDestinationGateNames:
-  - left1
+  sceneUnionPaths:
+  - Assets/Scenes/GG_Workshop_Union.unity
+  transitionRedirects_containingScenes: []
+  transitionRedirects_gatesToRedirect: []
+  transitionRedirects_newDestinationScenes: []
+  transitionRedirects_newDestinationGateNames: []

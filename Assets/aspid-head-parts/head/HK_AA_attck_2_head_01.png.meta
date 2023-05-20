@@ -51,7 +51,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0.06
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -90,7 +90,53 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: 251, y: -5.5}
+      - {x: 208, y: 44.5}
+      - {x: 228, y: 405.5}
+      - {x: 211, y: 408.5}
+      - {x: 177, y: 336.5}
+      - {x: 150, y: 474.5}
+      - {x: 127.25098, y: 503.6567}
+      - {x: 116.55762, y: 503.6567}
+      - {x: 116, y: 292.5}
+      - {x: 57, y: 378.5}
+      - {x: 19.248047, y: 381.75253}
+      - {x: 45, y: 295.5}
+      - {x: 30, y: 227.5}
+      - {x: -16, y: 264.5}
+      - {x: -62.021484, y: 228.83766}
+      - {x: -79.13086, y: 375.33655}
+      - {x: -119.765625, y: 336.84048}
+      - {x: -150, y: 260.5}
+      - {x: -177, y: 343.5}
+      - {x: -193, y: 466.5}
+      - {x: -207.45117, y: 477.99268}
+      - {x: -225, y: 394.5}
+      - {x: -219, y: 290.5}
+      - {x: -279.09668, y: 368.92053}
+      - {x: -281.23535, y: 329.35513}
+      - {x: -189, y: 2.5}
+      - {x: -220, y: -49.5}
+      - {x: -214, y: -111.5}
+      - {x: -156, y: -58.5}
+      - {x: -162, y: -95.5}
+      - {x: -144, y: -155.5}
+      - {x: -96, y: -183.5}
+      - {x: -101, y: -134.5}
+      - {x: -81, y: -78.5}
+      - {x: -81, y: -137.5}
+      - {x: -53, y: -185.5}
+      - {x: -11, y: -210.5}
+      - {x: 21, y: -217.5}
+      - {x: 18, y: -74.5}
+      - {x: 44, y: -217.5}
+      - {x: 112, y: -176.5}
+      - {x: 133, y: -87.5}
+      - {x: 154, y: -164.5}
+      - {x: 201, y: -111.5}
+      - {x: 197, y: -34.5}
+      - {x: 253, y: -64.5}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -104,5 +150,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: ancientaspidmod_bundle
+  assetBundleName: 
   assetBundleVariant: 

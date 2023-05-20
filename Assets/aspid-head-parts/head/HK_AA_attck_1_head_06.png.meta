@@ -51,7 +51,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0.06
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -90,7 +90,56 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: -17, y: -55.5}
+      - {x: -2, y: -214.5}
+      - {x: 10, y: -214.5}
+      - {x: 45, y: -186.5}
+      - {x: 98, y: -100.5}
+      - {x: 105, y: -57.5}
+      - {x: 114, y: -110.5}
+      - {x: 103, y: -149.5}
+      - {x: 114, y: -165.5}
+      - {x: 144.36035, y: -135.80553}
+      - {x: 175.3711, y: -45.9814}
+      - {x: 197.82715, y: -58.81342}
+      - {x: 231, y: -77.5}
+      - {x: 233, y: -27.5}
+      - {x: 200, y: 29.5}
+      - {x: 213, y: 202.5}
+      - {x: 268.40332, y: 356.0885}
+      - {x: 269, y: 384.5}
+      - {x: 206, y: 322.5}
+      - {x: 210.65918, y: 496.1714}
+      - {x: 192.48047, y: 496.1714}
+      - {x: 128, y: 239.5}
+      - {x: 109.072266, y: 335.77115}
+      - {x: 75.92285, y: 389.23788}
+      - {x: 59.882812, y: 405.27792}
+      - {x: 67, y: 258.5}
+      - {x: 45, y: 216.5}
+      - {x: 6, y: 281.5}
+      - {x: -45, y: 227.5}
+      - {x: -61, y: 306.5}
+      - {x: -41, y: 402.5}
+      - {x: -131, y: 337.5}
+      - {x: -139, y: 497.5}
+      - {x: -157, y: 496.5}
+      - {x: -180, y: 341.5}
+      - {x: -226, y: 407.5}
+      - {x: -222, y: 325.5}
+      - {x: -183, y: 23.5}
+      - {x: -225, y: -42.5}
+      - {x: -218.14453, y: -93.032135}
+      - {x: -161, y: -47.5}
+      - {x: -161.46973, y: -115.48817}
+      - {x: -132.59766, y: -163.60823}
+      - {x: -108, y: -161.5}
+      - {x: -118.69629, y: -116.5575}
+      - {x: -112, y: -93.5}
+      - {x: -96.240234, y: -159.3309}
+      - {x: -50.25879, y: -214.93631}
+      - {x: -20, y: -214.5}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -104,5 +153,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: ancientaspidmod_bundle
+  assetBundleName: 
   assetBundleVariant: 

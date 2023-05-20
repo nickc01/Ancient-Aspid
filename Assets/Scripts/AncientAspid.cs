@@ -258,6 +258,24 @@ public class AncientAspid : Boss
     [SerializeField]
     ParticleSystem jumpLandParticles;
 
+    [SerializeField]
+    ParticleSystem stompSplash;
+
+    [SerializeField]
+    ParticleSystem stompPillar;
+
+    [SerializeField]
+    Vector3 groundSplashSpawnOffset;
+
+    [SerializeField]
+    Vector2Int groundSplashBlobCount = new Vector2Int(5,10);
+
+    [SerializeField]
+    Vector2 groundSplashAngleRange = new Vector2(15, 180 - 15);
+
+    [SerializeField]
+    Vector2 groundSplashVelocityRange = new Vector2(3, 15);
+
     public AspidOrientation Orientation { get; private set; } = AspidOrientation.Left;
     public Mode AspidMode { get; private set; } = Mode.Tactical;
 
@@ -265,7 +283,7 @@ public class AncientAspid : Boss
 
     public Vector3 TargetOffset { get; private set; }
     public Transform TargetTransform { get; private set; }
-    public Rect CurrentRoomRect { get; private set; }
+    public RoomScanResult CurrentRoomRect { get; private set; } = new RoomScanResult();
 
     bool flightEnabled = true;
     public bool FlightEnabled
@@ -299,8 +317,8 @@ public class AncientAspid : Boss
                 target = fixedTargetPos + TargetOffset;
             }
 
-            target.x = Mathf.Clamp(target.x, CurrentRoomRect.xMin + leftWallBuffer,CurrentRoomRect.xMax - rightWallBuffer);
-            target.y = Mathf.Clamp(target.y, CurrentRoomRect.yMin + floorBuffer,CurrentRoomRect.yMax - ceilingBuffer);
+            target.x = Mathf.Clamp(target.x, CurrentRoomRect.Rect.xMin + leftWallBuffer,CurrentRoomRect.Rect.xMax - rightWallBuffer);
+            target.y = Mathf.Clamp(target.y, CurrentRoomRect.Rect.yMin + floorBuffer,CurrentRoomRect.Rect.yMax - ceilingBuffer);
 
             return target;
         }
@@ -345,6 +363,8 @@ public class AncientAspid : Boss
             }
         }
     }
+
+    RaycastHit2D[] rayCache = new RaycastHit2D[4];
 
     protected override void Awake()
     {
@@ -395,8 +415,51 @@ public class AncientAspid : Boss
 
     public IEnumerator MainBossRoutine()
     {
+        var validModes = new List<Mode>
+        {
+            Mode.Tactical,
+            Mode.Offensive,
+            Mode.Defensive
+        };
+
+        var currentMode = (Mode)(-1);
+
         while (true)
         {
+
+            if (currentMode != (Mode)(-1))
+            {
+                var lastMove = currentMode;
+                validModes.Remove(lastMove);
+
+                currentMode = validModes.GetRandomElement();
+
+                validModes.Add(lastMove);
+            }
+            else
+            {
+                currentMode = Mode.Tactical;
+            }
+
+            switch (currentMode)
+            {
+                case Mode.Tactical:
+                    yield return TacticalModeRoutine(6f);
+                    break;
+                case Mode.Offensive:
+                    yield return OffensiveModeRoutine();
+                    break;
+                case Mode.Defensive:
+                    yield return DefensiveModeRoutine();
+                    break;
+                default:
+                    yield return TacticalModeRoutine(2f);
+                    break;
+            }
+
+
+
+
             //START THE FIGHT IN TACTICAL MODE
             /*float tacticalTime = 4f;
             float tacticalStart = Time.time;
@@ -434,14 +497,13 @@ public class AncientAspid : Boss
             }
             yield return new WaitUntil(() => !Head.HeadLocked);*/
             //ENDING TACTICAL MODE
-            var time = Time.time;
+            /*var time = Time.time;
             while (Time.time <= time + 6f)
             {
                 yield return CheckDirectionToPlayer(); //THIS IS A TEST
-            }
-            //yield return new WaitForSeconds(6f);
-            yield return EnterGroundMode();
-            yield return new WaitForSeconds(100f);
+            }*/
+            //yield return EnterGroundMode();
+            //yield return ExitGroundMode();
 
 
 
@@ -492,7 +554,103 @@ public class AncientAspid : Boss
             //ENDING OFFENSIVE MODE
             //ENTERING TACTICAL MODE
             AspidMode = Mode.Tactical;
+
+            yield return TacticalModeRoutine(2f);
         }
+    }
+
+    IEnumerator TacticalModeRoutine(float time)
+    {
+        AspidMode = Mode.Tactical;
+        float tacticalTime = time;
+        float tacticalStart = Time.time;
+
+        int currentMoveIndex = 0;
+        float lastMoveTime = Time.time;
+        ShuffleMoves(Moves);
+        while (Time.time - tacticalStart < tacticalTime)
+        {
+            if (currentMoveIndex == Moves.Count)
+            {
+                currentMoveIndex = 0;
+                ShuffleMoves(Moves);
+            }
+            yield return new WaitUntil(() => !Head.HeadLocked);
+            yield return CheckDirectionToPlayer();
+
+            var move = Moves[currentMoveIndex];
+
+            if (!move.MoveEnabled)
+            {
+                currentMoveIndex++;
+                continue;
+            }
+
+            if (Time.time - lastMoveTime < move.PreDelay)
+            {
+                continue;
+            }
+
+            yield return RunMove(move);
+
+            lastMoveTime = Time.time + move.PostDelay;
+            currentMoveIndex++;
+        }
+        yield return new WaitUntil(() => !Head.HeadLocked);
+    }
+
+    IEnumerator OffensiveModeRoutine()
+    {
+        float offensiveTime = 10f;
+        float offensiveStart = Time.time;
+
+        yield return EnterCenterMode();
+        AspidMode = Mode.Offensive;
+
+        int currentMoveIndex = 0;
+        float lastMoveTime = Time.time;
+        ShuffleMoves(Moves);
+
+        while (Time.time - offensiveStart < offensiveTime)
+        {
+            if (currentMoveIndex == Moves.Count)
+            {
+                currentMoveIndex = 0;
+                ShuffleMoves(Moves);
+            }
+            yield return new WaitUntil(() => !Head.HeadLocked);
+            yield return CheckDirectionToPlayer();
+
+            var move = Moves[currentMoveIndex];
+
+            if (!move.MoveEnabled)
+            {
+                currentMoveIndex++;
+                continue;
+            }
+
+            if (Time.time - lastMoveTime < move.PreDelay)
+            {
+                continue;
+            }
+
+            yield return RunMove(move);
+
+            lastMoveTime = Time.time + move.PostDelay;
+            currentMoveIndex++;
+        }
+
+        yield return new WaitUntil(() => !Head.HeadLocked);
+        yield return ExitCenterMode();
+
+        AspidMode = Mode.Tactical;
+    }
+
+    IEnumerator DefensiveModeRoutine()
+    {
+        yield return EnterGroundMode();
+        yield return ExitGroundMode();
+        AspidMode = Mode.Tactical;
     }
 
     public float GetHeadAngle()
@@ -532,7 +690,7 @@ public class AncientAspid : Boss
         //Debug.DrawLine(transform.position, new Vector3(transform.position.x, roomBounds.yMin), Color.cyan, 5f);
         //Debug.DrawLine(transform.position, new Vector3(transform.position.x, roomBounds.yMax), Color.cyan, 5f);
         minFlightSpeed /= 3f;
-        var newTarget = new Vector3(Mathf.Lerp(CurrentRoomRect.xMin, CurrentRoomRect.xMax, 0.5f), CurrentRoomRect.yMin + offensiveHeight);
+        var newTarget = new Vector3(Mathf.Lerp(CurrentRoomRect.Rect.xMin, CurrentRoomRect.Rect.xMax, 0.5f), CurrentRoomRect.Rect.yMin + offensiveHeight);
         SetTarget(newTarget);
         //flightOffset /= 4f;
         minimumFlightSpeed /= 4f;
@@ -586,8 +744,24 @@ public class AncientAspid : Boss
         }
     }
 
+
+    IEnumerator ShootGiantBlob(EnterGround_BigVomitShotMove move, float preDelay = 0.25f)
+    {
+        yield return new WaitForSeconds(preDelay);
+        yield return RunMove(move);
+
+
+        for (float t = move.SpawnedGlobEstLandTime; t >= 0.5f; t -= Time.deltaTime)
+        {
+            yield return null;
+        }
+    }
+
     IEnumerator EnterGroundMode()
     {
+        bool globMode = UnityEngine.Random.Range(0f, 1f) > 0.5f;
+
+        //If we are already in center, then exit out of it
         if (Orientation == AspidOrientation.Center)
         {
             yield return ExitCenterMode(GetOrientationToPlayer(),false);
@@ -602,15 +776,7 @@ public class AncientAspid : Boss
 
         ApplyFlightVariance = false;
 
-        /*if (Head.LookingDirection >= 0f)
-        {
-            TargetOffset = lungeTargetOffset;
-        }
-        else
-        {
-            TargetOffset = lungeTargetOffset.With(x: -lungeTargetOffset.x);
-        }*/
-
+        //Move into position
         if (Head.LookingDirection >= 0f)
         {
             SetTarget(Player.Player1.transform.position + lungeTargetOffset);
@@ -630,6 +796,15 @@ public class AncientAspid : Boss
 
         FlightEnabled = false;
         Recoil.SetRecoilSpeed(0f);
+
+        var bigBlobMove = GetComponent<EnterGround_BigVomitShotMove>();
+
+        if (globMode)
+        {
+            Debug.Log("GLOB START");
+            yield return ShootGiantBlob(bigBlobMove);
+            Debug.Log("GLOB END");
+        }
 
         yield return new WaitUntil(() => !Claws.DoingBasicAttack);
 
@@ -672,19 +847,24 @@ public class AncientAspid : Boss
             c.enabled = false;
         }
 
-
-
-        bool towardsPlayer = UnityEngine.Random.Range(0f, 1f) >= 0.5f;
-
         Vector3 destination;
 
-        if (UnityEngine.Random.Range(0,2) == 1 || true)
+        if (!globMode)
         {
-            destination = Player.Player1.transform.position;
+            bool towardsPlayer = UnityEngine.Random.Range(0f, 1f) >= 0.5f;
+
+            if (UnityEngine.Random.Range(0, 2) == 1 || true)
+            {
+                destination = Player.Player1.transform.position;
+            }
+            else
+            {
+                destination = transform.position.With(y: CurrentRoomRect.Rect.yMin);
+            }
         }
         else
         {
-            destination = transform.position.With(y: CurrentRoomRect.yMin);
+            destination = bigBlobMove.SpawnedGlob.transform.position + new Vector3(0,2,0);
         }
 
         var angleToDestination = VectorUtilities.VectorToDegrees((destination - transform.position).normalized);
@@ -697,8 +877,10 @@ public class AncientAspid : Boss
 
         bool steepAngle = Mathf.Abs(downwardAngle) >= degreesSlantThreshold;
 
-        Debug.Log("Angle = " + downwardAngle);
-        Debug.Log("Steep Angle = " + steepAngle);
+        if (globMode)
+        {
+            steepAngle = false;
+        }
 
         Rbody.velocity = (destination - transform.position).normalized * lungeSpeed;
 
@@ -708,9 +890,64 @@ public class AncientAspid : Boss
         var xVelocity = Rbody.velocity.x;
         var halfVelocity = Mathf.Abs(Rbody.velocity.y) / 2f;
 
-        yield return new WaitUntil(() => Mathf.Abs(Rbody.velocity.y) < halfVelocity);
+
+        //
+        //Wait until landing, or cancel if needed
+        //
+
+        bool landed = false;
+
+        for (float t = 0; t < 2; t += Time.deltaTime)
+        {
+            if (Mathf.Abs(Rbody.velocity.y) < halfVelocity)
+            {
+                landed = true;
+                break;
+            }
+
+            if (t > 0.5f && Vector3.Distance(transform.position, Player.Player1.transform.position) >= 30)
+            {
+                break;
+            }
+
+            yield return null;
+        }
+
+        if (!landed)
+        {
+            yield return JumpCancel(false);
+
+            if (globMode)
+            {
+                bigBlobMove.SpawnedGlob.ForceDisappear();
+            }
+            yield break;
+        }
+        //yield return new WaitUntil(() => Mathf.Abs(Rbody.velocity.y) < halfVelocity);
 
         Rbody.velocity = default;
+
+        if (globMode)
+        {
+            if (Vector3.Distance(transform.position, bigBlobMove.SpawnedGlob.transform.position) <= 5)
+            {
+                bigBlobMove.SpawnedGlob.ForceDisappear();
+                stompSplash.Play();
+                stompPillar.Play();
+
+                var spawnCount = UnityEngine.Random.Range(groundSplashBlobCount.x, groundSplashBlobCount.y);
+
+                for (int i = 0; i < spawnCount; i++)
+                {
+                    float angle = groundSplashAngleRange.RandomInRange();
+                    float magnitude = groundSplashVelocityRange.RandomInRange();
+
+                    var velocity = MathUtilities.PolarToCartesian(angle, magnitude);
+
+                    VomitGlob.Spawn(transform.position + groundSplashSpawnOffset, velocity);
+                }
+            }
+        }
 
         StartBoundRoutine(PlayLungeLandAnimation());
 
@@ -844,6 +1081,12 @@ public class AncientAspid : Boss
                     StartSlideSound();
                 }
 
+                if (Rbody.velocity.y < -0.5f && Vector3.Distance(transform.position, Player.Player1.transform.position) >= 30)
+                {
+                    yield return JumpCancel(false);
+                    yield break;
+                }
+
                 yield return null;
             } while (Mathf.Abs(Rbody.velocity.x) > Mathf.Abs(lastVelocityX / 3f) && Mathf.Abs(Rbody.velocity.x) > 0.1f);
 
@@ -901,6 +1144,12 @@ public class AncientAspid : Boss
             yield return new WaitUntil(() => Orientation != oldOrientation);
         }
 
+        if (Rbody.velocity.y < -2)
+        {
+            yield return JumpCancel(false);
+            yield break;
+        }
+
         if (steepAngle)
         {
             //yield return FireGroundLaserSweep();
@@ -926,6 +1175,12 @@ public class AncientAspid : Boss
             yield return Head.FireGroundLaser(startQ,endQ, groundLaserFireDuration);*/
         }
 
+        if (Rbody.velocity.y < -2)
+        {
+            yield return JumpCancel(false);
+            yield break;
+        }
+
 
         //TODO - AIM TOWARDS THE PLAYER OR TOWARDS THE GROUND
 
@@ -936,15 +1191,131 @@ public class AncientAspid : Boss
 
         //Make sure the claws and wings stay stopped during this state
 
+        AspidMode = Mode.Defensive;
+
+        bool jumpsCancelled = false;
+
+        void onCancel()
+        {
+            jumpsCancelled = true;
+        }
+
         yield return new WaitForSeconds(0.5f);
 
-        yield return DoGroundJump(3, JumpTargeter);
+        yield return DoGroundJump(2, JumpTargeter, onCancel);
+
+        if (jumpsCancelled)
+        {
+            yield return JumpCancel(false);
+            yield break;
+        }
+
+        //SHOOT MORE BLOBS
+        yield return RunMove(GetComponent<VomitShotMove>());
+
+        yield return DoGroundJump(3, JumpTargeter, onCancel);
+
+        if (jumpsCancelled)
+        {
+            yield return JumpCancel(false);
+            yield break;
+        }
+
+        yield return new WaitForSeconds(0.25f);
+
+        yield break;
+    }
+
+    IEnumerator ExitGroundMode()
+    {
+        if (AspidMode != Mode.Defensive)
+        {
+            yield break;
+        }
+        //TODO - Play the prepare animation for lifting off of the ground
+
+        //TODO - Play the jump animation for jumping back up into the air
+
+        //TODO - Switch back to tactic mode and play the default claw and wing animations
+
+        //bool onGround = Claws.OnGround;
+
+        yield return JumpPrepare();
+        yield return JumpLaunch();
+
+        foreach (var sound in jumpSounds)
+        {
+            WeaverAudio.PlayAtPoint(sound, transform.position);
+        }
+
+        Claws.OnGround = false;
+        Wings.PlayDefaultAnimation = true;
+
+        foreach (var claw in Claws.claws)
+        {
+            claw.UnlockClaw();
+        }
+
+        CameraShaker.Instance.Shake(jumpLaunchShakeType);
+
+        var target = transform.position + new Vector3(0f, 20f, 0f);
+
+        if (target.y < transform.position.y + 2f && target.y > transform.position.y - 2)
+        {
+            target.y = transform.position.y;
+        }
+
+        var velocity = MathUtilities.CalculateVelocityToReachPoint(transform.position, target, jumpTime, jumpGravity / 2);
+
+        Rbody.gravityScale = jumpGravity;
+        Rbody.velocity = velocity;
+
+        yield return null;
+        yield return null;
+
+
+        yield return new WaitUntil(() => Rbody.velocity.y <= 0);
+
+        FlightEnabled = true;
+        Rbody.velocity = default;
+        Rbody.gravityScale = 0f;
+        
+
+
+
+        //var headRoutine = Head.LockHead(Head.LookingDirection >= 0f ? 60f : -60f);
+        //var bodyRoutine = Body.RaiseTail();
+        //var minWaitTimeRoutine = Wait(0.5f);
+
+        //RoutineAwaiter awaiter = RoutineAwaiter.AwaitBoundRoutines(this, headRoutine, bodyRoutine, minWaitTimeRoutine);
+        Head.UnlockHead();
+
+        Recoil.ResetRecoilSpeed();
+
+        Body.PlayDefaultAnimation = true;
+
+
+
+        foreach (var c in collidersEnableOnLunge)
+        {
+            c.enabled = false;
+        }
+
+        foreach (var c in collidersDisableOnLunge)
+        {
+            c.enabled = true;
+        }
+
+        ApplyFlightVariance = true;
+        SetTarget(playerTarget);
+        AspidMode = Mode.Tactical;
 
         yield break;
     }
 
     Vector2 JumpTargeter(int time)
     {
+        //return Player.Player1.transform.position;
         if (time % 2 == 0)
         {
             return Player.Player1.transform.position;
@@ -952,8 +1323,8 @@ public class AncientAspid : Boss
         else
         {
             //var area = CurrentRoomRect
-            var minX = CurrentRoomRect.xMin + 6f;
-            var maxX = CurrentRoomRect.xMax - 6f;
+            var minX = CurrentRoomRect.Rect.xMin + 6f;
+            var maxX = CurrentRoomRect.Rect.xMax - 6f;
 
             var randValue = UnityEngine.Random.Range(minX, maxX);
 
@@ -977,6 +1348,7 @@ public class AncientAspid : Boss
             startAngle = 180f - groundLaserMinMaxAngle.x;
             endAngle = 180f - groundLaserMinMaxAngle.y;
         }
+
         return FireGroundLaser(startAngle, endAngle);
     }
 
@@ -989,15 +1361,10 @@ public class AncientAspid : Boss
             playerAngle += 360f;
         }
 
-        //Debug.Log("Player Angle = " + playerAngle);
-
-        //var startAngle = 0f;
-
         const float angleLimit = 45f;
 
         if (Orientation == AspidOrientation.Left)
         {
-            //startAngle = 180f;
             playerAngle = Mathf.Clamp(playerAngle, 180 - angleLimit, 180 + angleLimit);
             if (playerAngle > 180)
             {
@@ -1018,19 +1385,6 @@ public class AncientAspid : Boss
 
     IEnumerator FireGroundLaser(float startAngle, float endAngle)
     {
-        /*float startAngle, endAngle;
-
-        if (Orientation == AspidOrientation.Right)
-        {
-            startAngle = groundLaserMinMaxAngle.x;
-            endAngle = groundLaserMinMaxAngle.y;
-        }
-        else
-        {
-            startAngle = 180f - groundLaserMinMaxAngle.x;
-            endAngle = 180f - groundLaserMinMaxAngle.y;
-        }*/
-
         var startQ = Quaternion.Euler(0f, 0f, startAngle);
         var endQ = Quaternion.Euler(0f, 0f, endAngle);
 
@@ -1116,30 +1470,7 @@ public class AncientAspid : Boss
         yield break;
     }
 
-    IEnumerator ExitGroundMode()
-    {
-        //TODO - Play the prepare animation for lifting off of the ground
-
-        //TODO - Play the jump animation for jumping back up into the air
-
-        //TODO - Switch back to tactic mode and play the default claw and wing animations
-
-        ApplyFlightVariance = true;
-
-        foreach (var c in collidersEnableOnLunge)
-        {
-            c.enabled = false;
-        }
-
-        foreach (var c in collidersDisableOnLunge)
-        {
-            c.enabled = true;
-        }
-
-        yield break;
-    }
-
-    IEnumerator DoGroundJump(int jumpTimes, Func<int, Vector2> getTarget)
+    IEnumerator DoGroundJump(int jumpTimes, Func<int, Vector2> getTarget, Action onCancel)
     {
         yield return JumpPrepare();
 
@@ -1166,6 +1497,18 @@ public class AncientAspid : Boss
                 target.y = transform.position.y;
             }
 
+            var groundHits = Physics2D.RaycastNonAlloc(target, Vector2.down, rayCache, 10, LayerMask.NameToLayer("Terrain"));
+
+            if (groundHits == 0)
+            {
+                if (CurrentRoomRect.BottomHit.collider != null)
+                {
+                    var colliderBounds = CurrentRoomRect.BottomHit.collider.bounds;
+
+                    target.x = Mathf.Clamp(target.x, colliderBounds.min.x + 5,colliderBounds.max.x - 5);
+                }
+            }
+
             var velocity = MathUtilities.CalculateVelocityToReachPoint(transform.position, target, jumpTime, jumpGravity);
 
             Rbody.gravityScale = jumpGravity;
@@ -1173,20 +1516,54 @@ public class AncientAspid : Boss
 
             Claws.OnGround = false;
 
-            yield return JumpSwitchDirectionPrepare();
-            yield return JumpSwitchDirection();
-            if (Orientation == AspidOrientation.Left)
+            bool switchDirection = false;
+            if (Orientation == AspidOrientation.Right && Player.Player1.transform.position.x < target.x)
             {
-                Orientation = AspidOrientation.Right;
+                switchDirection = true;
             }
-            else
+
+            if (Orientation == AspidOrientation.Left && Player.Player1.transform.position.x >= target.x)
             {
-                Orientation = AspidOrientation.Left;
+                switchDirection = true;
+            }
+
+            if (switchDirection)
+            {
+                yield return JumpSwitchDirectionPrepare();
+                yield return JumpSwitchDirection();
+                if (Orientation == AspidOrientation.Left)
+                {
+                    Orientation = AspidOrientation.Right;
+                }
+                else
+                {
+                    Orientation = AspidOrientation.Left;
+                }
             }
 
             yield return new WaitUntil(() => Rbody.velocity.y <= 0f);
+            var fallingAwaiter = JumpBeginFalling(switchDirection);
             yield return new WaitForSeconds(jumpTime / 5f);
-            yield return new WaitUntil(() => Rbody.velocity.y >= 0f);
+            yield return fallingAwaiter.WaitTillDone();
+
+            bool cancel = true;
+
+            for (float t = 0; t < 1.5f; t += Time.deltaTime)
+            {
+                if (Rbody.velocity.y >= 0f)
+                {
+                    cancel = false;
+                    break;
+                }
+                yield return null;
+            }
+
+            if (cancel)
+            {
+                onCancel?.Invoke();
+                yield break;
+            }
+            //yield return new WaitUntil(() => Rbody.velocity.y >= 0f);
 
             Rbody.velocity = Rbody.velocity.With(x: 0f);
 
@@ -1205,6 +1582,17 @@ public class AncientAspid : Boss
 
         Rbody.velocity = default;
         Rbody.gravityScale = 0f;
+    }
+
+    RoutineAwaiter JumpBeginFalling(bool switchedDirection)
+    {
+        var clawsRoutine = Claws.GroundJumpBeginFalling(switchedDirection);
+        var headRoutine = Head.GroundJumpBeginFalling(switchedDirection);
+        var wingsRoutine = Wings.GroundJumpBeginFalling(switchedDirection);
+        var wingPlatesRoutine = WingPlates.GroundJumpBeginFalling(switchedDirection);
+        var bodyRoutine = Body.GroundJumpBeginFalling(switchedDirection);
+        RoutineAwaiter awaiter = RoutineAwaiter.AwaitBoundRoutines(this, clawsRoutine, headRoutine, wingsRoutine, wingPlatesRoutine, bodyRoutine);
+        return awaiter;
     }
 
     IEnumerator JumpSwitchDirection()
@@ -1227,6 +1615,53 @@ public class AncientAspid : Boss
         var bodyRoutine = Body.MidJumpChangeDirection(oldOrientation, newOrientation);
         RoutineAwaiter awaiter = RoutineAwaiter.AwaitBoundRoutines(this, clawsRoutine, headRoutine, wingsRoutine, wingPlatesRoutine, bodyRoutine);
         yield return awaiter.WaitTillDone();
+    }
+
+    IEnumerator JumpCancel(bool onGround)
+    {
+        Claws.OnGround = false;
+        Wings.PlayDefaultAnimation = true;
+
+        FlightEnabled = true;
+        Rbody.velocity = default;
+        Rbody.gravityScale = 0f;
+
+        foreach (var claw in Claws.claws)
+        {
+            claw.UnlockClaw();
+        }
+
+        var clawsRoutine = Claws.GroundMoveCancel(onGround);
+        var headRoutine = Head.GroundMoveCancel(onGround);
+        var wingsRoutine = Wings.GroundMoveCancel(onGround);
+        var wingPlatesRoutine = WingPlates.GroundMoveCancel(onGround);
+        var bodyRoutine = Body.GroundMoveCancel(onGround);
+        RoutineAwaiter awaiter = RoutineAwaiter.AwaitBoundRoutines(this, clawsRoutine, headRoutine, wingsRoutine, wingPlatesRoutine, bodyRoutine);
+
+        yield return awaiter.WaitTillDone();
+
+        Head.UnlockHead();
+
+        Recoil.ResetRecoilSpeed();
+
+        Body.PlayDefaultAnimation = true;
+
+
+
+        foreach (var c in collidersEnableOnLunge)
+        {
+            c.enabled = false;
+        }
+
+        foreach (var c in collidersDisableOnLunge)
+        {
+            c.enabled = true;
+        }
+
+        ApplyFlightVariance = true;
+        SetTarget(playerTarget);
+
+        AspidMode = Mode.Tactical;
     }
 
     IEnumerator JumpSwitchDirectionPrepare()

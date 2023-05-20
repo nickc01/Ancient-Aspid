@@ -271,6 +271,14 @@ public class ClawController : AspidBodyPart
         }
     }
 
+    /*public void ExitGroundMode()
+    {
+        foreach (var claw in claws)
+        {
+            claw.ExitGroundMode();
+        }
+    }*/
+
     public IEnumerator PlayLanding(bool slide)
     {
         /*if (Boss.Orientation == AspidOrientation.Right)

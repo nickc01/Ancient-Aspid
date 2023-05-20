@@ -51,7 +51,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0.06
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -87,10 +87,49 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: 515.4199, y: -288.72043}
+      - {x: 515.4199, y: -153.98422}
+      - {x: 504.72656, y: -99.44814}
+      - {x: 424.52637, y: 34.218716}
+      - {x: 325.07812, y: 114.41883}
+      - {x: 278.02734, y: 140.08287}
+      - {x: 201.03516, y: 164.67757}
+      - {x: 122.97363, y: 164.67757}
+      - {x: 48.120117, y: 153.98422}
+      - {x: -50.25879, y: 116.5575}
+      - {x: -101.586914, y: 80.20011}
+      - {x: -143.29102, y: 28.872042}
+      - {x: -149.70703, y: -6.416009}
+      - {x: -149.70703, y: -64.160095}
+      - {x: -141.15234, y: -93.032135}
+      - {x: -79.13086, y: -142.22154}
+      - {x: -4.2773438, y: -224.56032}
+      - {x: -12.832031, y: -291.9284}
+      - {x: 32.08008, y: -374.2672}
+      - {x: 44.91211, y: -419.17926}
+      - {x: 82.33887, y: -459.814}
+      - {x: 150.77637, y: -501.51807}
+      - {x: 197.82715, y: -611.65955}
+      - {x: 267.33398, y: -611.65955}
+      - {x: 394.58496, y: -517.55804}
+      - {x: 455.5371, y: -430.94196}
+      - {x: 487.6172, y: -377.47522}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -104,5 +143,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: ancientaspidmod_bundle
+  assetBundleName: 
   assetBundleVariant: 

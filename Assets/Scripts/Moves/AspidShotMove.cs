@@ -80,7 +80,8 @@ public class AspidShotMove : AncientAspidMove
 
         yield return Boss.Head.Animator.PlayAnimationTillDone($"Fire - {attackVariant} - Prepare");
 
-        Fire(Boss.Head.LookingDirection);
+        Fire(Boss.Head.LookingDirection, 3, 1);
+        Fire(Boss.Head.LookingDirection, 2, 0.5f);
 
         yield return Boss.Head.Animator.PlayAnimationTillDone($"Fire - {attackVariant} - Attack");
 
@@ -89,7 +90,7 @@ public class AspidShotMove : AncientAspidMove
         Boss.Head.UnlockHead();
     }
 
-    void Fire(float angle)
+    void Fire(float angle, int shots, float velocityMultplier = 1f)
     {
         if (shotSpeed <= 0)
         {
@@ -111,9 +112,13 @@ public class AspidShotMove : AncientAspidMove
 
         var polarCoordsToPlayer = MathUtilities.CartesianToPolar(velocityToPlayer);
 
-        for (int i = -1; i <= 1; i++)
+        shots -= 1;
+
+        float lowerShots = -shots / 2;
+
+        for (float i = lowerShots; i <= lowerShots + shots; i++)
         {
-            FireShot(polarCoordsToPlayer.x,shotAngleSeparation * i,sourcePos, polarCoordsToPlayer.y);
+            FireShot(polarCoordsToPlayer.x,shotAngleSeparation * i,sourcePos, polarCoordsToPlayer.y * velocityMultplier);
         }
 
         if (fireSound != null)

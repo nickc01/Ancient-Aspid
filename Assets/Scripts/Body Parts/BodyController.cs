@@ -316,6 +316,7 @@ public class BodyController : AspidBodyPart
                 yield return new WaitForSeconds(1f / Boss.groundJumpLaunchFPS);
             }
         }
+        TailRaised = false;
         yield break;
     }
 
@@ -368,7 +369,14 @@ public class BodyController : AspidBodyPart
         MainRenderer.sprite = animator.AnimationData.GetFrameFromClip("Lowered - Change Direction", 0);
 
         animator.PlaybackSpeed = Boss.MidAirSwitchSpeed * 1.5f;
-        animator.PlayAnimation("Raise Tail Quick");
+        yield return animator.PlayAnimationTillDone("Raise Tail Quick");
+        TailRaised = true;
+    }
+
+    public override IEnumerator GroundMoveCancel(bool onGround)
+    {
+        yield return animator.PlayAnimationTillDone("Lower Tail Quick");
+        TailRaised = false;
     }
 
     /*protected override IEnumerator ChangeDirectionRoutine(AspidOrientation newOrientation)
@@ -445,6 +453,14 @@ public class BodyController : AspidBodyPart
         if (PlayDefaultAnimation)
         {
             defaultAnimationRoutine = StartCoroutine(DefaultAnimationRoutine(CurrentOrientation));
+        }
+    }
+
+    public override IEnumerator GroundJumpBeginFalling(bool switchedDirection)
+    {
+        if (!switchedDirection)
+        {
+            yield return animator.PlayAnimationTillDone("Raise Tail Quick");
         }
     }
 

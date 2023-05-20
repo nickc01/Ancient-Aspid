@@ -51,7 +51,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0.06
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -90,7 +90,54 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: 105, y: -78.5}
+      - {x: 112, y: -113.5}
+      - {x: 110, y: -164.5}
+      - {x: 140.08301, y: -149.70688}
+      - {x: 176.44043, y: -90.89346}
+      - {x: 178, y: -39.5}
+      - {x: 230, y: -78.5}
+      - {x: 240, y: -27.5}
+      - {x: 196, y: 26.5}
+      - {x: 214, y: 202.5}
+      - {x: 260, y: 358.5}
+      - {x: 262, y: 390.5}
+      - {x: 209, y: 339.5}
+      - {x: 200, y: 439.5}
+      - {x: 184.99512, y: 490.8247}
+      - {x: 167.88574, y: 494.0327}
+      - {x: 134, y: 277.5}
+      - {x: 111, y: 361.5}
+      - {x: 51.328125, y: 396.72324}
+      - {x: 47, y: 228.5}
+      - {x: -1, y: 281.5}
+      - {x: -49, y: 238.5}
+      - {x: -56, y: 401.5}
+      - {x: -127, y: 311.5}
+      - {x: -148, y: 493.5}
+      - {x: -168.95508, y: 494.0327}
+      - {x: -195, y: 348.5}
+      - {x: -240.60059, y: 415.97125}
+      - {x: -240.60059, y: 331.4938}
+      - {x: -194, y: 22.5}
+      - {x: -232, y: -20.5}
+      - {x: -236, y: -88.5}
+      - {x: -157, y: -31.5}
+      - {x: -185, y: -77.5}
+      - {x: -139, y: -168.5}
+      - {x: -114.418945, y: -166.81624}
+      - {x: -125, y: -123.5}
+      - {x: -114, y: -89.5}
+      - {x: -112.28027, y: -126.18151}
+      - {x: -86.61621, y: -175.37091}
+      - {x: -36.35742, y: -216.00565}
+      - {x: -22, y: -214.5}
+      - {x: -9, y: -55.5}
+      - {x: -1, y: -214.5}
+      - {x: 12, y: -214.5}
+      - {x: 53, y: -187.5}
+      - {x: 93, y: -121.5}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -104,5 +151,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: ancientaspidmod_bundle
+  assetBundleName: 
   assetBundleVariant: 

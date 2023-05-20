@@ -112,24 +112,24 @@ public class BeBetweenPlayerAndAspid : MonoBehaviour
 
         var roomBoundaries = Aspid.CurrentRoomRect;
 
-        if (transform.position.y < roomBoundaries.yMin + minDistanceFromFloor)
+        if (transform.position.y < roomBoundaries.Rect.yMin + minDistanceFromFloor)
         {
-            transform.SetPositionY(roomBoundaries.yMin + minDistanceFromFloor);
+            transform.SetPositionY(roomBoundaries.Rect.yMin + minDistanceFromFloor);
         }
 
-        if (transform.position.y > roomBoundaries.xMax - minDistanceFromCeiling)
+        if (transform.position.y > roomBoundaries.Rect.xMax - minDistanceFromCeiling)
         {
-            transform.SetPositionY(roomBoundaries.xMax - minDistanceFromCeiling);
+            transform.SetPositionY(roomBoundaries.Rect.xMax - minDistanceFromCeiling);
         }
 
-        if (transform.position.x < roomBoundaries.xMin + minDistanceFromLeftWall)
+        if (transform.position.x < roomBoundaries.Rect.xMin + minDistanceFromLeftWall)
         {
-            transform.SetPositionX(roomBoundaries.xMin + minDistanceFromLeftWall);
+            transform.SetPositionX(roomBoundaries.Rect.xMin + minDistanceFromLeftWall);
         }
 
-        if (transform.position.x > roomBoundaries.xMax - minDistanceFromRightWall)
+        if (transform.position.x > roomBoundaries.Rect.xMax - minDistanceFromRightWall)
         {
-            transform.SetPositionX(roomBoundaries.xMax - minDistanceFromRightWall);
+            transform.SetPositionX(roomBoundaries.Rect.xMax - minDistanceFromRightWall);
         }
 
         /*if (KeepAboveFloorHeight)

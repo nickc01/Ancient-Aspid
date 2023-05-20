@@ -51,7 +51,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0.06
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -65,7 +65,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -77,7 +77,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -89,7 +89,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -102,7 +102,102 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: -33.149414, y: 212.79764}
+      - {x: -33, y: 476.5}
+      - {x: -27.802734, y: 875.7853}
+      - {x: -31.010742, y: 899.3106}
+      - {x: -39.56543, y: 921.76666}
+      - {x: -54.536133, y: 935.668}
+      - {x: -69.506836, y: 935.668}
+      - {x: -90.893555, y: 915.35065}
+      - {x: -96, y: 886.5}
+      - {x: -102, y: 812.5}
+      - {x: -121, y: 901.5}
+      - {x: -133, y: 928.5}
+      - {x: -155, y: 922.5}
+      - {x: -179, y: 906.5}
+      - {x: -194, y: 872.5}
+      - {x: -198, y: 845.5}
+      - {x: -210, y: 798.5}
+      - {x: -215, y: 760.5}
+      - {x: -263, y: 792.5}
+      - {x: -284, y: 780.5}
+      - {x: -298, y: 751.5}
+      - {x: -298, y: 722.5}
+      - {x: -296, y: 616.5}
+      - {x: -282, y: 508.5}
+      - {x: -352, y: 595.5}
+      - {x: -386, y: 641.5}
+      - {x: -447, y: 698.5}
+      - {x: -472, y: 716.5}
+      - {x: -487, y: 689.5}
+      - {x: -492, y: 647.5}
+      - {x: -489, y: 579.5}
+      - {x: -524, y: 639.5}
+      - {x: -540, y: 645.5}
+      - {x: -553, y: 635.5}
+      - {x: -564, y: 617.5}
+      - {x: -549, y: 564.5}
+      - {x: -498, y: 443.5}
+      - {x: -431, y: 349.5}
+      - {x: -264, y: 189.5}
+      - {x: -112, y: 74.5}
+      - {x: -60.95215, y: 60.952087}
+      - {x: -40.634766, y: 66.29876}
+      - {x: -38.496094, y: 74.85344}
+    - - {x: 368, y: 196.5}
+      - {x: 479, y: 257.5}
+      - {x: 543, y: 294.5}
+      - {x: 605, y: 330.5}
+      - {x: 686, y: 385.5}
+      - {x: 758, y: 436.5}
+      - {x: 803, y: 470.5}
+      - {x: 866, y: 524.5}
+      - {x: 889, y: 567.5}
+      - {x: 875, y: 585.5}
+      - {x: 835, y: 563.5}
+      - {x: 799, y: 541.5}
+      - {x: 843, y: 590.5}
+      - {x: 870, y: 631.5}
+      - {x: 896, y: 700.5}
+      - {x: 892, y: 739.5}
+      - {x: 870, y: 740.5}
+      - {x: 816, y: 711.5}
+      - {x: 781, y: 697.5}
+      - {x: 570, y: 557.5}
+      - {x: 598, y: 620.5}
+      - {x: 641, y: 717.5}
+      - {x: 639, y: 768.5}
+      - {x: 578, y: 745.5}
+      - {x: 630, y: 857.5}
+      - {x: 617, y: 903.5}
+      - {x: 562, y: 867.5}
+      - {x: 524, y: 829.5}
+      - {x: 418, y: 729.5}
+      - {x: 466, y: 818.5}
+      - {x: 502, y: 902.5}
+      - {x: 501, y: 931.5}
+      - {x: 474, y: 935.5}
+      - {x: 456, y: 911.5}
+      - {x: 426, y: 866.5}
+      - {x: 383, y: 794.5}
+      - {x: 358, y: 758.5}
+      - {x: 324, y: 707.5}
+      - {x: 276, y: 617.5}
+      - {x: 248, y: 544.5}
+      - {x: 219, y: 471.5}
+      - {x: 185, y: 364.5}
+      - {x: 159, y: 310.5}
+      - {x: 110, y: 202.5}
+      - {x: 87.68555, y: 150.77621}
+      - {x: 72.71484, y: 110.141495}
+      - {x: 73.78418, y: 86.61613}
+      - {x: 83.4082, y: 70.5761}
+      - {x: 94.10156, y: 70.5761}
+      - {x: 115, y: 82.5}
+      - {x: 161, y: 99.5}
+      - {x: 229, y: 128.5}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000

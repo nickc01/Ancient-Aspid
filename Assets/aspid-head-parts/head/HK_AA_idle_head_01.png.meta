@@ -51,7 +51,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0.06
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -90,7 +90,66 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: 106, y: -80.5}
+      - {x: 117, y: -114.5}
+      - {x: 107, y: -163.5}
+      - {x: 132, y: -158.5}
+      - {x: 159.33105, y: -122.97351}
+      - {x: 180, y: -84.5}
+      - {x: 176, y: -40.5}
+      - {x: 228, y: -76.5}
+      - {x: 238, y: -47.5}
+      - {x: 224, y: -2.5}
+      - {x: 196, y: 23.5}
+      - {x: 215, y: 197.5}
+      - {x: 256, y: 339.5}
+      - {x: 262, y: 390.5}
+      - {x: 207, y: 342.5}
+      - {x: 197, y: 455.5}
+      - {x: 178, y: 493.5}
+      - {x: 169, y: 489.5}
+      - {x: 131, y: 268.5}
+      - {x: 109, y: 358.5}
+      - {x: 45, y: 399.5}
+      - {x: 69, y: 315.5}
+      - {x: 45, y: 224.5}
+      - {x: -1, y: 282.5}
+      - {x: -44, y: 227.5}
+      - {x: -63, y: 305.5}
+      - {x: -54.536133, y: 384.96054}
+      - {x: -65.22949, y: 389.23788}
+      - {x: -101, y: 346.5}
+      - {x: -124, y: 289.5}
+      - {x: -152, y: 497.5}
+      - {x: -175, y: 489.5}
+      - {x: -192, y: 338.5}
+      - {x: -240.60059, y: 415.97125}
+      - {x: -240, y: 361.5}
+      - {x: -194, y: 24.5}
+      - {x: -230, y: -20.5}
+      - {x: -236, y: -66.5}
+      - {x: -230.97656, y: -84.477455}
+      - {x: -210.65918, y: -72.71477}
+      - {x: -161, y: -33.5}
+      - {x: -176, y: -61.5}
+      - {x: -171, y: -109.5}
+      - {x: -153, y: -143.5}
+      - {x: -126, y: -166.5}
+      - {x: -114.418945, y: -166.81624}
+      - {x: -126, y: -132.5}
+      - {x: -121.9043, y: -101.586815}
+      - {x: -112.28027, y: -87.685455}
+      - {x: -112.28027, y: -126.18151}
+      - {x: -86.61621, y: -175.37091}
+      - {x: -36.35742, y: -216.00565}
+      - {x: -22, y: -213.5}
+      - {x: -28, y: -131.5}
+      - {x: -8, y: -53.5}
+      - {x: 10, y: -129.5}
+      - {x: 0, y: -211.5}
+      - {x: 29, y: -208.5}
+      - {x: 80, y: -149.5}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -104,5 +163,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: ancientaspidmod_bundle
+  assetBundleName: 
   assetBundleVariant: 

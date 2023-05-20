@@ -51,7 +51,7 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
-  spriteTessellationDetail: -1
+  spriteTessellationDetail: 0.06
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -90,7 +90,56 @@ TextureImporter:
   spriteSheet:
     serializedVersion: 2
     sprites: []
-    outline: []
+    outline:
+    - - {x: 144, y: -89.5}
+      - {x: 160.40039, y: -112.28016}
+      - {x: 165, y: -170.5}
+      - {x: 193, y: -134.5}
+      - {x: 205, y: -76.5}
+      - {x: 184, y: -28.5}
+      - {x: 255.57129, y: -57.744083}
+      - {x: 255.57129, y: -32.080048}
+      - {x: 249.15527, y: -2.1386697}
+      - {x: 194, y: 36.5}
+      - {x: 159.33105, y: 408.48593}
+      - {x: 145, y: 413.5}
+      - {x: 120, y: 347.5}
+      - {x: 65, y: 491.5}
+      - {x: 42.773438, y: 485.47803}
+      - {x: 67, y: 282.5}
+      - {x: 5.3466797, y: 355.01917}
+      - {x: -25, y: 367.5}
+      - {x: 4, y: 202.5}
+      - {x: -51, y: 245.5}
+      - {x: -81, y: 177.5}
+      - {x: -133, y: 340.5}
+      - {x: -156, y: 322.5}
+      - {x: -177, y: 270.5}
+      - {x: -178.5791, y: 221.35231}
+      - {x: -163, y: 177.5}
+      - {x: -206.38184, y: 251.29369}
+      - {x: -267.33398, y: 411.6939}
+      - {x: -286, y: 410.5}
+      - {x: -273, y: 252.5}
+      - {x: -332, y: 296.5}
+      - {x: -323, y: 247.5}
+      - {x: -242, y: 119.5}
+      - {x: -183, y: -49.5}
+      - {x: -213, y: -91.5}
+      - {x: -198, y: -158.5}
+      - {x: -147, y: -103.5}
+      - {x: -150, y: -158.5}
+      - {x: -68, y: -218.5}
+      - {x: -55.60547, y: -205.31229}
+      - {x: -77, y: -169.5}
+      - {x: -73, y: -134.5}
+      - {x: -37, y: -184.5}
+      - {x: 33, y: -237.5}
+      - {x: 63, y: -234.5}
+      - {x: 33, y: -87.5}
+      - {x: 86, y: -236.5}
+      - {x: 132, y: -189.5}
+      - {x: 144, y: -141.5}
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -104,5 +153,5 @@ TextureImporter:
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
   userData: 
-  assetBundleName: ancientaspidmod_bundle
+  assetBundleName: 
   assetBundleVariant: 

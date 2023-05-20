@@ -283,6 +283,12 @@ public class ClawAnimator : MonoBehaviour
     }
 
 
+    /*public void ExitGroundMode()
+    {
+        OnGround = false;
+    }*/
+
+
     public IEnumerator PlayLanding(bool slide)
     {
         OnGround = true;
