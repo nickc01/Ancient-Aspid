@@ -121,7 +121,7 @@ public class LaserRapidFireMove : AncientAspidMove
 
     Transform shotGunTarget;
 
-    Transform oldTarget;
+    //Transform oldTarget;
 
     FireLaserMove laserMove;
 
@@ -132,8 +132,22 @@ public class LaserRapidFireMove : AncientAspidMove
 
     Vector3 fireTarget;
     float fireRotation;
+    bool cancelled = false;
 
-    public override bool MoveEnabled => moveEnabled && Boss.AspidMode == AncientAspid.Mode.Tactical;
+    TargetOverride target;
+
+    public override bool MoveEnabled
+    {
+        get
+        {
+            return Boss.CanSeeTarget && (moveEnabled || (Boss.Phase == AncientAspid.BossPhase.Default && Boss.HealthManager.Health <= 0.6f)) && Boss.AspidMode == AncientAspid.Mode.Tactical;
+        }
+    }
+
+    public void EnableMove(bool enabled)
+    {
+        moveEnabled = enabled;
+    }
 
     private void Awake()
     {
@@ -154,24 +168,34 @@ public class LaserRapidFireMove : AncientAspidMove
         Gizmos.DrawRay(transform.position, secondAngle);
     }
 
-    uint targetRoutine = 0;
+    //uint targetRoutine = 0;
 
-    void StartTargetRoutine()
+    /*void StartTargeting()
     {
-        targetRoutine = Boss.StartBoundRoutine(TargetRoutine());
-    }
+        SetLaserTarget();
+    }*/
 
-    void EndTargetRoutine()
+    void ResetTarget()
     {
-        if (targetRoutine != 0)
+        //Boss.LaserTargetOffset = default;
+
+        if (target != null)
+        {
+            Boss.RemoveTargetOverride(target);
+            target = null;
+        }
+
+        //Boss.UnfreezeTarget();
+        /*if (targetRoutine != 0)
         {
             Boss.StopBoundRoutine(targetRoutine);
             targetRoutine = 0;
-            Boss.SetTarget(oldTarget);
-        }
+            Boss.LaserTargetOffset = default;
+            //Boss.SetTarget(oldTarget);
+        }*/
     }
 
-    IEnumerator TargetRoutine()
+    void SetLaserTarget()
     {
         if (shotGunTarget == null)
         {
@@ -189,23 +213,71 @@ public class LaserRapidFireMove : AncientAspidMove
             targetPos = relativeTargetPos;
         }
 
-        oldTarget = Boss.TargetTransform;
-        Boss.SetTarget(shotGunTarget);
+        //Boss.LaserTargetOffset = targetPos;
 
-        while (true)
+        if (target == null)
+        {
+            target = Boss.AddTargetOverride();
+        }
+
+        target.SetTarget(() => targetPos + Player.Player1.transform.position);
+
+        //Boss.FreezeTarget(() => targetPos + Player.Player1.transform.position);
+
+        //oldTarget = Boss.TargetTransform;
+        //Boss.SetTarget(shotGunTarget);
+
+        /*while (true)
         {
             shotGunTarget.transform.position = Player.Player1.transform.position + targetPos;
             yield return null;
-        }
+        }*/
     }
 
     public override IEnumerator DoMove()
     {
+        {
+            cancelled = true;
+
+            var camRect = Boss.CamRect;
+
+            Vector2 targetPos;
+
+            if (Boss.Head.LookingDirection >= 0f)
+            {
+                targetPos = relativeTargetPos.With(x: -relativeTargetPos.x);
+            }
+            else
+            {
+                targetPos = relativeTargetPos;
+            }
+
+            var pos = (Vector2)Player.Player1.transform.position + targetPos;
+
+            var initialDirection = (pos - (Vector2)Boss.Head.transform.position).normalized;
+
+            for (int i = 0; i <= 10; i++)
+            {
+                var pointToCheck = (Vector2)Boss.Head.transform.position + (initialDirection * i);
+                if (camRect.Contains(pointToCheck))
+                {
+                    cancelled = false;
+                    break;
+                }
+            }
+
+            if (cancelled)
+            {
+                yield break;
+            }
+        }
+
         doingShotgun = false;
         Boss.orbitReductionAmount *= 3f;
         yield return Boss.Head.LockHead();
 
-        StartTargetRoutine();
+        SetLaserTarget();
+        //StartTargeting();
         /*if (shotGunTarget == null)
         {
             shotGunTarget = Player.Player1.transform.Find("Laser Target");
@@ -369,9 +441,11 @@ public class LaserRapidFireMove : AncientAspidMove
 
         //ALSO MAKE SURE THAT THE BOSS STOPS THE ATTACK PREMATURELY IF THE PLAYER IS COMPLETELY OUT OF RANGE
 
-        Boss.Head.UnlockHead();
+        //Boss.Head.UnlockHead();
 
-        OnStun();
+        //OnStun();
+        //laserMove.Emitter.Laser.transform.SetYLocalPosition(originalOriginDistance);
+        Boss.Head.Animator.PlaybackSpeed = 1f;
 
         doingShotgun = true;
 
@@ -379,8 +453,12 @@ public class LaserRapidFireMove : AncientAspidMove
 
         doingShotgun = false;
         Boss.orbitReductionAmount /= 3f;
-        EndTargetRoutine();
-        Boss.SetTarget(oldTarget);
+        ResetTarget();
+
+        //WeaverLog.LogError("OLD TARGET = " + oldTarget?.name);
+        //Boss.SetTarget(oldTarget);
+
+        Boss.Head.UnlockHead();
 
         //yield break;
     }
@@ -490,14 +568,20 @@ public class LaserRapidFireMove : AncientAspidMove
 
     public override void OnStun()
     {
+        if (Boss.Head.HeadLocked && !Boss.Head.HeadBeingUnlocked)
+        {
+            Boss.Head.UnlockHead();
+        }
+
+        Boss.Head.Animator.StopCurrentAnimation();
+
         if (doingShotgun)
         {
             doingShotgun = false;
             shotgunMove.OnStun();
 
             Boss.orbitReductionAmount /= 3f;
-            EndTargetRoutine();
-            Boss.SetTarget(oldTarget);
+            ResetTarget();
         }
         else
         {

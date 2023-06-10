@@ -5,6 +5,7 @@ using WeaverCore;
 using WeaverCore.Assets.Components;
 using WeaverCore.Components;
 using WeaverCore.Utilities;
+using static UnityEngine.GraphicsBuffer;
 
 /// <summary>
 /// Contains the main laser move and other common functions and utilities for operating the laser
@@ -109,10 +110,16 @@ public class FireLaserMove : AncientAspidMove
     [SerializeField]
     float headAdjustAmount = 0.17493f;
 
+    bool cancelled = false;
+
     public override bool MoveEnabled
     {
         get
         {
+            if (!Boss.CanSeeTarget || Vector3.Distance(Player.Player1.transform.position,transform.position) >= 40)
+            {
+                return false;
+            }
             if (Vector2.Distance(Player.Player1.transform.position, transform.position) >= minFollowPlayerDistance && moveEnabled)
             {
                 if (Boss.Orientation == AspidOrientation.Center)
@@ -135,6 +142,8 @@ public class FireLaserMove : AncientAspidMove
     float maxEmitterAngle;
 
     AudioPlayer loopSound;
+
+    TargetOverride target;
 
     //AnimationCurve defaultCurve = AnimationCurve.Linear(0f, 0f, 1f, 1f);
 
@@ -182,13 +191,22 @@ public class FireLaserMove : AncientAspidMove
 
     public IEnumerator AttackPlayer(PlayerSweepController controller)
     {
-        var oldTarget = Boss.TargetTransform;
+        //var oldTarget = Boss.TargetTransform;
 
-        Boss.SetTarget(transform.position);
+        //Boss.SetTarget(transform.position);
+        //Boss.FreezeTarget(() => transform.position);
+        target = Boss.AddTargetOverride();
+        target.SetTarget(() => transform.position);
 
         yield return SweepLaser(controller,false,0f);
 
-        Boss.SetTarget(oldTarget);
+        if (target != null)
+        {
+            Boss.RemoveTargetOverride(target);
+            target = null;
+        }
+        //Boss.UnfreezeTarget();
+        //Boss.SetTarget(oldTarget);
         yield break;
     }
 
@@ -211,13 +229,38 @@ public class FireLaserMove : AncientAspidMove
 
     public IEnumerator SweepLaser(SweepController controller, bool spawnGlobs, float globSpawnRate)
     {
-        yield return Boss.Head.LockHead(Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left);
-
-        yield return null;
-
         controller.Init(Boss);
 
+        var initialAngle = controller.CalculateAngle(0f);
+
+        var initialDirection = initialAngle * Vector3.right;
+
+        Debug.DrawRay(Boss.Head.transform.position, initialDirection * 10f, Color.yellow, 10f);
+
+        var camRect = Boss.CamRect;
+
+        cancelled = true;
+
+        for (int i = 0; i <= 10; i++)
+        {
+            var pointToCheck = Boss.Head.transform.position + (initialDirection * i);
+            if (camRect.Contains(pointToCheck))
+            {
+                cancelled = false;
+                break;
+            }
+        }
+
+        if (cancelled)
+        {
+            yield break;
+        }
+
+        yield return Boss.Head.LockHead(Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left);
+
         float timer = 0f;
+
+        yield return null;
 
         emitter.ChargeUpDuration = controller.PlayAntic ? controller.AnticTime : 0f;
         emitter.FireDuration = controller.FireTime;
@@ -301,10 +344,22 @@ public class FireLaserMove : AncientAspidMove
                     glob.SetScale(sweepGlobSizeRange.RandomInRange());
                 }
             }
+
+            if (Boss.RiseFromCenterPlatform)
+            {
+                emitter.StopLaser();
+                break;
+            }
+
             yield return null;
         }
 
-        OnStun();
+        if (loopSound != null)
+        {
+            loopSound.StopPlaying();
+            loopSound = null;
+        }
+        CameraShaker.Instance.SetRumble(WeaverCore.Enums.RumbleType.None);
 
         yield return FinishLaserMove(headAdjustAmount, anticClip.FPS);
     }
@@ -353,7 +408,7 @@ public class FireLaserMove : AncientAspidMove
         Boss.Head.UnlockHead(idleSprite.Degrees);
     }
 
-    public override float PostDelay => postDelay;
+    public override float PostDelay => cancelled ? 0f : postDelay;
 
 
     public void SetLaserRotation(float main, float extra)
@@ -382,6 +437,18 @@ public class FireLaserMove : AncientAspidMove
 
     public override void OnStun()
     {
+        if (Boss.Head.HeadLocked)
+        {
+            Boss.Head.UnlockHead();
+        }
+
+        if (target != null)
+        {
+            Boss.RemoveTargetOverride(target);
+            target = null;
+        }
+
+        Boss.Head.transform.SetLocalPosition(x: 0f, y: 0f);
         if (loopSound != null)
         {
             loopSound.StopPlaying();

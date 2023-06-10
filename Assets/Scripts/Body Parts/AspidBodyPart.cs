@@ -55,7 +55,7 @@ public abstract class AspidBodyPart : MonoBehaviour
 
     protected IEnumerator PlayChangeDirectionClip(string clipName, float fps, int frameCount)
     {
-        Debug.Log($"PLAYING FPS {fps} on {GetType().FullName}");
+        //Debug.Log($"PLAYING FPS {fps} on {GetType().FullName}");
         if (Animator.HasAnimationClip(clipName))
         {
             var clip = Animator.AnimationData.GetClip(clipName);

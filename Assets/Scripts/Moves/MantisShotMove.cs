@@ -7,7 +7,7 @@ using WeaverCore.Utilities;
 
 public class MantisShotMove : AncientAspidMove
 {
-    public override bool MoveEnabled => moveEnabled && Boss.AspidMode == AncientAspid.Mode.Tactical &&
+    public override bool MoveEnabled => Boss.CanSeeTarget && moveEnabled && Boss.AspidMode == AncientAspid.Mode.Tactical &&
         Boss.Claws.claws.All(c => !c.ClawLocked);
 
     [SerializeField]
@@ -46,9 +46,12 @@ public class MantisShotMove : AncientAspidMove
 
             var currentAngle = Mathf.Lerp(fireAngleRange.x, fireAngleRange.y,i / (shotAmount - 1f));
 
-            var shot = MantisShot.Spawn(Boss.Claws.transform.position, MathUtilities.PolarToCartesian(currentAngle, velocityRange.RandomInRange()));
+            if (!Boss.RiseFromCenterPlatform)
+            {
+                var shot = MantisShot.Spawn(Boss.Claws.transform.position, MathUtilities.PolarToCartesian(currentAngle, velocityRange.RandomInRange()));
 
-            shot.Audio.AudioSource.volume = 1f / shotAmount;
+                shot.Audio.AudioSource.volume = 1f / shotAmount;
+            }
         }
     }
 
@@ -56,6 +59,12 @@ public class MantisShotMove : AncientAspidMove
 
     public override void OnStun()
     {
-        
+        foreach (var claw in Boss.Claws.claws)
+        {
+            if (claw.ClawLocked)
+            {
+                claw.UnlockClaw();
+            }
+        }
     }
 }

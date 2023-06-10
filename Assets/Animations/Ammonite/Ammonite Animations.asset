@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467cfd72665795c4f89e874c3c17252a, type: 3}
+  m_Name: Ammonite Animations
+  m_EditorClassIdentifier: 
+  clipNames:
+  - Sleep Bubbles
+  - Sleep Bubbles Alternate
+  clipFrameStartIndexes: 000000000c000000
+  clipFrameCounts: 0c0000000c000000
+  frames:
+  - {fileID: 21300000, guid: 60dc1ce60a0457e49a2446218c2655aa, type: 3}
+  - {fileID: 21300000, guid: 8c08d88fd3f40e743b9cbd8eef36f59f, type: 3}
+  - {fileID: 21300000, guid: d68ddfaed3be4bf498bba157f879a4ed, type: 3}
+  - {fileID: 21300000, guid: 8c1058039c4f6c0469bc8fa2e053067f, type: 3}
+  - {fileID: 21300000, guid: ba15dea96f64c3c4c9eb130ce26d8393, type: 3}
+  - {fileID: 21300000, guid: 9ec1933c27862814693a88b5071a3184, type: 3}
+  - {fileID: 21300000, guid: 1e17d7cbf93e8b1469acdfd908a6dcaf, type: 3}
+  - {fileID: 21300000, guid: 7e383d36b77d67140958a96b911e0373, type: 3}
+  - {fileID: 21300000, guid: 5b0b3d9c9ae80d54c8d9a6e406fa8f6f, type: 3}
+  - {fileID: 21300000, guid: 556464c291f53624c8ce8ea52a18e4ca, type: 3}
+  - {fileID: 21300000, guid: 0046fbdb122d2d541ba28bbae7eabe86, type: 3}
+  - {fileID: 21300000, guid: cd7519f6a220be749ac41829b3047591, type: 3}
+  - {fileID: 21300000, guid: 1e17d7cbf93e8b1469acdfd908a6dcaf, type: 3}
+  - {fileID: 21300000, guid: 7e383d36b77d67140958a96b911e0373, type: 3}
+  - {fileID: 21300000, guid: 5b0b3d9c9ae80d54c8d9a6e406fa8f6f, type: 3}
+  - {fileID: 21300000, guid: 556464c291f53624c8ce8ea52a18e4ca, type: 3}
+  - {fileID: 21300000, guid: 0046fbdb122d2d541ba28bbae7eabe86, type: 3}
+  - {fileID: 21300000, guid: cd7519f6a220be749ac41829b3047591, type: 3}
+  - {fileID: 21300000, guid: 60dc1ce60a0457e49a2446218c2655aa, type: 3}
+  - {fileID: 21300000, guid: 8c08d88fd3f40e743b9cbd8eef36f59f, type: 3}
+  - {fileID: 21300000, guid: d68ddfaed3be4bf498bba157f879a4ed, type: 3}
+  - {fileID: 21300000, guid: 8c1058039c4f6c0469bc8fa2e053067f, type: 3}
+  - {fileID: 21300000, guid: ba15dea96f64c3c4c9eb130ce26d8393, type: 3}
+  - {fileID: 21300000, guid: 9ec1933c27862814693a88b5071a3184, type: 3}
+  clipFPSs:
+  - 12
+  - 12
+  clipWrapModes: 0100000001000000
+  clipLoopStarts: 0000000000000000

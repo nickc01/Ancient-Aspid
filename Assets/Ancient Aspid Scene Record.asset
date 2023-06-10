@@ -18,6 +18,8 @@ MonoBehaviour:
   sceneUnions:
   - SceneToUniteWith: GG_Workshop
     UnionScene: {fileID: 102900000, guid: 730b5bd578a25f149ad18c15ac2467ba, type: 3}
+  - SceneToUniteWith: Deepnest_East_13
+    UnionScene: {fileID: 102900000, guid: 8fad80cbe78916449a4d9090b0aacf27, type: 3}
   transitionRedirects: []
   sceneAdditionPaths:
   - Assets/Scenes/Ancient Aspid Room.unity
@@ -25,8 +27,10 @@ MonoBehaviour:
   sceneReplacementPaths: []
   sceneToUnionizePaths:
   - GG_Workshop
+  - Deepnest_East_13
   sceneUnionPaths:
   - Assets/Scenes/GG_Workshop_Union.unity
+  - Assets/Scenes/Deepnest_East_13_Union.unity
   transitionRedirects_containingScenes: []
   transitionRedirects_gatesToRedirect: []
   transitionRedirects_newDestinationScenes: []

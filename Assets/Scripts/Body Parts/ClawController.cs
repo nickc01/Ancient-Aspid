@@ -137,6 +137,27 @@ public class ClawController : AspidBodyPart
         }
     }
 
+    public void DisableSwingAttackImmediate()
+    {
+        SwingAttackEnabled = false;
+        if (attackRoutine != null)
+        {
+            StopCoroutine(attackRoutine);
+            attackRoutine = null;
+            attacking = false;
+            DoingBasicAttack = false;
+            if (FrontLeftClaw.ClawLocked)
+            {
+                FrontLeftClaw.UnlockClaw();
+            }
+
+            if (FrontRightClaw.ClawLocked)
+            {
+                FrontRightClaw.UnlockClaw();
+            }
+        }
+    }
+
     public bool OnGround
     {
         get => claws[0].OnGround;
@@ -172,6 +193,10 @@ public class ClawController : AspidBodyPart
     IEnumerator AttackRoutine()
     {
         yield return new WaitForSeconds(1f);
+        if (Boss.TrailerMode)
+        {
+            yield break;
+        }
         while (true)
         {
             if (Vector2.Distance(Boss.Head.transform.position,Player.Player1.transform.position) <= swingDistance && !FrontLeftClaw.ClawLocked && !FrontRightClaw.ClawLocked)
@@ -302,6 +327,7 @@ public class ClawController : AspidBodyPart
         var awaiter = RoutineAwaiter.AwaitBoundRoutines(Boss, awaitables.ToArray());
 
         yield return awaiter.WaitTillDone();
+
     }
 
     public IEnumerator FinishLanding(bool slammedIntoWall)
@@ -358,7 +384,17 @@ public class ClawController : AspidBodyPart
             Boss.StopBoundRoutine(shakeRoutineID);
             shakeRoutineID = 0;
         }
+
+        if (attackRoutine != null)
+        {
+            StopCoroutine(attackRoutine);
+            attackRoutine = null;
+        }
+
         transform.localPosition = transform.localPosition.With(x: 0f,y: 0f);
+
+        leftClawsOrigin.localPosition = leftClawOriginBase;
+        rightClawsOrigin.localPosition = rightClawOriginBase;
     }
 
     public IEnumerator GroundPrepareJump()

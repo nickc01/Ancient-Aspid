@@ -26,7 +26,7 @@ public abstract class AncientAspidMove : MonoBehaviour, IBossMove
 
     public virtual void OnDeath()
     {
-        OnDeath();
+        OnStun();
     }
 
     public abstract void OnStun();

@@ -38,11 +38,13 @@ public class PlayerSweepController : FireLaserMove.SweepController
             firstAttackDone = true;
             var newPlayerPos = Player.Player1.transform.position;
 
-            var angleToPlayer = MathUtilities.CartesianToPolar(newPlayerPos - boss.Head.transform.position).x;
+            //var predictedPosition = (newPlayerPos - playerStartPos);
+
+            var angleToPlayer = MathUtilities.CartesianToPolar(playerStartPos - boss.Head.transform.position).x;
 
             var playerQuaternion = Quaternion.Euler(0f,0f,angleToPlayer);
 
-            if (UnityEngine.Random.Range(0,2) == 1)
+            if (UnityEngine.Random.Range(0f,1f) > 0.5f)
             {
                 from = playerQuaternion * Quaternion.Euler(0f, 0f, maxAngle);
                 to = playerQuaternion * Quaternion.Euler(0f, 0f, minAngle);

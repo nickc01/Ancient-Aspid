@@ -13,10 +13,19 @@ MonoBehaviour:
   m_Name: Ancient Aspid Registry
   m_EditorClassIdentifier: 
   modTypeName: AncientAspidMod
-  modAssemblyName: Assembly-CSharp
+  __modAssemblyName: Assembly-CSharp
   features:
   - {fileID: 11400000, guid: 4f9959fde18456244a732b7492a230cc, type: 2}
+  - {fileID: 11400000, guid: 53925bd5d3de07c4c99ae7f55fedf179, type: 2}
+  - {fileID: 11400000, guid: 364475caf727b704da69c13362ef9e9d, type: 2}
+  - {fileID: 11400000, guid: bfc4d82a56ac3a740afdf9ad775fd0cd, type: 2}
   featureTypeNames:
   - WeaverCore.SceneRecord
+  - WeaverCore.Settings.SaveSpecificSettings
+  - WeaverCore.Features.WeaverCharm
+  - WeaverCore.Settings.GlobalSettings
   featureAssemblyNames:
+  - WeaverCore
+  - WeaverCore
+  - WeaverCore
   - WeaverCore

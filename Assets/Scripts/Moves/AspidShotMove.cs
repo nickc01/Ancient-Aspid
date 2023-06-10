@@ -41,7 +41,7 @@ public class AspidShotMove : AncientAspidMove
     AudioClip fireSound;
 
 
-    public override bool MoveEnabled => moveEnabled && Vector2.Distance(Player.Player1.transform.position,Boss.Head.transform.position) >= minDistance;// Boss.AspidMode == AncientAspid.Mode.Tactical || Boss.AspidMode == AncientAspid.Mode.Offensive;
+    public override bool MoveEnabled => Boss.CanSeeTarget && moveEnabled && Vector2.Distance(Player.Player1.transform.position,Boss.Head.transform.position) >= minDistance;// Boss.AspidMode == AncientAspid.Mode.Tactical || Boss.AspidMode == AncientAspid.Mode.Offensive;
 
     public override float PostDelay => postDelay;
 
@@ -129,23 +129,30 @@ public class AspidShotMove : AncientAspidMove
 
     void FireShot(float playerAngle, float angle, Vector3 sourcePos, float velocity)
     {
-        var instance = Pooling.Instantiate(ShotPrefab, sourcePos, Quaternion.identity);
-        if (instance.TryGetComponent(out Rigidbody2D rb))
+        if (!Boss.RiseFromCenterPlatform)
         {
-            rb.velocity = MathUtilities.PolarToCartesian(playerAngle + angle, velocity);
-        }
-        if (instance.TryGetComponent(out AspidShotBase aspidShot))
-        {
-            aspidShot.ScaleFactor = shotScale;
-        }
-        else
-        {
-            instance.transform.SetLocalScaleXY(shotScale, shotScale);
+            var instance = Pooling.Instantiate(ShotPrefab, sourcePos, Quaternion.identity);
+            if (instance.TryGetComponent(out Rigidbody2D rb))
+            {
+                rb.velocity = MathUtilities.PolarToCartesian(playerAngle + angle, velocity);
+            }
+            if (instance.TryGetComponent(out AspidShotBase aspidShot))
+            {
+                aspidShot.ScaleFactor = shotScale;
+            }
+            else
+            {
+                instance.transform.SetLocalScaleXY(shotScale, shotScale);
+            }
         }
     }
 
     public override void OnStun()
     {
-        Boss.Head.UnlockHead();
+        Boss.Head.Animator.StopCurrentAnimation();
+        if (Boss.Head.HeadLocked)
+        {
+            Boss.Head.UnlockHead();
+        }
     }
 }

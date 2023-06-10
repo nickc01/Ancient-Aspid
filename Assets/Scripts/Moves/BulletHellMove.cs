@@ -7,7 +7,7 @@ using WeaverCore.Utilities;
 
 public class BulletHellMove : AncientAspidMove
 {
-    public override bool MoveEnabled => moveEnabled &&
+    public override bool MoveEnabled => Boss.CanSeeTarget && moveEnabled &&
         Boss.AspidMode == AncientAspid.Mode.Offensive &&
         Player.Player1.transform.position.y < Boss.Head.transform.position.y - 3f &&
         Mathf.Abs(GetPlayerAngle()) <= 60f;
@@ -176,14 +176,23 @@ public class BulletHellMove : AncientAspidMove
             //Debug.Log("ROW X = " + rowAngleRange.x);
             //Debug.Log("ROW Y = " + rowAngleRange.y);
 
+            bool cancelAttack = false;
+
             //TODO : FIRE LASER IF PLAYER IS OUTSIDE OF RAPID FIRE
             if (playerAngle < playerAngleClamped + rowAngleRange.x && currentAngle < rowAngleRange.x + 0.2f)
             {
                 doLaserAttack = true;
+                cancelAttack = true;
             }
             else if (playerAngle > playerAngleClamped + rowAngleRange.y && currentAngle > rowAngleRange.y - 0.2f)
             {
                 doLaserAttack = true;
+                cancelAttack = true;
+            }
+
+            if (Vector3.Distance(transform.position, Player.Player1.transform.position) >= 25)
+            {
+                cancelAttack = true;
             }
 
             if (doLaserAttack)
@@ -211,10 +220,19 @@ public class BulletHellMove : AncientAspidMove
                     laserMove.followPlayerCurve
                     ), false, 0f);
                 firingLaser = false;
-                yield break;
             }
 
             travelingLeft = !travelingLeft;
+
+            if (cancelAttack || !Boss.CanSeeTarget || !Boss.OffensiveModeEnabled)
+            {
+                if (Boss.Head.HeadLocked)
+                {
+                    Boss.Head.UnlockHead(laserMove.GetLaserRotationValues().main);
+                }
+                recoiler.SetRecoilSpeed(oldRecoilSpeed);
+                yield break;
+            }
         }
         recoiler.SetRecoilSpeed(oldRecoilSpeed);
 
@@ -284,6 +302,11 @@ public class BulletHellMove : AncientAspidMove
         else
         {
             recoiler.SetRecoilSpeed(oldRecoilSpeed);
+        }
+        Boss.Head.Animator.StopCurrentAnimation();
+        if (Boss.Head.HeadLocked)
+        {
+            Boss.Head.UnlockHead();
         }
     }
 }

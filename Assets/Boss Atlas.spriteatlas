@@ -155,7 +155,8 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 4973bd4a259e053429db98e2e5e413eb, type: 3}
     - {fileID: 2800000, guid: 9b6f7e0585dcebb4c9492b09e5d06fce, type: 3}
     - {fileID: 2800000, guid: 50a5acd265ddaa24ab84256717e06678, type: 3}
-    totalSpriteSurfaceArea: 302025738
+    - {fileID: 2800000, guid: 607acba4ed3a5a44e9db63af7e17f002, type: 3}
+    totalSpriteSurfaceArea: 305658890
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -190,6 +191,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 2f4e8d14342ce8846bfe2eca1d6e5713, type: 3}
   - {fileID: 21300000, guid: d9359874313b4ba4e8ff31d329ab8473, type: 3}
   - {fileID: 21300000, guid: 47f614941a94b6744a48fa3c7d864c94, type: 3}
+  - {fileID: 21300000, guid: 607acba4ed3a5a44e9db63af7e17f002, type: 3}
   - {fileID: 21300000, guid: 6cd3aea4c6321864ea39ef6bd9acc9e6, type: 3}
   - {fileID: 21300000, guid: 9b6f7e0585dcebb4c9492b09e5d06fce, type: 3}
   - {fileID: 21300000, guid: 9a190c25ea7146d47ab3f3482eb87b98, type: 3}
@@ -291,6 +293,7 @@ SpriteAtlas:
   - HK_AA_idle_wingplate_03
   - HK_AA_moddef_claw_mid_left_0001
   - HK_AA_idle_claws_single_L_1_0000
+  - HK_AA_ALL_rest_01
   - HK_AA_idle_body_23
   - HK_AA_moddef_wing_03
   - HK_AA_idle_body_16

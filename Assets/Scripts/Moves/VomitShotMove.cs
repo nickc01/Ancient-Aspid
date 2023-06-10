@@ -7,8 +7,9 @@ using WeaverCore.Utilities;
 
 public class VomitShotMove : AncientAspidMove
 {
-    public override bool MoveEnabled => moveEnabled &&
+    public override bool MoveEnabled => Boss.CanSeeTarget && moveEnabled &&
         Boss.AspidMode == AncientAspid.Mode.Tactical &&
+        Vector3.Distance(Player.Player1.transform.position, transform.position) <= 40 &&
         Vector2.Distance(Player.Player1.transform.position, Boss.Head.transform.position) >= minDistance;
     /*Mathf.Abs(Boss.Head.transform.position.x - Player.Player1.transform.position.x) >= minXDistance &&
     Boss.Head.transform.position.y - Player.Player1.transform.position.y >= minYDistance;*/
@@ -61,6 +62,11 @@ public class VomitShotMove : AncientAspidMove
 
     [SerializeField]
     float postDelay = 0.25f;
+
+    public void EnableMove(bool enabled)
+    {
+        moveEnabled = enabled;
+    }
 
 #if UNITY_EDITOR
     Player testPlayer;
@@ -168,11 +174,17 @@ public class VomitShotMove : AncientAspidMove
 
         var velocity = MathUtilities.CalculateVelocityToReachPoint(position, (Vector2)position + target, timeRange.RandomInRange(), gravityScale);
 
-        VomitGlob.Spawn(position, velocity, gravityScale);
+        if (!Boss.RiseFromCenterPlatform)
+        {
+            VomitGlob.Spawn(position, velocity, gravityScale);
+        }
     }
 
     public override void OnStun()
     {
-        
+        if (Boss.Head.HeadLocked)
+        {
+            Boss.Head.UnlockHead();
+        }
     }
 }

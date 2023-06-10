@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Ammonite Atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 17d16e7129b653a41b56f8fcd4b833b2, type: 3}
+    - {fileID: 2800000, guid: 60dc1ce60a0457e49a2446218c2655aa, type: 3}
+    - {fileID: 2800000, guid: 8c08d88fd3f40e743b9cbd8eef36f59f, type: 3}
+    - {fileID: 2800000, guid: d68ddfaed3be4bf498bba157f879a4ed, type: 3}
+    - {fileID: 2800000, guid: 8c1058039c4f6c0469bc8fa2e053067f, type: 3}
+    - {fileID: 2800000, guid: ba15dea96f64c3c4c9eb130ce26d8393, type: 3}
+    - {fileID: 2800000, guid: 9ec1933c27862814693a88b5071a3184, type: 3}
+    - {fileID: 2800000, guid: 7e383d36b77d67140958a96b911e0373, type: 3}
+    - {fileID: 2800000, guid: 5b0b3d9c9ae80d54c8d9a6e406fa8f6f, type: 3}
+    - {fileID: 2800000, guid: 556464c291f53624c8ce8ea52a18e4ca, type: 3}
+    - {fileID: 2800000, guid: 0046fbdb122d2d541ba28bbae7eabe86, type: 3}
+    - {fileID: 2800000, guid: cd7519f6a220be749ac41829b3047591, type: 3}
+    totalSpriteSurfaceArea: 87156
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 17d16e7129b653a41b56f8fcd4b833b2, type: 3}
+  - {fileID: 21300000, guid: 556464c291f53624c8ce8ea52a18e4ca, type: 3}
+  - {fileID: 21300000, guid: 8c1058039c4f6c0469bc8fa2e053067f, type: 3}
+  - {fileID: 21300000, guid: 7e383d36b77d67140958a96b911e0373, type: 3}
+  - {fileID: 21300000, guid: 60dc1ce60a0457e49a2446218c2655aa, type: 3}
+  - {fileID: 21300000, guid: cd7519f6a220be749ac41829b3047591, type: 3}
+  - {fileID: 21300000, guid: ba15dea96f64c3c4c9eb130ce26d8393, type: 3}
+  - {fileID: 21300000, guid: 0046fbdb122d2d541ba28bbae7eabe86, type: 3}
+  - {fileID: 21300000, guid: 9ec1933c27862814693a88b5071a3184, type: 3}
+  - {fileID: 21300000, guid: 5b0b3d9c9ae80d54c8d9a6e406fa8f6f, type: 3}
+  - {fileID: 21300000, guid: d68ddfaed3be4bf498bba157f879a4ed, type: 3}
+  - {fileID: 21300000, guid: 8c08d88fd3f40e743b9cbd8eef36f59f, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - AA_BG_Ammonite_Asleep
+  - AA_BG_Ammonite_Airbubble_0009
+  - AA_BG_Ammonite_Airbubble_0003
+  - AA_BG_Ammonite_Airbubble_0007
+  - AA_BG_Ammonite_Airbubble_0000
+  - AA_BG_Ammonite_Airbubble_0011
+  - AA_BG_Ammonite_Airbubble_0004
+  - AA_BG_Ammonite_Airbubble_0010
+  - AA_BG_Ammonite_Airbubble_0005
+  - AA_BG_Ammonite_Airbubble_0008
+  - AA_BG_Ammonite_Airbubble_0002
+  - AA_BG_Ammonite_Airbubble_0001
+  m_RenderDataMap: {}
+  m_Tag: Ammonite Atlas
+  m_IsVariant: 0

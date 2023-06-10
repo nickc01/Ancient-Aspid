@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using WeaverCore;
 using WeaverCore.Components;
+using WeaverCore.Features;
 
 public class LaserShotgunMove : AncientAspidMove
 {
@@ -84,6 +85,8 @@ public class LaserShotgunMove : AncientAspidMove
     LaserRapidFireMove rapidFireMove;
     AudioPlayer loopSound;
 
+    TargetOverride target = null;
+
     public override bool MoveEnabled => false;
 
     private void Awake()
@@ -111,18 +114,38 @@ public class LaserShotgunMove : AncientAspidMove
 
     public override IEnumerator DoMove()
     {
+        if (!Boss.Head.HeadLocked)
+        {
+            yield return Boss.Head.LockHead();
+        }
+
         shotgunMouthParticles.Play();
-        oldBossTarget = Boss.TargetTransform;
+        //oldBossTarget = Boss.TargetTransform;
         targetPos = Player.Player1.transform.position;
+
+        Vector3 bossOffset;
 
         if (Boss.Head.LookingDirection >= 0f)
         {
-            Boss.SetTarget(Player.Player1.transform.position + targetOffset);
+            //Boss.SetTarget(Player.Player1.transform.position + targetOffset);
+            bossOffset = targetOffset;
         }
         else
         {
-            Boss.SetTarget(Player.Player1.transform.position + new Vector3(-targetOffset.x,targetOffset.y,targetOffset.z));
+            bossOffset = new Vector3(-targetOffset.x, targetOffset.y, targetOffset.z);
+            //Boss.SetTarget(Player.Player1.transform.position + new Vector3(-targetOffset.x,targetOffset.y,targetOffset.z));
         }
+
+        //var freezePos = bossOffset + Player.Player1.transform.position;
+
+        //Boss.FreezeTarget(() => freezePos);
+
+        if (target == null)
+        {
+            target = Boss.AddTargetOverride();
+        }
+
+        target.SetTarget(bossOffset + Player.Player1.transform.position);
 
         for (int i = 0; i < lasers.Count; i++)
         {
@@ -150,7 +173,7 @@ public class LaserShotgunMove : AncientAspidMove
 
         shotgunMouthParticles.Stop();
 
-        Boss.SetTarget(Boss.transform.position);
+        //Boss.SetTarget(Boss.transform.position);
 
         var totalDelay = attackDelay + Boss.Head.Animator.AnimationData.GetClipDuration("Fire Laser Antic Quick") - lasers[0].MinChargeUpDuration;
 
@@ -185,7 +208,10 @@ public class LaserShotgunMove : AncientAspidMove
 
         CameraShaker.Instance.SetRumble(WeaverCore.Enums.RumbleType.None);
 
-        Boss.SetTarget(oldBossTarget);
+        //Boss.SetTarget(oldBossTarget);
+        //Boss.UnfreezeTarget();
+        Boss.RemoveTargetOverride(target);
+        target = null;
 
         yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser End Quick");
 
@@ -196,8 +222,19 @@ public class LaserShotgunMove : AncientAspidMove
     {
         CameraShaker.Instance.SetRumble(WeaverCore.Enums.RumbleType.None);
         StopLasers();
+        if (Boss.Head.HeadLocked)
+        {
+            Boss.Head.UnlockHead();
+        }
+        Boss.Head.Animator.StopCurrentAnimation();
         SetAttackMode(false, Boss.Head.LookingDirection >= 0);
-        Boss.SetTarget(oldBossTarget);
+        //Boss.SetTarget(oldBossTarget);
+        if (target != null)
+        {
+            Boss.RemoveTargetOverride(target);
+            target = null;
+        }
+        //Boss.UnfreezeTarget();
 
         if (bloodParticlesRoutines.Count > 0)
         {

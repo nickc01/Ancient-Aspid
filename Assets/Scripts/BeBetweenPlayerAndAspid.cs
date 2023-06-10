@@ -90,6 +90,12 @@ public class BeBetweenPlayerAndAspid : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(transform.position, Vector3.one);
+    }
+
     private void Update()
     {
         var playerPos = Player.Player1.transform.position;
@@ -101,16 +107,28 @@ public class BeBetweenPlayerAndAspid : MonoBehaviour
 
         //Debug.DrawLine(OtherObject.transform.position, OtherObject.transform.position + new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle)));
 
-        if (angle > AboveMinAngle && angle < AboveMaxAngle)
+        if (Aspid.Phase == AncientAspid.BossPhase.Phase2)
         {
-            transform.position = playerPos + (vectorToObject.normalized * DistanceFromPlayerWhenAbove);
+            if (vectorToObject.y < 0)
+            {
+                vectorToObject.y = -vectorToObject.y;
+            }
+
+            transform.position = playerPos + (vectorToObject.normalized * FarDistanceRange.y);
         }
         else
         {
-            transform.position = playerPos + (vectorToObject.normalized * currentDistanceToPlayer);
+            if (angle > AboveMinAngle && angle < AboveMaxAngle)
+            {
+                transform.position = playerPos + (vectorToObject.normalized * DistanceFromPlayerWhenAbove);
+            }
+            else
+            {
+                transform.position = playerPos + (vectorToObject.normalized * currentDistanceToPlayer);
+            }
         }
 
-        var roomBoundaries = Aspid.CurrentRoomRect;
+        /*var roomBoundaries = Aspid.CurrentRoomRect;
 
         if (transform.position.y < roomBoundaries.Rect.yMin + minDistanceFromFloor)
         {
@@ -130,7 +148,7 @@ public class BeBetweenPlayerAndAspid : MonoBehaviour
         if (transform.position.x > roomBoundaries.Rect.xMax - minDistanceFromRightWall)
         {
             transform.SetPositionX(roomBoundaries.Rect.xMax - minDistanceFromRightWall);
-        }
+        }*/
 
         /*if (KeepAboveFloorHeight)
         {

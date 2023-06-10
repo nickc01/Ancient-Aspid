@@ -288,6 +288,19 @@ public class ClawAnimator : MonoBehaviour
         OnGround = false;
     }*/
 
+    public void LandImmediately()
+    {
+        var orientation = Controller.Boss.Orientation;
+        var clip = Animator.AnimationData.GetClip($"Lunge Land {clawType}");
+        if (orientation == AspidOrientation.Left)
+        {
+            MainRenderer.sprite = Animator.AnimationData.GetFrameFromClip($"Lunge Land {clawType}", clip.Frames.Count - 1);
+        }
+        else
+        {
+            MainRenderer.sprite = Animator.AnimationData.GetFrameFromClip($"Lunge Land {clawType}", 0);
+        }
+    }
 
     public IEnumerator PlayLanding(bool slide)
     {
@@ -397,6 +410,9 @@ public class ClawAnimator : MonoBehaviour
     public void OnStun()
     {
         OnGround = false;
+
+        transform.localPosition = transform.localPosition.With(x: basePosition.x, basePosition.y);
+        transform.localEulerAngles = baseRotation;
     }
 
     /*public IEnumerator PlayAttackAnimation(bool playSounds)

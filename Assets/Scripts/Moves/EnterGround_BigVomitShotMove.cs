@@ -134,6 +134,9 @@ public class EnterGround_BigVomitShotMove : AncientAspidMove
 
     public override void OnStun()
     {
-        
+        if (Boss.Head.HeadLocked)
+        {
+            Boss.Head.UnlockHead();
+        }
     }
 }

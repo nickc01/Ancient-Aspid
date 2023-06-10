@@ -92,6 +92,8 @@ public class HeadController : AspidBodyPart
 
     public bool HeadLocked { get; private set; } = false;
 
+    public bool HeadBeingUnlocked => unlockRoutine != 0;
+
     public float LaserChargeUpDuration => groundLaserEmitter.ChargeUpDuration;
 
     uint unlockRoutine = 0;
@@ -368,6 +370,28 @@ public class HeadController : AspidBodyPart
         else if (CurrentOrientation != AspidOrientation.Center)
         {
             unlockRoutine = Boss.StartBoundRoutine(UnlockTowardsDirection(newHeadDirection, CurrentOrientation));
+        }
+    }
+
+    public void UnlockHeadImmediate(AspidOrientation orientation)
+    {
+        if (CurrentOrientation == AspidOrientation.Center && lookAtPlayer)
+        {
+            currentlyLookingAtPlayer = true;
+            HeadLocked = false;
+        }
+        else if (CurrentOrientation != AspidOrientation.Center)
+        {
+            MainRenderer.sprite = idle_Sprites[0];
+            MainRenderer.flipX = orientation == AspidOrientation.Right;
+            HeadLocked = false;
+            //unlockRoutine = Boss.StartBoundRoutine(UnlockTowardsDirection(newHeadDirection, CurrentOrientation));
+        }
+
+        if (unlockRoutine != 0)
+        {
+            Boss.StopBoundRoutine(unlockRoutine);
+            unlockRoutine = 0;
         }
     }
 
