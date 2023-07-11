@@ -1,0 +1,1262 @@
+fileFormatVersion: 2
+guid: ac3d194d4524bc345b3fc8b0858314f2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4795702857266808606
+    second: AA_BG_MidGround_farwall_3_pieces_0
+  - first:
+      213: 3546130624660433634
+    second: AA_BG_MidGround_farwall_3_pieces_2
+  - first:
+      213: 1943676744314151592
+    second: AA_BG_MidGround_farwall_3_pieces_3
+  - first:
+      213: 2198423564527282073
+    second: AA_BG_MidGround_farwall_3_pieces_4
+  - first:
+      213: 7437156335970534242
+    second: AA_BG_MidGround_farwall_3_pieces_5
+  - first:
+      213: 4569463309556311105
+    second: AA_BG_MidGround_farwall_3_pieces_6
+  - first:
+      213: -2405517790316545998
+    second: AA_BG_MidGround_farwall_3_pieces_10
+  - first:
+      213: 3127670890434998050
+    second: AA_BG_MidGround_farwall_3_pieces_16
+  - first:
+      213: 2504766530157015081
+    second: AA_BG_MidGround_farwall_3_pieces_17
+  - first:
+      213: -6352535398994675540
+    second: AA_BG_MidGround_farwall_3_pieces_18
+  - first:
+      213: 488407117871780958
+    second: AA_BG_MidGround_farwall_3_pieces_21
+  - first:
+      213: -7406518209618908009
+    second: AA_BG_MidGround_farwall_3_pieces_22
+  - first:
+      213: 8196736924117386085
+    second: AA_BG_MidGround_farwall_3_pieces_24
+  - first:
+      213: 2497062622322955015
+    second: AA_BG_MidGround_farwall_3_pieces_26
+  - first:
+      213: 8951695365510651681
+    second: AA_BG_MidGround_farwall_3_pieces_28
+  - first:
+      213: 6379754562126250872
+    second: AA_BG_MidGround_farwall_3_pieces_29
+  - first:
+      213: -4171336912059740476
+    second: AA_BG_MidGround_farwall_3_pieces_31
+  - first:
+      213: 7845949574981691535
+    second: AA_BG_MidGround_farwall_3_pieces_32
+  - first:
+      213: 4705303817476412400
+    second: AA_BG_MidGround_farwall_3_pieces_34
+  - first:
+      213: -789666210999295777
+    second: AA_BG_MidGround_farwall_3_pieces_36
+  - first:
+      213: -6520509618597523706
+    second: AA_BG_MidGround_farwall_3_pieces_38
+  - first:
+      213: -6515503485336028256
+    second: AA_BG_MidGround_farwall_3_pieces_41
+  - first:
+      213: -4750351902506441082
+    second: AA_BG_MidGround_farwall_3_pieces_42
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 2
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_0
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 2170
+        width: 249
+        height: 262
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 105.5, y: 72}
+        - {x: 71.5, y: 106}
+        - {x: 29.5, y: 131}
+        - {x: -8.5, y: 131}
+        - {x: -46.5, y: 125}
+        - {x: -94.5, y: 98}
+        - {x: -124.5, y: 39}
+        - {x: -124.5, y: -24}
+        - {x: -93.5, y: -64}
+        - {x: -103.5, y: -131}
+        - {x: 6.5, y: -131}
+        - {x: 68.5, y: -111}
+        - {x: 102.5, y: -71}
+        - {x: 124.5, y: -36}
+        - {x: 124.5, y: 34}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 2e83948f8ad327db0800000000000000
+      internalID: -4795702857266808606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_2
+      rect:
+        serializedVersion: 2
+        x: 782
+        y: 2172
+        width: 226
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -34, y: 103}
+        - {x: -76, y: 89}
+        - {x: -113, y: 47}
+        - {x: -113, y: 35}
+        - {x: -62, y: -13}
+        - {x: -58, y: -65}
+        - {x: -15, y: -103}
+        - {x: 30, y: -103}
+        - {x: 84, y: -70}
+        - {x: 108, y: -27}
+        - {x: 113, y: 41}
+        - {x: 79, y: 80}
+        - {x: 40, y: 103}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 2eae402d303663130800000000000000
+      internalID: 3546130624660433634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_3
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 2122
+        width: 279
+        height: 278
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 106.5, y: -48}
+        - {x: 139.5, y: 25}
+        - {x: 123.5, y: 55}
+        - {x: 117.5, y: 103}
+        - {x: 53.5, y: 139}
+        - {x: 4.5, y: 132}
+        - {x: -41.5, y: 132}
+        - {x: -95.5, y: 80}
+        - {x: -116.5, y: 73}
+        - {x: -114.5, y: 37}
+        - {x: -139.5, y: -9}
+        - {x: -127.5, y: -38}
+        - {x: -132.5, y: -70}
+        - {x: -104.5, y: -95}
+        - {x: -75.5, y: -139}
+        - {x: -70.5, y: -139}
+        - {x: -15.5, y: -81}
+        - {x: 37.5, y: -83}
+        - {x: 54.5, y: -81}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 8a2680f63b359fa10800000000000000
+      internalID: 1943676744314151592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_4
+      rect:
+        serializedVersion: 2
+        x: 356
+        y: 2177
+        width: 207
+        height: 192
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -29.5, y: 96}
+        - {x: -74.5, y: 77}
+        - {x: -100.5, y: 39}
+        - {x: -103.5, y: 8}
+        - {x: -100.5, y: -33}
+        - {x: -72.5, y: -76}
+        - {x: -21.5, y: -96}
+        - {x: -7.5, y: -96}
+        - {x: 47.5, y: -81}
+        - {x: 80.5, y: -48}
+        - {x: 103.5, y: 3}
+        - {x: 65.5, y: 25}
+        - {x: 43.5, y: 67}
+        - {x: 13.5, y: 95}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 9972f7d859e528e10800000000000000
+      internalID: 2198423564527282073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_5
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 2168
+        width: 202
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 81, y: 58}
+        - {x: 31, y: 90}
+        - {x: -22, y: 95}
+        - {x: -31, y: 95}
+        - {x: -81, y: 65}
+        - {x: -101, y: 26}
+        - {x: -101, y: 18}
+        - {x: -60, y: -15}
+        - {x: -67, y: -49}
+        - {x: -47, y: -74}
+        - {x: -21, y: -91}
+        - {x: 30, y: -95}
+        - {x: 75, y: -65}
+        - {x: 101, y: -1}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 263c198a846163760800000000000000
+      internalID: 7437156335970534242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_6
+      rect:
+        serializedVersion: 2
+        x: 1032
+        y: 2161
+        width: 218
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 64, y: 84}
+        - {x: 19, y: 100}
+        - {x: -23, y: 99}
+        - {x: -52, y: 89}
+        - {x: -89, y: 63}
+        - {x: -109, y: 23}
+        - {x: -109, y: 0}
+        - {x: -80, y: -16}
+        - {x: -61, y: -64}
+        - {x: -43, y: -84}
+        - {x: -10, y: -100}
+        - {x: 34, y: -100}
+        - {x: 71, y: -83}
+        - {x: 96, y: -58}
+        - {x: 108, y: -12}
+        - {x: 106, y: 36}
+        - {x: 86, y: 67}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 144e8448baef96f30800000000000000
+      internalID: 4569463309556311105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1689
+        width: 528
+        height: 457
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 264, y: -57.5}
+        - {x: 221, y: -7.5}
+        - {x: 183, y: -1.5}
+        - {x: 152, y: 22.5}
+        - {x: 130, y: 73.5}
+        - {x: 105, y: 121.5}
+        - {x: 56, y: 166.5}
+        - {x: -3, y: 199.5}
+        - {x: -64, y: 209.5}
+        - {x: -108, y: 213.5}
+        - {x: -165, y: 199.5}
+        - {x: -258, y: 147.5}
+        - {x: -251, y: 110.5}
+        - {x: -229, y: 18.5}
+        - {x: -219, y: 8.5}
+        - {x: -235, y: -45.5}
+        - {x: -227, y: -73.5}
+        - {x: -227, y: -113.5}
+        - {x: -218, y: -151.5}
+        - {x: -158, y: -195.5}
+        - {x: -99, y: -208.5}
+        - {x: -17, y: -205.5}
+        - {x: 54, y: -181.5}
+        - {x: 63, y: -197.5}
+        - {x: 108, y: -228.5}
+        - {x: 190, y: -228.5}
+        - {x: 245, y: -186.5}
+        - {x: 264, y: -130.5}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 238bc4f8052ed9ed0800000000000000
+      internalID: -2405517790316545998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_16
+      rect:
+        serializedVersion: 2
+        x: 1006
+        y: 1861
+        width: 243
+        height: 243
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 100.5, y: 81.5}
+        - {x: 60.5, y: 98.5}
+        - {x: 29.5, y: 121.5}
+        - {x: -23.5, y: 121.5}
+        - {x: -49.5, y: 104.5}
+        - {x: -80.5, y: 99.5}
+        - {x: -105.5, y: 52.5}
+        - {x: -104.5, y: 12.5}
+        - {x: -121.5, y: -21.5}
+        - {x: -121.5, y: -68.5}
+        - {x: -106.5, y: -99.5}
+        - {x: -59.5, y: -108.5}
+        - {x: -26.5, y: -121.5}
+        - {x: -16.5, y: -121.5}
+        - {x: 54.5, y: -107.5}
+        - {x: 111.5, y: -52.5}
+        - {x: 117.5, y: -13.5}
+        - {x: 121.5, y: 19.5}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 22f25be8a18b76b20800000000000000
+      internalID: 3127670890434998050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_17
+      rect:
+        serializedVersion: 2
+        x: 1196
+        y: 1706
+        width: 370
+        height: 389
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 49, y: -46.5}
+        - {x: 82, y: -58.5}
+        - {x: 142, y: -36.5}
+        - {x: 172, y: 10.5}
+        - {x: 185, y: 62.5}
+        - {x: 179, y: 109.5}
+        - {x: 140, y: 165.5}
+        - {x: 114, y: 182.5}
+        - {x: 77, y: 194.5}
+        - {x: 47, y: 194.5}
+        - {x: 8, y: 186.5}
+        - {x: -27, y: 171.5}
+        - {x: -63, y: 129.5}
+        - {x: -75, y: 71.5}
+        - {x: -76, y: 20.5}
+        - {x: -111, y: 14.5}
+        - {x: -168, y: -32.5}
+        - {x: -185, y: -103.5}
+        - {x: -185, y: -123.5}
+        - {x: -166, y: -176.5}
+        - {x: -151, y: -194.5}
+        - {x: -125, y: -186.5}
+        - {x: -83, y: -182.5}
+        - {x: -56, y: -191.5}
+        - {x: -7, y: -188.5}
+        - {x: 48, y: -152.5}
+        - {x: 60, y: -124.5}
+        - {x: 62, y: -83.5}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 920fb4b63e7b2c220800000000000000
+      internalID: 2504766530157015081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_18
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 1695
+        width: 401
+        height: 380
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 200.5, y: -59}
+        - {x: 181.5, y: 1}
+        - {x: 125.5, y: 55}
+        - {x: 127.5, y: 90}
+        - {x: 113.5, y: 109}
+        - {x: 110.5, y: 147}
+        - {x: 81.5, y: 159}
+        - {x: 69.5, y: 176}
+        - {x: 48.5, y: 190}
+        - {x: 21.5, y: 186}
+        - {x: -5.5, y: 190}
+        - {x: -27.5, y: 190}
+        - {x: -58.5, y: 172}
+        - {x: -86.5, y: 166}
+        - {x: -100.5, y: 126}
+        - {x: -123.5, y: 103}
+        - {x: -117.5, y: 80}
+        - {x: -125.5, y: 55}
+        - {x: -182.5, y: 12}
+        - {x: -200.5, y: -32}
+        - {x: -200.5, y: -80}
+        - {x: -182.5, y: -112}
+        - {x: -142.5, y: -149}
+        - {x: -106.5, y: -158}
+        - {x: -69.5, y: -151}
+        - {x: -40.5, y: -173}
+        - {x: 23.5, y: -190}
+        - {x: 69.5, y: -181}
+        - {x: 122.5, y: -153}
+        - {x: 172.5, y: -167}
+        - {x: 200.5, y: -117}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: ca8f3d736b247d7a0800000000000000
+      internalID: -6352535398994675540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_21
+      rect:
+        serializedVersion: 2
+        x: 122
+        y: 1202
+        width: 467
+        height: 460
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 213.5, y: -185}
+        - {x: 226.5, y: -160}
+        - {x: 233.5, y: -131}
+        - {x: 233.5, y: -109}
+        - {x: 224.5, y: -61}
+        - {x: 205.5, y: -29}
+        - {x: 178.5, y: -6}
+        - {x: 156.5, y: 7}
+        - {x: 162.5, y: 28}
+        - {x: 163.5, y: 104}
+        - {x: 124.5, y: 178}
+        - {x: 69.5, y: 214}
+        - {x: 1.5, y: 229}
+        - {x: -23.5, y: 222}
+        - {x: -75.5, y: 211}
+        - {x: -106.5, y: 190}
+        - {x: -133.5, y: 197}
+        - {x: -159.5, y: 183}
+        - {x: -190.5, y: 177}
+        - {x: -223.5, y: 124}
+        - {x: -213.5, y: 63}
+        - {x: -178.5, y: 27}
+        - {x: -136.5, y: 28}
+        - {x: -122.5, y: -20}
+        - {x: -106.5, y: -24}
+        - {x: -128.5, y: -53}
+        - {x: -149.5, y: -104}
+        - {x: -148.5, y: -150}
+        - {x: -122.5, y: -189}
+        - {x: -79.5, y: -221}
+        - {x: -44.5, y: -230}
+        - {x: -2.5, y: -230}
+        - {x: 51.5, y: -205}
+        - {x: 70.5, y: -187}
+        - {x: 116.5, y: -215}
+        - {x: 171.5, y: -211}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: e54158e9fab27c600800000000000000
+      internalID: 488407117871780958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_22
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 1223
+        width: 438
+        height: 431
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 130, y: -168.5}
+        - {x: 176, y: -159.5}
+        - {x: 205, y: -132.5}
+        - {x: 218, y: -87.5}
+        - {x: 218, y: -40.5}
+        - {x: 194, y: 4.5}
+        - {x: 151, y: 34.5}
+        - {x: 168, y: 66.5}
+        - {x: 179, y: 110.5}
+        - {x: 164, y: 160.5}
+        - {x: 121, y: 190.5}
+        - {x: 75, y: 203.5}
+        - {x: 28, y: 201.5}
+        - {x: -22, y: 215.5}
+        - {x: -27, y: 215.5}
+        - {x: -51, y: 209.5}
+        - {x: -92, y: 209.5}
+        - {x: -142, y: 174.5}
+        - {x: -196, y: 99.5}
+        - {x: -186, y: 74.5}
+        - {x: -194, y: 34.5}
+        - {x: -175, y: -12.5}
+        - {x: -204, y: -39.5}
+        - {x: -218, y: -65.5}
+        - {x: -175, y: -99.5}
+        - {x: -163, y: -121.5}
+        - {x: -156, y: -162.5}
+        - {x: -137, y: -189.5}
+        - {x: -100, y: -210.5}
+        - {x: -65, y: -215.5}
+        - {x: 11, y: -184.5}
+        - {x: 61, y: -146.5}
+        - {x: 86, y: -163.5}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 79ce3350ee2c63990800000000000000
+      internalID: -7406518209618908009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_24
+      rect:
+        serializedVersion: 2
+        x: 1061
+        y: 1309
+        width: 403
+        height: 292
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 201.5, y: -13}
+        - {x: 198.5, y: 31}
+        - {x: 177.5, y: 81}
+        - {x: 118.5, y: 119}
+        - {x: 31.5, y: 120}
+        - {x: -2.5, y: 102}
+        - {x: -25.5, y: 121}
+        - {x: -57.5, y: 120}
+        - {x: -83.5, y: 132}
+        - {x: -101.5, y: 124}
+        - {x: -125.5, y: 121}
+        - {x: -166.5, y: 99}
+        - {x: -179.5, y: 70}
+        - {x: -197.5, y: 53}
+        - {x: -201.5, y: 31}
+        - {x: -201.5, y: 3}
+        - {x: -197.5, y: -31}
+        - {x: -168.5, y: -67}
+        - {x: -117.5, y: -90}
+        - {x: -59.5, y: -79}
+        - {x: -36.5, y: -113}
+        - {x: 2.5, y: -146}
+        - {x: 17.5, y: -146}
+        - {x: 53.5, y: -113}
+        - {x: 80.5, y: -97}
+        - {x: 118.5, y: -98}
+        - {x: 152.5, y: -90}
+        - {x: 181.5, y: -63}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 5634857edc8a0c170800000000000000
+      internalID: 8196736924117386085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_26
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 706
+        width: 572
+        height: 480
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 167, y: -178}
+        - {x: 213, y: -127}
+        - {x: 261, y: -78}
+        - {x: 281, y: -17}
+        - {x: 286, y: 61}
+        - {x: 273, y: 106}
+        - {x: 240, y: 151}
+        - {x: 159, y: 216}
+        - {x: 103, y: 233}
+        - {x: 56, y: 240}
+        - {x: -3, y: 237}
+        - {x: -66, y: 203}
+        - {x: -110, y: 162}
+        - {x: -133, y: 112}
+        - {x: -133, y: 51}
+        - {x: -211, y: 24}
+        - {x: -286, y: 11}
+        - {x: -286, y: -39}
+        - {x: -242, y: -130}
+        - {x: -220, y: -169}
+        - {x: -166, y: -206}
+        - {x: -113, y: -225}
+        - {x: -78, y: -240}
+        - {x: -47, y: -232}
+        - {x: -11, y: -230}
+        - {x: 11, y: -237}
+        - {x: 106, y: -213}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 7031779993957a220800000000000000
+      internalID: 2497062622322955015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_28
+      rect:
+        serializedVersion: 2
+        x: 841
+        y: 771
+        width: 526
+        height: 439
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 254, y: -75.5}
+        - {x: 263, y: -54.5}
+        - {x: 260, y: -25.5}
+        - {x: 248, y: 3.5}
+        - {x: 226, y: 16.5}
+        - {x: 210, y: 61.5}
+        - {x: 211, y: 136.5}
+        - {x: 218, y: 157.5}
+        - {x: 170, y: 169.5}
+        - {x: 118, y: 170.5}
+        - {x: 68, y: 165.5}
+        - {x: 53, y: 155.5}
+        - {x: 40, y: 160.5}
+        - {x: 16, y: 189.5}
+        - {x: -44, y: 214.5}
+        - {x: -74, y: 204.5}
+        - {x: -105, y: 203.5}
+        - {x: -159, y: 169.5}
+        - {x: -185, y: 102.5}
+        - {x: -180, y: 46.5}
+        - {x: -159, y: 16.5}
+        - {x: -190, y: -3.5}
+        - {x: -225, y: -16.5}
+        - {x: -241, y: -45.5}
+        - {x: -262, y: -69.5}
+        - {x: -258, y: -87.5}
+        - {x: -263, y: -112.5}
+        - {x: -254, y: -142.5}
+        - {x: -250, y: -171.5}
+        - {x: -225, y: -180.5}
+        - {x: -212, y: -204.5}
+        - {x: -150, y: -206.5}
+        - {x: -128, y: -196.5}
+        - {x: -104, y: -135.5}
+        - {x: -66, y: -118.5}
+        - {x: -52, y: -104.5}
+        - {x: -46, y: -123.5}
+        - {x: -25, y: -159.5}
+        - {x: 38, y: -205.5}
+        - {x: 103, y: -219.5}
+        - {x: 158, y: -209.5}
+        - {x: 230, y: -162.5}
+        - {x: 251, y: -127.5}
+        - {x: 251, y: -111.5}
+        - {x: 263, y: -95.5}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 12fd5ceb18fca3c70800000000000000
+      internalID: 8951695365510651681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_29
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 976
+        width: 189
+        height: 201
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 32.5, y: 99.5}
+        - {x: -20.5, y: 100.5}
+        - {x: -53.5, y: 86.5}
+        - {x: -77.5, y: 59.5}
+        - {x: -88.5, y: 41.5}
+        - {x: -94.5, y: 17.5}
+        - {x: -94.5, y: -5.5}
+        - {x: -85.5, y: -53.5}
+        - {x: -47.5, y: -92.5}
+        - {x: 1.5, y: -100.5}
+        - {x: 34.5, y: -100.5}
+        - {x: 73.5, y: -92.5}
+        - {x: 67.5, y: -44.5}
+        - {x: 94.5, y: -17.5}
+        - {x: 94.5, y: 39.5}
+        - {x: 74.5, y: 73.5}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 87386bd09f0798850800000000000000
+      internalID: 6379754562126250872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_31
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 410
+        width: 366
+        height: 346
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 170, y: -82}
+        - {x: 183, y: -10}
+        - {x: 183, y: 39}
+        - {x: 162, y: 109}
+        - {x: 108, y: 138}
+        - {x: 75, y: 170}
+        - {x: -47, y: 170}
+        - {x: -142, y: 98}
+        - {x: -183, y: 31}
+        - {x: -183, y: 6}
+        - {x: -153, y: -18}
+        - {x: -110, y: -36}
+        - {x: -103, y: -116}
+        - {x: -63, y: -137}
+        - {x: -18, y: -173}
+        - {x: 0, y: -173}
+        - {x: 47, y: -160}
+        - {x: 102, y: -155}
+        - {x: 122, y: -120}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 4ce443edd2f6c16c0800000000000000
+      internalID: -4171336912059740476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_32
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 77
+        width: 768
+        height: 612
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 171, y: -215}
+        - {x: 187, y: -197}
+        - {x: 198, y: -171}
+        - {x: 195, y: -133}
+        - {x: 226, y: -125}
+        - {x: 254, y: -107}
+        - {x: 279, y: -73}
+        - {x: 279, y: -19}
+        - {x: 291, y: 0}
+        - {x: 299, y: 29}
+        - {x: 316, y: 46}
+        - {x: 316, y: 65}
+        - {x: 309, y: 92}
+        - {x: 311, y: 111}
+        - {x: 333, y: 121}
+        - {x: 351, y: 134}
+        - {x: 365, y: 155}
+        - {x: 380, y: 191}
+        - {x: 380, y: 253}
+        - {x: 369, y: 278}
+        - {x: 343, y: 300}
+        - {x: 317, y: 305}
+        - {x: 306, y: 306}
+        - {x: 256, y: 288}
+        - {x: 244, y: 277}
+        - {x: 214, y: 243}
+        - {x: 208, y: 226}
+        - {x: 183, y: 251}
+        - {x: 146, y: 259}
+        - {x: 98, y: 256}
+        - {x: 63, y: 229}
+        - {x: 52, y: 200}
+        - {x: 42, y: 233}
+        - {x: 28, y: 249}
+        - {x: 6, y: 265}
+        - {x: -19, y: 275}
+        - {x: -54, y: 275}
+        - {x: -79, y: 265}
+        - {x: -106, y: 250}
+        - {x: -137, y: 264}
+        - {x: -172, y: 264}
+        - {x: -206, y: 253}
+        - {x: -226, y: 236}
+        - {x: -249, y: 228}
+        - {x: -270, y: 250}
+        - {x: -296, y: 261}
+        - {x: -327, y: 262}
+        - {x: -354, y: 252}
+        - {x: -378, y: 230}
+        - {x: -384, y: 212}
+        - {x: -384, y: 162}
+        - {x: -354, y: 131}
+        - {x: -336, y: 99}
+        - {x: -297, y: 74}
+        - {x: -297, y: 34}
+        - {x: -279, y: -1}
+        - {x: -232, y: -15}
+        - {x: -181, y: -16}
+        - {x: -180, y: -58}
+        - {x: -152, y: -111}
+        - {x: -91, y: -190}
+        - {x: -49, y: -210}
+        - {x: -58, y: -233}
+        - {x: -59, y: -254}
+        - {x: -50, y: -278}
+        - {x: -27, y: -294}
+        - {x: 3, y: -300}
+        - {x: 34, y: -282}
+        - {x: 49, y: -297}
+        - {x: 76, y: -306}
+        - {x: 114, y: -306}
+        - {x: 134, y: -291}
+        - {x: 145, y: -257}
+        - {x: 138, y: -225}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: f88296e919962ec60800000000000000
+      internalID: 7845949574981691535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_34
+      rect:
+        serializedVersion: 2
+        x: 1221
+        y: 409
+        width: 317
+        height: 283
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f398f864e89c4140800000000000000
+      internalID: 4705303817476412400
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_36
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 21
+        width: 465
+        height: 360
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 198.5, y: -12}
+        - {x: 194.5, y: 21}
+        - {x: 199.5, y: 50}
+        - {x: 199.5, y: 58}
+        - {x: 185.5, y: 60}
+        - {x: 134.5, y: 57}
+        - {x: 112.5, y: 74}
+        - {x: 74.5, y: 80}
+        - {x: 48.5, y: 68}
+        - {x: 31.5, y: 87}
+        - {x: 9.5, y: 98}
+        - {x: -30.5, y: 102}
+        - {x: -65.5, y: 88}
+        - {x: -61.5, y: 102}
+        - {x: -69.5, y: 137}
+        - {x: -86.5, y: 162}
+        - {x: -117.5, y: 176}
+        - {x: -149.5, y: 180}
+        - {x: -177.5, y: 172}
+        - {x: -199.5, y: 155}
+        - {x: -214.5, y: 134}
+        - {x: -232.5, y: 93}
+        - {x: -226.5, y: 76}
+        - {x: -227.5, y: 56}
+        - {x: -214.5, y: 36}
+        - {x: -196.5, y: 24}
+        - {x: -195.5, y: -14}
+        - {x: -174.5, y: -41}
+        - {x: -147.5, y: -52}
+        - {x: -142.5, y: -93}
+        - {x: -118.5, y: -131}
+        - {x: -64.5, y: -145}
+        - {x: -13.5, y: -133}
+        - {x: 15.5, y: -100}
+        - {x: 27.5, y: -88}
+        - {x: 75.5, y: -100}
+        - {x: 85.5, y: -138}
+        - {x: 99.5, y: -161}
+        - {x: 142.5, y: -179}
+        - {x: 177.5, y: -179}
+        - {x: 207.5, y: -168}
+        - {x: 225.5, y: -141}
+        - {x: 232.5, y: -116}
+        - {x: 232.5, y: -90}
+        - {x: 223.5, y: -68}
+        - {x: 203.5, y: -45}
+        - {x: 184.5, y: -34}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: fd02242d3ca8a05f0800000000000000
+      internalID: -789666210999295777
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_38
+      rect:
+        serializedVersion: 2
+        x: 1223
+        y: 44
+        width: 453
+        height: 318
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 159.5, y: -13}
+        - {x: 191.5, y: 4}
+        - {x: 226.5, y: 42}
+        - {x: 226.5, y: 94}
+        - {x: 214.5, y: 128}
+        - {x: 169.5, y: 152}
+        - {x: 124.5, y: 151}
+        - {x: 86.5, y: 132}
+        - {x: 71.5, y: 142}
+        - {x: 25.5, y: 142}
+        - {x: -18.5, y: 131}
+        - {x: -28.5, y: 123}
+        - {x: -35.5, y: 138}
+        - {x: -75.5, y: 159}
+        - {x: -135.5, y: 159}
+        - {x: -180.5, y: 139}
+        - {x: -192.5, y: 131}
+        - {x: -215.5, y: 93}
+        - {x: -226.5, y: 34}
+        - {x: -226.5, y: 31}
+        - {x: -214.5, y: -7}
+        - {x: -189.5, y: -50}
+        - {x: -133.5, y: -90}
+        - {x: -113.5, y: -87}
+        - {x: -97.5, y: -89}
+        - {x: -90.5, y: -118}
+        - {x: -49.5, y: -149}
+        - {x: -5.5, y: -155}
+        - {x: 29.5, y: -137}
+        - {x: 47.5, y: -148}
+        - {x: 66.5, y: -159}
+        - {x: 73.5, y: -159}
+        - {x: 98.5, y: -110}
+        - {x: 92.5, y: -51}
+        - {x: 101.5, y: -39}
+        - {x: 142.5, y: -11}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 60f0afc8c0f7285a0800000000000000
+      internalID: -6520509618597523706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_41
+      rect:
+        serializedVersion: 2
+        x: 1042
+        y: 54
+        width: 179
+        height: 198
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 11.5, y: 94}
+        - {x: -15.5, y: 86}
+        - {x: -63.5, y: 47}
+        - {x: -89.5, y: -9}
+        - {x: -88.5, y: -94}
+        - {x: -51.5, y: -94}
+        - {x: -25.5, y: -88}
+        - {x: -6.5, y: -99}
+        - {x: 18.5, y: -99}
+        - {x: 50.5, y: -86}
+        - {x: 70.5, y: -62}
+        - {x: 88.5, y: -20}
+        - {x: 88.5, y: 37}
+        - {x: 75.5, y: 68}
+        - {x: 49.5, y: 89}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 0abf9b7c9184495a0800000000000000
+      internalID: -6515503485336028256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_MidGround_farwall_3_pieces_42
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 94
+        width: 182
+        height: 194
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 91, y: 17}
+        - {x: 82, y: 56}
+        - {x: 64, y: 65}
+        - {x: 54, y: 82}
+        - {x: 29, y: 83}
+        - {x: 12, y: 97}
+        - {x: -34, y: 92}
+        - {x: -74, y: 62}
+        - {x: -78, y: 35}
+        - {x: -91, y: 5}
+        - {x: -84, y: -51}
+        - {x: -49, y: -72}
+        - {x: -37, y: -92}
+        - {x: -27, y: -93}
+        - {x: 11, y: -65}
+        - {x: 71, y: -49}
+        - {x: 87, y: -21}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 686a005fc1c531eb0800000000000000
+      internalID: -4750351902506441082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -80,6 +80,8 @@ public class HeadController : AspidBodyPart
 
     float laserOriginStartX;
 
+    public float GlobalLockSpeedMultiplier { get; set; } = 1f;
+
 
     /// <summary>
     /// The current direction the head is looking in.
@@ -325,7 +327,7 @@ public class HeadController : AspidBodyPart
         if (CurrentOrientation == AspidOrientation.Center && lookAtPlayer)
         {
             currentlyLookingAtPlayer = false;
-            yield return InterpolateToNewAngle(currentHeadAngle, () => intendedDirection, DEFAULT_CENTERIZE_FRAMES, DEFAULT_FPS * lockSpeed);
+            yield return InterpolateToNewAngle(currentHeadAngle, () => intendedDirection, DEFAULT_CENTERIZE_FRAMES, DEFAULT_FPS * lockSpeed * GlobalLockSpeedMultiplier);
         }
         HeadLocked = true;
     }

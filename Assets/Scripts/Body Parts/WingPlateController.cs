@@ -10,6 +10,9 @@ public class WingPlateController : AspidBodyPart
     [SerializeField]
     Sprite lungeSprite;
 
+    [SerializeField]
+    Sprite jumpSprite;
+
     /*WeaverAnimationData.Clip changeDirectionClip;
     WeaverAnimationData.Clip centerizeClip;
     WeaverAnimationData.Clip decenterizeClip;*/
@@ -119,6 +122,11 @@ public class WingPlateController : AspidBodyPart
             {
                 yield return new WaitForSeconds(1f / Boss.groundJumpLaunchFPS);
             }
+        }
+
+        if (jumpSprite != null)
+        {
+            MainRenderer.sprite = jumpSprite;
         }
         yield break;
     }

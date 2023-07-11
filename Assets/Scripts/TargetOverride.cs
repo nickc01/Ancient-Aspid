@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class TargetOverride
 {
@@ -11,6 +12,13 @@ public class TargetOverride
 
     public int Mode => mode;
 
+    public readonly int Priority;
+
+
+    public TargetOverride(int priority)
+    {
+        Priority = priority;
+    }
 
     public bool SetTarget(Vector3 fixedPosition)
     {
@@ -69,4 +77,22 @@ public class TargetOverride
     }
 
     public bool HasPositionSet => mode >= 0;
+
+    public class Sorter : IComparer<TargetOverride>
+    {
+        static Sorter _instance;
+        public static Sorter Instance = _instance ??= new Sorter();
+
+        Comparer<int> numComparer;
+
+        public Sorter()
+        {
+            numComparer = Comparer<int>.Default;
+        }
+
+        public int Compare(TargetOverride x, TargetOverride y)
+        {
+            return numComparer.Compare(x.Priority, y.Priority);
+        }
+    }
 }

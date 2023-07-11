@@ -78,40 +78,10 @@ public class EnterGround_BigVomitShotMove : AncientAspidMove
         }
         var playerDistance = Vector2.Distance(Player.Player1.transform.position, Boss.Head.transform.position);
 
-        Debug.Log("Player Angle PRE = " + playerAngle);
+        //Debug.Log("Player Angle PRE = " + playerAngle);
         playerAngle = Mathf.Clamp(playerAngle, angleRange.x, angleRange.y);
 
-        Debug.Log("Player Angle POST = " + playerAngle);
-
-
-        /*var offset = angleOffset;
-        if (Boss.Head.LookingDirection < 0f)
-        {
-            offset = -offset;
-        }
-        var gapSize = gapSizeDegreesRange.RandomInRange();
-        var gapStartPosition = UnityEngine.Random.Range(angleRange.x, angleRange.y - gapSize);
-
-        var playerAngle = Boss.GetAngleToPlayer();
-        var playerDistance = Vector2.Distance(Player.Player1.transform.position, Boss.Head.transform.position);
-
-        var fireSource = Boss.Head.GetFireSource(Boss.Head.LookingDirection);
-
-        for (int i = 0; i < vomitSpawnAmount; i++)
-        {
-            var randomAngle = UnityEngine.Random.Range(angleRange.x, angleRange.y - gapSize);
-            if (randomAngle > gapStartPosition)
-            {
-                randomAngle += gapSize;
-            }
-
-            if (Boss.Head.LookingDirection < 0f)
-            {
-                randomAngle = -randomAngle;
-            }
-
-            FireInDirection(playerAngle + randomAngle + offset, playerDistance, fireSource);
-        }*/
+        //Debug.Log("Player Angle POST = " + playerAngle);
 
         Blood.SpawnBlood(fireSource, new Blood.BloodSpawnInfo(4, 8, 10f, 25f, playerAngle - 50f, playerAngle + 50f, null));
 

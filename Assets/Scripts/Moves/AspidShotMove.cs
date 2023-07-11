@@ -16,6 +16,9 @@ public class AspidShotMove : AncientAspidMove
     float postDelay = 0.6f;
 
     [SerializeField]
+    float climbingPostDelay = 0.8f;
+
+    [SerializeField]
     float minDistance = 5f;
 
     [SerializeField]
@@ -43,7 +46,7 @@ public class AspidShotMove : AncientAspidMove
 
     public override bool MoveEnabled => Boss.CanSeeTarget && moveEnabled && Vector2.Distance(Player.Player1.transform.position,Boss.Head.transform.position) >= minDistance;// Boss.AspidMode == AncientAspid.Mode.Tactical || Boss.AspidMode == AncientAspid.Mode.Offensive;
 
-    public override float PostDelay => postDelay;
+    public override float PostDelay => Boss.InClimbingPhase ? climbingPostDelay : postDelay;
 
     /*public override IEnumerator DoMove()
     {

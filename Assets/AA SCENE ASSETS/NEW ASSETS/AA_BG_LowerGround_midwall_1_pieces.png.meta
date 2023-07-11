@@ -1,0 +1,1488 @@
+fileFormatVersion: 2
+guid: c26f221e094fc0b4082693abd7391ef0
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4814650693271227573
+    second: AA_BG_LowerGround_midwall_1_pieces_0
+  - first:
+      213: 453123005410662969
+    second: AA_BG_LowerGround_midwall_1_pieces_1
+  - first:
+      213: 6273059453425391182
+    second: AA_BG_LowerGround_midwall_1_pieces_2
+  - first:
+      213: -2036672237830803341
+    second: AA_BG_LowerGround_midwall_1_pieces_3
+  - first:
+      213: -7485923202018034427
+    second: AA_BG_LowerGround_midwall_1_pieces_4
+  - first:
+      213: -6531187716168821681
+    second: AA_BG_LowerGround_midwall_1_pieces_5
+  - first:
+      213: -1806275033858695719
+    second: AA_BG_LowerGround_midwall_1_pieces_6
+  - first:
+      213: 3754758231483466686
+    second: AA_BG_LowerGround_midwall_1_pieces_7
+  - first:
+      213: -4609812383883037021
+    second: AA_BG_LowerGround_midwall_1_pieces_8
+  - first:
+      213: 2992829827500198347
+    second: AA_BG_LowerGround_midwall_1_pieces_9
+  - first:
+      213: -2886174456223633381
+    second: AA_BG_LowerGround_midwall_1_pieces_10
+  - first:
+      213: -4537862962194601833
+    second: AA_BG_LowerGround_midwall_1_pieces_11
+  - first:
+      213: 4376271466929917393
+    second: AA_BG_LowerGround_midwall_1_pieces_12
+  - first:
+      213: -2944478227583343667
+    second: AA_BG_LowerGround_midwall_1_pieces_13
+  - first:
+      213: -1008035851835679317
+    second: AA_BG_LowerGround_midwall_1_pieces_14
+  - first:
+      213: 357679167624020468
+    second: AA_BG_LowerGround_midwall_1_pieces_15
+  - first:
+      213: -271911829933096332
+    second: AA_BG_LowerGround_midwall_1_pieces_16
+  - first:
+      213: -7591581019385795705
+    second: AA_BG_LowerGround_midwall_1_pieces_17
+  - first:
+      213: -2495558656543959945
+    second: AA_BG_LowerGround_midwall_1_pieces_18
+  - first:
+      213: 4665178078857550901
+    second: AA_BG_LowerGround_midwall_1_pieces_19
+  - first:
+      213: 7332404186454940832
+    second: AA_BG_LowerGround_midwall_1_pieces_20
+  - first:
+      213: 8961229475666965522
+    second: AA_BG_LowerGround_midwall_1_pieces_21
+  - first:
+      213: 2935777755581975918
+    second: AA_BG_LowerGround_midwall_1_pieces_22
+  - first:
+      213: -5117237193576255379
+    second: AA_BG_LowerGround_midwall_1_pieces_23
+  - first:
+      213: 6872045805195892484
+    second: AA_BG_LowerGround_midwall_1_pieces_24
+  - first:
+      213: -7391797434552961623
+    second: AA_BG_LowerGround_midwall_1_pieces_25
+  - first:
+      213: 7400522690827868661
+    second: AA_BG_LowerGround_midwall_1_pieces_26
+  - first:
+      213: 5950511969687036241
+    second: AA_BG_LowerGround_midwall_1_pieces_27
+  - first:
+      213: 226469971428680553
+    second: AA_BG_LowerGround_midwall_1_pieces_28
+  - first:
+      213: 5643240509836327412
+    second: AA_BG_LowerGround_midwall_1_pieces_29
+  - first:
+      213: 2088995979174974004
+    second: AA_BG_LowerGround_midwall_1_pieces_30
+  - first:
+      213: -5153285433589394577
+    second: AA_BG_LowerGround_midwall_1_pieces_31
+  - first:
+      213: -6165880711388134459
+    second: AA_BG_LowerGround_midwall_1_pieces_32
+  - first:
+      213: 1024220067863018886
+    second: AA_BG_LowerGround_midwall_1_pieces_33
+  - first:
+      213: -7676021984029625982
+    second: AA_BG_LowerGround_midwall_1_pieces_34
+  - first:
+      213: -3036717794227001037
+    second: AA_BG_LowerGround_midwall_1_pieces_35
+  - first:
+      213: 5827092579805112077
+    second: AA_BG_LowerGround_midwall_1_pieces_36
+  - first:
+      213: -7314394633797131402
+    second: AA_BG_LowerGround_midwall_1_pieces_37
+  - first:
+      213: 1363245619286713533
+    second: AA_BG_LowerGround_midwall_1_pieces_38
+  - first:
+      213: 3144498728491588145
+    second: AA_BG_LowerGround_midwall_1_pieces_39
+  - first:
+      213: -6069938255566570779
+    second: AA_BG_LowerGround_midwall_1_pieces_40
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 2
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_0
+      rect:
+        serializedVersion: 2
+        x: 599
+        y: 2995
+        width: 721
+        height: 675
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 337.78125, y: -134.27365}
+        - {x: 360.5, y: -26.28107}
+        - {x: 360.5, y: 141.98645}
+        - {x: 330.2461, y: 227.37593}
+        - {x: 182.05469, y: 337.5}
+        - {x: -6.3242145, y: 337.5}
+        - {x: -194.70312, y: 262.53632}
+        - {x: -300.1953, y: 134.45209}
+        - {x: -310.2422, y: 121.894806}
+        - {x: -360.47656, y: -68.975815}
+        - {x: -360.47656, y: -96.60182}
+        - {x: -307.73047, y: -244.7777}
+        - {x: -254.98436, y: -337.5}
+        - {x: -202.23828, y: -337.5}
+        - {x: -28.929684, y: -279.93808}
+        - {x: 149.40234, y: -297.51828}
+        - {x: 159.44922, y: -287.47244}
+        - {x: 252.38281, y: -222.1746}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 5bc0502eb4311d240800000000000000
+      internalID: 4814650693271227573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_1
+      rect:
+        serializedVersion: 2
+        x: 2764
+        y: 3055
+        width: 668
+        height: 565
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 263.5839, y: 234.6353}
+        - {x: 233.44328, y: 244.68112}
+        - {x: 117.90422, y: 282.5}
+        - {x: -35.31062, y: 282.5}
+        - {x: -188.52547, y: 249.70404}
+        - {x: -266.38873, y: 156.78018}
+        - {x: -334, y: 33.718864}
+        - {x: -334, y: -61.716446}
+        - {x: -324.15826, y: -74.27372}
+        - {x: -103.12702, y: -187.28922}
+        - {x: -7.681714, y: -277.70163}
+        - {x: 47.5761, y: -282.5}
+        - {x: 105.34563, y: -282.5}
+        - {x: 238.46672, y: -235.00688}
+        - {x: 308.79483, y: -157.15175}
+        - {x: 334, y: -81.80809}
+        - {x: 334, y: 53.81051}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 93a5f0109f0d94600800000000000000
+      internalID: 453123005410662969
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_2
+      rect:
+        serializedVersion: 2
+        x: 3503
+        y: 2995
+        width: 823
+        height: 678
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 402.2834, y: -67.720085}
+        - {x: 411.5, y: -35.071163}
+        - {x: 411.5, y: 67.89851}
+        - {x: 354.56073, y: 90.50161}
+        - {x: 193.81075, y: 67.89851}
+        - {x: 211.39278, y: 165.84528}
+        - {x: 156.13496, y: 261.28058}
+        - {x: 23.013868, y: 331.60135}
+        - {x: -34.75566, y: 339}
+        - {x: -90.01347, y: 339}
+        - {x: -230.66972, y: 293.9295}
+        - {x: -328.62674, y: 231.14313}
+        - {x: -411.5, y: 40.272503}
+        - {x: -411.5, y: -47.62844}
+        - {x: -386.39627, y: -130.50647}
+        - {x: -278.39236, y: -276.1709}
+        - {x: -137.73613, y: -338.95728}
+        - {x: 58.17793, y: -338.95728}
+        - {x: 168.69356, y: -318.86563}
+        - {x: 306.83807, y: -241.01051}
+        - {x: 369.63104, y: -155.62103}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: e46935836526e0750800000000000000
+      internalID: 6273059453425391182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_4
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 3028
+        width: 477
+        height: 497
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 238.5, y: 2.951696}
+        - {x: 236.47072, y: 85.82973}
+        - {x: 206.3301, y: 196.33377}
+        - {x: 70.69728, y: 248.5}
+        - {x: -135.26366, y: 248.5}
+        - {x: -238.24413, y: 136.05884}
+        - {x: -238.24413, y: -137.68982}
+        - {x: -170.42772, y: -248.19386}
+        - {x: 183.72462, y: -248.19386}
+        - {x: 221.4004, y: -215.54494}
+        - {x: 238.5, y: -47.277412}
+        - {x: 238.5, y: -2.071215}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 50d3cd78288ac1890800000000000000
+      internalID: -7485923202018034427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_6
+      rect:
+        serializedVersion: 2
+        x: 1398
+        y: 3018
+        width: 567
+        height: 577
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 283.5, y: -7.04814}
+        - {x: 283.5, y: 128.57047}
+        - {x: 248.88873, y: 211.44849}
+        - {x: 153.44342, y: 281.76926}
+        - {x: 42.92779, y: 288.5}
+        - {x: -19.865175, y: 288.5}
+        - {x: -125.35736, y: 246.60887}
+        - {x: -260.99017, y: 128.57047}
+        - {x: -283.5, y: 28.112238}
+        - {x: -283.5, y: -47.23143}
+        - {x: -230.84955, y: -202.94167}
+        - {x: -107.77533, y: -288.33115}
+        - {x: 98.18561, y: -288.33115}
+        - {x: 243.8653, y: -270.75098}
+        - {x: 263.95905, y: -260.70514}
+        - {x: 228.79498, y: -89.92617}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 9dd12304d62dee6e0800000000000000
+      internalID: -1806275033858695719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_7
+      rect:
+        serializedVersion: 2
+        x: 2031
+        y: 3028
+        width: 680
+        height: 567
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 340, y: -2.071215}
+        - {x: 323.03134, y: 113.45574}
+        - {x: 235.12119, y: 213.91396}
+        - {x: 109.53525, y: 283.5}
+        - {x: -51.21475, y: 283.5}
+        - {x: -219.49991, y: 191.31085}
+        - {x: -314.94522, y: 80.806816}
+        - {x: -314.94522, y: 68.24954}
+        - {x: -340, y: -97.50652}
+        - {x: -340, y: -137.68982}
+        - {x: -299.8749, y: -283.35422}
+        - {x: -262.19913, y: -283.35422}
+        - {x: -139.12491, y: -260.75113}
+        - {x: -131.58975, y: -238.14804}
+        - {x: 21.625095, y: -283.35422}
+        - {x: 84.41806, y: -283.35422}
+        - {x: 202.46884, y: -253.21677}
+        - {x: 310.47275, y: -170.33873}
+        - {x: 340, y: -54.81178}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: eb3cb0dc7b49b1430800000000000000
+      internalID: 3754758231483466686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_8
+      rect:
+        serializedVersion: 2
+        x: 4399
+        y: 2997
+        width: 498
+        height: 548
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 213.22076, y: 167.84537}
+        - {x: 120.28716, y: 253.23485}
+        - {x: 37.400448, y: 274}
+        - {x: -12.833926, y: 274}
+        - {x: -143.4433, y: 235.65466}
+        - {x: -248.93549, y: 147.75372}
+        - {x: -248.93549, y: 107.570435}
+        - {x: -241.40033, y: -40.605442}
+        - {x: -248.93549, y: -75.765816}
+        - {x: -248.93549, y: -213.89587}
+        - {x: -243.91205, y: -226.45316}
+        - {x: -133.39642, y: -271.65936}
+        - {x: -93.20892, y: -274}
+        - {x: 54.98248, y: -274}
+        - {x: 198.15045, y: -171.20113}
+        - {x: 249, y: -48.13981}
+        - {x: 249, y: 19.66949}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 3a674798f08a600c0800000000000000
+      internalID: -4609812383883037021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_9
+      rect:
+        serializedVersion: 2
+        x: 2069
+        y: 3014
+        width: 6
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc9c7551fdaa88920800000000000000
+      internalID: 2992829827500198347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_11
+      rect:
+        serializedVersion: 2
+        x: 1077
+        y: 2359
+        width: 664
+        height: 581
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 290.832, y: -232.82207}
+        - {x: 332, y: -107.2493}
+        - {x: 332, y: 98.690056}
+        - {x: 253.15622, y: 221.75137}
+        - {x: 170.26952, y: 271.9805}
+        - {x: 97.429665, y: 290.5}
+        - {x: -33.179707, y: 290.5}
+        - {x: -113.5547, y: 279.51486}
+        - {x: -256.72266, y: 186.591}
+        - {x: -317.0039, y: 73.5755}
+        - {x: -332, y: -49.48582}
+        - {x: -332, y: -197.6617}
+        - {x: -322.02734, y: -252.91371}
+        - {x: -311.98047, y: -262.95953}
+        - {x: -291.88672, y: -290.5}
+        - {x: -234.1172, y: -290.5}
+        - {x: -33.179707, y: -270.4939}
+        - {x: 64.77732, y: -290.5}
+        - {x: 155.1992, y: -290.5}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 7982df2bda54601c0800000000000000
+      internalID: -4537862962194601833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_12
+      rect:
+        serializedVersion: 2
+        x: 1830
+        y: 2347
+        width: 650
+        height: 613
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 282.78128, y: -65.25308}
+        - {x: 325, y: 27.67077}
+        - {x: 325, y: 130.64044}
+        - {x: 325, y: 150.73209}
+        - {x: 265.19925, y: 256.21323}
+        - {x: 177.28911, y: 306.5}
+        - {x: -31.183546, y: 306.5}
+        - {x: -186.91011, y: 266.25903}
+        - {x: -312.49603, y: 133.1519}
+        - {x: -325, y: 47.762413}
+        - {x: -325, y: -135.57384}
+        - {x: -302.44916, y: -208.40605}
+        - {x: -224.58589, y: -281.23825}
+        - {x: -196.95699, y: -306.3528}
+        - {x: -154.25777, y: -306.3528}
+        - {x: 3.9805162, y: -180.78004}
+        - {x: 109.4727, y: -170.73422}
+        - {x: 212.45317, y: -143.1082}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 1dd090376b3abbc30800000000000000
+      internalID: 4376271466929917393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_13
+      rect:
+        serializedVersion: 2
+        x: 3096
+        y: 2402
+        width: 630
+        height: 540
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 245.19917, y: -222.47105}
+        - {x: 315, y: -106.94411}
+        - {x: 315, y: 71.36924}
+        - {x: 260.2695, y: 176.85037}
+        - {x: 205.01169, y: 239.63676}
+        - {x: 79.42574, y: 270}
+        - {x: -23.554722, y: 270}
+        - {x: -61.230503, y: 267.26276}
+        - {x: -151.65237, y: 227.07948}
+        - {x: -237.05081, y: 136.66708}
+        - {x: -314.9141, y: 13.605762}
+        - {x: -314.9141, y: -174.7534}
+        - {x: -284.77347, y: -265.1658}
+        - {x: -262.168, y: -270}
+        - {x: -186.81644, y: -270}
+        - {x: -126.53519, y: -260.14288}
+        - {x: 21.656216, y: -270}
+        - {x: 132.17184, y: -270}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: dc3e50c07ac1327d0800000000000000
+      internalID: -2944478227583343667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_14
+      rect:
+        serializedVersion: 2
+        x: 3468
+        y: 2937
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: badd97acbbcb202f0800000000000000
+      internalID: -1008035851835679317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_15
+      rect:
+        serializedVersion: 2
+        x: 3751
+        y: 2372
+        width: 641
+        height: 585
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 209.47649, y: 244.79716}
+        - {x: 101.47258, y: 292.5}
+        - {x: -74.34773, y: 292.5}
+        - {x: -147.18758, y: 277.44608}
+        - {x: -232.58601, y: 222.19406}
+        - {x: -320.49615, y: 68.99528}
+        - {x: -320.49615, y: -109.31806}
+        - {x: -295.37897, y: -187.17319}
+        - {x: -240.12117, y: -242.4252}
+        - {x: -89.418045, y: -292.5}
+        - {x: -29.136795, y: -292.5}
+        - {x: 36.167892, y: -275.07413}
+        - {x: 136.63664, y: -187.17319}
+        - {x: 320.5, y: -162.05862}
+        - {x: 320.5, y: 21.277626}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 4f189c1de4bb6f400800000000000000
+      internalID: 357679167624020468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_16
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 2395
+        width: 479
+        height: 452
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 239.5, y: 53.06768}
+        - {x: 169.79297, y: 196.22064}
+        - {x: 61.789062, y: 226}
+        - {x: -81.37891, y: 226}
+        - {x: -156.73047, y: 211.28938}
+        - {x: -229.57031, y: 85.7166}
+        - {x: -239.5, y: 10.372936}
+        - {x: -239.5, y: -82.55092}
+        - {x: -204.45312, y: -167.9404}
+        - {x: -91.42578, y: -225.70389}
+        - {x: 54.253906, y: -225.70389}
+        - {x: 101.97656, y: -140.31439}
+        - {x: 227.5625, y: -90.08528}
+        - {x: 239.5, y: -17.253075}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 4728c9e91a9f93cf0800000000000000
+      internalID: -271911829933096332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_17
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 2427
+        width: 422
+        height: 402
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 120.423836, y: 201}
+        - {x: -98.095695, y: 201}
+        - {x: -196.05272, y: 165.43431}
+        - {x: -211, y: 100.136475}
+        - {x: -211, y: -63.10814}
+        - {x: -201.07616, y: -125.89452}
+        - {x: -140.7949, y: -201}
+        - {x: 198.28711, y: -201}
+        - {x: 211, y: -173.61218}
+        - {x: 211, y: 57.441727}
+        - {x: 190.75195, y: 172.96867}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 78b69e7e84945a690800000000000000
+      internalID: -7591581019385795705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_18
+      rect:
+        serializedVersion: 2
+        x: 2551
+        y: 2355
+        width: 517
+        height: 524
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 258.5, y: 69.57547}
+        - {x: 258.5, y: 117.29313}
+        - {x: 213.84578, y: 227.79716}
+        - {x: 93.28328, y: 262}
+        - {x: 2.8614032, y: 262}
+        - {x: -117.701096, y: 225.28572}
+        - {x: -255.84563, y: 92.17857}
+        - {x: -258.35733, y: 4.2776294}
+        - {x: -258.35733, y: -113.76078}
+        - {x: -240.77531, y: -131.34097}
+        - {x: -115.18938, y: -261.93665}
+        - {x: 83.236404, y: -261.93665}
+        - {x: 216.3575, y: -201.66173}
+        - {x: 173.65828, y: -106.22641}
+        - {x: 238.96297, y: -66.04313}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 774db88bf9efd5dd0800000000000000
+      internalID: -2495558656543959945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_20
+      rect:
+        serializedVersion: 2
+        x: 4457
+        y: 2377
+        width: 525
+        height: 510
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 262.5, y: 81.52972}
+        - {x: 249.87125, y: 181.98795}
+        - {x: 131.82047, y: 232.21706}
+        - {x: 38.886875, y: 255}
+        - {x: -8.83578, y: 255}
+        - {x: -106.79281, y: 232.21706}
+        - {x: -184.65608, y: 164.40775}
+        - {x: -262.5, y: 36.32352}
+        - {x: -262.5, y: -74.18053}
+        - {x: -232.37874, y: -204.77621}
+        - {x: -172.09749, y: -255}
+        - {x: -121.86312, y: -255}
+        - {x: -49.02328, y: -209.79912}
+        - {x: 56.468906, y: -239.93658}
+        - {x: 219.73062, y: -184.68457}
+        - {x: 262.5, y: -126.92109}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 0acdb3342cee1c560800000000000000
+      internalID: 7332404186454940832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_21
+      rect:
+        serializedVersion: 2
+        x: 3734
+        y: 2591
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 214b3efbabeac5c70800000000000000
+      internalID: 8961229475666965522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_22
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 1468
+        width: 2057
+        height: 829
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 1023.75385, y: -311.3662}
+        - {x: 1028.5, y: -306.34332}
+        - {x: 1028.5, y: -293.78604}
+        - {x: 1023.75385, y: -291.27457}
+        - {x: 835.37494, y: -256.1142}
+        - {x: 755, y: 5.0771747}
+        - {x: 654.53125, y: 195.9478}
+        - {x: 594.25, y: 258.7342}
+        - {x: 430.98825, y: 369.23822}
+        - {x: 242.60936, y: 414.5}
+        - {x: -93.96095, y: 414.5}
+        - {x: -267.26953, y: 379.28406}
+        - {x: -473.23047, y: 271.29147}
+        - {x: -576.21094, y: 165.81033}
+        - {x: -649.0508, y: 62.840652}
+        - {x: -706.8203, y: -77.80086}
+        - {x: -721.8906, y: -123.00706}
+        - {x: -779.66016, y: -225.97673}
+        - {x: -937.89844, y: -316.38913}
+        - {x: -1028.3203, y: -344.01514}
+        - {x: -1028.3203, y: -361.59534}
+        - {x: -990.64453, y: -376.66406}
+        - {x: -664.1211, y: -414.3359}
+        - {x: 518.89844, y: -414.3359}
+        - {x: 883.0976, y: -354.06097}
+        - {x: 940.8671, y: -338.99222}
+        - {x: 983.56635, y: -326.43497}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: e6d05f4705afdb820800000000000000
+      internalID: 2935777755581975918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_23
+      rect:
+        serializedVersion: 2
+        x: 2214
+        y: 1439
+        width: 821
+        height: 865
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 345.2813, y: -72.896286}
+        - {x: 410.5, y: 22.539026}
+        - {x: 410.5, y: 52.67649}
+        - {x: 410.5, y: 195.82945}
+        - {x: 347.79303, y: 333.9595}
+        - {x: 204.62505, y: 429.3948}
+        - {x: 129.27348, y: 432.5}
+        - {x: -94.26948, y: 432.5}
+        - {x: -270.08978, y: 346.51678}
+        - {x: -340.4179, y: 271.17313}
+        - {x: -410.5, y: 115.46288}
+        - {x: -410.5, y: -178.37741}
+        - {x: -408.2343, y: -211.02634}
+        - {x: -292.69525, y: -346.64493}
+        - {x: -111.85151, y: -409.43134}
+        - {x: 154.39067, y: -409.43134}
+        - {x: 285.00006, y: -379.29385}
+        - {x: 239.78911, y: -188.42323}
+        - {x: 330.211, y: -95.49938}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: d60787d72ebebf8b0800000000000000
+      internalID: -5117237193576255379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_24
+      rect:
+        serializedVersion: 2
+        x: 3058
+        y: 1491
+        width: 864
+        height: 462
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 100.45127, y: 231}
+        - {x: -67.833885, y: 231}
+        - {x: -178.3495, y: 208.90193}
+        - {x: -319.00574, y: 103.4208}
+        - {x: -374.26355, y: 5.474035}
+        - {x: -432, y: -157}
+        - {x: -432, y: -195.44241}
+        - {x: -369, y: -231}
+        - {x: 432, y: -230.60278}
+        - {x: 432, y: -81}
+        - {x: 272, y: 166}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 4071aea00496e5f50800000000000000
+      internalID: 6872045805195892484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_25
+      rect:
+        serializedVersion: 2
+        x: 3972
+        y: 1712
+        width: 540
+        height: 524
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 119.02364, y: 257.8672}
+        - {x: 58.742393, y: 262}
+        - {x: -74.3787, y: 262}
+        - {x: -202.47635, y: 202.61517}
+        - {x: -270, y: 89.59967}
+        - {x: -270, y: -15.881461}
+        - {x: -240.15213, y: -126.385506}
+        - {x: -103, y: -204}
+        - {x: -4, y: -191}
+        - {x: 26, y: -262}
+        - {x: 108.97677, y: -262}
+        - {x: 164.23457, y: -239.401}
+        - {x: 270, y: -121.362595}
+        - {x: 270, y: 69.508026}
+        - {x: 224.51582, y: 195.0808}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 9a5b3dd856f0b6990800000000000000
+      internalID: -7391797434552961623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_27
+      rect:
+        serializedVersion: 2
+        x: 3997
+        y: 647
+        width: 1080
+        height: 1034
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 398.96286, y: -348.7921}
+        - {x: 479.33786, y: -250.84534}
+        - {x: 540, y: -87.60073}
+        - {x: 540, y: 228.84267}
+        - {x: 519.5253, y: 301.67487}
+        - {x: 436.63864, y: 477.47675}
+        - {x: 376.3574, y: 517}
+        - {x: 346.21677, y: 517}
+        - {x: 98, y: 291}
+        - {x: -104, y: 364}
+        - {x: -226.45511, y: 349.39252}
+        - {x: -419.85745, y: 274.04886}
+        - {x: -540, y: 93.22407}
+        - {x: -540, y: -185.5475}
+        - {x: -515.30273, y: -250.84534}
+        - {x: -467.5801, y: -343.7692}
+        - {x: -392.22855, y: -416.6014}
+        - {x: -259, y: -485}
+        - {x: -93, y: -517}
+        - {x: 74.95113, y: -517}
+        - {x: 84.99801, y: -514.54816}
+        - {x: 218.1191, y: -464.31906}
+        - {x: 280.91208, y: -436.69305}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 151e7e8fb17749250800000000000000
+      internalID: 5950511969687036241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_28
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 715
+        width: 635
+        height: 575
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 317.5, y: 36.907005}
+        - {x: 267.6289, y: 167.5027}
+        - {x: 127.5, y: 261.5}
+        - {x: 46.59766, y: 287.5}
+        - {x: -106.61718, y: 287.5}
+        - {x: -260.5, y: 170.5}
+        - {x: -317.5, y: 84.624664}
+        - {x: -317.5, y: -156.47507}
+        - {x: -285.5, y: -217.5}
+        - {x: -159.36328, y: -287.07074}
+        - {x: 16.457035, y: -287.07074}
+        - {x: 104.36719, y: -214.23854}
+        - {x: 234.97656, y: -272.002}
+        - {x: 317.5, y: -128.84906}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 963ac473d35942300800000000000000
+      internalID: 226469971428680553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_30
+      rect:
+        serializedVersion: 2
+        x: 901
+        y: 704
+        width: 514
+        height: 591
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 252, y: 130.5}
+        - {x: 170.08984, y: 259.4724}
+        - {x: 84.6914, y: 295.5}
+        - {x: -5.7304716, y: 295.5}
+        - {x: -98.66406, y: 279.56406}
+        - {x: -256.90234, y: 131.38818}
+        - {x: -256.90234, y: -94.642815}
+        - {x: -211.6914, y: -180.0323}
+        - {x: -106.19922, y: -255.37596}
+        - {x: 4.3164034, y: -295.5}
+        - {x: 52.03906, y: -295.5}
+        - {x: 157.53125, y: -267.93326}
+        - {x: 257, y: -230.26141}
+        - {x: 257, y: -169.5}
+        - {x: 227, y: -51.5}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 43291fb66ca9dfc10800000000000000
+      internalID: 2088995979174974004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_31
+      rect:
+        serializedVersion: 2
+        x: 1433
+        y: 694
+        width: 673
+        height: 699
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 336.5, y: 22.185623}
+        - {x: 336.5, y: 137.71257}
+        - {x: 326.58798, y: 187.94168}
+        - {x: 281.37704, y: 255.75099}
+        - {x: 256.25986, y: 283.37698}
+        - {x: 160.81454, y: 349.5}
+        - {x: -97.89249, y: 349.5}
+        - {x: -195.84952, y: 298.44574}
+        - {x: -336.5, y: 92.50638}
+        - {x: -336.5, y: -53.158043}
+        - {x: -331.48233, y: -100.875694}
+        - {x: -288.7831, y: -239.00575}
+        - {x: -160.68546, y: -336.9525}
+        - {x: -90.35733, y: -349.5}
+        - {x: 233.65437, y: -349.5}
+        - {x: 241.18953, y: -304.3036}
+        - {x: 218.5, y: -123.5}
+        - {x: 316.5411, y: -38.08931}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: f6395b0933adb78b0800000000000000
+      internalID: -5153285433589394577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_32
+      rect:
+        serializedVersion: 2
+        x: 2144
+        y: 694
+        width: 572
+        height: 616
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 286, y: 8.372617}
+        - {x: 263.97852, y: 118.87666}
+        - {x: 196.16211, y: 246.96089}
+        - {x: 58.017574, y: 308}
+        - {x: -110.26758, y: 308}
+        - {x: -220.7832, y: 257.0067}
+        - {x: -286, y: 169.10577}
+        - {x: -286, y: -59.436684}
+        - {x: -238.36523, y: -134.78035}
+        - {x: -130.36133, y: -177.4751}
+        - {x: -147.94336, y: -303.04788}
+        - {x: -137.89648, y: -308}
+        - {x: -90.17383, y: -308}
+        - {x: 98.20507, y: -260.35312}
+        - {x: 208.7207, y: -200.07819}
+        - {x: 286, y: -54.413773}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 5c3074649246e6aa0800000000000000
+      internalID: -6165880711388134459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_33
+      rect:
+        serializedVersion: 2
+        x: 2747
+        y: 704
+        width: 572
+        height: 596
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 286, y: 20.884138}
+        - {x: 256.63098, y: 164.03711}
+        - {x: 153.65053, y: 287.09842}
+        - {x: 85.83412, y: 298}
+        - {x: -49.798687, y: 298}
+        - {x: -72.40415, y: 294.63278}
+        - {x: -142.73228, y: 251.93805}
+        - {x: -190.45494, y: 209.2433}
+        - {x: -258.27133, y: 106.27363}
+        - {x: -285.90024, y: -41.90225}
+        - {x: -285.90024, y: -265.42178}
+        - {x: -268.3182, y: -298}
+        - {x: -167.84947, y: -298}
+        - {x: 266.67786, y: -245.33014}
+        - {x: 286, y: -187.56667}
+        - {x: 286, y: -169.98648}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 68d3dc4a9b2c63e00800000000000000
+      internalID: 1024220067863018886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_34
+      rect:
+        serializedVersion: 2
+        x: 3359
+        y: 687
+        width: 618
+        height: 615
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 309, y: -11.184669}
+        - {x: 309, y: 59.136086}
+        - {x: 306.00595, y: 114.38811}
+        - {x: 250.74814, y: 222.38069}
+        - {x: 130.18564, y: 307.5}
+        - {x: -48.146385, y: 307.5}
+        - {x: -186.29091, y: 242.47234}
+        - {x: -279.22452, y: 111.876656}
+        - {x: -309, y: -13.696124}
+        - {x: -309, y: -146.80327}
+        - {x: -296.80655, y: -234.70421}
+        - {x: -213.91982, y: -307.5}
+        - {x: -166.19716, y: -307.5}
+        - {x: 34.740334, y: -222.14693}
+        - {x: 160.32626, y: -179.4522}
+        - {x: 275.86533, y: -99.08561}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 28133d1ccaa497590800000000000000
+      internalID: -7676021984029625982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_35
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 54
+        width: 821
+        height: 593
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 390.82422, y: 57.767193}
+        - {x: 350.63672, y: 195.89725}
+        - {x: 220.02734, y: 271.2409}
+        - {x: 139.65234, y: 296.5}
+        - {x: -56.5, y: 296.5}
+        - {x: -372.73828, y: -25.110838}
+        - {x: -410.5, y: -265.5}
+        - {x: -410.41406, y: -296.34802}
+        - {x: 410.5, y: -296.34802}
+        - {x: 410.5, y: -163.24089}
+        - {x: 403.3828, y: -57.759758}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 339edff51496bd5d0800000000000000
+      internalID: -3036717794227001037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_36
+      rect:
+        serializedVersion: 2
+        x: 981
+        y: 57
+        width: 912
+        height: 425
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 209, y: 212.5}
+        - {x: -21.175764, y: 212.5}
+        - {x: -164.34373, y: 177.54985}
+        - {x: -294, y: 89.5}
+        - {x: -404, y: -45.5}
+        - {x: -455.7031, y: -179.07683}
+        - {x: -455.7031, y: -211.72575}
+        - {x: 456, y: -211.72575}
+        - {x: 432, y: -67.5}
+        - {x: 375, y: 44.5}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: d07299cf3ddfdd050800000000000000
+      internalID: 5827092579805112077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_37
+      rect:
+        serializedVersion: 2
+        x: 1935
+        y: 44
+        width: 701
+        height: 397
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 106.5, y: 198.5}
+        - {x: -37.5, y: 198.5}
+        - {x: -158.5, y: 156.5}
+        - {x: -287.87112, y: 55.30155}
+        - {x: -350.5, y: -57.713947}
+        - {x: -350.5, y: -198.35545}
+        - {x: 350.5, y: -198.35545}
+        - {x: 350.5, y: -35.110847}
+        - {x: 223.5, y: 140.5}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 673af7975dc0e7a90800000000000000
+      internalID: -7314394633797131402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_38
+      rect:
+        serializedVersion: 2
+        x: 2699
+        y: 36
+        width: 881
+        height: 535
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 337.98438, y: 143.9926}
+        - {x: 209.88672, y: 226.87062}
+        - {x: 101.88282, y: 267.5}
+        - {x: -73.93749, y: 267.5}
+        - {x: -239.71092, y: 219.33626}
+        - {x: -360.27344, y: 116.366585}
+        - {x: -440.5, y: -87.06131}
+        - {x: -440.5, y: -267.5}
+        - {x: 3.925787, y: -267.5}
+        - {x: 440.5, y: -230.21428}
+        - {x: 440.5, y: -69.481125}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: db4213ffaa83be210800000000000000
+      internalID: 1363245619286713533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_39
+      rect:
+        serializedVersion: 2
+        x: 3633
+        y: 47
+        width: 580
+        height: 527
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 290, y: 28.5}
+        - {x: 192, y: 225.5}
+        - {x: 89, y: 263.5}
+        - {x: -12, y: 263.5}
+        - {x: -111, y: 244.5}
+        - {x: -217.4648, y: 178.85141}
+        - {x: -275.23434, y: 65.83592}
+        - {x: -290, y: -54.713943}
+        - {x: -290, y: -102.4316}
+        - {x: -230.02339, y: -215.4471}
+        - {x: -159.69527, y: -263.16476}
+        - {x: -5, y: -263.5}
+        - {x: 88, y: -172.5}
+        - {x: 242, y: -204.5}
+        - {x: 290, y: -86.5}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 13a986ceee083ab20800000000000000
+      internalID: 3144498728491588145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_midwall_1_pieces_40
+      rect:
+        serializedVersion: 2
+        x: 4276
+        y: 77
+        width: 663
+        height: 532
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 230.87698, y: 223.92015}
+        - {x: 80.17387, y: 266}
+        - {x: 2.310585, y: 266}
+        - {x: -103.1816, y: 246.52325}
+        - {x: -241.32613, y: 168.66814}
+        - {x: -306.63083, y: 38.07245}
+        - {x: -309.14255, y: 28.026627}
+        - {x: -331.5, y: -59.874317}
+        - {x: -331.5, y: -95}
+        - {x: -319.5, y: -247}
+        - {x: -281.5, y: -253}
+        - {x: -142.5, y: -234}
+        - {x: -47.92379, y: -238.18765}
+        - {x: 19.892616, y: -265.81366}
+        - {x: 170.59573, y: -265.81366}
+        - {x: 258.5059, y: -205.53874}
+        - {x: 331.5, y: -110.103424}
+        - {x: 331.5, y: 55.652637}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 5ea7664015f33cba0800000000000000
+      internalID: -6069938255566570779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

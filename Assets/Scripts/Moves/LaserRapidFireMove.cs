@@ -377,6 +377,11 @@ public class LaserRapidFireMove : AncientAspidMove
 
         for (int i = 0; i < shots; i++)
         {
+            if (Vector3.Distance(transform.position, Player.Player1.transform.position) > 30f)
+            {
+                break;
+            }
+
             //Boss.Head.Animator.PlaybackSpeed = 20f / 12f;
 
             rapidFireEmitter.FireDuration = fireDuration;
@@ -447,11 +452,14 @@ public class LaserRapidFireMove : AncientAspidMove
         //laserMove.Emitter.Laser.transform.SetYLocalPosition(originalOriginDistance);
         Boss.Head.Animator.PlaybackSpeed = 1f;
 
-        doingShotgun = true;
+        if (Vector3.Distance(transform.position, Player.Player1.transform.position) <= 30f)
+        {
+            doingShotgun = true;
 
-        yield return shotgunMove.DoMove();
+            yield return shotgunMove.DoMove();
 
-        doingShotgun = false;
+            doingShotgun = false;
+        }
         Boss.orbitReductionAmount /= 3f;
         ResetTarget();
 

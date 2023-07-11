@@ -49,6 +49,12 @@ public class FireLaserMove : AncientAspidMove
     float postDelay = 0.4f;
 
     [SerializeField]
+    float climbingPostDelay = 0.55f;
+
+    [SerializeField]
+    float headResetSpeed = 1f;
+
+    [SerializeField]
     LaserEmitter emitter;
 
     [Header("Sweep Move")]
@@ -72,7 +78,10 @@ public class FireLaserMove : AncientAspidMove
 
     [Header("Follow Player Move")]
     [SerializeField]
-    float followPlayerTime = 5;
+    float followPlayerTime = 1f;
+
+    [SerializeField]
+    float followPlayerTimeFirstPhase = 1.5f;
 
     [SerializeField]
     float minFollowPlayerDistance = 6f;
@@ -161,7 +170,7 @@ public class FireLaserMove : AncientAspidMove
         }
         else
         {
-            return AttackPlayer(new PlayerSweepController(followPlayerStartAngle,followPlayerEndAngle,followPlayerTime,followPlayerCurve));
+            return AttackPlayer(new PlayerSweepController(followPlayerStartAngle,followPlayerEndAngle,Boss.Phase <= AncientAspid.BossPhase.Phase3 ? followPlayerTimeFirstPhase : followPlayerTime, followPlayerCurve));
         }
     }
 
@@ -310,11 +319,31 @@ public class FireLaserMove : AncientAspidMove
         float bloodTimer = 0f;
         float globTimer = 0f;
 
-        for (timer = 0; timer < controller.FireTime; timer += Time.deltaTime)
+        bool prevPlayerOnRight = false;
+
+        float fireTime = controller.FireTime;
+
+        var prevHealth = Boss.HealthManager.Health;
+
+        for (timer = 0; timer < fireTime; timer += Time.deltaTime)
         {
             var angle = CalculateLaserRotation(controller.CalculateAngle(timer));
             bloodTimer += Time.deltaTime;
             SetLaserRotation(angle.main, angle.extra);
+
+            var laserDotVector = MathUtilities.PolarToCartesian(angle.main + angle.extra, 1f);
+
+            var playerVector = (Player.Player1.transform.position - Boss.Head.transform.position).normalized;
+
+            //WeaverLog.Log("DOT = " + Vector2.Dot(laserDotVector, playerVector));
+
+            var playerOnRight = Vector2.Dot(laserDotVector, playerVector) >= 0f;
+
+            if (timer == 0)
+            {
+                prevPlayerOnRight = playerOnRight;
+            }
+
             var spriteIndex = GetHeadIndexForAngle(angle.main);
             if (spriteIndex != oldIndex)
             {
@@ -345,7 +374,14 @@ public class FireLaserMove : AncientAspidMove
                 }
             }
 
-            if (Boss.RiseFromCenterPlatform)
+            if (Boss.AspidMode == AncientAspid.Mode.Offensive && timer > 0 && playerOnRight != prevPlayerOnRight && fireTime == controller.FireTime)
+            {
+                fireTime = timer + 0.2f;
+                prevPlayerOnRight = playerOnRight;
+                emitter.StopLaserAfter(0.2f);
+            }
+
+            if (Boss.RiseFromCenterPlatform || Vector3.Distance(transform.position, Player.Player1.transform.position) >= 21f)
             {
                 emitter.StopLaser();
                 break;
@@ -361,12 +397,14 @@ public class FireLaserMove : AncientAspidMove
         }
         CameraShaker.Instance.SetRumble(WeaverCore.Enums.RumbleType.None);
 
-        yield return FinishLaserMove(headAdjustAmount, anticClip.FPS);
+        yield return FinishLaserMove(headAdjustAmount, anticClip.FPS * headResetSpeed);
+
+        WeaverLog.Log("MOVE ENDING = " + Time.time);
     }
 
     public IEnumerator FinishLaserMove()
     {
-        return FinishLaserMove(headAdjustAmount, Boss.Head.Animator.AnimationData.GetClip("Fire Laser Antic").FPS);
+        return FinishLaserMove(headAdjustAmount, Boss.Head.Animator.AnimationData.GetClip("Fire Laser Antic").FPS * headResetSpeed);
     }
 
     public void UpdateHeadRotation(ref int oldSpriteIndex, float mainRotation)
@@ -408,7 +446,7 @@ public class FireLaserMove : AncientAspidMove
         Boss.Head.UnlockHead(idleSprite.Degrees);
     }
 
-    public override float PostDelay => cancelled ? 0f : postDelay;
+    public override float PostDelay => cancelled ? 0f : (Boss.InClimbingPhase ? climbingPostDelay : postDelay);
 
 
     public void SetLaserRotation(float main, float extra)

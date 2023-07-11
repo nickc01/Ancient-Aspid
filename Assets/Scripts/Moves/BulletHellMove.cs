@@ -220,6 +220,7 @@ public class BulletHellMove : AncientAspidMove
                     laserMove.followPlayerCurve
                     ), false, 0f);
                 firingLaser = false;
+                cancelAttack = true;
             }
 
             travelingLeft = !travelingLeft;

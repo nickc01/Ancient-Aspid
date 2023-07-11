@@ -224,6 +224,11 @@ public class ClawController : AspidBodyPart
             onSwing?.Invoke();
         }
 
+        if (claws.Any(c => c.ClawLocked))
+        {
+            yield break;
+        }
+
         yield return RoutineAwaiter.AwaitBoundRoutines(claws.Select(c => c.LockClaw()), Boss).WaitTillDone();
 
         List<IEnumerator> AttackRoutines = new List<IEnumerator>();

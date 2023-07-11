@@ -47,6 +47,9 @@ public class LaserShotgunMove : AncientAspidMove
     float targetLerpSpeed = 7;
 
     [SerializeField]
+    float prepareTimeFirstEncounter = 1f;
+
+    [SerializeField]
     float prepareTime = 1f;
 
     [SerializeField]
@@ -79,19 +82,29 @@ public class LaserShotgunMove : AncientAspidMove
     Transform oldBossTarget;
 
 
-    Vector3 targetPos;
+    //Vector3 targetPos;
     Coroutine fireLaserRoutine;
     List<Coroutine> bloodParticlesRoutines = new List<Coroutine>();
     LaserRapidFireMove rapidFireMove;
     AudioPlayer loopSound;
-
     TargetOverride target = null;
+    bool firstTime = false;
+
+    public ShotgunController CurrentController { get; private set; }
 
     public override bool MoveEnabled => false;
 
     private void Awake()
     {
         rapidFireMove = GetComponent<LaserRapidFireMove>();
+    }
+
+    private void Update()
+    {
+        if (CurrentController != null)
+        {
+            CurrentController.Update();
+        }
     }
 
     IEnumerator PlaySoundsStaggered(AudioClip clip, float volume = 1f)
@@ -112,15 +125,169 @@ public class LaserShotgunMove : AncientAspidMove
         return WeaverAudio.PlayAtPointLooped(fireLoop, rapidFireMove.GetMiddleBeamContact(lasers[2]));
     }
 
-    public override IEnumerator DoMove()
+    public IEnumerator DoShotgunLaser(ShotgunController controller, float prepareTime, float attackTime)
     {
+        CurrentController = controller;
+
+        controller.Init(lasers);
+
         if (!Boss.Head.HeadLocked)
         {
             yield return Boss.Head.LockHead();
         }
 
         shotgunMouthParticles.Play();
-        //oldBossTarget = Boss.TargetTransform;
+        //targetPos = Player.Player1.transform.position;
+
+        Vector3 bossOffset;
+
+        if (Boss.Head.LookingDirection >= 0f)
+        {
+            bossOffset = targetOffset;
+        }
+        else
+        {
+            bossOffset = new Vector3(-targetOffset.x, targetOffset.y, targetOffset.z);
+        }
+
+        if (Boss.AspidMode == AncientAspid.Mode.Tactical)
+        {
+            if (target == null)
+            {
+                target = Boss.AddTargetOverride();
+            }
+
+            target.SetTarget(bossOffset + Player.Player1.transform.position);
+        }
+
+        for (int i = 0; i < lasers.Count; i++)
+        {
+            lasers[i].ChargeUpLaser_P1();
+        }
+        ApplyTransparencies();
+
+        //var center = lasers[2];
+
+        SetAttackMode(false, Boss.Head.LookingDirection >= 0);
+
+        StartCoroutine(PlaySoundsStaggered(chargeUpSound));
+
+        controller.ChangeMode(ShotgunController.LaserMode.Preparing);
+
+        float prepTime = 0f;
+
+        if (firstTime)
+        {
+            firstTime = false;
+            prepTime = prepareTimeFirstEncounter;
+        }
+        else
+        {
+            prepTime = prepareTime;
+        }
+
+        for (float i = 0; i < prepTime; i += Time.deltaTime)
+        {
+            //targetPos = Vector3.Lerp(targetPos, Player.Player1.transform.position, Time.deltaTime * targetLerpSpeed);
+            //AimLasersAtTarget(targetPos);
+
+            UpdateLaserRotations(controller);
+            yield return null;
+        }
+
+        for (int i = 0; i < lasers.Count; i++)
+        {
+            lasers[i].EndLaser_P3();
+        }
+
+        shotgunMouthParticles.Stop();
+
+        //Boss.SetTarget(Boss.transform.position);
+
+        var oldFlip = Boss.Head.MainRenderer.flipX;
+
+        if (Vector3.Distance(transform.position, Player.Player1.transform.position) <= 30f)
+        {
+            var totalDelay = attackDelay + Boss.Head.Animator.AnimationData.GetClipDuration("Fire Laser Antic Quick") - lasers[0].MinChargeUpDuration;
+
+            FireLasers(totalDelay, controller, attackTime);
+
+            controller.ChangeMode(ShotgunController.LaserMode.PostPrepare);
+
+            for (float t = 0; t < attackDelay; t += Time.deltaTime)
+            {
+                UpdateLaserRotations(controller);
+                yield return null;
+            }
+            //yield return new WaitForSeconds(attackDelay);
+
+            Boss.Head.MainRenderer.flipX = Boss.Head.LookingDirection >= 0f;
+
+            yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser Antic Quick");
+
+            CameraShaker.Instance.SetRumble(WeaverCore.Enums.RumbleType.RumblingMed);
+
+            loopSound = PlayFireSound();
+
+            for (int i = 0; i < lasers.Count; i++)
+            {
+                bloodParticlesRoutines.Add(StartCoroutine(EmitParticlesRoutine(bloodSpawnRate, i)));
+            }
+
+            Boss.Head.Animator.SpriteRenderer.sprite = attackSprite;
+
+
+
+            yield return new WaitUntil(() => fireLaserRoutine == null);
+            foreach (var routine in bloodParticlesRoutines)
+            {
+                StopCoroutine(routine);
+            }
+            bloodParticlesRoutines.Clear();
+
+            loopSound.Delete();
+            loopSound = null;
+
+            CameraShaker.Instance.SetRumble(WeaverCore.Enums.RumbleType.None);
+        }
+        //Boss.SetTarget(oldBossTarget);
+        //Boss.UnfreezeTarget();
+        if (target != null)
+        {
+            Boss.RemoveTargetOverride(target);
+            target = null;
+        }
+
+        yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser End Quick");
+
+        Boss.Head.MainRenderer.flipX = oldFlip;
+
+        SetAttackMode(false, Boss.Head.LookingDirection >= 0);
+
+        controller.OnDone();
+
+        if (CurrentController == controller)
+        {
+            CurrentController = null;
+        }
+
+        lasers[0].transform.parent.localScale = Vector3.one;
+    }
+
+    public IEnumerator DoShotgunLaser()
+    {
+        return DoShotgunLaser(new DefaultShotgunController(targetLerpSpeed, attackRotationSpeed, laserRotations), prepareTime, attackTime);
+    }
+
+    public override IEnumerator DoMove()
+    {
+        return DoShotgunLaser();
+        /*if (!Boss.Head.HeadLocked)
+        {
+            yield return Boss.Head.LockHead();
+        }
+
+        shotgunMouthParticles.Play();
         targetPos = Player.Player1.transform.position;
 
         Vector3 bossOffset;
@@ -215,11 +382,16 @@ public class LaserShotgunMove : AncientAspidMove
 
         yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser End Quick");
 
-        SetAttackMode(false, Boss.Head.LookingDirection >= 0);
+        SetAttackMode(false, Boss.Head.LookingDirection >= 0);*/
     }
 
     public override void OnStun()
     {
+        if (CurrentController != null)
+        {
+            CurrentController.OnStun();
+            CurrentController = null;
+        }
         CameraShaker.Instance.SetRumble(WeaverCore.Enums.RumbleType.None);
         StopLasers();
         if (Boss.Head.HeadLocked)
@@ -252,9 +424,26 @@ public class LaserShotgunMove : AncientAspidMove
         }
 
         shotgunMouthParticles.Stop();
+
+        lasers[0].transform.parent.localScale = Vector3.one;
     }
 
-    float LaserLookAt(LaserEmitter emitter, Vector3 target)
+    void UpdateLaserRotations(ShotgunController controller)
+    {
+        var ninety = Quaternion.Euler(0, 0, 90f);
+        for (int i = 0; i < lasers.Count; i++)
+        {
+            var rotation = ninety * controller.GetLaserRotation(i);
+
+            var direction = rotation * Vector3.right;
+
+            var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            GetOrigin(lasers[i]).SetRotationZ(angle);
+        }
+    }
+
+    /*float LaserLookAt(LaserEmitter emitter, Vector3 target)
     {
         var origin = GetOrigin(emitter);
 
@@ -267,13 +456,13 @@ public class LaserShotgunMove : AncientAspidMove
         origin.transform.SetRotationZ(angle + 90f);
 
         return angle + 90f;
-    }
+    }*/
 
-    void SetLaserRotation(LaserEmitter emitter, float zDegrees)
+    /*void SetLaserRotation(LaserEmitter emitter, float zDegrees)
     {
         var origin = GetOrigin(emitter);
         origin.transform.SetRotationZ(zDegrees);
-    }
+    }*/
 
     IEnumerator EmitParticlesRoutine(float spawnRate, int laserIndex)
     {
@@ -290,7 +479,7 @@ public class LaserShotgunMove : AncientAspidMove
         }
     }
 
-    void FireLasers(float delay)
+    void FireLasers(float delay, ShotgunController controller, float attackTime)
     {
         IEnumerator FireRoutine()
         {
@@ -305,9 +494,12 @@ public class LaserShotgunMove : AncientAspidMove
                 duration = laser.ChargeUpLaser_P1();
             }
 
+            controller.ChangeMode(ShotgunController.LaserMode.Prefire);
+
             for (float t = 0; t < duration; t += Time.deltaTime)
             {
-                AimLasersAtTarget(targetPos);
+                //AimLasersAtTarget(targetPos);
+                UpdateLaserRotations(controller);
                 yield return null;
             }
 
@@ -318,10 +510,13 @@ public class LaserShotgunMove : AncientAspidMove
                 laser.FireLaser_P2();
             }
 
+            controller.ChangeMode(ShotgunController.LaserMode.Firing);
+
             for (float t = 0; t < attackTime; t += Time.deltaTime)
             {
-                targetPos = Vector3.MoveTowards(targetPos, Player.Player1.transform.position, attackRotationSpeed * Time.deltaTime);
-                AimLasersAtTarget(targetPos);
+                UpdateLaserRotations(controller);
+                /*targetPos = Vector3.MoveTowards(targetPos, Player.Player1.transform.position, attackRotationSpeed * Time.deltaTime);
+                AimLasersAtTarget(targetPos);*/
                 yield return null;
             }
 
@@ -332,11 +527,16 @@ public class LaserShotgunMove : AncientAspidMove
                 endTime = laser.EndLaser_P3();
             }
 
+            controller.ChangeMode(ShotgunController.LaserMode.Ending);
+
             for (float t = 0; t < endTime; t += Time.deltaTime)
             {
-                AimLasersAtTarget(targetPos);
+                UpdateLaserRotations(controller);
+                //AimLasersAtTarget(targetPos);
                 yield return null;
             }
+
+            controller.ChangeMode(ShotgunController.LaserMode.None);
 
             fireLaserRoutine = null;
         }
@@ -357,7 +557,7 @@ public class LaserShotgunMove : AncientAspidMove
         }
     }
 
-    void AimLasersAtTarget(Vector3 target)
+    /*void AimLasersAtTarget(Vector3 target)
     {
         var center = lasers[2];
 
@@ -367,7 +567,7 @@ public class LaserShotgunMove : AncientAspidMove
         {
             lasers[i].Laser.transform.parent.SetRotationZ(rotation + laserRotations[i]);
         }
-    }
+    }*/
     
 
     Transform GetOrigin(LaserEmitter emitter)

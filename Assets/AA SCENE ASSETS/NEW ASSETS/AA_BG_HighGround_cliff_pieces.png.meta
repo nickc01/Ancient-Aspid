@@ -1,0 +1,541 @@
+fileFormatVersion: 2
+guid: 4f8eb7cb2754a654cb6b8fa500f47f41
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1166824236238649662
+    second: AA_BG_HighGround_cliff_pieces_left_4
+  - first:
+      213: 6864001123014056484
+    second: AA_BG_HighGround_cliff_pieces_left_3
+  - first:
+      213: -7187674234866839138
+    second: AA_BG_HighGround_cliff_pieces_left_2
+  - first:
+      213: -2498195901473996095
+    second: AA_BG_HighGround_cliff_pieces_left_1
+  - first:
+      213: 4248106941743983104
+    second: AA_BG_HighGround_cliff_pieces_right_1
+  - first:
+      213: -3824183324367606357
+    second: AA_BG_HighGround_cliff_pieces_right_2
+  - first:
+      213: -6406140338644064916
+    second: AA_BG_HighGround_cliff_pieces_right_3
+  - first:
+      213: 2413562468013225488
+    second: AA_BG_HighGround_cliff_pieces_right_4
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 2
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AA_BG_HighGround_cliff_pieces_left_4
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 40
+        width: 880
+        height: 1808
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 121, y: -313}
+        - {x: 43, y: -120}
+        - {x: -76, y: 80}
+        - {x: -83, y: 187}
+        - {x: -121, y: 262}
+        - {x: -167, y: 611}
+        - {x: -190, y: 592}
+        - {x: -214, y: 734}
+        - {x: -228, y: 739}
+        - {x: -249, y: 722}
+        - {x: -329, y: 886}
+        - {x: -371, y: 844}
+        - {x: -376, y: 904}
+        - {x: -405.88477, y: 904}
+        - {x: -440, y: 840}
+        - {x: -439.92773, y: -894.9613}
+        - {x: -440, y: -904}
+        - {x: 440, y: -904}
+        - {x: 440, y: -817.8043}
+        - {x: 389, y: -688}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: e393254f574613010800000000000000
+      internalID: 1166824236238649662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_HighGround_cliff_pieces_left_3
+      rect:
+        serializedVersion: 2
+        x: 607
+        y: 40
+        width: 833
+        height: 1484
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 364.5, y: -495}
+        - {x: 270.5, y: -316}
+        - {x: 207.5, y: -177}
+        - {x: 157.5, y: -123}
+        - {x: 104.5, y: -48}
+        - {x: 63.5, y: 38}
+        - {x: 7.5, y: 117}
+        - {x: -45.5, y: 300}
+        - {x: -103.5, y: 436}
+        - {x: -121.5, y: 547}
+        - {x: -213.5, y: 666}
+        - {x: -239.5, y: 742}
+        - {x: -259.5, y: 742}
+        - {x: -271.5, y: 662}
+        - {x: -347.5, y: 742}
+        - {x: -369.5, y: 742}
+        - {x: -367.5, y: 677}
+        - {x: -395.5, y: 718}
+        - {x: -416.5, y: 717.3931}
+        - {x: -416.5, y: 671}
+        - {x: -396.5, y: 513}
+        - {x: -359.8203, y: 383.80255}
+        - {x: -334.85547, y: 247.64313}
+        - {x: -318.96875, y: 206.7953}
+        - {x: -307.6211, y: 172.75545}
+        - {x: -205.49217, y: -76.87015}
+        - {x: -157.83202, y: -194.87498}
+        - {x: -141.9453, y: -292.4559}
+        - {x: -96.55467, y: -469.46313}
+        - {x: -55.703114, y: -582.9293}
+        - {x: -42.085926, y: -694.12616}
+        - {x: -26.5, y: -742}
+        - {x: 416.5, y: -741.782}
+        - {x: 415.5, y: -708}
+        - {x: 390.5, y: -559}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 42a922387a4d14f50800000000000000
+      internalID: 6864001123014056484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_HighGround_cliff_pieces_left_2
+      rect:
+        serializedVersion: 2
+        x: 1189
+        y: 40
+        width: 675
+        height: 1470
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 267.5, y: -367}
+        - {x: 219.5, y: -263}
+        - {x: 182.46289, y: -169.91241}
+        - {x: 76.5, y: 40}
+        - {x: 12.5, y: 263}
+        - {x: -22.5, y: 422}
+        - {x: -37.5, y: 478}
+        - {x: -49.0293, y: 508.61533}
+        - {x: -114.5, y: 576}
+        - {x: -121.654305, y: 665.19867}
+        - {x: -144.5, y: 670}
+        - {x: -168.5, y: 624}
+        - {x: -204.5, y: 715}
+        - {x: -225.5, y: 720}
+        - {x: -244.20898, y: 678.81464}
+        - {x: -262.5, y: 624}
+        - {x: -269.5, y: 735}
+        - {x: -289.5996, y: 735}
+        - {x: -337.5, y: 631}
+        - {x: -337.25977, y: 435.99698}
+        - {x: -334.99023, y: 397.4185}
+        - {x: -325.9121, y: 361.1093}
+        - {x: -214.70508, y: 7.094822}
+        - {x: -157.9668, y: -160.83513}
+        - {x: -108.03711, y: -360.5356}
+        - {x: -42.220707, y: -576.12134}
+        - {x: 7.7089815, y: -698.6648}
+        - {x: 25.865232, y: -734.974}
+        - {x: 337.5, y: -734.974}
+        - {x: 337.5, y: -705}
+        - {x: 312.5, y: -491}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: e91d8858d50404c90800000000000000
+      internalID: -7187674234866839138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_HighGround_cliff_pieces_left_1
+      rect:
+        serializedVersion: 2
+        x: 1715
+        y: 40
+        width: 547
+        height: 1345
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 136.5, y: -354.5}
+        - {x: 79.5, y: -283.5}
+        - {x: 35.546894, y: -93.890076}
+        - {x: -14.5, y: 55.5}
+        - {x: -69.5, y: 224.5}
+        - {x: -65.5, y: 441.5}
+        - {x: -33.5, y: 553.5}
+        - {x: -45.5, y: 567.5}
+        - {x: -97.5, y: 535.5}
+        - {x: -69.5, y: 599.5}
+        - {x: -77.5, y: 617.5}
+        - {x: -142.5, y: 579.5}
+        - {x: -106.5, y: 652.5}
+        - {x: -100.5, y: 672.5}
+        - {x: -118.781235, y: 672.5}
+        - {x: -212.5, y: 592.5}
+        - {x: -197.5, y: 642.5}
+        - {x: -233.5, y: 620.5}
+        - {x: -273.10934, y: 564.21375}
+        - {x: -273.5, y: 492.5}
+        - {x: -234.52733, y: 167.08214}
+        - {x: -134.66795, y: -180.12437}
+        - {x: -50.695293, y: -361.67026}
+        - {x: 55.972675, y: -550.0241}
+        - {x: 124.05862, y: -631.7198}
+        - {x: 144.48439, y: -672.5}
+        - {x: 273.5, y: -672.5}
+        - {x: 273.5, y: -641.5}
+        - {x: 237.5, y: -555.5}
+        - {x: 187.5, y: -492.5}
+        - {x: 144.5, y: -397.5}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 1c24e494010a45dd0800000000000000
+      internalID: -2498195901473996095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_HighGround_cliff_pieces_right_1
+      rect:
+        serializedVersion: 2
+        x: 2339
+        y: 40
+        width: 549
+        height: 1345
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 247.62686, y: 126.234314}
+        - {x: 274.5, y: 337.2814}
+        - {x: 274.5, y: 462.0942}
+        - {x: 272.5917, y: 514.28864}
+        - {x: 234.5, y: 630.5}
+        - {x: 209.5, y: 584.5}
+        - {x: 175.00186, y: 672.5}
+        - {x: 161.5, y: 672.5}
+        - {x: 164.5, y: 581.5}
+        - {x: 141.5, y: 585.5}
+        - {x: 107.5, y: 672.5}
+        - {x: 89.5, y: 672.5}
+        - {x: 84.5, y: 557.5}
+        - {x: 47.5, y: 590.5}
+        - {x: 34.29092, y: 595.9843}
+        - {x: 30.5, y: 576.5}
+        - {x: 47.5, y: 513.5}
+        - {x: 68.5, y: 339.5}
+        - {x: 30.5, y: 162.5}
+        - {x: -13.369235, y: -73.46616}
+        - {x: -63.298923, y: -200.5483}
+        - {x: -79.18564, y: -250.4734}
+        - {x: -163.1583, y: -393.4408}
+        - {x: -249.40048, y: -572.71735}
+        - {x: -274.36533, y: -636.2584}
+        - {x: -274.36533, y: -672.5}
+        - {x: -140.5, y: -672.5}
+        - {x: -26.986422, y: -495.56036}
+        - {x: 45.638577, y: -343.5157}
+        - {x: 177.2714, y: -84.81278}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 00a658e81ce44fa30800000000000000
+      internalID: 4248106941743983104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_HighGround_cliff_pieces_right_2
+      rect:
+        serializedVersion: 2
+        x: 2691
+        y: 40
+        width: 721
+        height: 1461
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 182.0332, y: -174.45107}
+        - {x: 245.58008, y: 91.05979}
+        - {x: 359.05664, y: 485.9221}
+        - {x: 360.5, y: 522.23126}
+        - {x: 360.5, y: 597.11896}
+        - {x: 347.70898, y: 651.5827}
+        - {x: 313.5, y: 703.5}
+        - {x: 291.5, y: 730.5}
+        - {x: 276.5, y: 730.5}
+        - {x: 263.5, y: 639.5}
+        - {x: 237.5, y: 666.5}
+        - {x: 210.5, y: 660.5}
+        - {x: 158.5, y: 718.5}
+        - {x: 148.5, y: 666.5}
+        - {x: 116.5, y: 679.5}
+        - {x: 82.5, y: 726.5}
+        - {x: 70.826164, y: 724.20105}
+        - {x: 68.55663, y: 624.3508}
+        - {x: 77.63476, y: 479.11414}
+        - {x: 78.5, y: 349.5}
+        - {x: 41.322258, y: 188.64072}
+        - {x: 23.166008, y: 138.71559}
+        - {x: -49.458992, y: -24.675709}
+        - {x: -110.736336, y: -167.6431}
+        - {x: -135.70119, y: -197.1443}
+        - {x: -190.16994, y: -281.10928}
+        - {x: -278.68164, y: -430.88464}
+        - {x: -308.18555, y: -498.96432}
+        - {x: -353.57617, y: -666.8943}
+        - {x: -360.38477, y: -707.7421}
+        - {x: -360.38477, y: -730.43536}
+        - {x: -1.7988362, y: -730.43536}
+        - {x: 16.357414, y: -707.7421}
+        - {x: 45.86132, y: -623.77716}
+        - {x: 102.5996, y: -449.0392}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: bada8132785cdeac0800000000000000
+      internalID: -3824183324367606357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_HighGround_cliff_pieces_right_3
+      rect:
+        serializedVersion: 2
+        x: 3176
+        y: 40
+        width: 806
+        height: 1443
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 236.95712, y: -149.48851}
+        - {x: 259.65244, y: -54.176914}
+        - {x: 352.70322, y: 227.21921}
+        - {x: 368.58994, y: 302.1069}
+        - {x: 386.7462, y: 411.03442}
+        - {x: 403, y: 642.50543}
+        - {x: 403, y: 721.5}
+        - {x: 402.6329, y: 721.5}
+        - {x: 381, y: 721.5}
+        - {x: 351, y: 670.5}
+        - {x: 338, y: 712.5}
+        - {x: 300, y: 656.5}
+        - {x: 301, y: 721.5}
+        - {x: 173.41025, y: 721.5}
+        - {x: 166.60165, y: 538.1165}
+        - {x: 109.86337, y: 349.7627}
+        - {x: 87.16806, y: 234.02718}
+        - {x: 12.273532, y: 43.404}
+        - {x: -55.812405, y: -83.67812}
+        - {x: -169.28897, y: -192.60565}
+        - {x: -300.92178, y: -401.38342}
+        - {x: -396.2421, y: -639.6624}
+        - {x: -403, y: -689.5875}
+        - {x: -403, y: -721.35803}
+        - {x: 32.699314, y: -721.35803}
+        - {x: 91.70712, y: -612.43054}
+        - {x: 162.06259, y: -387.7675}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: c65e1dd9d41d817a0800000000000000
+      internalID: -6406140338644064916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_HighGround_cliff_pieces_right_4
+      rect:
+        serializedVersion: 2
+        x: 3744
+        y: 40
+        width: 869
+        height: 1788
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 397.5, y: 820}
+        - {x: 386.5, y: 894}
+        - {x: 355.5, y: 894}
+        - {x: 283.5, y: 775}
+        - {x: 243.5, y: 854}
+        - {x: 211.5, y: 846}
+        - {x: 209.5, y: 633}
+        - {x: 158.5, y: 476}
+        - {x: 92.3241, y: 329.33878}
+        - {x: 87.5, y: 223}
+        - {x: 49.203007, y: 161.40883}
+        - {x: 31.5, y: 47}
+        - {x: -37.03918, y: -63.25421}
+        - {x: -107.5, y: -247}
+        - {x: -260.5, y: -492}
+        - {x: -393.5, y: -730}
+        - {x: -434.20715, y: -852.9788}
+        - {x: -434.20715, y: -893.82666}
+        - {x: 434.5, y: -893.82666}
+        - {x: 434.5, y: 842.20593}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 016b42de642be7120800000000000000
+      internalID: 2413562468013225488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

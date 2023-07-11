@@ -17,6 +17,9 @@ public class MantisShotMove : AncientAspidMove
     float postDelay = 0.4f;
 
     [SerializeField]
+    float climbingPostDelay = 0.4f;
+
+    [SerializeField]
     int shotAmount = 3;
 
     [SerializeField]
@@ -30,6 +33,11 @@ public class MantisShotMove : AncientAspidMove
 
     [SerializeField]
     float angleOffset = 0f;
+
+    public void EnableMove(bool enabled)
+    {
+        moveEnabled = enabled;
+    }
 
     public override IEnumerator DoMove()
     {
@@ -55,7 +63,7 @@ public class MantisShotMove : AncientAspidMove
         }
     }
 
-    public override float PostDelay => postDelay;
+    public override float PostDelay => Boss.InClimbingPhase ? climbingPostDelay : postDelay;
 
     public override void OnStun()
     {

@@ -125,6 +125,13 @@ public class BeBetweenPlayerAndAspid : MonoBehaviour
             else
             {
                 transform.position = playerPos + (vectorToObject.normalized * currentDistanceToPlayer);
+
+                var roomBoundaries = Aspid.CurrentRoomRect;
+
+                if (transform.position.y <= roomBoundaries.Rect.yMin + minDistanceFromFloor)
+                {
+                    transform.SetPositionY(roomBoundaries.Rect.yMin + minDistanceFromFloor);
+                }
             }
         }
 

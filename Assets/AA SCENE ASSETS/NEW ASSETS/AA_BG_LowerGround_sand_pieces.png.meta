@@ -1,0 +1,574 @@
+fileFormatVersion: 2
+guid: 2d79f0a7e31d02c4fb7f16737006760d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8196797705861597624
+    second: AA_BG_LowerGround_sand_pieces_0
+  - first:
+      213: 7437456643120176747
+    second: AA_BG_LowerGround_sand_pieces_1
+  - first:
+      213: -8228496073799711774
+    second: AA_BG_LowerGround_sand_pieces_2
+  - first:
+      213: 1943661775228950180
+    second: AA_BG_LowerGround_sand_pieces_3
+  - first:
+      213: -8029400422363225078
+    second: AA_BG_LowerGround_sand_pieces_4
+  - first:
+      213: -7249880748485695418
+    second: AA_BG_LowerGround_sand_pieces_5
+  - first:
+      213: 1591737712320906264
+    second: AA_BG_LowerGround_sand_pieces_6
+  - first:
+      213: -1922353644605063847
+    second: AA_BG_LowerGround_sand_pieces_7
+  - first:
+      213: 4810919377557112723
+    second: AA_BG_LowerGround_sand_pieces_8
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 2
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_sand_pieces_0
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 683
+        width: 1235
+        height: 204
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 529.5, y: -60}
+        - {x: 505.5, y: -48}
+        - {x: 435.5, y: -15}
+        - {x: 361.5, y: 38}
+        - {x: 345.5, y: 56}
+        - {x: 314.5, y: 75}
+        - {x: 246.5, y: 100}
+        - {x: 236.5, y: 102}
+        - {x: 196.5, y: 102}
+        - {x: 185.5, y: 99}
+        - {x: 153.5, y: 85}
+        - {x: 106.5, y: 62}
+        - {x: 78.5, y: 53}
+        - {x: -0.5, y: 43}
+        - {x: -35.5, y: 36}
+        - {x: -102.5, y: 19}
+        - {x: -125.5, y: 13}
+        - {x: -238.5, y: -9}
+        - {x: -311.5, y: -22}
+        - {x: -425.5, y: -47}
+        - {x: -479.5, y: -63}
+        - {x: -617.5, y: -97}
+        - {x: -617.5, y: -102}
+        - {x: 617.5, y: -102}
+        - {x: 610.5, y: -95}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 8b90e91c510e0c170800000000000000
+      internalID: 8196797705861597624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_sand_pieces_1
+      rect:
+        serializedVersion: 2
+        x: 1446
+        y: 682
+        width: 1268
+        height: 236
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 493, y: -50}
+        - {x: 445, y: -29}
+        - {x: 397, y: -12}
+        - {x: 342, y: 18}
+        - {x: 306, y: 46}
+        - {x: 281, y: 58}
+        - {x: 249, y: 62}
+        - {x: 238, y: 91}
+        - {x: 225, y: 108}
+        - {x: 203, y: 118}
+        - {x: 155, y: 118}
+        - {x: 128, y: 110}
+        - {x: 62, y: 108}
+        - {x: 2, y: 94}
+        - {x: -129, y: 58}
+        - {x: -225, y: 35}
+        - {x: -257, y: 33}
+        - {x: -313, y: 1}
+        - {x: -383, y: -33}
+        - {x: -518, y: -81}
+        - {x: -609, y: -103}
+        - {x: -634, y: -114}
+        - {x: -634, y: -118}
+        - {x: 634, y: -118}
+        - {x: 634, y: -114}
+        - {x: 599, y: -100}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: b6e1c8d5967273760800000000000000
+      internalID: 7437456643120176747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_sand_pieces_2
+      rect:
+        serializedVersion: 2
+        x: 2874
+        y: 678
+        width: 677
+        height: 288
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 328.5, y: 144}
+        - {x: 300.5, y: 128}
+        - {x: 290.5, y: 119}
+        - {x: 155.5, y: 64}
+        - {x: -20.5, y: -5}
+        - {x: -131.5, y: -49}
+        - {x: -218.5, y: -83}
+        - {x: -327.5, y: -128}
+        - {x: -327.5, y: -134}
+        - {x: -257.5, y: -144}
+        - {x: 338.5, y: -144}
+        - {x: 338.5, y: 144}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 2e3c875da628ecd80800000000000000
+      internalID: -8228496073799711774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_sand_pieces_3
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 407
+        width: 1180
+        height: 177
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -336, y: -85.5}
+        - {x: -286, y: -82.5}
+        - {x: -266, y: -80.5}
+        - {x: -190, y: -79.5}
+        - {x: -128, y: -82.5}
+        - {x: -26, y: -84.5}
+        - {x: 99, y: -88.5}
+        - {x: 266, y: -88.5}
+        - {x: 294, y: -84.5}
+        - {x: 386, y: -72.5}
+        - {x: 441, y: -64.5}
+        - {x: 508, y: -64.5}
+        - {x: 554, y: -62.5}
+        - {x: 590, y: -54.5}
+        - {x: 590, y: -49.5}
+        - {x: 586, y: -46.5}
+        - {x: 511, y: -32.5}
+        - {x: 440, y: -17.5}
+        - {x: 404, y: -9.5}
+        - {x: 314, y: 8.5}
+        - {x: 277, y: 18.5}
+        - {x: 169, y: 43.5}
+        - {x: 144, y: 51.5}
+        - {x: 52, y: 74.5}
+        - {x: -23, y: 88.5}
+        - {x: -48, y: 88.5}
+        - {x: -108, y: 65.5}
+        - {x: -231, y: 21.5}
+        - {x: -253, y: 12.5}
+        - {x: -338, y: -15.5}
+        - {x: -479, y: -54.5}
+        - {x: -590, y: -80.5}
+        - {x: -590, y: -88.5}
+        - {x: -426, y: -88.5}
+        - {x: -415, y: -87.5}
+        - {x: -353, y: -86.5}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 4a6d60c261649fa10800000000000000
+      internalID: 1943661775228950180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_sand_pieces_4
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 260
+        width: 1289
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 644.5, y: -80.5}
+        - {x: 603.5, y: -71.5}
+        - {x: 532.5, y: -53.5}
+        - {x: 508.5, y: -45.5}
+        - {x: 445.5, y: -25.5}
+        - {x: 346.5, y: 4.5}
+        - {x: 314.5, y: 14.5}
+        - {x: 229.5, y: 35.5}
+        - {x: 178.5, y: 48.5}
+        - {x: 112.5, y: 63.5}
+        - {x: 47.5, y: 84.5}
+        - {x: 11.5, y: 91.5}
+        - {x: -16.5, y: 91.5}
+        - {x: -38.5, y: 85.5}
+        - {x: -107.5, y: 71.5}
+        - {x: -244.5, y: 50.5}
+        - {x: -290.5, y: 41.5}
+        - {x: -370.5, y: 23.5}
+        - {x: -383.5, y: 21.5}
+        - {x: -502.5, y: -0.5}
+        - {x: -584.5, y: -19.5}
+        - {x: -636.5, y: -31.5}
+        - {x: -644.5, y: -35.5}
+        - {x: -643.5, y: -39.5}
+        - {x: -572.5, y: -50.5}
+        - {x: -444.5, y: -48.5}
+        - {x: -444.5, y: -50.5}
+        - {x: -422.5, y: -49.5}
+        - {x: -367.5, y: -49.5}
+        - {x: -285.5, y: -50.5}
+        - {x: -207.5, y: -49.5}
+        - {x: -113.5, y: -46.5}
+        - {x: -66.5, y: -46.5}
+        - {x: -43.5, y: -51.5}
+        - {x: -15.5, y: -54.5}
+        - {x: 94.5, y: -68.5}
+        - {x: 124.5, y: -73.5}
+        - {x: 199.5, y: -81.5}
+        - {x: 312.5, y: -90.5}
+        - {x: 328.5, y: -91.5}
+        - {x: 623.5, y: -91.5}
+        - {x: 644.5, y: -86.5}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: a042ba18bd6d19090800000000000000
+      internalID: -8029400422363225078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_sand_pieces_5
+      rect:
+        serializedVersion: 2
+        x: 2145
+        y: 380
+        width: 1392
+        height: 190
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 648219aeedf336b90800000000000000
+      internalID: -7249880748485695418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_sand_pieces_6
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 30
+        width: 1824
+        height: 189
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 748, y: -64.5}
+        - {x: 816, y: -60.5}
+        - {x: 844, y: -58.5}
+        - {x: 912, y: -44.5}
+        - {x: 912, y: -38.5}
+        - {x: 909, y: -36.5}
+        - {x: 840, y: -29.5}
+        - {x: 814, y: -28.5}
+        - {x: 707, y: -18.5}
+        - {x: 614, y: -7.5}
+        - {x: 546, y: 0.5}
+        - {x: 476, y: 8.5}
+        - {x: 429, y: 13.5}
+        - {x: 399, y: 16.5}
+        - {x: 321, y: 24.5}
+        - {x: 304, y: 26.5}
+        - {x: 236, y: 37.5}
+        - {x: 93, y: 56.5}
+        - {x: 66, y: 61.5}
+        - {x: -4, y: 70.5}
+        - {x: -59, y: 80.5}
+        - {x: -117, y: 94.5}
+        - {x: -149, y: 94.5}
+        - {x: -161, y: 92.5}
+        - {x: -201, y: 83.5}
+        - {x: -266, y: 67.5}
+        - {x: -330, y: 51.5}
+        - {x: -387, y: 38.5}
+        - {x: -417, y: 33.5}
+        - {x: -436, y: 29.5}
+        - {x: -531, y: 10.5}
+        - {x: -574, y: 3.5}
+        - {x: -621, y: -7.5}
+        - {x: -674, y: -17.5}
+        - {x: -697, y: -21.5}
+        - {x: -756, y: -34.5}
+        - {x: -803, y: -45.5}
+        - {x: -828, y: -51.5}
+        - {x: -910, y: -72.5}
+        - {x: -912, y: -73.5}
+        - {x: -912, y: -79.5}
+        - {x: -890, y: -84.5}
+        - {x: -863, y: -86.5}
+        - {x: -831, y: -86.5}
+        - {x: -747, y: -90.5}
+        - {x: -697, y: -94.5}
+        - {x: 313, y: -94.5}
+        - {x: 447, y: -84.5}
+        - {x: 569, y: -75.5}
+        - {x: 647, y: -70.5}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 8140b76140df61610800000000000000
+      internalID: 1591737712320906264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_sand_pieces_7
+      rect:
+        serializedVersion: 2
+        x: 1897
+        y: 78
+        width: 769
+        height: 142
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 29.5, y: -57}
+        - {x: 167.5, y: -57}
+        - {x: 200.5, y: -63}
+        - {x: 261.5, y: -65}
+        - {x: 370.5, y: -62}
+        - {x: 380.5, y: -59}
+        - {x: 384.5, y: -58}
+        - {x: 384.5, y: -53}
+        - {x: 380.5, y: -50}
+        - {x: 286.5, y: -22}
+        - {x: 202.5, y: 12}
+        - {x: 97.5, y: 46}
+        - {x: 27.5, y: 71}
+        - {x: 11.5, y: 71}
+        - {x: -56.5, y: 44}
+        - {x: -129.5, y: 21}
+        - {x: -282.5, y: -28}
+        - {x: -372.5, y: -50}
+        - {x: -384.5, y: -55}
+        - {x: -384.5, y: -60}
+        - {x: -371.5, y: -64}
+        - {x: -298.5, y: -71}
+        - {x: -201.5, y: -71}
+        - {x: -106.5, y: -69}
+        - {x: -25.5, y: -66}
+        - {x: -0.5, y: -63}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 95d33a89b8d6255e0800000000000000
+      internalID: -1922353644605063847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: AA_BG_LowerGround_sand_pieces_8
+      rect:
+        serializedVersion: 2
+        x: 2783
+        y: 66
+        width: 827
+        height: 140
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 384.5, y: -55}
+        - {x: 317.5, y: -28}
+        - {x: 273.5, y: -7}
+        - {x: 202.5, y: 32}
+        - {x: 172.5, y: 50}
+        - {x: 150.5, y: 68}
+        - {x: 144.5, y: 70}
+        - {x: 132.5, y: 70}
+        - {x: 130.5, y: 68}
+        - {x: 73.5, y: 56}
+        - {x: -21.5, y: 33}
+        - {x: -119.5, y: 13}
+        - {x: -127.5, y: 11}
+        - {x: -247.5, y: -20}
+        - {x: -311.5, y: -38}
+        - {x: -402.5, y: -64}
+        - {x: -413.5, y: -67}
+        - {x: -413.5, y: -70}
+        - {x: 413.5, y: -70}
+        - {x: 413.5, y: -67}
+        - {x: 394.5, y: -59}
+      physicsShape: []
+      tessellationDetail: 0.08
+      bones: []
+      spriteID: 397c55e3fa1d3c240800000000000000
+      internalID: 4810919377557112723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
