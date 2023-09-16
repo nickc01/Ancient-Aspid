@@ -271,7 +271,7 @@ public class VomitShotMove : AncientAspidMove
 
             if (!Boss.RiseFromCenterPlatform)
             {
-                firedShots.Add(VomitGlob.Spawn(fireSource, velocity, gravityScale));
+                firedShots.Add(VomitGlob.Spawn(Boss.GlobPrefab, fireSource, velocity, gravityScale));
             }
 
             var angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;

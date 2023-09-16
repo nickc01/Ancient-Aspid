@@ -94,7 +94,7 @@ public class EnterGround_BigVomitShotMove : AncientAspidMove
 
         var velocity = MathUtilities.CalculateVelocityToReachPoint(fireSource, (Vector2)fireSource + target, landTime, gravityScale);
 
-        var glob = VomitGlob.Spawn(fireSource, velocity, gravityScale);
+        var glob = VomitGlob.Spawn(Boss.GlobPrefab, fireSource, velocity, gravityScale);
 
         glob.HasLifeTime = false;
         glob.SetScaleGradually(scale, giantGlobCurve, giantGlobGrowTime);

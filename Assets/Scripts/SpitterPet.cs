@@ -86,6 +86,9 @@ public class SpitterPet : MonoBehaviour
     [SerializeField]
     string sleepAnimation;
 
+    [SerializeField]
+    bool dontDestroyOnLoad = false;
+
     bool isFlyingIn = false;
 
     GameObject enemyTarget = null;
@@ -113,7 +116,10 @@ public class SpitterPet : MonoBehaviour
         StartCoroutine(ShootRoutine());
         StartCoroutine(SleepCheckRoutine());
         lookTarget = Player.Player1.gameObject;
-        DontDestroyOnLoad(gameObject);
+        if (dontDestroyOnLoad)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
 
         FlyToPlayer();
 

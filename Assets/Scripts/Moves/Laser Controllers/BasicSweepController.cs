@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+
 public class BasicSweepController : FireLaserMove.SweepController
 {
     public Quaternion From { get; private set; }

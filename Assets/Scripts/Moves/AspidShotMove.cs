@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,36 @@ using System.Threading.Tasks;
 using UnityEngine;
 using WeaverCore;
 using WeaverCore.Utilities;
+
+
+
+/*[Serializable]
+struct ShotDefinition
+{
+    [SerializeField]
+    public List<ShotInfo> shots;
+}
+
+[Serializable]
+struct ShotInfo
+{
+    public int shotAmount;
+    public float shotSpeed;
+    public float shotAngleSeparation = -1f;
+    public float shotAngleOffset = 0f;
+
+    public ShotInfo() { }
+}*/
+
+/*
+ * public List<int> shotAmounts;
+
+    public List<float> shotSpeeds;
+
+    public List<float> shotAngleSeparations;
+
+    public List<float> shotAngleOffsets;
+ */
 
 public class AspidShotMove : AncientAspidMove
 {
@@ -28,21 +59,33 @@ public class AspidShotMove : AncientAspidMove
     [Range(1, 2)]
     int attackVariant = 1;
 
-    [SerializeField]
+    /*[SerializeField]
     float shotSpeed = 25f;
 
     [SerializeField]
-    float shotScale = 1.5f;
+    float shotScale = 1.5f;*/
 
     [SerializeField]
     GameObject ShotPrefab;
 
-    [SerializeField]
-    float shotAngleSeparation = 15f;
+    /*[SerializeField]
+    float shotAngleSeparation = 15f;*/
 
     [SerializeField]
     AudioClip fireSound;
 
+    /*[SerializeField]
+    List<ShotDefinition> shotDefinitions;*/
+
+    List<IAspidComboProvider> comboProviders;
+
+    AspidOrientation startOrientation;
+
+    private void Awake()
+    {
+        comboProviders = new List<IAspidComboProvider>();
+        GetComponents(comboProviders);
+    }
 
     public override bool MoveEnabled => Boss.CanSeeTarget && moveEnabled && Vector2.Distance(Player.Player1.transform.position,Boss.Head.transform.position) >= minDistance;// Boss.AspidMode == AncientAspid.Mode.Tactical || Boss.AspidMode == AncientAspid.Mode.Offensive;
 
@@ -75,34 +118,52 @@ public class AspidShotMove : AncientAspidMove
 
     public override IEnumerator DoMove()
     {
-        yield return Boss.Head.LockHead(Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left, headSpeed);
+        startOrientation = Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left;
+
+        yield return Boss.Head.LockHead(startOrientation, headSpeed);
 
         var oldState = Boss.Head.MainRenderer.TakeSnapshot();
 
         Boss.Head.MainRenderer.flipX = Boss.Head.LookingDirection >= 0f;
 
-        yield return Boss.Head.Animator.PlayAnimationTillDone($"Fire - {attackVariant} - Prepare");
+        var comboProvider = comboProviders.GetRandomElement();
+        comboProvider.Init(out var comboCount);
 
-        Fire(Boss.Head.LookingDirection, 3, 1);
-        Fire(Boss.Head.LookingDirection, 2, 0.5f);
-
-        yield return Boss.Head.Animator.PlayAnimationTillDone($"Fire - {attackVariant} - Attack");
-
-        Boss.Head.MainRenderer.Restore(oldState);
-
-        Boss.Head.UnlockHead();
-    }
-
-    void Fire(float angle, int shots, float velocityMultplier = 1f)
-    {
-        if (shotSpeed <= 0)
+        for (int i = 0; i < comboCount; i++)
         {
-            shotSpeed = 0.01f;
+            var enumerator = comboProvider.DoShots(i);
+
+            yield return Boss.Head.Animator.PlayAnimationTillDone($"Fire - {attackVariant} - Prepare{(i == 0 ? "" : " - Quick")}");
+
+            while (enumerator.MoveNext())
+            {
+                var info = enumerator.Current;
+
+                Fire(Boss.Head.LookingDirection, info.ShotAngleOffset, info.Shots, info.ShotSpeed, info.ShotAngleSeparation, info.ShotScale);
+            }
+            //Fire(Boss.Head.LookingDirection, 3, 1);
+            //Fire(Boss.Head.LookingDirection, 2, 0.5f);
+
+            yield return Boss.Head.Animator.PlayAnimationTillDone($"Fire - {attackVariant} - Attack{(i == comboCount - 1 ? "" : " - Quick")}");
+
+            Boss.Head.MainRenderer.Restore(oldState);
+
+            yield return Boss.Head.QuickFlipDirection(Boss.PlayerRightOfBoss);
         }
 
-        var sourcePos = Boss.Head.GetFireSource(angle);
+        Boss.Head.UnlockHead(startOrientation);
+    }
 
-        Blood.SpawnBlood(sourcePos, new Blood.BloodSpawnInfo(3, 7, 10f, 25f, angle - 90f - 40f, angle - 90f + 40f, null));
+    void Fire(float baseAngle, float angleOffset, int shots, float speed, float angleSeparation, float scale) //float velocityMultplier = 1f)
+    {
+        if (speed <= 0)
+        {
+            speed = 0.01f;
+        }
+
+        var sourcePos = Boss.Head.GetFireSource(baseAngle);
+
+        Blood.SpawnBlood(sourcePos, new Blood.BloodSpawnInfo(3, 7, 10f, 25f, baseAngle - 90f - 40f, baseAngle - 90f + 40f, null));
         //Blood.SpawnBlood(sourcePos, new Blood.BloodSpawnInfo(3, 4, 10f, 15f, 120f, 150f, null));
 
         float gravityScale = 1;
@@ -111,7 +172,7 @@ public class AspidShotMove : AncientAspidMove
             gravityScale = rb.gravityScale;
         }
 
-        var velocityToPlayer = MathUtilities.CalculateVelocityToReachPoint(sourcePos, Player.Player1.transform.position, Vector3.Distance(sourcePos, Player.Player1.transform.position) / shotSpeed, gravityScale);
+        var velocityToPlayer = MathUtilities.CalculateVelocityToReachPoint(sourcePos, Player.Player1.transform.position, Vector3.Distance(sourcePos, Player.Player1.transform.position) / speed, gravityScale);
 
         var polarCoordsToPlayer = MathUtilities.CartesianToPolar(velocityToPlayer);
 
@@ -121,7 +182,7 @@ public class AspidShotMove : AncientAspidMove
 
         for (float i = lowerShots; i <= lowerShots + shots; i++)
         {
-            FireShot(polarCoordsToPlayer.x,shotAngleSeparation * i,sourcePos, polarCoordsToPlayer.y * velocityMultplier);
+            FireShot(polarCoordsToPlayer.x, (angleSeparation * i) + angleOffset,sourcePos, polarCoordsToPlayer.y, scale);
         }
 
         if (fireSound != null)
@@ -130,7 +191,7 @@ public class AspidShotMove : AncientAspidMove
         }
     }
 
-    void FireShot(float playerAngle, float angle, Vector3 sourcePos, float velocity)
+    void FireShot(float playerAngle, float angle, Vector3 sourcePos, float velocity, float scale)
     {
         if (!Boss.RiseFromCenterPlatform)
         {
@@ -141,11 +202,11 @@ public class AspidShotMove : AncientAspidMove
             }
             if (instance.TryGetComponent(out AspidShotBase aspidShot))
             {
-                aspidShot.ScaleFactor = shotScale;
+                aspidShot.ScaleFactor = scale;
             }
             else
             {
-                instance.transform.SetLocalScaleXY(shotScale, shotScale);
+                instance.transform.SetLocalScaleXY(scale, scale);
             }
         }
     }
@@ -155,7 +216,7 @@ public class AspidShotMove : AncientAspidMove
         Boss.Head.Animator.StopCurrentAnimation();
         if (Boss.Head.HeadLocked)
         {
-            Boss.Head.UnlockHead();
+            Boss.Head.UnlockHead(startOrientation);
         }
     }
 }

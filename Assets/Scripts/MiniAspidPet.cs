@@ -456,6 +456,48 @@ public class MiniAspidPet : SpitterPet
 
     static GameObject OriginalPrefab;
 
+    [OnRuntimeInit]
+    static void OnRuntimeInit()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+    }
+
+    private static void SceneManager_sceneLoaded(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.LoadSceneMode arg1)
+    {
+        if (Player.Player1Raw != null)
+        {
+            UnboundCoroutine.Start(OnSceneLoad(Player.Player1Raw));
+        }
+    }
+
+    static IEnumerator OnSceneLoad(Player player)
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        var hatchlings = GameObject.FindGameObjectsWithTag("Knight Hatchling");
+
+        var max = GetHatchlingMax(player);
+
+        if (hatchlings.Length > max)
+        {
+            for (int i = 0; i < hatchlings.Length - max; i++)
+            {
+                GameObject.Destroy(hatchlings[i]);
+            }
+        }
+    }
+
+    public static int GetHatchlingMax(Player player)
+    {
+        var charmEffects = player.transform.Find("Charm Effects");
+        if (charmEffects == null)
+        {
+            return 4;
+        }
+
+        return PlayMakerUtilities.GetFsmInt(charmEffects.gameObject, "Hatchling Spawn", "Hatchling Max");
+    }
+
     public static void ReplaceHatchlingPrefab(Player player)
     {
         var charmEffects = player.transform.Find("Charm Effects");
@@ -469,7 +511,34 @@ public class MiniAspidPet : SpitterPet
 
         var fsm = PlayMakerUtilities.GetFSMOnPlayMakerComponent(hatchlingFSM);
 
-        var hatchState = PlayMakerUtilities.FindStateOnFSM(fsm, "Hatch");
+        GameObject hatchlingAspid = WeaverAssets.LoadAssetFromBundle<GameObject, AncientAspidMod>("Knight Hatchling Aspid");
+
+        foreach (var state in PlayMakerUtilities.GetStatesOnFSM(fsm))
+        {
+            var actionData = PlayMakerUtilities.GetActionData(state);
+
+            if (actionData != null)
+            {
+                var gameObjects = (IEnumerable)actionData.ReflectGetField("fsmGameObjectParams");
+
+                if (gameObjects != null)
+                {
+                    foreach (var fsmGM in gameObjects)
+                    {
+                        var gm = (GameObject)fsmGM.ReflectGetProperty("Value");
+
+                        if (gm != null && gm.name == "Knight Hatchling")
+                        {
+                            OriginalPrefab = gm;
+                            fsmGM.ReflectSetProperty("Value", hatchlingAspid);
+                            MiniAspidPetEnabled = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        /*var hatchState = PlayMakerUtilities.FindStateOnFSM(fsm, "Hatch");
 
         var actionData = PlayMakerUtilities.GetActionData(hatchState);
 
@@ -484,9 +553,8 @@ public class MiniAspidPet : SpitterPet
                 OriginalPrefab = gm;
                 fsmGM.ReflectSetProperty("Value", WeaverAssets.LoadAssetFromBundle<GameObject, AncientAspidMod>("Knight Hatchling Aspid"));
                 MiniAspidPetEnabled = true;
-                return;
             }
-        }
+        }*/
     }
 
     public static void RevertHatchlingPrefab(Player player)
@@ -501,9 +569,33 @@ public class MiniAspidPet : SpitterPet
 
         var fsm = PlayMakerUtilities.GetFSMOnPlayMakerComponent(hatchlingFSM);
 
-        var hatchState = PlayMakerUtilities.FindStateOnFSM(fsm, "Hatch");
+        foreach (var state in PlayMakerUtilities.GetStatesOnFSM(fsm))
+        {
+            var actionData = PlayMakerUtilities.GetActionData(state);
 
-        var actionData = PlayMakerUtilities.GetActionData(hatchState);
+            if (actionData != null)
+            {
+                var gameObjects = (IEnumerable)actionData.ReflectGetField("fsmGameObjectParams");
+
+                if (gameObjects != null)
+                {
+                    foreach (var fsmGM in gameObjects)
+                    {
+                        var gm = (GameObject)fsmGM.ReflectGetProperty("Value");
+
+                        if (gm != null && gm.name == "Knight Hatchling Aspid")
+                        {
+                            fsmGM.ReflectSetProperty("Value", OriginalPrefab);
+                            MiniAspidPetEnabled = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        //var hatchState = PlayMakerUtilities.FindStateOnFSM(fsm, "Hatch");
+
+        /*var actionData = PlayMakerUtilities.GetActionData(hatchState);
 
         var gameObjects = (IEnumerable)actionData.ReflectGetField("fsmGameObjectParams");
 
@@ -517,6 +609,6 @@ public class MiniAspidPet : SpitterPet
                 MiniAspidPetEnabled = false;
                 return;
             }
-        }
+        }*/
     }
 }

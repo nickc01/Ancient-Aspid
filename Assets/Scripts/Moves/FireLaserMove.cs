@@ -5,7 +5,6 @@ using WeaverCore;
 using WeaverCore.Assets.Components;
 using WeaverCore.Components;
 using WeaverCore.Utilities;
-using static UnityEngine.GraphicsBuffer;
 
 /// <summary>
 /// Contains the main laser move and other common functions and utilities for operating the laser
@@ -40,6 +39,14 @@ public class FireLaserMove : AncientAspidMove
         /// The function used for calculating the laser's angle. This is called every frame while the laser is firing
         /// </summary>
         public abstract Quaternion CalculateAngle(float timeSinceFiring);
+
+        /// <summary>
+        /// Should the laser stop abruptly when the player crosses it?
+        /// </summary>
+        public virtual bool DoLaserInterrupt()
+        {
+            return true;
+        }
     }
 
     [SerializeField]
@@ -62,6 +69,9 @@ public class FireLaserMove : AncientAspidMove
     float sweepTime = 5;
 
     [SerializeField]
+    float shadowDashSweepTime = 2.35f;
+
+    [SerializeField]
     float sweepStartAngle = -90f - 45f;
 
     [SerializeField]
@@ -81,7 +91,7 @@ public class FireLaserMove : AncientAspidMove
     float followPlayerTime = 1f;
 
     [SerializeField]
-    float followPlayerTimeFirstPhase = 1.5f;
+    float followPlayerShadowDashTime = 2.15f;
 
     [SerializeField]
     float minFollowPlayerDistance = 6f;
@@ -120,6 +130,8 @@ public class FireLaserMove : AncientAspidMove
     float headAdjustAmount = 0.17493f;
 
     bool cancelled = false;
+
+    public override float PreDelay => 0.25f;
 
     public override bool MoveEnabled
     {
@@ -166,11 +178,11 @@ public class FireLaserMove : AncientAspidMove
     {
         if (Boss.Orientation == AspidOrientation.Center)
         {
-            return SweepLaser(new ArenaSweepController(sweepStartAngle, sweepEndAngle, sweepTime, sweepCurve),true,sweepGlobSpawnRate);
+            return SweepLaser(new ArenaSweepController(sweepStartAngle, sweepEndAngle, !ShadowDashTracker.PlayerHasShadowDashReady ? shadowDashSweepTime : sweepTime, sweepCurve),false,sweepGlobSpawnRate);
         }
         else
         {
-            return AttackPlayer(new PlayerSweepController(followPlayerStartAngle,followPlayerEndAngle,Boss.Phase <= AncientAspid.BossPhase.Phase3 ? followPlayerTimeFirstPhase : followPlayerTime, followPlayerCurve));
+            return AttackPlayer(new PlayerSweepController(followPlayerStartAngle,followPlayerEndAngle, !ShadowDashTracker.PlayerHasShadowDashReady ? followPlayerShadowDashTime : followPlayerTime, followPlayerCurve));
         }
     }
 
@@ -238,6 +250,8 @@ public class FireLaserMove : AncientAspidMove
 
     public IEnumerator SweepLaser(SweepController controller, bool spawnGlobs, float globSpawnRate)
     {
+        var currentPhase = Boss.Phase;
+
         controller.Init(Boss);
 
         var initialAngle = controller.CalculateAngle(0f);
@@ -275,6 +289,8 @@ public class FireLaserMove : AncientAspidMove
         emitter.FireDuration = controller.FireTime;
 
         var anticClip = Boss.Head.Animator.AnimationData.GetClip("Fire Laser Antic");
+
+        controller.Init(Boss);
 
         if (controller.PlayAntic)
         {
@@ -369,19 +385,19 @@ public class FireLaserMove : AncientAspidMove
                     var spawnPoint = Vector2.Lerp(transform.position,middle,0.5f);
                     var direction = (middle - (Vector2)transform.position).normalized * 70f;
 
-                    var glob = VomitGlob.Spawn(spawnPoint, direction, playSounds: false);
+                    var glob = VomitGlob.Spawn(Boss.GlobPrefab, spawnPoint, direction, playSounds: false);
                     glob.SetScale(sweepGlobSizeRange.RandomInRange());
                 }
             }
 
-            if (Boss.AspidMode == AncientAspid.Mode.Offensive && timer > 0 && playerOnRight != prevPlayerOnRight && fireTime == controller.FireTime)
+            if (controller.DoLaserInterrupt() && Boss.AspidMode == AncientAspid.Mode.Offensive && timer > 0 && playerOnRight != prevPlayerOnRight && fireTime == controller.FireTime)
             {
                 fireTime = timer + 0.2f;
                 prevPlayerOnRight = playerOnRight;
                 emitter.StopLaserAfter(0.2f);
             }
 
-            if (Boss.RiseFromCenterPlatform || Vector3.Distance(transform.position, Player.Player1.transform.position) >= 21f)
+            if (Boss.Phase != currentPhase || Boss.RiseFromCenterPlatform || Vector3.Distance(transform.position, Player.Player1.transform.position) >= 21f)
             {
                 emitter.StopLaser();
                 break;
@@ -393,13 +409,14 @@ public class FireLaserMove : AncientAspidMove
         if (loopSound != null)
         {
             loopSound.StopPlaying();
+            loopSound.Delete();
             loopSound = null;
         }
         CameraShaker.Instance.SetRumble(WeaverCore.Enums.RumbleType.None);
 
         yield return FinishLaserMove(headAdjustAmount, anticClip.FPS * headResetSpeed);
 
-        WeaverLog.Log("MOVE ENDING = " + Time.time);
+        //WeaverLog.Log("MOVE ENDING = " + Time.time);
     }
 
     public IEnumerator FinishLaserMove()

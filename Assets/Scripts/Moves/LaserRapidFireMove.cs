@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using WeaverCore;
 using WeaverCore.Components;
 using WeaverCore.Enums;
+using WeaverCore.Features;
 using WeaverCore.Utilities;
 
 public class LaserRapidFireMove : AncientAspidMove
@@ -55,7 +57,11 @@ public class LaserRapidFireMove : AncientAspidMove
     float animationSpeed = 1f;
 
     [SerializeField]
-    int shots = 4;
+    List<int> possibleShotAmounts = new List<int>
+    {
+        4,
+        2
+    };
 
     [SerializeField]
     float fireDuration = 0.25f;
@@ -89,6 +95,15 @@ public class LaserRapidFireMove : AncientAspidMove
 
     [SerializeField]
     float playerAimSpeed = 5f;
+
+    [SerializeField]
+    float maximumFlightSpeed = 2f;
+
+    [SerializeField]
+    float minimumFlightSpeed = 1.5f;
+
+    [SerializeField]
+    float flightSpeed = 10f;
 
     /*[Space]
     [Header("Phase 2")]
@@ -134,7 +149,13 @@ public class LaserRapidFireMove : AncientAspidMove
     float fireRotation;
     bool cancelled = false;
 
+    bool freezeTarget = false;
+
     TargetOverride target;
+
+    float prevMaxFlightSpeed;
+    float prevMinFlightSpeed;
+    float prevFlightSpeed;
 
     public override bool MoveEnabled
     {
@@ -220,7 +241,17 @@ public class LaserRapidFireMove : AncientAspidMove
             target = Boss.AddTargetOverride();
         }
 
-        target.SetTarget(() => targetPos + Player.Player1.transform.position);
+        freezeTarget = false;
+        Vector3 lastPTarget = Player.Player1.transform.position;
+
+        target.SetTarget(() =>
+        {
+            if (!freezeTarget)
+            {
+                lastPTarget = Player.Player1.transform.position;
+            }
+            return targetPos + lastPTarget;
+        });
 
         //Boss.FreezeTarget(() => targetPos + Player.Player1.transform.position);
 
@@ -271,12 +302,21 @@ public class LaserRapidFireMove : AncientAspidMove
                 yield break;
             }
         }
+        var currentPhase = Boss.Phase;
 
         doingShotgun = false;
         Boss.orbitReductionAmount *= 3f;
         yield return Boss.Head.LockHead();
 
         SetLaserTarget();
+        prevMaxFlightSpeed = Boss.maximumFlightSpeed;
+        Boss.maximumFlightSpeed = maximumFlightSpeed;
+
+        prevFlightSpeed = Boss.flightSpeed;
+        Boss.flightSpeed = flightSpeed;
+
+        prevMinFlightSpeed = Boss.minimumFlightSpeed;
+        Boss.minimumFlightSpeed = minimumFlightSpeed;
         //StartTargeting();
         /*if (shotGunTarget == null)
         {
@@ -365,6 +405,8 @@ public class LaserRapidFireMove : AncientAspidMove
             yield return null;
         }
 
+
+        //freezeTarget = true;
         chargeUpEffects.Stop();
 
         yield return new WaitForSeconds(initialFireDelay);
@@ -375,9 +417,13 @@ public class LaserRapidFireMove : AncientAspidMove
         var anticClip = Boss.Head.Animator.AnimationData.GetClip("Fire Laser Antic Quick");
         var clipDuration = (1f / anticClip.FPS) * anticClip.Frames.Count;
 
+        var shots = possibleShotAmounts.GetRandomElement();
+
+        var health = Boss.HealthComponent.Health;
+
         for (int i = 0; i < shots; i++)
         {
-            if (Vector3.Distance(transform.position, Player.Player1.transform.position) > 30f)
+            if (Boss.Phase != currentPhase || Vector3.Distance(transform.position, Player.Player1.transform.position) > 28f)
             {
                 break;
             }
@@ -419,6 +465,11 @@ public class LaserRapidFireMove : AncientAspidMove
             yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser End Quick");
 
             yield return new WaitUntil(() => !rapidFireEmitter.FiringLaser);
+
+            if (i >= 1 && Boss.HealthManager.Health < health)
+            {
+                break;
+            }
         }
 
         Boss.Head.Animator.PlaybackSpeed = 1f;
@@ -452,7 +503,9 @@ public class LaserRapidFireMove : AncientAspidMove
         //laserMove.Emitter.Laser.transform.SetYLocalPosition(originalOriginDistance);
         Boss.Head.Animator.PlaybackSpeed = 1f;
 
-        if (Vector3.Distance(transform.position, Player.Player1.transform.position) <= 30f)
+        freezeTarget = false;
+
+        if (currentPhase == Boss.Phase && Vector3.Distance(transform.position, Player.Player1.transform.position) <= 28f)
         {
             doingShotgun = true;
 
@@ -465,7 +518,8 @@ public class LaserRapidFireMove : AncientAspidMove
 
         //WeaverLog.LogError("OLD TARGET = " + oldTarget?.name);
         //Boss.SetTarget(oldTarget);
-
+        Boss.maximumFlightSpeed = prevMaxFlightSpeed;
+        Boss.flightSpeed = prevFlightSpeed;
         Boss.Head.UnlockHead();
 
         //yield break;
@@ -580,6 +634,10 @@ public class LaserRapidFireMove : AncientAspidMove
         {
             Boss.Head.UnlockHead();
         }
+
+        Boss.maximumFlightSpeed = prevMaxFlightSpeed;
+        Boss.flightSpeed = prevFlightSpeed;
+        Boss.minimumFlightSpeed = prevMinFlightSpeed;
 
         Boss.Head.Animator.StopCurrentAnimation();
 

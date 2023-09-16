@@ -38,6 +38,9 @@ public class AncientAspidPhaseController : MonoBehaviour
     [SerializeField]
     float finalHeightLimit;
 
+    [SerializeField]
+    PhaseContactRegion finalPhaseRegion;
+
     private void Awake()
     {
         boss = GetComponent<AncientAspid>();
@@ -156,7 +159,8 @@ public class AncientAspidPhaseController : MonoBehaviour
                 }
                 break;
             case AncientAspid.BossPhase.Phase3C:
-                if (Player.Player1.transform.position.y >= phase4StartHeight)
+                if (finalPhaseRegion.EnteredPhaseRegion)
+                //if (Player.Player1.transform.position.y >= phase4StartHeight)
                 {
                     boss.EnableTargetHeightRange = true;
                     boss.TargetHeightRange = new Vector2(finalHeightLimit, 9999f);

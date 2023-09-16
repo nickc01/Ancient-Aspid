@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Serialization;
 using WeaverCore;
@@ -316,6 +317,19 @@ public class HeadController : AspidBodyPart
         headLocked = true;*/
     }
 
+    public IEnumerator QuickFlipDirection(bool faceRight, float flipTime = 1f / 12f)
+    {
+        if (MainRenderer.flipX != faceRight)
+        {
+            MainRenderer.sprite = idle_Sprites[idle_Sprites.Count / 2];
+            MainRenderer.flipX = faceRight;
+
+            currentHeadAngle = OrientationToAngle(faceRight ? AspidOrientation.Right : AspidOrientation.Left);
+
+            yield return new WaitForSeconds(flipTime);
+        }
+    }
+
     public IEnumerator LockHead(float intendedDirection, float lockSpeed = 1f)
     {
         unlockRoutine = 0;
@@ -420,13 +434,13 @@ public class HeadController : AspidBodyPart
     /// <summary>
     /// Returns the downward angle to the player. 90* means the player is to the right of the boss. 0 means the player is above or below the boss. -90* means the player is to the left of the boss
     /// </summary>
-    float GetDownwardAngleToPlayer()
+    public float GetDownwardAngleToPlayer()
     {
         return GetDownwardAngleToPosition(Player.Player1.transform.position);
         //return 90f * Vector2.Dot(Vector2.right,Player.Player1.transform.position - transform.position);
     }
 
-    float GetDownwardAngleToPosition(Vector3 pos)
+    public float GetDownwardAngleToPosition(Vector3 pos)
     {
         return 90f * Vector2.Dot(Vector2.right, (pos - transform.position).normalized);
     }

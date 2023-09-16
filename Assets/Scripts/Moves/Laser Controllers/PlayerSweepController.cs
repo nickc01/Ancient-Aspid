@@ -72,6 +72,7 @@ public class PlayerSweepController : FireLaserMove.SweepController
     public override void Init(AncientAspid boss)
     {
         this.boss = boss;
+        firstAttackDone = false;
         playerStartPos = Player.Player1.transform.position;
     }
 }

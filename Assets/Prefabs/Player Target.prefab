@@ -50,7 +50,7 @@ MonoBehaviour:
   DistanceFromPlayerWhenAbove: 5.5
   AboveMinAngle: 45
   AboveMaxAngle: 135
-  minDistanceFromFloor: 7
+  minDistanceFromFloor: 7.25
   minDistanceFromRightWall: 6
   minDistanceFromLeftWall: 6
   minDistanceFromCeiling: 5

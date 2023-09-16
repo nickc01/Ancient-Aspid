@@ -8,7 +8,7 @@ using WeaverCore.Utilities;
 public class MantisShotMove : AncientAspidMove
 {
     public override bool MoveEnabled => Boss.CanSeeTarget && moveEnabled && Boss.AspidMode == AncientAspid.Mode.Tactical &&
-        Boss.Claws.claws.All(c => !c.ClawLocked);
+        Boss.Claws.claws.All(c => !c.ClawLocked) && CanRunMoveChance();
 
     [SerializeField]
     bool moveEnabled = true;
@@ -33,6 +33,31 @@ public class MantisShotMove : AncientAspidMove
 
     [SerializeField]
     float angleOffset = 0f;
+
+    [SerializeField]
+    float moveChance = 0.65f;
+
+    float currentChance = -1f;
+
+    bool CanRunMoveChance()
+    {
+        if (currentChance < 0)
+        {
+            currentChance = 1f - moveChance;
+        }
+
+        bool canRunMove = UnityEngine.Random.Range(0f, 1f) > currentChance;
+
+        if (canRunMove)
+        {
+            currentChance = -1f;
+        }
+        else
+        {
+            currentChance = currentChance * (1f - moveChance);
+        }
+        return canRunMove;
+    }
 
     public void EnableMove(bool enabled)
     {

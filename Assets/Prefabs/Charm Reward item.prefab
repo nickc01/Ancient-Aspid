@@ -76,6 +76,7 @@ MonoBehaviour:
   exitRangeEvent: 
   enterRangeEvent: 
   moveToOffset: 0.25
+  heroLooksUp: 0
   <EnableKnightDamageInterrupt>k__BackingField: 1
   OnInspect:
     m_PersistentCalls:
@@ -222,7 +223,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1235928596345842489}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 651e14a63d0b5bb41b017366df65460a, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -370,12 +371,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed6745d5f8d3ca44b89c1b235e44a1e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingsStorage: {fileID: 0}
-  settingsField: 
+  <SettingsStorage>k__BackingField: {fileID: 11400000, guid: 53925bd5d3de07c4c99ae7f55fedf179, type: 2}
+  <SettingsField>k__BackingField: charmAcquired
   <ItemActive>k__BackingField: 1
   <FlingOnStart>k__BackingField: 1
-  flingSpeedMinMax: {x: 20, y: 20}
-  flingAngleMinMax: {x: 82, y: 86}
+  FlingSpeedMinMax: {x: 20, y: 20}
+  FlingAngleMinMax: {x: 82, y: 86}
   charm: {fileID: 11400000, guid: 364475caf727b704da69c13362ef9e9d, type: 2}
 --- !u!1 &1235928596345842490
 GameObject:

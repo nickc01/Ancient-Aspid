@@ -91,6 +91,8 @@ public class BulletHellMove : AncientAspidMove
 
         float audioTimer = 0f;
 
+        int prevHealth = Boss.HealthComponent.Health;
+
         for (int i = 0; i < rowsToShoot; i++)
         {
             var rowTime = Mathf.Lerp(rowTimeRange.x, rowTimeRange.y,i / (float)(rowsToShoot - 1));
@@ -158,7 +160,13 @@ public class BulletHellMove : AncientAspidMove
 
                 var currentPlayerAngle = GetPlayerAngle();
 
-                if ((currentPlayerAngle < rowAngleRange.x && !travelingLeft) || (currentPlayerAngle > rowAngleRange.y && travelingLeft))
+                if ((currentPlayerAngle < rowAngleRange.x + playerAngleClamped) || (currentPlayerAngle > rowAngleRange.y + playerAngleClamped))
+                {
+                    doLaserAttack = true;
+                    break;
+                }
+
+                if ((prevHealth - Boss.HealthComponent.Health) >= 70f)
                 {
                     doLaserAttack = true;
                     break;
@@ -178,8 +186,10 @@ public class BulletHellMove : AncientAspidMove
 
             bool cancelAttack = false;
 
+            var pAngle = GetPlayerAngle();
+
             //TODO : FIRE LASER IF PLAYER IS OUTSIDE OF RAPID FIRE
-            if (playerAngle < playerAngleClamped + rowAngleRange.x && currentAngle < rowAngleRange.x + 0.2f)
+            /*if (playerAngle < playerAngleClamped + rowAngleRange.x && currentAngle < rowAngleRange.x + 0.2f)
             {
                 doLaserAttack = true;
                 cancelAttack = true;
@@ -188,10 +198,26 @@ public class BulletHellMove : AncientAspidMove
             {
                 doLaserAttack = true;
                 cancelAttack = true;
+            }*/
+
+            if ((pAngle < rowAngleRange.x) || (pAngle > rowAngleRange.y))
+            {
+                doLaserAttack = true;
+                cancelAttack = true;
             }
 
-            if (Vector3.Distance(transform.position, Player.Player1.transform.position) >= 25)
+            /*if (!Boss.CamRect.Contains(Player.Player1.transform.position))
             {
+                cancelAttack = true;
+            }*/
+
+            var camRect = Boss.CamRect;
+
+            camRect.size += new Vector2(10f,10f);
+
+            if (!camRect.Contains(transform.position))
+            {
+                WeaverLog.Log("OUTSIDE CAM BOUNDS");
                 cancelAttack = true;
             }
 
@@ -200,22 +226,48 @@ public class BulletHellMove : AncientAspidMove
                 recoiler.SetRecoilSpeed(oldRecoilSpeed);
                 //float directionScalar = playerAngle >= 0f ? 1f : -1f;
 
-                var startAngle = playerAngle < 0f ? rowAngleRange.x : rowAngleRange.y;
+                var laserPlayerAngle = GetPlayerAngleClamped();
 
-                Quaternion start = Quaternion.Euler(0f,0f, playerAngleClamped + startAngle - 90f);
+                //var startAngle = playerAngle < 0f ? rowAngleRange.x : rowAngleRange.y;
+                //playerAngleClamped = GetPlayerAngleClamped();
+                //Quaternion start = Quaternion.Euler(0f,0f, playerAngleClamped + startAngle - 90f);
+                //Quaternion start = Quaternion.Euler(0f,0f, playerAngleClamped + 90f);
+
+
+
+
+                //Quaternion start = Quaternion.Euler(0f,0f, laserPlayerAngle - 90f);
+                Quaternion angle2 = Quaternion.Euler(0f, 0f, 0f - 90f);
 
                 //var playerTarget = Boss.GetAngleToPlayer() + (directionScalar * 30f);
 
                 //Quaternion destination = Quaternion.Euler(0f, 0f, playerTarget);
 
-                var destAngle = playerAngle < 0f ? -120f : 120f;
-                Quaternion destination = Quaternion.Euler(0f,0f,destAngle - 90f);
+                /*float destAngle;
+
+                if (Player.Player1.transform.position.x >= transform.position.x)
+                {
+
+                }
+                else
+                {
+
+                }*/
+                var destAngle = laserPlayerAngle < 0f ? -120f : 120f;
+                Quaternion angle1 = Quaternion.Euler(0f,0f,destAngle - 90f);
 
                 Boss.Head.UnlockHead(laserMove.GetLaserRotationValues().main);
                 firingLaser = true;
-                yield return laserMove.SweepLaser(new BasicSweepController(
+                /*yield return laserMove.SweepLaser(new BasicSweepController(
                     start,
                     destination,
+                    1f,
+                    laserMove.followPlayerCurve
+                    ), false, 0f);*/
+
+                yield return laserMove.SweepLaser(new BasicSweepController(
+                    angle1,
+                    angle2,
                     1f,
                     laserMove.followPlayerCurve
                     ), false, 0f);
@@ -225,7 +277,7 @@ public class BulletHellMove : AncientAspidMove
 
             travelingLeft = !travelingLeft;
 
-            if (cancelAttack || !Boss.CanSeeTarget || !Boss.OffensiveModeEnabled)
+            if (cancelAttack || !Boss.OffensiveModeEnabled)
             {
                 if (Boss.Head.HeadLocked)
                 {
@@ -276,16 +328,28 @@ public class BulletHellMove : AncientAspidMove
 
     float GetPlayerAngleClamped()
     {
+        //RESULTS IN 0 Degrees = Directly Down. -90 is directly left, and 90 is directly right
         var playerAngle = MathUtilities.ClampRotation(Boss.GetAngleToPlayer() + 90f);
 
-        if (playerAngle + rowAngleRange.x < -90f)
+        //Row Angle Range = -85 to 85
+
+        if (playerAngle < rowAngleRange.x)
+        {
+            playerAngle = rowAngleRange.x;
+        }
+
+        if (playerAngle > rowAngleRange.y)
+        {
+            playerAngle = rowAngleRange.y;
+        }
+        /*if (playerAngle + rowAngleRange.x < -90f)
         {
             playerAngle = -90f - rowAngleRange.x;
         }
         else if (playerAngle + rowAngleRange.y > 90f)
         {
             playerAngle = 90f - rowAngleRange.y;
-        }
+        }*/
         return playerAngle;
     }
 

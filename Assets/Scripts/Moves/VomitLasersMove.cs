@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WeaverCore;
@@ -8,6 +7,9 @@ using WeaverCore.Utilities;
 
 public class VomitLasersMove : AncientAspidMove
 {
+    [SerializeField]
+    bool moveEnabled = true;
+
     [SerializeField]
     Vector2[] vomitShotOffsets;
 
@@ -27,7 +29,8 @@ public class VomitLasersMove : AncientAspidMove
     {
         get
         {
-            var enabled = Boss.CanSeeTarget &&
+            var enabled = moveEnabled && 
+                Boss.CanSeeTarget &&
         Boss.AspidMode == AncientAspid.Mode.Offensive &&
         Vector3.Distance(Player.Player1.transform.position, transform.position) <= 30f;
 

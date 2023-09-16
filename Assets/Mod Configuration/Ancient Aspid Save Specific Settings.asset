@@ -12,7 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b43d008f2a79c3c4bb6513965ac1d3da, type: 3}
   m_Name: Ancient Aspid Save Specific Settings
   m_EditorClassIdentifier: 
-  BottomAreaRevealed: 1
-  charmAcquired: 1
-  charmEquipped: 1
+  BottomAreaRevealed: 0
+  charmAcquired: 0
+  charmEquipped: 0
   charmNewlyCollected: 0
+  visitedAmmoniteAery: 0
+  aspidBossDefeated: 0
+  AncientAspidBossCompletion:
+    hasBeenSeen: 0
+    isUnlocked: 0
+    completedTier1: 0
+    completedTier2: 0
+    completedTier3: 0
+    seenTier3Unlock: 0
+    usingAltVersion: 0

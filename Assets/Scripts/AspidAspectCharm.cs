@@ -42,7 +42,7 @@ public class AspidAspectCharm : WeaverCharm
     {
         loadedCharm = charm;
         CharmRefresh();
-        WeaverLog.Log("CHARM LOAD = " + charm);
+        //WeaverLog.Log("CHARM LOAD = " + charm);
     }
 
     [OnFeatureUnload]
@@ -50,13 +50,13 @@ public class AspidAspectCharm : WeaverCharm
     {
         loadedCharm = null;
         CharmRefresh();
-        WeaverLog.Log("CHARM UNLOAD = " + charm);
+        //WeaverLog.Log("CHARM UNLOAD = " + charm);
     }
 
     [OnPlayerInit]
     static void PlayerLoad(Player player)
     {
-        WeaverLog.Log("PLAYER LOADED = " + player);
+        //WeaverLog.Log("PLAYER LOADED = " + player);
         loadedPlayer = player;
         CharmRefresh();
     }
@@ -64,7 +64,7 @@ public class AspidAspectCharm : WeaverCharm
     [OnPlayerUninit]
     static void PlayerUnload(Player player)
     {
-        WeaverLog.Log("PLAYER UNLOADED = " + player);
+        //WeaverLog.Log("PLAYER UNLOADED = " + player);
         loadedPlayer = null;
         CharmRefresh();
     }
@@ -84,7 +84,7 @@ public class AspidAspectCharm : WeaverCharm
     {
         var charmsAllowed = true;
 
-        if (Player.Player1 != null)
+        if (Player.Player1Raw != null)
         {
             charmsAllowed = Initialization.Environment != RunningState.Game || (Initialization.Environment == RunningState.Game && !PlayMakerUtilities.GetFsmBool(Player.Player1.gameObject, "ProxyFSM", "No Charms"));
         }
@@ -165,6 +165,7 @@ public class AspidAspectCharm : WeaverCharm
         WeaverLog.Log("CHARM EQUIPPED = " + equipped);
         if (equipped && petInstance == null)
         {
+            WeaverLog.Log("SPAWNING PET = " + charm.petPrefab);
             petInstance = GameObject.Instantiate(charm.petPrefab, Player.Player1.transform.position + new Vector3(0f, 4f, 0f), Quaternion.identity);
         }
         else if (!equipped && petInstance != null)
@@ -181,7 +182,7 @@ public class AspidAspectCharm : WeaverCharm
             }
         }
 
-        if (Player.Player1 != null)
+        if (Player.Player1Raw != null)
         {
             if (equipped)
             {

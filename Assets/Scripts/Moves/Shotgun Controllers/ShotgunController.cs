@@ -43,7 +43,14 @@ public abstract class ShotgunController
         CurrentMode = mode;
     }
 
+    public virtual bool DoScaleFlip() => true;
+
     public abstract Quaternion GetLaserRotation(int laserIndex);
+
+    public virtual bool LaserEnabled(int laserIndex)
+    {
+        return true;
+    }
 
     public float AimLaserAtTarget(LaserEmitter source, Vector3 target)
     {
