@@ -37,7 +37,7 @@ public class EnterGround_BigVomitShotMove : AncientAspidMove
     public VomitGlob SpawnedGlob { get; private set; } = null;
     public float SpawnedGlobEstLandTime { get; private set; } = 0;
 
-    public override IEnumerator DoMove()
+    protected override IEnumerator OnExecute()
     {
         if (!Boss.Head.HeadLocked)
         {

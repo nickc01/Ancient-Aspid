@@ -58,10 +58,13 @@ public abstract class AspidBodyPart : MonoBehaviour
         //Debug.Log($"PLAYING FPS {fps} on {GetType().FullName}");
         if (Animator.HasAnimationClip(clipName))
         {
-            var clip = Animator.AnimationData.GetClip(clipName);
-            Boss.StartBoundRoutine(UpdateLocalPosition(clip.FPS,clip.Frames.Count));
-            Boss.StartBoundRoutine(UpdateColliderOffset(clip.FPS, clip.Frames.Count));
-            Animator.PlaybackSpeed = fps / clip.FPS;
+            //var clip = Animator.AnimationData.GetClip(clipName);
+            var clipFPS = Animator.AnimationData.GetClipFPS(clipName);
+            var clipFrameCount = Animator.AnimationData.GetClipFrameCount(clipName);
+
+            Boss.StartBoundRoutine(UpdateLocalPosition(clipFPS,clipFrameCount));
+            Boss.StartBoundRoutine(UpdateColliderOffset(clipFPS, clipFrameCount));
+            Animator.PlaybackSpeed = fps / clipFPS;
             yield return Animator.PlayAnimationTillDone(clipName);
             Animator.PlaybackSpeed = 1f;
         }

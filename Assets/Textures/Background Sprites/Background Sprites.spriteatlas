@@ -1,0 +1,145 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Background Sprites
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 100
+      m_CrunchedCompression: 1
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: b7e71ca70ce969448b6e7bac9710bfac, type: 3}
+    - {fileID: 2800000, guid: a118f02ae56eddf449057d2f24c36a46, type: 3}
+    - {fileID: 2800000, guid: d05d7a985b8647b4a8aa9e615d93d57c, type: 3}
+    - {fileID: 2800000, guid: eb231b5499f50674f8379ba026cead23, type: 3}
+    - {fileID: 2800000, guid: c29c7114301d91040a4acba16993cb9b, type: 3}
+    - {fileID: 2800000, guid: cda03fb14a47e774ca2438588dd3b06b, type: 3}
+    - {fileID: 2800000, guid: 6bc81bf2b5233b640977fa69933e2d1a, type: 3}
+    - {fileID: 2800000, guid: 8eda251082777184b86a52816ae26b74, type: 3}
+    - {fileID: 2800000, guid: ca8322dd96111d743bab18a3577a95b1, type: 3}
+    - {fileID: 2800000, guid: 4cb442bac4bd659409bf6bc5c553fce2, type: 3}
+    - {fileID: 2800000, guid: 2c67cb2beee2cd34f93a44158eca1be4, type: 3}
+    - {fileID: 2800000, guid: e07b9355cf8968346a12c108bbfd60dd, type: 3}
+    - {fileID: 2800000, guid: e4485fc7aa218e24db4c0af0931d7989, type: 3}
+    - {fileID: 2800000, guid: 845cb47ab748a3247838adf83f63f671, type: 3}
+    - {fileID: 2800000, guid: c35c7620d8ea4a24799b1afd390cadd5, type: 3}
+    - {fileID: 2800000, guid: fea6de170a248994fbcaf8cff948c584, type: 3}
+    - {fileID: 2800000, guid: 5987a7d83a423d949954f8cb801869d2, type: 3}
+    - {fileID: 2800000, guid: 48874a6446250cb4cbed7a6c18535ea3, type: 3}
+    - {fileID: 2800000, guid: 19b795a1dc0f6854da190cc199a7d681, type: 3}
+    - {fileID: 2800000, guid: 309eaf89bf430f249bb5bd5c29a4a380, type: 3}
+    - {fileID: 2800000, guid: 1e13755decb721d469e017421af41542, type: 3}
+    - {fileID: 2800000, guid: 8713d86405584b845aba74f73774f1ff, type: 3}
+    - {fileID: 2800000, guid: 4faf1ce6c23a003408f47c3d31910224, type: 3}
+    - {fileID: 2800000, guid: 47c0db852bd049640bbd58dac93a08f1, type: 3}
+    - {fileID: 2800000, guid: 022b86e42a300af49b70f1ce06c393b7, type: 3}
+    - {fileID: 2800000, guid: 8abfca9a581fcd24d9341265a99704f8, type: 3}
+    - {fileID: 2800000, guid: 1ccea9a4813c8424fae9ea7a25f8104d, type: 3}
+    - {fileID: 2800000, guid: 99c398e83dfc38f41b669a6c22a097e5, type: 3}
+    - {fileID: 2800000, guid: a97025a6a5f31c242ade60ea42ae42f3, type: 3}
+    - {fileID: 2800000, guid: 3aafbfa8a6f311f4ba0d235db17af80c, type: 3}
+    totalSpriteSurfaceArea: 3854865
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 8eda251082777184b86a52816ae26b74, type: 3}
+  - {fileID: 21300000, guid: c35c7620d8ea4a24799b1afd390cadd5, type: 3}
+  - {fileID: 21300000, guid: 19b795a1dc0f6854da190cc199a7d681, type: 3}
+  - {fileID: 21300000, guid: cda03fb14a47e774ca2438588dd3b06b, type: 3}
+  - {fileID: 21300000, guid: 6bc81bf2b5233b640977fa69933e2d1a, type: 3}
+  - {fileID: 21300000, guid: c29c7114301d91040a4acba16993cb9b, type: 3}
+  - {fileID: 21300000, guid: eb231b5499f50674f8379ba026cead23, type: 3}
+  - {fileID: 21300000, guid: 8713d86405584b845aba74f73774f1ff, type: 3}
+  - {fileID: 21300000, guid: 48874a6446250cb4cbed7a6c18535ea3, type: 3}
+  - {fileID: 21300000, guid: 1ccea9a4813c8424fae9ea7a25f8104d, type: 3}
+  - {fileID: 21300000, guid: 022b86e42a300af49b70f1ce06c393b7, type: 3}
+  - {fileID: 21300000, guid: e07b9355cf8968346a12c108bbfd60dd, type: 3}
+  - {fileID: 21300000, guid: 47c0db852bd049640bbd58dac93a08f1, type: 3}
+  - {fileID: 21300000, guid: a97025a6a5f31c242ade60ea42ae42f3, type: 3}
+  - {fileID: 21300000, guid: 4faf1ce6c23a003408f47c3d31910224, type: 3}
+  - {fileID: 21300000, guid: fea6de170a248994fbcaf8cff948c584, type: 3}
+  - {fileID: 21300000, guid: b7e71ca70ce969448b6e7bac9710bfac, type: 3}
+  - {fileID: 21300000, guid: e4485fc7aa218e24db4c0af0931d7989, type: 3}
+  - {fileID: 21300000, guid: d05d7a985b8647b4a8aa9e615d93d57c, type: 3}
+  - {fileID: 21300000, guid: 3aafbfa8a6f311f4ba0d235db17af80c, type: 3}
+  - {fileID: 21300000, guid: 5987a7d83a423d949954f8cb801869d2, type: 3}
+  - {fileID: 21300000, guid: 99c398e83dfc38f41b669a6c22a097e5, type: 3}
+  - {fileID: 21300000, guid: 309eaf89bf430f249bb5bd5c29a4a380, type: 3}
+  - {fileID: 21300000, guid: a118f02ae56eddf449057d2f24c36a46, type: 3}
+  - {fileID: 21300000, guid: 845cb47ab748a3247838adf83f63f671, type: 3}
+  - {fileID: 21300000, guid: 8abfca9a581fcd24d9341265a99704f8, type: 3}
+  - {fileID: 21300000, guid: 4cb442bac4bd659409bf6bc5c553fce2, type: 3}
+  - {fileID: 21300000, guid: 2c67cb2beee2cd34f93a44158eca1be4, type: 3}
+  - {fileID: 21300000, guid: 1e13755decb721d469e017421af41542, type: 3}
+  - {fileID: 21300000, guid: ca8322dd96111d743bab18a3577a95b1, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - AA_BG_AMO_LARGE_0006
+  - AA_BG_AMO_MIDUM_0001
+  - AA_BG_AMO_MIDUM_0005
+  - AA_BG_AMO_LARGE_0004
+  - AA_BG_AMO_LARGE_0005
+  - AA_BG_AMO_LARGE_0003
+  - AA_BG_AMO_LARGE_0002
+  - AA_BG_AMO_MIDUM_0008
+  - AA_BG_AMO_MIDUM_0004
+  - AA_BG_OSTRA_0000
+  - AA_BG_AMO_MIDUM_0011
+  - AA_BG_AMO_LARGE_0010
+  - AA_BG_AMO_MIDUM_0010
+  - AA_BG_OSTRA_0002
+  - AA_BG_AMO_MIDUM_0009
+  - AA_BG_AMO_MIDUM_0002
+  - AA_BG_OSTRA_0004
+  - AA_BG_AMO_LARGE_0011
+  - AA_BG_AMO_LARGE_0001
+  - AA_BG_OSTRA_0003
+  - AA_BG_AMO_MIDUM_0003
+  - AA_BG_OSTRA_0001
+  - AA_BG_AMO_MIDUM_0006
+  - AA_BG_AMO_LARGE_0000
+  - AA_BG_AMO_MIDUM_0000
+  - AA_BG_COPEP_0000
+  - AA_BG_AMO_LARGE_0008
+  - AA_BG_AMO_LARGE_0009
+  - AA_BG_AMO_MIDUM_0007
+  - AA_BG_AMO_LARGE_0007
+  m_RenderDataMap: {}
+  m_Tag: Background Sprites
+  m_IsVariant: 0

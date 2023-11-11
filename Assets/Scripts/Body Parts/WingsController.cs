@@ -138,7 +138,7 @@ public class WingsController : AspidBodyPart
         if (!slide)
         {
             MainRenderer.sprite = Animator.AnimationData.GetFrameFromClip($"Lunge Land", 0);
-            yield return new WaitForSeconds(Boss.lungeDownwardsLandDelay);
+            yield return new WaitForSeconds(Boss.GroundMode.lungeDownwardsLandDelay);
         }
         yield return Animator.PlayAnimationTillDone("Lunge Land");
     }
@@ -148,7 +148,7 @@ public class WingsController : AspidBodyPart
         Debug.Log("WINGS SWITCH");
         Animator.StopCurrentAnimation();
         MainRenderer.flipX = false;
-        return ChangeDirection(newDirection, Boss.lungeTurnaroundSpeed);
+        return ChangeDirection(newDirection, Boss.GroundMode.lungeTurnaroundSpeed);
     }
 
     public IEnumerator FinishLanding(bool slammedIntoWall)
@@ -160,11 +160,11 @@ public class WingsController : AspidBodyPart
     {
         //var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
 
-        for (int i = 0; i < Boss.groundJumpFrames; i++)
+        for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
         {
-            transform.localPosition += Boss.jumpPosIncrements;
+            transform.localPosition += Boss.GroundMode.jumpPosIncrements;
             //transform.localEulerAngles += Boss.jumpRotIncrements * lookingDirection;
-            yield return new WaitForSeconds(1f / Boss.groundJumpPrepareFPS);
+            yield return new WaitForSeconds(1f / Boss.GroundMode.groundJumpPrepareFPS);
         }
         yield break;
     }
@@ -172,13 +172,13 @@ public class WingsController : AspidBodyPart
     public IEnumerator GroundLaunch()
     {
         //var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
-        for (int i = 0; i < Boss.groundJumpFrames; i++)
+        for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
         {
-            transform.localPosition -= Boss.jumpPosIncrements;
+            transform.localPosition -= Boss.GroundMode.jumpPosIncrements;
             //transform.localEulerAngles -= Boss.jumpRotIncrements * lookingDirection;
-            if (i != Boss.groundJumpFrames - 1)
+            if (i != Boss.GroundMode.groundJumpFrames - 1)
             {
-                yield return new WaitForSeconds(1f / Boss.groundJumpLaunchFPS);
+                yield return new WaitForSeconds(1f / Boss.GroundMode.groundJumpLaunchFPS);
             }
         }
 
@@ -190,17 +190,17 @@ public class WingsController : AspidBodyPart
     {
         Animator.StopCurrentAnimation();
         MainRenderer.sprite = groundSwitchSprites[0];
-        transform.localPosition += Boss.jumpPosIncrements * Boss.groundJumpFrames;
+        transform.localPosition += Boss.GroundMode.jumpPosIncrements * Boss.GroundMode.groundJumpFrames;
 
-        yield return new WaitForSeconds(Boss.groundJumpLandDelay);
+        yield return new WaitForSeconds(Boss.GroundMode.groundJumpLandDelay);
 
         if (finalLanding)
         {
-            for (int i = 0; i < Boss.groundJumpFrames; i++)
+            for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
             {
-                transform.localPosition -= Boss.jumpPosIncrements;
+                transform.localPosition -= Boss.GroundMode.jumpPosIncrements;
                 //transform.localEulerAngles -= Boss.jumpRotIncrements * lookingDirection;
-                yield return new WaitForSeconds(1f / Boss.groundJumpLaunchFPS);
+                yield return new WaitForSeconds(1f / Boss.GroundMode.groundJumpLaunchFPS);
             }
             yield break;
         }
@@ -217,13 +217,13 @@ public class WingsController : AspidBodyPart
         PreviousOrientation = oldOrientation;
         CurrentOrientation = newOrientation;
         CurrentOrientation = newOrientation;
-        Boss.StartBoundRoutine(UpdateColliderOffset(8f * Boss.MidAirSwitchSpeed, 1));
+        Boss.StartBoundRoutine(UpdateColliderOffset(8f * Boss.GroundMode.MidAirSwitchSpeed, 1));
         //Boss.StartBoundRoutine();
 
         //float oldX = GetXForOrientation(StartingLocalX, PreviousOrientation);
         float newX = GetXForOrientation(StartingLocalX, CurrentOrientation);
 
-        yield return UpdateLocalPosition(8f * Boss.MidAirSwitchSpeed, 1,0f,newX);
+        yield return UpdateLocalPosition(8f * Boss.GroundMode.MidAirSwitchSpeed, 1,0f,newX);
 
         MainRenderer.flipX = newOrientation == AspidOrientation.Right;
 

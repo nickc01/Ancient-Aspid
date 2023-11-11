@@ -9,6 +9,7 @@ public class TargetOverride
     Vector3 fixedPosition = default;
     Transform transform = null;
     Func<Vector3> positionFunc;
+    public Guid guid;
 
     public int Mode => mode;
 
@@ -17,6 +18,7 @@ public class TargetOverride
 
     public TargetOverride(int priority)
     {
+        guid = Guid.NewGuid();
         Priority = priority;
     }
 
@@ -26,6 +28,7 @@ public class TargetOverride
         {
             mode = 0;
             this.fixedPosition = fixedPosition;
+            Debug.Log("SETTING TARGET OVERRIDE = (Vector3)" + fixedPosition);
             return true;
         }
         return false;
@@ -37,6 +40,7 @@ public class TargetOverride
         {
             mode = 1;
             this.transform = transform;
+            Debug.Log("SETTING TARGET OVERRIDE = (Transform)" + transform);
             return true;
         }
         return false;
@@ -48,6 +52,7 @@ public class TargetOverride
         {
             mode = 2;
             this.positionFunc = positionFunc;
+            Debug.Log("SETTING TARGET OVERRIDE = (Func)" + positionFunc());
             return true;
         }
         return false;

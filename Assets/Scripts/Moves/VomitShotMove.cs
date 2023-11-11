@@ -12,7 +12,8 @@ using WeaverCore.Utilities;
 public class VomitShotMove : AncientAspidMove
 {
     public override bool MoveEnabled => Boss.CanSeeTarget && moveEnabled &&
-        Boss.AspidMode == AncientAspid.Mode.Tactical &&
+        Boss.CurrentRunningMode == Boss.TacticalMode &&
+        !(Boss.CurrentPhase is GroundPhase) &&
         Vector3.Distance(Player.Player1.transform.position, transform.position) <= 40 &&
         Vector2.Distance(Player.Player1.transform.position, Boss.Head.transform.position) >= minDistance;
     /*Mathf.Abs(Boss.Head.transform.position.x - Player.Player1.transform.position.x) >= minXDistance &&
@@ -119,7 +120,8 @@ public class VomitShotMove : AncientAspidMove
 
     public IEnumerator FireVomitShots(int shots, Func<int,Vector2> vomitShotVelocities)
     {
-        if (Boss.AspidMode != AncientAspid.Mode.Defensive)
+        Cancelled = false;
+        if (Boss.CurrentRunningMode != Boss.GroundMode)
         {
             yield return Boss.Head.LockHead(Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left, headSpeed);
         }
@@ -127,6 +129,8 @@ public class VomitShotMove : AncientAspidMove
         var oldState = Boss.Head.MainRenderer.TakeSnapshot();
 
         Boss.Head.MainRenderer.flipX = Boss.Head.LookingDirection >= 0f;
+
+        Boss.Head.Animator.PlaybackSpeed = 1f;
 
         yield return Boss.Head.Animator.PlayAnimationTillDone($"Fire - {attackVariant} - Prepare");
 
@@ -136,7 +140,7 @@ public class VomitShotMove : AncientAspidMove
 
         Boss.Head.MainRenderer.Restore(oldState);
 
-        if (Boss.AspidMode != AncientAspid.Mode.Defensive)
+        if (Boss.CurrentRunningMode != Boss.GroundMode)
         {
             Boss.Head.UnlockHead();
         }
@@ -144,7 +148,7 @@ public class VomitShotMove : AncientAspidMove
         yield break;
     }
 
-    public override IEnumerator DoMove()
+    protected override IEnumerator OnExecute()
     {
         List<Vector2> shots = null;
 
@@ -269,10 +273,7 @@ public class VomitShotMove : AncientAspidMove
             var velocity = enumerator.Current;
 
 
-            if (!Boss.RiseFromCenterPlatform)
-            {
-                firedShots.Add(VomitGlob.Spawn(Boss.GlobPrefab, fireSource, velocity, gravityScale));
-            }
+            firedShots.Add(VomitGlob.Spawn(Boss.GlobPrefab, fireSource, velocity, gravityScale));
 
             var angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
 
@@ -286,7 +287,7 @@ public class VomitShotMove : AncientAspidMove
         }
     }
 
-    public override float PostDelay => Boss.InClimbingPhase ? climbingPostDelay : postDelay;
+    public override float GetPostDelay(int prevHealth) => Boss.InClimbingPhase ? climbingPostDelay : postDelay;
 
     /*float DistanceToPlayer()
     {

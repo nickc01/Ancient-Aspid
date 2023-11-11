@@ -11,4 +11,9 @@ public class PhaseContactRegion : MonoBehaviour
     {
         EnteredPhaseRegion = true;
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        EnteredPhaseRegion = false;
+    }
 }

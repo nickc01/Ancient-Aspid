@@ -81,7 +81,7 @@ public class WingPlateController : AspidBodyPart
         if (!slide)
         {
             MainRenderer.sprite = Animator.AnimationData.GetFrameFromClip($"Lunge Land", 0);
-            yield return new WaitForSeconds(Boss.lungeDownwardsLandDelay);
+            yield return new WaitForSeconds(Boss.GroundMode.lungeDownwardsLandDelay);
         }
         yield return Animator.PlayAnimationTillDone("Lunge Land");
     }
@@ -89,7 +89,7 @@ public class WingPlateController : AspidBodyPart
     public IEnumerator SlideSwitchDirection(AspidOrientation oldDirection, AspidOrientation newDirection)
     {
         Animator.StopCurrentAnimation();
-        yield return ChangeDirection(newDirection, Boss.lungeTurnaroundSpeed);
+        yield return ChangeDirection(newDirection, Boss.GroundMode.lungeTurnaroundSpeed);
         yield break;
     }
 
@@ -102,11 +102,11 @@ public class WingPlateController : AspidBodyPart
     {
         //var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
 
-        for (int i = 0; i < Boss.groundJumpFrames; i++)
+        for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
         {
-            transform.localPosition += Boss.jumpPosIncrements;
+            transform.localPosition += Boss.GroundMode.jumpPosIncrements;
             //transform.localEulerAngles += Boss.jumpRotIncrements * lookingDirection;
-            yield return new WaitForSeconds(1f / Boss.groundJumpPrepareFPS);
+            yield return new WaitForSeconds(1f / Boss.GroundMode.groundJumpPrepareFPS);
         }
         yield break;
     }
@@ -114,13 +114,13 @@ public class WingPlateController : AspidBodyPart
     public IEnumerator GroundLaunch()
     {
         //var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
-        for (int i = 0; i < Boss.groundJumpFrames; i++)
+        for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
         {
-            transform.localPosition -= Boss.jumpPosIncrements;
+            transform.localPosition -= Boss.GroundMode.jumpPosIncrements;
             //transform.localEulerAngles -= Boss.jumpRotIncrements * lookingDirection;
-            if (i != Boss.groundJumpFrames - 1)
+            if (i != Boss.GroundMode.groundJumpFrames - 1)
             {
-                yield return new WaitForSeconds(1f / Boss.groundJumpLaunchFPS);
+                yield return new WaitForSeconds(1f / Boss.GroundMode.groundJumpLaunchFPS);
             }
         }
 
@@ -133,16 +133,16 @@ public class WingPlateController : AspidBodyPart
 
     public IEnumerator GroundLand(bool finalLanding)
     {
-        transform.localPosition += Boss.jumpPosIncrements * Boss.groundJumpFrames;
+        transform.localPosition += Boss.GroundMode.jumpPosIncrements * Boss.GroundMode.groundJumpFrames;
 
-        yield return new WaitForSeconds(Boss.groundJumpLandDelay);
+        yield return new WaitForSeconds(Boss.GroundMode.groundJumpLandDelay);
         if (finalLanding)
         {
-            for (int i = 0; i < Boss.groundJumpFrames; i++)
+            for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
             {
-                transform.localPosition -= Boss.jumpPosIncrements;
+                transform.localPosition -= Boss.GroundMode.jumpPosIncrements;
                 //transform.localEulerAngles -= Boss.jumpRotIncrements * lookingDirection;
-                yield return new WaitForSeconds(1f / Boss.groundJumpLaunchFPS);
+                yield return new WaitForSeconds(1f / Boss.GroundMode.groundJumpLaunchFPS);
             }
             yield break;
         }
@@ -156,7 +156,7 @@ public class WingPlateController : AspidBodyPart
 
     public override IEnumerator MidJumpChangeDirection(AspidOrientation oldOrientation, AspidOrientation newOrientation)
     {
-        Animator.PlaybackSpeed = Boss.MidAirSwitchSpeed;
+        Animator.PlaybackSpeed = Boss.GroundMode.MidAirSwitchSpeed;
         PreviousOrientation = CurrentOrientation;
         CurrentOrientation = newOrientation;
         MainRenderer.flipX = oldOrientation == AspidOrientation.Right;

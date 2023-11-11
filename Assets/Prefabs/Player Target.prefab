@@ -48,11 +48,12 @@ MonoBehaviour:
   ShortenDistanceRate: 1.4
   LengthenDistanceRate: 5
   DistanceFromPlayerWhenAbove: 5.5
-  AboveMinAngle: 45
-  AboveMaxAngle: 135
+  AboveMinAngle: 225
+  AboveMaxAngle: 315
   minDistanceFromFloor: 7.25
   minDistanceFromRightWall: 6
   minDistanceFromLeftWall: 6
   minDistanceFromCeiling: 5
   currentDistanceToPlayer: 0
+  angleRange: {x: 5, y: 175}
   Aspid: {fileID: 0}

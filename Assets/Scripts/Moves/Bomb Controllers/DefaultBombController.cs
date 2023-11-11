@@ -27,4 +27,10 @@ public class DefaultBombController : IBombController
     {
         return float.NaN;
     }
+
+    public bool DoBombs(AncientAspid Boss)
+    {
+        return (Vector3.Distance(Boss.Head.transform.position, Player.Player1.transform.position) / ShotSpeed) < 1.5f;
+        //var velocity = MathUtilities.CalculateVelocityToReachPoint(Boss.Head.transform.position, Player.Player1.transform.position, Vector3.Distance(Boss.Head.transform.position, Player.Player1.transform.position) / ShotSpeed, GravityScale);
+    }
 }

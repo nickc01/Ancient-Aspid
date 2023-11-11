@@ -1,6 +1,6 @@
 Shader "Unlit/Tentacle Shader" {
 	Properties{
-		_MainTex("Sprite Texture", 2D) = "white" {}
+		[PerRendererData] _MainTex("Sprite Texture", 2D) = "white" {}
 		[PerRendererData] _Color("Tint", Vector) = (1,1,1,1)
 		_FlashColor("Flash Color", Vector) = (1,1,1,1)
 		_FlashAmount("Flash Amount", Range(0, 1)) = 0

@@ -9,19 +9,58 @@ using WeaverCore.Interfaces;
 
 public abstract class AncientAspidMove : MonoBehaviour, IBossMove
 {
+    /// <summary>
+    /// Contains any custom arguments passed to the move to customize it's execution. Gets wiped after the move fully executes
+    /// </summary>
+    public Dictionary<string, object> Arguments { get; set; } = new Dictionary<string, object>();
+
     AncientAspid _boss;
     public AncientAspid Boss => _boss ??= GetComponent<AncientAspid>();
 
+    /// <summary>
+    /// Is the move currently being signalled to stop prematurely?
+    /// </summary>
+    public bool Cancelled { get; protected set; } = false;
+
+    /// <summary>
+    /// Is the move able to be executed when randomly selected?
+    /// </summary>
     public abstract bool MoveEnabled { get; }
 
-    public abstract IEnumerator DoMove();
+    public IEnumerator DoMove()
+    {
+        Cancelled = false;
+        yield return OnExecute();
+        Arguments.Clear();
+        //Cancelling = false;
+        yield break;
+    }
 
     public virtual float PreDelay => 0f;
-    public virtual float PostDelay => 0f;
+    public virtual float GetPostDelay(int prevHealth) => 0f;
 
-    public virtual void OnCancel()
+    protected abstract IEnumerator OnExecute();
+
+    /*public void OnCancel()
     {
-        OnStun();
+        if (!Interruptible)
+        {
+            throw new Exception("This move is not mean't to be cancelled prematurely");
+        }
+        Cancelling = true;
+
+        IEnumerator RunCancelRoutine()
+        {
+            yield return OnCancelRoutine();
+            Cancelling = false;
+        }
+
+        Boss.StartBoundRoutine(RunCancelRoutine(),() => Cancelling = false);
+    }*/
+
+    void IEnemyMove.OnCancel()
+    {
+        
     }
 
     public virtual void OnDeath()
@@ -30,5 +69,18 @@ public abstract class AncientAspidMove : MonoBehaviour, IBossMove
     }
 
     public abstract void OnStun();
+
+    /*protected sealed IEnumerator OnCancelRoutine()
+    {
+        yield break;
+    }*/
+
+    /// <summary>
+    /// Signals to the move to stop prematurely
+    /// </summary>
+    public virtual void StopMove()
+    {
+        Cancelled = true;
+    }
 }
 

@@ -143,7 +143,7 @@ public class LaserShotgunMove : AncientAspidMove
         CancelLaserAttack = false;
         lasers[0].transform.parent.localScale = Vector3.one;
 
-        var currentPhase = Boss.Phase;
+        var currentPhase = Boss.CurrentPhase;
         CurrentController = controller;
 
         controller.Init(lasers);
@@ -167,7 +167,7 @@ public class LaserShotgunMove : AncientAspidMove
             bossOffset = new Vector3(-targetOffset.x, targetOffset.y, targetOffset.z);
         }
 
-        if (Boss.AspidMode == AncientAspid.Mode.Tactical)
+        if (Boss.CurrentRunningMode == Boss.TacticalMode)
         {
             if (target == null)
             {
@@ -240,7 +240,7 @@ public class LaserShotgunMove : AncientAspidMove
 
         var oldFlip = Boss.Head.MainRenderer.flipX;
 
-        if (Boss.Phase == currentPhase && Vector3.Distance(transform.position, Player.Player1.transform.position) <= 28f)
+        if (!Cancelled && Boss.CurrentPhase == currentPhase && Vector3.Distance(transform.position, Player.Player1.transform.position) <= 28f)
         {
             var totalDelay = attackDelay + Boss.Head.Animator.AnimationData.GetClipDuration("Fire Laser Antic Quick") - lasers[0].MinChargeUpDuration;
 
@@ -319,7 +319,7 @@ public class LaserShotgunMove : AncientAspidMove
         return DoShotgunLaser(new DefaultShotgunController(targetLerpSpeed, attackRotationSpeed, laserRotations), prepareTime, attackTime);
     }
 
-    public override IEnumerator DoMove()
+    protected override IEnumerator OnExecute()
     {
         return DoShotgunLaser();
         /*if (!Boss.Head.HeadLocked)
@@ -591,7 +591,7 @@ public class LaserShotgunMove : AncientAspidMove
             {
                 UpdateLaserRotations(controller);
 
-                if (CancelLaserAttack == true)
+                if (Cancelled || CancelLaserAttack)
                 {
                     break;
                 }

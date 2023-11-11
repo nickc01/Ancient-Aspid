@@ -46,7 +46,7 @@ public class FarAwayLaser : AncientAspidMove
     public bool moveEnabled { get; set; } = true;
 
 
-    public override bool MoveEnabled => moveEnabled && !Boss.FlyingAway && Vector3.Distance(Player.Player1.transform.position,transform.position) > minDistance;
+    public override bool MoveEnabled => moveEnabled && Vector3.Distance(Player.Player1.transform.position, transform.position) > minDistance && Boss.FlightEnabled;
 
     private void Awake()
     {
@@ -60,7 +60,7 @@ public class FarAwayLaser : AncientAspidMove
         laserRotationOrigin.position = Boss.transform.position;
     }
 
-    public override float PostDelay => 0.5f;
+    public override float GetPostDelay(int prevHealth) => 0.5f;
 
 
     void PointLaserTowards(Vector3 position)
@@ -73,6 +73,7 @@ public class FarAwayLaser : AncientAspidMove
 
     TargetOverride targetter;
     uint aimRoutine;
+    uint rangeCheckerCoroutine;
 
     Func<Vector3> aimTargetGetter;
 
@@ -88,7 +89,33 @@ public class FarAwayLaser : AncientAspidMove
         }
     }
 
-    public override IEnumerator DoMove()
+    IEnumerator WaitIfNotCancelled(float time)
+    {
+        for (float t = 0; t < time; t += Time.deltaTime)
+        {
+            if (Cancelled)
+            {
+                break;
+            }
+            yield return null;
+        }
+    }
+
+    IEnumerator RangeCheckerRoutine()
+    {
+        while (true)
+        {
+            if (Vector3.Distance(transform.position, Player.Player1.transform.position) < minDistance)
+            {
+                Cancelled = true;
+                break;
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+        rangeCheckerCoroutine = 0;
+    }
+
+    protected override IEnumerator OnExecute()
     {
         yield return new WaitForSeconds(0.1f);
         if (++fireTimeCounter < fireTimeTarget)
@@ -98,12 +125,15 @@ public class FarAwayLaser : AncientAspidMove
 
         fireTimeCounter = 0;
         fireTimeTarget = UnityEngine.Random.Range(fireTimesRange.x, fireTimesRange.y);
+        Cancelled = false;
 
         yield return Boss.Head.LockHead();
 
         targetter = Boss.AddTargetOverride();
 
         targetter.SetTarget(transform.position);
+
+        rangeCheckerCoroutine = Boss.StartBoundRoutine(RangeCheckerRoutine());
 
         //laserRotationOrigin.SetXLocalPosition(Boss.Head.CurrentOrientation == AspidOrientation.Right ? -oldRotationX : oldRotationX);
 
@@ -117,52 +147,54 @@ public class FarAwayLaser : AncientAspidMove
         aimTargetGetter = () => Player.Player1.transform.position + new Vector3(0f, 0.5f);
         aimRoutine = Boss.StartBoundRoutine(AimTowardsPlayerRoutine());
 
-        for (float t = 0; t < prepareDuration; t += Time.deltaTime)
+        /*for (float t = 0; t < prepareDuration; t += Time.deltaTime)
         {
             //PointLaserTowards(Player.Player1.transform.position + new Vector3(0f, 0.5f));
             //laserRotationOrigin.LookAt(Player.Player1.transform.position);
             yield return null;
-        }
+        }*/
 
-        yield return new WaitForSeconds(farLaserEmitter.EndLaser_P3());
+        yield return new WaitForSeconds(prepareDuration);
 
-        yield return new WaitForSeconds(fireDelay);
+        yield return WaitIfNotCancelled(farLaserEmitter.EndLaser_P3());
 
-        var playerOld = Player.Player1.transform.position;
+        yield return WaitIfNotCancelled(fireDelay);
+        //yield return new WaitForSeconds(fireDelay);
 
-        yield return new WaitForSeconds(1f / 30f);
-
-        var playerNew = Player.Player1.transform.position;
-
-        var playerVelocity = (playerNew - playerOld) / (1f / 30f);
-
-        //laserRotationOrigin.LookAt(Player.Player1.transform.position + (playerVelocity * predictionAmount));
-
-        var lastPlayerPos = Player.Player1.transform.position + new Vector3(0f, 0.5f) + (playerVelocity * predictionAmount);
-
-        aimTargetGetter = () => lastPlayerPos;
-
-        //PointLaserTowards(lastPlayerPos);
-
-        yield return new WaitForSeconds(farLaserEmitter.ChargeUpLaser_P1());
-
-        if (fireSound != null)
+        if (!Cancelled)
         {
-            WeaverAudio.PlayAtPoint(fireSound, Player.Player1.transform.position);
-        }
+            var playerOld = Player.Player1.transform.position;
 
-        farLaserEmitter.FireLaser_P2();
+            yield return new WaitForSeconds(1f / 30f);
 
-        //yield return new WaitForSeconds(fireDuration);
+            var playerNew = Player.Player1.transform.position;
 
-        for (float t = 0; t < fireDuration; t += Time.deltaTime)
-        {
+            var playerVelocity = (playerNew - playerOld) / (1f / 30f);
+
+            //laserRotationOrigin.LookAt(Player.Player1.transform.position + (playerVelocity * predictionAmount));
+
+            var lastPlayerPos = Player.Player1.transform.position + new Vector3(0f, 0.5f) + (playerVelocity * predictionAmount);
+
+            aimTargetGetter = () => lastPlayerPos;
+
             //PointLaserTowards(lastPlayerPos);
-            yield return null;
+
+            yield return new WaitForSeconds(farLaserEmitter.ChargeUpLaser_P1());
+
+            if (fireSound != null)
+            {
+                WeaverAudio.PlayAtPoint(fireSound, Player.Player1.transform.position);
+            }
+
+            farLaserEmitter.FireLaser_P2();
+
+            //yield return new WaitForSeconds(fireDuration);
+
+            yield return WaitIfNotCancelled(fireDuration);
+
+
+            yield return WaitIfNotCancelled(farLaserEmitter.EndLaser_P3());
         }
-
-
-        yield return new WaitForSeconds(farLaserEmitter.EndLaser_P3());
 
         //laserRotationOrigin.SetXLocalPosition(oldRotationX);
 
@@ -174,15 +206,27 @@ public class FarAwayLaser : AncientAspidMove
         Boss.RemoveTargetOverride(targetter);
         targetter = null;
 
+        if (rangeCheckerCoroutine != 0)
+        {
+            Boss.StopBoundRoutine(rangeCheckerCoroutine);
+            rangeCheckerCoroutine = 0;
+        }
+
         yield break;
     }
 
     public override void OnStun()
     {
+        if (rangeCheckerCoroutine != 0)
+        {
+            Boss.StopBoundRoutine(rangeCheckerCoroutine);
+            rangeCheckerCoroutine = 0;
+        }
+
         farLaserEmitter.StopLaser();
         //laserRotationOrigin.SetXLocalPosition(oldRotationX);
 
-        if (Boss.Head.HeadLocked && !Boss.Head.HeadBeingUnlocked)
+        if (Boss.Head.HeadLocked)
         {
             Boss.Head.UnlockHead();
         }

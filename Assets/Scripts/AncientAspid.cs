@@ -11,40 +11,57 @@ using System;
 using WeaverCore.Enums;
 using NavMeshPlus.Components;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
-using GlobalEnums;
-using System.Security.Cryptography;
 using WeaverCore.Settings;
 using WeaverCore.Implementations;
+using UnityEngine.Serialization;
+
+
+
+/*[Serializable]
+public class FlightParameters
+{
+    public readonly FlightParameters Original;
+
+    public float flightAcceleration;
+    public float flightSpeedOverDistance;
+    public float minFlightSpeed;
+    public float orbitReductionAmount;
+    public Vector2 flightOffset;
+    public float flightOffsetResetTime;
+    public float flightOffsetChangeTime;
+    public float flightSpeed;
+    public float minimumFlightSpeed;
+    public float maximumFlightSpeed;
+    public bool applyFlightVariance;
+    public bool homeInOnTarget;
+
+    public FlightParameters(float flightAcceleration, float flightSpeedOverDistance, float minFlightSpeed, float orbitReductionAmount, Vector2 flightOffset, float flightOffsetResetTime, float flightOffsetChangeTime, float flightSpeed, float minimumFlightSpeed, float maximumFlightSpeed, bool applyFlightVariance, bool homeInOnTarget)
+    {
+        this.flightAcceleration = flightAcceleration;
+        this.flightSpeedOverDistance = flightSpeedOverDistance;
+        this.minFlightSpeed = minFlightSpeed;
+        this.orbitReductionAmount = orbitReductionAmount;
+        this.flightOffset = flightOffset;
+        this.flightOffsetResetTime = flightOffsetResetTime;
+        this.flightOffsetChangeTime = flightOffsetChangeTime;
+        this.flightSpeed = flightSpeed;
+        this.minimumFlightSpeed = minimumFlightSpeed;
+        this.maximumFlightSpeed = maximumFlightSpeed;
+        this.applyFlightVariance = applyFlightVariance;
+        this.homeInOnTarget = homeInOnTarget;
+    }
+}*/
 
 public class AncientAspid : Boss
 {
-    public enum Mode
-    {
-        /// <summary>
-        /// The boss is flying around nearby the player
-        /// </summary>
-        Tactical,
-
-        /// <summary>
-        /// The boss is locked to the center of the room
-        /// </summary>
-        Offensive,
-
-        /// <summary>
-        /// The boss is on the ground
-        /// </summary>
-        Defensive
-    }
-
-    public enum PathfindingMode
+    /*public enum PathfindingMode
     {
         None,
         FollowPlayer,
         FollowTarget
-    }
+    }*/
 
-    public enum BossPhase
+    /*public enum BossPhase
     {
         Default,
         Phase1,
@@ -57,23 +74,25 @@ public class AncientAspid : Boss
         Phase3B,
         Phase3C,
         Phase4
-    }
+    }*/
 
 
     [field: Header("General Config")]
     [field: SerializeField]
     public bool TrailerMode { get; private set; } = false;
 
-    public BossPhase Phase { get; set; } = AncientAspid.BossPhase.Default;
+    [SerializeField]
+    Phase defaultPhase;
+
+    public Phase CurrentPhase { get; private set; } = null;
+
+    Queue<Phase> phaseQueue = new Queue<Phase>();
 
     [SerializeField]
     bool godhomeMode = false;
 
     [SerializeField]
     MusicCue bossMusic;
-
-    [SerializeField]
-    float trailerModeDestY = 0f;
 
     [SerializeField]
     int attunedHealth = 2000;
@@ -91,10 +110,10 @@ public class AncientAspid : Boss
     float camBoxHeight = 15.6f;
 
     [SerializeField]
-    VomitLasersMove centerForcedMove;
+    AncientAspidPrefabs prefabs;
 
     [SerializeField]
-    bool allMovesDisabled = false;
+    TailCollider tailCollider;
 
     [field: SerializeField]
     public VomitGlob GlobPrefab { get; private set; }
@@ -107,30 +126,7 @@ public class AncientAspid : Boss
     public bool FullyAwake { get; private set; } = false;
 
     [SerializeField]
-    bool useNewSleepSprites = true;
-
-    [SerializeField]
-    List<float> sleepScalesBefore = new List<float>
-    {
-        0.1f,
-        0.3f
-    };
-
-    [SerializeField]
-    List<float> sleepScalesAfter = new List<float>
-    {
-        0.3f,
-        1f
-    };
-
-    [SerializeField]
     List<GameObject> enableOnWakeUp;
-
-    [SerializeField]
-    float sleepJumpVelocity = 20f;
-
-    [SerializeField]
-    float sleepScaleChangeSpeed = 1 / 12;
 
     [SerializeField]
     SpriteRenderer sleepSprite;
@@ -145,9 +141,6 @@ public class AncientAspid : Boss
     float sleepPreJumpDelay = 0.75f;
 
     [SerializeField]
-    float sleepJumpGravity = 4;
-
-    [SerializeField]
     float sleepShakeIntensity = 0.1f;
 
     [SerializeField]
@@ -160,26 +153,20 @@ public class AncientAspid : Boss
     float sleepRoarSoundPitch = 1f;
 
     [SerializeField]
-    AudioClip sleepRoarQuickSound;
+    List<GroupSpawner> awakenGroupSpawners = new List<GroupSpawner>();
 
-    [SerializeField]
-    float sleepRoarQuickTime = 1f;
+    [field: Header("Pathfinding")]
+    [field: SerializeField]
+    public bool PathfindingEnabled { get; set; } = true;
 
-
-    [Header("Pathfinding")]
-    [SerializeField]
-    bool pathfindingEnabled = true;
+    [field: SerializeField]
+    public PathfindingSystem PathFinder { get; private set; }
 
     [SerializeField]
     float pathRegenInterval = 0.5f;
 
     [SerializeField]
-    Vector2 playerMoveBoxSize = new Vector2(5,5);
-
-    [SerializeField]
     CircleCollider2D aspidTerrainCollider;
-
-
 
     [Header("Flight")]
 
@@ -190,24 +177,12 @@ public class AncientAspid : Boss
     float flightSpeedOverDistance = 1f;
 
     [SerializeField]
-    float leftWallBuffer = 3f;
-
-    [SerializeField]
-    float rightWallBuffer = 3f;
-
-    [SerializeField]
-    float ceilingBuffer = 3f;
-
-    [SerializeField]
-    float floorBuffer = 3f;
-
-    [SerializeField]
     float minFlightSpeed = 0.25f;
 
-    [SerializeField]
-    float degreesSlantThreshold = 30f;
-
-    public float orbitReductionAmount = 0.1f;
+    /// <summary>
+    /// The higher this number, the less likely the aspid will orbit around it's target. This is used to make it settle at the target instead
+    /// </summary>
+    public float OrbitReductionAmount { get; set; } = 5f;
 
     [Tooltip("How much offset should be applied when moving towards a target?")]
     public Vector2 flightOffset = new Vector2(3f, 3f);
@@ -229,255 +204,24 @@ public class AncientAspid : Boss
 
     [field: SerializeField]
     [field: Tooltip("When checked, will cause the boss to randomly fly nearby the target, rather than just targeting it directly")]
-    public bool ApplyFlightVariance { get; private set; } = true;
-
-    [SerializeField]
-    [Tooltip("The target object that is used when aiming towards the player")]
-    private Transform playerTarget;
-
-    public Vector3 ExtraTargetOffset;
-    //public Vector3 LaserTargetOffset;
-
-    public bool EnableTargetHeightRange = false;
-    public bool EnableTargetXRange = false;
-
-    public Vector2 TargetHeightRange;
-    public Vector2 TargetXRange;
-
-    [SerializeField]
-    [Header("Offensive Mode")]
-    [Tooltip("The height the boss will be at when entering offensive mode")]
-    float offensiveHeight = 10f;
-
-    public float OffensiveHeight => offensiveHeight;
+    public bool ApplyFlightVariance { get; set; } = true;
 
     bool homeInOnTarget = false;
 
-    [SerializeField]
-    float homingAmount = 0f;
+    /*[SerializeField]
+    [Tooltip("The target object that is used when aiming towards the player")]
+    private Transform playerTarget;
 
-    [SerializeField]
-    GameObject spitTargetLeft;
-
-    [SerializeField]
-    GameObject spitTargetRight;
-
-    [SerializeField]
-    AncientAspidPrefabs prefabs;
-
-    [SerializeField]
-    TailCollider tailCollider;
-
-    [SerializeField]
-    WeaverCameraLock centerCamLock;
-
-    [SerializeField]
-    Vector2 centerModePlatformDest = new Vector2(220.8f,211.5f);
-
-    [SerializeField]
-    float centerModePlatformTime = 0.75f;
-
-    [SerializeField]
-    AnimationCurve centerModePlatformCurve;
-
-    [SerializeField]
-    AudioClip centerModeRumbleSound;
-
-    [SerializeField]
-    ParticleSystem centerModeSummonGrass;
-
-    [SerializeField]
-    float centerModeRoarDelay = 0.1f;
-
-    //[field: SerializeField]
-    //public bool OffensiveModeEnabled { get; private set; } = true;
-
-    public IModeAreaProvider OffensiveAreaProvider { get; set; }
-
-    public bool OffensiveModeEnabled => OffensiveAreaProvider != null;
-
-    [SerializeField]
-    AudioClip centerModeRiseSound;
-
-    [SerializeField]
-    AudioClip centerModeRoarSound;
-
-    [SerializeField]
-    float centerModeRoarSoundPitch = 1f;
-
-    [SerializeField]
-    float centerModeRoarDuration = 0.75f;
-
-    [SerializeField]
-    CameraLockArea centerPlatformLockArea;
-
-    [Header("Lunge")]
-
-    [SerializeField]
-    Vector3 lungeTargetOffset;
-
-    [SerializeField]
-    float lungeAnticTime = 0.65f;
-
-    [SerializeField]
-    AudioClip lungeAnticSound;
-
-    [SerializeField]
-    AudioClip lungeSound;
-
-    [SerializeField]
-    List<Collider2D> collidersDisableOnLunge;
-
-    [SerializeField]
-    List<Collider2D> collidersEnableOnLunge;
-
-    [SerializeField]
-    float lungeSpeed = 10f;
-
-    [SerializeField]
-    AudioClip lungeLandSoundLight;
-
-    [SerializeField]
-    float lungeLandSoundLightVolume = 0.75f;
-
-    [SerializeField]
-    AudioClip lungeLandSoundHeavy;
-
-    [SerializeField]
-    AudioClip lungeSlideSound;
-
-    [SerializeField]
-    float lungeSlideSoundVolume = 0.7f;
-
-    [SerializeField]
-    float lungeSlideDeacceleration = 2f;
-
-    [SerializeField]
-    float lungeSlideSlamThreshold = 2f;
-
-    [SerializeField]
-    List<float> lungeXShiftValues = new List<float>()
-    {
-        -0.56f,
-        -0.1f,
-        0
-    };
-
-    public float lungeTurnaroundSpeed = 1.5f;
-
-    [SerializeField]
-    List<ParticleSystem> groundSkidParticles;
-
-    [SerializeField]
-    float onGroundGravity = 0.75f;
-
-    [SerializeField]
-    GameObject lungeDashEffect;
-
-    [SerializeField]
-    ParticleSystem lungeRockParticles;
-
-    [SerializeField]
-    Transform lungeDashRotationOrigin;
+    public Transform PlayerTarget => playerTarget;*/
 
     [field: SerializeField]
-    public float lungeDownwardsLandDelay { get; private set; } = 0.5f;
+    [field: Tooltip("The target object that is used when aiming towards the player")]
+    [field: FormerlySerializedAs("playerTarget")]
+    public Transform PlayerTarget { get; private set; }
 
-    [SerializeField]
-    AudioClip megaExplosionSound;
+    //public Vector3 ExtraTargetOffset;
 
-    [SerializeField]
-    float megaExplosionSize = 3f;
-
-
-
-    AudioPlayer lungeSlideSoundPlayer;
-
-    [Header("Ground Laser")]
-    [SerializeField]
-    Vector2 groundLaserMinMaxAngle = new Vector2(-15f,45f);
-
-    [SerializeField]
-    float groundLaserFireDuration = 1f;
-
-    [SerializeField]
-    float groundLaserMaxDelay = 0.75f;
-
-    [field: Header("Ground Jump")]
-    [field: SerializeField]
-    public Vector3 jumpPosIncrements { get; private set; }
-
-    [field: SerializeField]
-    public Vector3 jumpRotIncrements { get; private set; }
-
-    [field: SerializeField]
-    public Vector3 jumpScaleIncrements { get; private set; }
-
-    [field: SerializeField]
-    public int groundJumpFrames { get; private set; } = 3;
-
-    [field: SerializeField]
-    public float groundJumpPrepareFPS { get; private set; } = 8;
-
-    [field: SerializeField]
-    public float groundJumpLaunchFPS { get; private set; } = 16;
-
-    [field: SerializeField]
-    public float groundJumpLandFPS { get; private set; } = 16;
-
-    [field: SerializeField]
-    public float MidAirSwitchSpeed { get; private set; } = 2f;
-
-    [field: SerializeField]
-    public float groundJumpLandDelay { get; private set; } = 0.2f;
-
-    //[field: SerializeField]
-    //public bool GroundModeEnabled { get; private set; } = true;
-    public IModeAreaProvider GroundAreaProvider { get; set; }
-
-    public bool GroundModeEnabled => GroundAreaProvider != null;
-
-    [SerializeField]
-    float jumpTime = 0.5f;
-
-    [SerializeField]
-    float jumpGravity = 1f;
-
-    [SerializeField]
-    List<AudioClip> jumpSounds;
-
-    [SerializeField]
-    AudioClip jumpLandSound;
-
-    [SerializeField]
-    ShakeType jumpLandShakeType;
-
-    [SerializeField]
-    GameObject jumpLaunchEffectPrefab;
-
-    [SerializeField]
-    ShakeType jumpLaunchShakeType;
-
-    [SerializeField]
-    ParticleSystem jumpLandParticles;
-
-    [SerializeField]
-    ParticleSystem stompSplash;
-
-    [SerializeField]
-    ParticleSystem stompPillar;
-
-    [SerializeField]
-    Vector3 groundSplashSpawnOffset;
-
-    [SerializeField]
-    Vector2Int groundSplashBlobCount = new Vector2Int(5,10);
-
-    [SerializeField]
-    Vector2 groundSplashAngleRange = new Vector2(15, 180 - 15);
-
-    [SerializeField]
-    Vector2 groundSplashVelocityRange = new Vector2(3, 15);
+    public Rect FlightRange;
 
     [Header("Death")]
     [SerializeField]
@@ -505,12 +249,6 @@ public class AncientAspid : Boss
     AudioClip flyAwayThunkSound;
 
     [SerializeField]
-    List<SpriteRenderer> enableOnCowardiceFlyAway;
-
-    [SerializeField]
-    List<SpriteRenderer> disableOnCowardiceFlyAway;
-
-    [SerializeField]
     DroppedItem itemPrefab;
 
     [SerializeField]
@@ -525,32 +263,13 @@ public class AncientAspid : Boss
     [SerializeField]
     string bossDefeatedField;
 
-    [Header("Phases")]
-    [Space]
-    [SerializeField]
-    List<GameObject> enableOnPhase3Begin;
-
-    [SerializeField]
-    List<GameObject> disableOnPhase3Begin;
-
-    [SerializeField]
-    List<GameObject> enableOnPhase3End;
-
-    [SerializeField]
-    List<GameObject> disableOnPhase3End;
-
-    public AspidOrientation Orientation { get; private set; } = AspidOrientation.Left;
-    public Mode AspidMode { get; private set; } = Mode.Tactical;
+    public AspidOrientation Orientation { get; set; } = AspidOrientation.Left;
 
     TargetOverride primaryTarget = new TargetOverride(0);
 
     List<TargetOverride> targetOverrides = new List<TargetOverride>();
 
-    //private bool targetingTransform = false;
-
     public Vector3 TargetOffset { get; private set; }
-    //public Transform TargetTransform { get; private set; }
-    public RoomScanResult CurrentRoomRect { get; private set; } = new RoomScanResult();
 
     [SerializeField]
     bool flightEnabled = true;
@@ -559,7 +278,6 @@ public class AncientAspid : Boss
         get => flightEnabled;
         set
         {
-            //Debug.Log($"Flight Enabled = {value}");
             if (flightEnabled != value)
             {
                 flightEnabled = value;
@@ -571,14 +289,18 @@ public class AncientAspid : Boss
         }
     }
 
-    public bool FlyingAway { get; private set; } = false;
+    public Rect CurrentRoomRect => CurrentPhase.PhaseBoundaries;
 
-    public bool InClimbingPhase => Phase != BossPhase.Phase1 && Phase != BossPhase.Phase3 && Phase != BossPhase.Phase4;
+    //public bool FlyingAway { get; set; } = false;
+
+    //public bool InClimbingPhase => Phase != BossPhase.Phase1 && Phase != BossPhase.Phase3 && Phase != BossPhase.Phase4;
+    //public bool InClimbingPhase => false;
+    public bool InClimbingPhase => CurrentPhase.ClimbingPhase;
     public Vector3 TargetPosition
     {
         get
         {
-            Vector3 target = new Vector3(float.PositiveInfinity,float.PositiveInfinity);
+            Vector3 target = primaryTarget.TargetPosition;
             for (int i = targetOverrides.Count - 1; i >= 0; i--)
             {
                 if (targetOverrides[i].HasPositionSet)
@@ -587,40 +309,7 @@ public class AncientAspid : Boss
                     break;
                 }
             }
-
-            if (target.x == float.PositiveInfinity)
-            {
-                target = primaryTarget.TargetPosition + ExtraTargetOffset;
-            }
-            /*if (targetFrozen)
-            {
-                return frozenTargetPosition();
-            }*/
-
-            //Vector3 target;
-            /*if (targetingTransform && TargetTransform != null)
-            {
-                target = TargetTransform.position;
-            }
-            else
-            {
-                target = fixedTargetPos;
-            }*/
-
-            if (EnableTargetXRange)
-            {
-                target.x = Mathf.Clamp(target.x, TargetXRange.x, TargetXRange.y);
-            }
-
-            if (EnableTargetHeightRange)
-            {
-                target.y = Mathf.Clamp(target.y, TargetHeightRange.x, TargetHeightRange.y);
-            }
-
-            target += TargetOffset;
-
-            //target += TargetOffset + ExtraTargetOffset + LaserTargetOffset;
-
+            //target = (Vector3)FlightRange.ClampWithin(target) + TargetOffset;
             return target;
         }
     }
@@ -629,26 +318,30 @@ public class AncientAspid : Boss
     {
         get
         {
-            if (NavMesh.FindClosestEdge(GetPathTarget(PathingMode) + new Vector3(0f,4f), out var hit, NavMesh.AllAreas))
+            return GetPathTarget() + new Vector3(0f, 4.5f);
+        }
+        /*get
+        {
+            if (NavMesh.FindClosestEdge(GetPathTarget() + new Vector3(0f,1f), out var hit, NavMesh.AllAreas))
             {
                 return hit.position;
             }
             else
             {
-                if (NavMesh.FindClosestEdge(GetPathTarget(PathingMode) + new Vector3(0f, -4f), out hit, NavMesh.AllAreas))
+                if (NavMesh.FindClosestEdge(GetPathTarget() + new Vector3(0f, -1f), out hit, NavMesh.AllAreas))
                 {
                     return hit.position;
                 }
                 else
                 {
-                    return GetPathTarget(PathingMode);
+                    return GetPathTarget();
                 }
                 //return Player.Player1.transform.position;
             }
-        }
+        }*/
     }
 
-    PathfindingMode _pathingMode = PathfindingMode.FollowPlayer;
+    /*PathfindingMode _pathingMode = PathfindingMode.FollowPlayer;
     public PathfindingMode PathingMode
     {
         get => _pathingMode;
@@ -660,27 +353,23 @@ public class AncientAspid : Boss
                 UpdatePath();
             }
         }
-    }
+    }*/
 
-    public bool EnteringFromBottom { get; private set; } = false;
+    //public bool EnteringFromBottom { get; private set; } = false;
 
     public Rect CamRect => new Rect { size = new Vector2(camBoxWidth, camBoxHeight), center = Player.Player1.transform.position };
 
-    public bool CanSeeTarget => !followingPath && !RiseFromCenterPlatform && TargetWithinHeightRange && !AllMovesDisabled && Vector3.Distance(transform.position,Player.Player1.transform.position) <= 25f;
+    public bool CanSeeTarget => !followingPath && TargetWithinYRange && Vector3.Distance(transform.position,Player.Player1.transform.position) <= 25f;
 
-    public bool EnableQuickEscapes { get; private set; } = false;
+    public bool EnableQuickEscapes { get; set; } = false;
 
-    public bool TargetWithinHeightRange
+    public bool TargetWithinYRange
     {
         get
         {
-            if (!EnableTargetHeightRange)
-            {
-                return true;
-            }
-            var target = GetPathTargetUnclamped(PathingMode);
+            var target = TargetPosition;
 
-            return target.y >= (TargetHeightRange.x - camBoxHeight / 2f) && target.y <= (TargetHeightRange.y + camBoxHeight / 2f);
+            return target.y >= (FlightRange.yMin - camBoxHeight / 2f) && target.y <= (FlightRange.yMax + camBoxHeight / 2f);
         }
     }
 
@@ -688,20 +377,28 @@ public class AncientAspid : Boss
     {
         get
         {
-            if (!EnableTargetXRange)
-            {
-                return true;
-            }
-            var target = GetPathTargetUnclamped(PathingMode);
+            var target = TargetPosition;
 
-            return target.x >= (TargetXRange.x - camBoxWidth / 2f) && target.y <= (TargetXRange.y + camBoxWidth / 2f);
+            return target.x >= (FlightRange.xMin - camBoxWidth / 2f) && target.y <= (FlightRange.xMax + camBoxWidth / 2f);
         }
     }
 
-    public bool AllMovesDisabled => allMovesDisabled;
+    public bool IsOnScreen()
+    {
+        return IsOnScreen(transform.position);
+    }
 
-    public Vector3 SpitTargetLeft => spitTargetLeft.transform.position;
-    public Vector3 SpitTargetRight => spitTargetRight.transform.position;
+    public bool IsOnScreen(Vector3 pos)
+    {
+        var rect = CamRect;
+
+        return rect.Contains(pos);
+    }
+
+    //public bool AllMovesDisabled => allMovesDisabled;
+
+    //public Vector3 SpitTargetLeft => spitSourceLeft.transform.position;
+    //public Vector3 SpitTargetRight => spitSourceRight.transform.position;
 
     public Rigidbody2D Rbody { get; private set; }
 
@@ -725,10 +422,10 @@ public class AncientAspid : Boss
     /// </summary>
     public bool PlayerRightOfBoss => Player.Player1.transform.position.x >= transform.position.x;
 
-    PlayerDamager[] damagers;
+    //PlayerDamager[] damagers;
     float origOrbitReductionAmount;
 
-    public int Damage
+    /*public int Damage
     {
         get => damagers[0].damageDealt;
         set
@@ -738,29 +435,53 @@ public class AncientAspid : Boss
                 damagers[i].damageDealt = value;
             }
         }
-    }
+    }*/
 
-    RaycastHit2D[] rayCache = new RaycastHit2D[4];
+    /// <summary>
+    /// Checks if the mode picker is running. When this is running, a random aspid mode will be selected and used to run moves.
+    /// </summary>
+    public bool ModePickerRunning => modePickerRoutine != 0;
+
+    /// <summary>
+    /// The currently running mode that has been selected by the mode picker
+    /// </summary>
+    public AncientAspidMode CurrentRunningMode { get; set; }
+
+    uint modePickerRoutine = 0;
+    int modeCounter = 0;
+    bool stoppingModePicker = false;
+    //bool stoppingCurrentMode = false;
+    AncientAspidMode forcedMode = null;
+    Dictionary<string, object> forcedModeArgs = null;
+
+    //RaycastHit2D[] rayCache = new RaycastHit2D[4];
 
     NavMeshSurface navigator = null;
     NavMeshPath path = null;
-    Vector3[] cornerCache = new Vector3[100];
-    int cornerCount = 0;
+    //Vector3[] cornerCache = new Vector3[100];
+    List<Vector3> paths = new List<Vector3>();
+    List<Vector3> pathsCache = new List<Vector3>();
+    int pathCount = 0;
     int cornerIndex = 0;
     bool followingPath = false;
     Vector3 lastPathPos = default;
     RaycastHit2D[] singleHitCache = new RaycastHit2D[1];
     Vector3 lastKnownPosition = new Vector3(100000,100000);
     bool stillStuck = false;
-    bool riseFromCenterPlatform = false;
+    List<IPathfindingOverride> pathfindingOverrides = new List<IPathfindingOverride>();
+    //bool riseFromCenterPlatform = false;
+
+    public GroundMode GroundMode { get; private set; }
+    public TacticalMode TacticalMode { get; private set; }
+    public OffensiveMode OffensiveMode { get; private set; }
 
     Bounds stuckBox;
     int stuckCounter = 0;
 
-    FarAwayLaser farAwayMove;
+    //FarAwayLaser farAwayMove;
     //bool forceOffensiveModeNextTime = false;
 
-    public bool RiseFromCenterPlatform => riseFromCenterPlatform;
+    //public bool RiseFromCenterPlatform => riseFromCenterPlatform;
 
     List<Renderer> renderers = new List<Renderer>();
 
@@ -845,6 +566,7 @@ public class AncientAspid : Boss
                         }
                     }
                     lastMove = selectedMove;
+                    Debug.Log("SELECTED MOVE = " + selectedMove);
                     yield return selectedMove;
                 }
                 currentMoves.Remove(selectedMove);
@@ -857,18 +579,166 @@ public class AncientAspid : Boss
         }
     }
 
+    public bool StartModePicker()
+    {
+        if (ModePickerRunning)
+        {
+            return false;
+        }
+
+        modePickerRoutine = StartBoundRoutine(ModePickerRoutine(), () =>
+        {
+            //CurrentRunningMode = null;
+            modeCounter = 0;
+            modePickerRoutine = 0;
+            forcedMode = null;
+        });
+        return true;
+    }
+
+    /// <summary>
+    /// Stops the current mode, and will switch to a new mode. Doesn't do anything if the mode picker isn't running. This function will run the new mode even if <seealso cref="AncientAspidMode.ModeEnabled"/> is false, so be careful
+    /// </summary>
+    public IEnumerator SwitchToNewMode(AncientAspidMode newMode, Dictionary<string, object> customArgs)
+    {
+        if (!ModePickerRunning)
+        {
+            yield break;
+        }
+
+        forcedMode = newMode;
+        forcedModeArgs = customArgs;
+
+        yield return StopCurrentMode();
+
+        yield return new WaitUntil(() => forcedMode == null);
+    }
+
+    /// <summary>
+    /// Stops the currently running mode and the mode picker
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator StopModePicker()
+    {
+        if (!ModePickerRunning)
+        {
+            yield break;
+        }
+
+        stoppingModePicker = true;
+        yield return StopCurrentMode();
+
+        if (modePickerRoutine != 0)
+        {
+            yield return new WaitUntil(() => modePickerRoutine == 0);
+        }
+    }
+
+    /// <summary>
+    /// Forcefully stops the currently running mode so a new mode can be picked by the mode picker (assuming it's running)
+    /// </summary>
+    public IEnumerator StopCurrentMode()
+    {
+        if (!ModePickerRunning)
+        {
+            yield break;
+        }
+
+        if (CurrentRunningMode == null)
+        {
+            yield break;
+        }
+
+        var lastModeCounter = modeCounter;
+
+        CurrentRunningMode.Stop();
+
+        yield return new WaitUntil(() => modeCounter != lastModeCounter);
+    }
+
+    IEnumerator ModePickerRoutine()
+    {
+        List<AncientAspidMode> modes = new List<AncientAspidMode>();
+        GetComponents(modes);
+
+        modes.Remove(TacticalMode);
+
+        stoppingModePicker = false;
+        //stoppingCurrentMode = false;
+
+        modeCounter = 1;
+
+        //var emptyArgs = new Dictionary<string, object>();
+
+        IEnumerator RunMode(AncientAspidMode mode, Dictionary<string, object> args)
+        {
+            CurrentRunningMode = mode;
+            WeaverLog.Log("Entering " + StringUtilities.Prettify(mode.GetType().Name));
+            yield return mode.Execute(args);
+            CurrentRunningMode = null;
+            WeaverLog.Log("Exiting " + StringUtilities.Prettify(mode.GetType().Name));
+            modeCounter++;
+        }
+
+        while (!stoppingModePicker)
+        {
+            if (forcedMode == null && TacticalMode.IsModeEnabled())
+            {
+                yield return RunMode(TacticalMode, null);
+            }
+
+            if (stoppingModePicker)
+            {
+                break;
+            }
+
+            AncientAspidMode selectedMode;
+            Dictionary<string, object> args;
+
+            if (forcedMode != null)
+            {
+                selectedMode = forcedMode;
+                args = forcedModeArgs;
+                forcedMode = null;
+                forcedModeArgs = null;
+            }
+            else
+            {
+                args = null;
+                modes.RandomizeList();
+
+                selectedMode = modes.FirstOrDefault(m => m.IsModeEnabled());
+            }
+
+            if (selectedMode != null)
+            {
+                yield return RunMode(selectedMode, args);
+            }
+        }
+
+        modeCounter = 0;
+        modePickerRoutine = 0;
+        forcedMode = null;
+    }
+
     IEnumerator<AncientAspidMove> _moveRandomizer;
     public IEnumerator<AncientAspidMove> MoveRandomizer => _moveRandomizer ??= MoveRandomizerFunc();
 
     protected override void Awake()
     {
+        CurrentPhase = defaultPhase;
+
+        GroundMode = GetComponent<GroundMode>();
+        TacticalMode = GetComponent<TacticalMode>();
+        OffensiveMode = GetComponent<OffensiveMode>();
+
         navigator = GameObject.FindObjectOfType<NavMeshSurface>();
         base.Awake();
         AncientAspidPrefabs.Instance = prefabs;
-        farAwayMove = GetComponent<FarAwayLaser>();
+        //farAwayMove = GetComponent<FarAwayLaser>();
         Moves = GetComponents<AncientAspidMove>().ToList();
-        damagers = GetComponentsInChildren<PlayerDamager>();
-        CurrentRoomRect = RoomScanner.GetRoomBoundaries(transform.position);
+        //damagers = GetComponentsInChildren<PlayerDamager>();
+        //CurrentRoomRect = RoomScanner.GetRoomBoundaries(transform.position);
         HealthManager = GetComponent<AncientAspidHealth>();
         Rbody = GetComponent<Rigidbody2D>();
         Body = GetComponentInChildren<BodyController>();
@@ -896,7 +766,7 @@ public class AncientAspid : Boss
         {
             sleepSprite.transform.SetParent(null);
 
-            foreach (var c in collidersEnableOnLunge)
+            foreach (var c in GroundMode.collidersEnableOnLunge)
             {
                 if (c != null)
                 {
@@ -904,7 +774,7 @@ public class AncientAspid : Boss
                 }
             }
 
-            foreach (var c in collidersDisableOnLunge)
+            foreach (var c in GroundMode.collidersDisableOnLunge)
             {
                 if (c != null)
                 {
@@ -926,10 +796,10 @@ public class AncientAspid : Boss
 
         if (!TrailerMode && !StartAsleep)
         {
-            SetTarget(playerTarget);
+            SetTarget(PlayerTarget);
             StartBoundRoutine(VarianceResetter());
 
-            if (navigator != null && pathfindingEnabled)
+            if (navigator != null && PathfindingEnabled)
             {
                 StartBoundRoutine(PathFindingRoutine());
             }
@@ -959,13 +829,16 @@ public class AncientAspid : Boss
             HealthManager.AddHealthMilestone(Mathf.RoundToInt(StartingHealth * 0.7f), () => 
             {
                 //OffensiveModeEnabled = true;
-                OffensiveAreaProvider = new DefaultOffensiveAreaProvider(this);
+                //OffensiveAreaProvider = new DefaultOffensiveAreaProvider(this);
+                //OffensiveMode.OffensiveAreaProvider = new DefaultOffensiveAreaProvider(OffensiveMode.OffensiveHeight);
                 GetComponent<LaserRapidFireMove>().EnableMove(true);
             });
-            HealthManager.AddHealthMilestone(Mathf.RoundToInt(StartingHealth * 0.45f), () =>
+
+            /*HealthManager.AddHealthMilestone(Mathf.RoundToInt(StartingHealth * 0.45f), () =>
             {
-                GroundAreaProvider = new DefaultGroundAreaProvider(this, lungeTargetOffset);
-            });
+                GroundMode.GroundAreaProvider = new DefaultGroundAreaProvider(GroundMode.lungeTargetOffset);
+                //GroundAreaProvider = new DefaultGroundAreaProvider(this, lungeTargetOffset);
+            });*/
         }
     }
 
@@ -981,22 +854,22 @@ public class AncientAspid : Boss
             {
                 case CardinalDirection.Up:
                 case CardinalDirection.Down:
-                    if (transform.position.x >= Player.Player1.transform.position.x && (CurrentRoomRect.Rect.xMax - transform.position.x) >= (escapeMagnitude * escapeTime))
+                    if (transform.position.x >= Player.Player1.transform.position.x && (CurrentRoomRect.xMax - transform.position.x) >= (escapeMagnitude * escapeTime))
                     {
                         QuickEscape(Vector2.right * 5f, escapeTime);
                     }
-                    else if (transform.position.x < Player.Player1.transform.position.x && transform.position.x - CurrentRoomRect.Rect.xMin >= (escapeMagnitude * escapeTime))
+                    else if (transform.position.x < Player.Player1.transform.position.x && transform.position.x - CurrentRoomRect.xMin >= (escapeMagnitude * escapeTime))
                     {
                         QuickEscape(Vector2.left * 5f, escapeTime);
                     }
                     break;
                 case CardinalDirection.Left:
                 case CardinalDirection.Right:
-                    if ((CurrentRoomRect.Rect.yMax - transform.position.y) >= (escapeMagnitude * escapeTime))
+                    if ((CurrentRoomRect.yMax - transform.position.y) >= (escapeMagnitude * escapeTime))
                     {
                         QuickEscape(Vector2.up * 5f, escapeTime);
                     }
-                    else if (transform.position.y - CurrentRoomRect.Rect.yMin >= (escapeMagnitude * escapeTime))
+                    else if (transform.position.y - CurrentRoomRect.yMin >= (escapeMagnitude * escapeTime))
                     {
                         QuickEscape(Vector2.down * 5f, escapeTime);
                     }
@@ -1011,14 +884,14 @@ public class AncientAspid : Boss
     {
         if (StartAsleep)
         {
-            Recoil.SetRecoilSpeed(0);
+            //Recoil.SetRecoilSpeed(0);
             Claws.DisableSwingAttackImmediate();
             StartBoundRoutine(PreBossRoutine());
         }
 
         if (!TrailerMode && !StartAsleep)
         {
-            StartBoundRoutine(SlowUpdate());
+            //StartBoundRoutine(SlowUpdate());
             StartBoundRoutine(MainBossRoutine());
         }
 
@@ -1039,7 +912,7 @@ public class AncientAspid : Boss
             if (stuckCounter >= 5)
             {
                 stuckCounter = 0;
-                StartBoundRoutine(FullyUnstuckRoutine());
+                //StartBoundRoutine(FullyUnstuckRoutine());
             }
         }
         else
@@ -1049,56 +922,11 @@ public class AncientAspid : Boss
         }
     }
 
-    IEnumerator FullyUnstuckRoutine()
+    /*IEnumerator FullyUnstuckRoutine()
     {
         aspidTerrainCollider.enabled = false;
         yield return new WaitForSeconds(5f);
         aspidTerrainCollider.enabled = true;
-    }
-
-
-
-    /*private void HealthComponent_OnHealthChangeEvent(int previousHealth, int newHealth)
-    {
-        if (previousHealth != newHealth && EnableQuickEscapes)
-        {
-            const float escapeTime = 0.5f;
-            const float escapeMagnitude = 5f;
-            var direction = DirectionUtilities.DegreesToDirection(GetAngleToPlayer());
-
-            switch (direction)
-            {
-                case CardinalDirection.Up:
-                case CardinalDirection.Down:
-                    if (transform.position.x >= Player.Player1.transform.position.x && (CurrentRoomRect.Rect.xMax - transform.position.x) >= (escapeMagnitude * escapeTime))
-                    {
-                        QuickEscape(Vector2.right * 5f, escapeTime);
-                    }
-                    else if (transform.position.x < Player.Player1.transform.position.x && transform.position.x - CurrentRoomRect.Rect.xMin >= (escapeMagnitude * escapeTime))
-                    {
-                        QuickEscape(Vector2.left * 5f, escapeTime);
-                    }
-                    break;
-                case CardinalDirection.Left:
-                case CardinalDirection.Right:
-                    if ((CurrentRoomRect.Rect.yMax - transform.position.y) >= (escapeMagnitude * escapeTime))
-                    {
-                        QuickEscape(Vector2.up * 5f, escapeTime);
-                    }
-                    else if (transform.position.y - CurrentRoomRect.Rect.yMin >= (escapeMagnitude * escapeTime))
-                    {
-                        QuickEscape(Vector2.down * 5f, escapeTime);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }*/
-
-    /*IEnumerator SleepJumpRoutine()
-    {
-
     }*/
 
     IEnumerator ShakeRoutine(float intensity, float shakeFPS = 60f)
@@ -1115,96 +943,6 @@ public class AncientAspid : Boss
         }
     }
 
-    private IEnumerator QuickWakeRoutine()
-    {
-        var usePathfinding = pathfindingEnabled;
-        SetTarget(transform.position);
-        sleepSprite.gameObject.SetActive(false);
-        FlightEnabled = true;
-        Body.PlayDefaultAnimation = true;
-        ApplyFlightVariance = true;
-        Wings.PlayDefaultAnimation = true;
-
-        if (usePathfinding)
-        {
-            pathfindingEnabled = false;
-        }
-        Recoil.ResetRecoilSpeed();
-
-        foreach (var c in collidersEnableOnLunge)
-        {
-            if (c != null)
-            {
-                c.enabled = false;
-            }
-        }
-
-        foreach (var c in collidersDisableOnLunge)
-        {
-            if (c != null)
-            {
-                c.enabled = true;
-            }
-        }
-
-        foreach (var renderer in renderers)
-        {
-            renderer.enabled = true;
-        }
-
-        if (sleepRoarQuickSound != null)
-        {
-            WeaverAudio.PlayAtPoint(sleepRoarQuickSound, transform.position);
-        }
-
-        IEnumerator RoarRoutine()
-        {
-            yield return Roar(sleepRoarQuickTime, Head.transform.position, false);
-
-            Music.PlayMusicCue(bossMusic);
-        }
-
-        StartCoroutine(RoarRoutine());
-
-        for (float t = 0; t <sleepRoarQuickTime; t += Time.deltaTime)
-        {
-            WeaverLog.Log("HEAD IN CAM = " + CamRect.Contains((Vector2)Head.transform.position));
-            WeaverLog.Log($"XMin = {CamRect.xMin}, XMax = {CamRect.xMax}, YMin = {CamRect.yMin}, YMax = {CamRect.yMax}");
-            WeaverLog.Log((Vector2)Head.transform.position);
-            if (CamRect.Contains((Vector2)Head.transform.position))
-            {
-                WeaverLog.Log("WITHIN RANGE");
-                break;
-            }
-            yield return null;
-        }
-
-        FullyAwake = true;
-
-        foreach (var obj in enableOnWakeUp)
-        {
-            obj.SetActive(true);
-        }
-
-        SetTarget(playerTarget);
-
-        StartBoundRoutine(VarianceResetter());
-
-        if (navigator != null)
-        {
-            StartBoundRoutine(PathFindingRoutine());
-        }
-
-        StartBoundRoutine(SlowUpdate());
-        StartBoundRoutine(MainBossRoutine());
-
-        if (usePathfinding)
-        {
-            pathfindingEnabled = true;
-        }
-
-        yield break;
-    }
 
     public void QuickEscape(Vector2 direction, float time)
     {
@@ -1240,6 +978,8 @@ public class AncientAspid : Boss
 
     private IEnumerator PreBossRoutine()
     {
+        using var recoilOverride = Recoil.AddRecoilOverride(0);
+
         var enemyLayers = GetAllObjectsWithLayer("Enemies").ToList();
 
         var enemyLayer = LayerMask.NameToLayer("Enemies");
@@ -1265,7 +1005,8 @@ public class AncientAspid : Boss
         var health = HealthComponent.Health;
 
         //Wait until the health changes
-        yield return new WaitUntil(() => health != HealthComponent.Health || Phase >= BossPhase.Phase2);
+        //yield return new WaitUntil(() => health != HealthComponent.Health || Phase >= BossPhase.Phase2);
+        yield return new WaitUntil(() => health != HealthComponent.Health);
 
         health = HealthComponent.Health;
 
@@ -1274,11 +1015,11 @@ public class AncientAspid : Boss
             obj.layer = enemyLayer;
         }
 
-        if (Phase >= BossPhase.Phase2)
+        /*if (Phase >= BossPhase.Phase2)
         {
             yield return QuickWakeRoutine();
             yield break;
-        }
+        }*/
 
 
         var flasher = sleepSprite.GetComponent<SpriteFlasher>();
@@ -1312,7 +1053,7 @@ public class AncientAspid : Boss
 
         awaiter = RoutineAwaiter.AwaitBoundRoutines(this, headRoutine, bodyRoutine);
 
-        if (!useNewSleepSprites)
+        /*if (!useNewSleepSprites)
         {
             Rbody.velocity = new Vector2(0f, sleepJumpVelocity);
             Rbody.gravityScale = sleepJumpGravity;
@@ -1321,16 +1062,16 @@ public class AncientAspid : Boss
         {
             //Rbody.velocity = new Vector2(0f, sleepJumpVelocity / 2f);
             //Rbody.gravityScale = sleepJumpGravity / 2;
-        }
+        }*/
 
-        lungeDashEffect.SetActive(true);
-        lungeDashRotationOrigin.SetZLocalRotation(90);
+        GroundMode.lungeDashEffect.SetActive(true);
+        GroundMode.lungeDashRotationOrigin.SetZLocalRotation(90);
 
         float stompingRate = 0.3f;
 
         //float stompingPitch = 
 
-        IEnumerator DoStomping()
+        /*IEnumerator DoStomping()
         {
             while (true)
             {
@@ -1342,9 +1083,14 @@ public class AncientAspid : Boss
                 CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.EnemyKillShake);
                 yield return new WaitForSeconds(stompingRate);
             }
-        }
+        }*/
 
-        if (useNewSleepSprites)
+        var sleepAnimator = sleepSprite.GetComponent<WeaverAnimationPlayer>();
+        yield return sleepAnimator.PlayAnimationTillDone("Turn Around Pre");
+        sleepSprite.flipX = Player.Player1.transform.position.x >= transform.position.x;
+        yield return sleepAnimator.PlayAnimationTillDone("Turn Around Post");
+
+        /*if (useNewSleepSprites)
         {
             //Coroutine stompingRoutine = StartCoroutine(DoStomping());
             var sleepAnimator = sleepSprite.GetComponent<WeaverAnimationPlayer>();
@@ -1359,13 +1105,8 @@ public class AncientAspid : Boss
             {
                 sleepSprite.transform.localScale = sleepSprite.transform.localScale.With(x: scale);
                 yield return new WaitForSeconds(sleepScaleChangeSpeed);
-
-                /*if (awaiter == null || awaiter.Done)
-                {
-                    awaiter = RoutineAwaiter.AwaitRoutine(ChangeDirection(AspidOrientation.Right, 1000));
-                }*/
             }
-        }
+        }*/
 
         foreach (var claw in Claws.claws)
         {
@@ -1376,7 +1117,7 @@ public class AncientAspid : Boss
 
         yield return awaiter.WaitTillDone();
 
-        if (!useNewSleepSprites)
+        /*if (!useNewSleepSprites)
         {
             sleepSprite.gameObject.SetActive(false);
 
@@ -1390,16 +1131,6 @@ public class AncientAspid : Boss
                 transform.localScale = transform.localScale.With(x: scale);
                 yield return new WaitForSeconds(sleepScaleChangeSpeed);
             }
-        }
-
-        /*foreach (var c in collidersEnableOnLunge)
-        {
-            c.enabled = false;
-        }
-
-        foreach (var c in collidersDisableOnLunge)
-        {
-            c.enabled = true;
         }*/
 
         var time = Time.time;
@@ -1423,7 +1154,7 @@ public class AncientAspid : Boss
             }
         }
 
-        if (useNewSleepSprites)
+        /*if (useNewSleepSprites)
         {
             sleepSprite.gameObject.SetActive(false);
 
@@ -1431,29 +1162,30 @@ public class AncientAspid : Boss
             {
                 renderer.enabled = true;
             }
+        }*/
 
-            /*foreach (var scale in sleepScalesAfter)
-            {
-                transform.localScale = transform.localScale.With(x: scale);
-                yield return new WaitForSeconds(sleepScaleChangeSpeed);
-            }*/
+        sleepSprite.gameObject.SetActive(false);
+
+        foreach (var renderer in renderers)
+        {
+            renderer.enabled = true;
         }
 
 
-        if (!useNewSleepSprites)
+        /*if (!useNewSleepSprites)
         {
-            lungeRockParticles.Play();
+            groundMode.lungeRockParticles.Play();
 
-            if (lungeLandSoundHeavy != null)
+            if (groundMode.lungeLandSoundHeavy != null)
             {
-                WeaverAudio.PlayAtPoint(lungeLandSoundHeavy, transform.position);
+                WeaverAudio.PlayAtPoint(groundMode.lungeLandSoundHeavy, transform.position);
             }
             CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.EnemyKillShake);
         }
         else
         {
             //lungeRockParticles.Play();
-        }
+        }*/
 
         var headLandRoutine = Head.PlayLanding(true);
         var bodyLandRoutine = Body.PlayLanding(true);
@@ -1485,19 +1217,18 @@ public class AncientAspid : Boss
             yield return new WaitForSeconds(sleepPreJumpDelay);
         }
 
-        Rbody.gravityScale = onGroundGravity;
-        AspidMode = Mode.Defensive;
+        Rbody.gravityScale = GroundMode.onGroundGravity;
         if (health == HealthManager.Health)
         {
-            yield return ExitGroundMode();
+            yield return GroundMode.ExitGroundMode();
         }
         else
         {
-            StartBoundRoutine(ExitGroundMode());
+            StartBoundRoutine(GroundMode.ExitGroundMode());
             yield return new WaitUntil(() => Claws.OnGround == false);
         }
 
-        yield return new WaitUntil(() => !Head.HeadBeingUnlocked);
+        //yield return new WaitUntil(() => !Head.HeadBeingUnlocked);
 
         if (!Head.HeadLocked)
         {
@@ -1506,9 +1237,9 @@ public class AncientAspid : Boss
 
         yield return Head.Animator.PlayAnimationTillDone("Fire - 2 - Prepare");
 
-        var attackAnim = Head.Animator.AnimationData.GetClip("Fire - 1 - Attack");
+        var attackStartFrame = Head.Animator.AnimationData.GetFrameFromClip("Fire - 1 - Attack",0);
 
-        Head.MainRenderer.sprite = attackAnim.Frames[0];
+        Head.MainRenderer.sprite = attackStartFrame;
 
         var shakeRoutine = StartCoroutine(ShakeRoutine(sleepShakeIntensity));
 
@@ -1520,6 +1251,14 @@ public class AncientAspid : Boss
 
 
         WeaverBossTitle.Spawn("Ancient", "Aspid");
+
+        foreach (var spawner in awakenGroupSpawners)
+        {
+            if (spawner != null)
+            {
+                spawner.StartSpawning();
+            }
+        }
 
         yield return Roar(sleepRoarDuration,Head.transform.position, true);
 
@@ -1535,8 +1274,6 @@ public class AncientAspid : Boss
             Head.UnlockHead();
         }
 
-        yield return new WaitUntil(() => !Head.HeadBeingUnlocked);
-
         FullyAwake = true;
 
         foreach (var obj in enableOnWakeUp)
@@ -1546,7 +1283,7 @@ public class AncientAspid : Boss
 
         Music.PlayMusicCue(bossMusic);
 
-        Recoil.ResetRecoilSpeed();
+        //Recoil.ResetRecoilSpeed();
 
         StartBoundRoutine(VarianceResetter());
 
@@ -1555,411 +1292,123 @@ public class AncientAspid : Boss
             StartBoundRoutine(PathFindingRoutine());
         }
 
-        StartBoundRoutine(SlowUpdate());
         StartBoundRoutine(MainBossRoutine());
 
         yield break;
     }
 
-    private IEnumerator SlowUpdate()
+    public IEnumerator ShiftBodyParts(bool slide, params AspidBodyPart[] bodyParts)
+    {
+        List<float> defaultXValues = bodyParts.Select(p => p.transform.localPosition.x).ToList();
+        List<AspidBodyPart> bodyPartsList = bodyParts.ToList();
+
+        bool firstTime = true;
+
+        for (int i = 0; i < GroundMode.lungeXShiftValues.Count; i++)
+        {
+            int index = 0;
+            foreach (var part in bodyPartsList)
+            {
+                float shiftAmount = GroundMode.lungeXShiftValues[i];
+                if (Head.LookingDirection >= 60)
+                {
+                    shiftAmount = -shiftAmount;
+                }
+                part.transform.SetXLocalPosition(defaultXValues[index] + shiftAmount);
+                index++;
+            }
+            if (firstTime)
+            {
+                firstTime = false;
+                if (!slide)
+                {
+                    i--;
+                    yield return new WaitForSeconds(GroundMode.lungeDownwardsLandDelay);
+                    continue;
+                }
+            }
+            yield return new WaitForSeconds(1f / 12f);
+
+            for (int j = bodyPartsList.Count - 1; j >= 0; j--)
+            {
+                float shiftAmount = GroundMode.lungeXShiftValues[i];
+                if (Head.LookingDirection >= 60)
+                {
+                    shiftAmount = -shiftAmount;
+                }
+                if (bodyPartsList[j].transform.localPosition.x != defaultXValues[j] + shiftAmount)
+                {
+                    bodyPartsList.RemoveAt(j);
+                    defaultXValues.RemoveAt(j);
+                }
+            }
+        }
+    }
+
+    /*private IEnumerator SlowUpdate()
     {
         while (true)
         {
             yield return new WaitForSeconds(0.5f);
             CurrentRoomRect = RoomScanner.GetRoomBoundaries(transform.position);
         }
-    }
+    }*/
 
     public IEnumerator MainBossRoutine()
     {
+        SetTarget(PlayerTarget);
+        EnableQuickEscapes = true;
         //HealthComponent.OnHealthChangeEvent += HealthComponent_OnHealthChangeEvent;
         HealthManager.OnHitEvent += HealthManager_OnHitEvent;
-        var validModes = new List<Mode>
-        {
-            Mode.Offensive,
-            Mode.Tactical,
-            Mode.Defensive
-        };
 
-        var currentMode = (Mode)(-1);
+        StartModePicker();
+
+        StartBoundRoutine(PhaseCheckerRoutine());
+
+        yield break;
+    }
+
+    IEnumerator PhaseCheckerRoutine()
+    {
+        yield return CurrentPhase.PhaseStart(this, null);
+
+        StartCoroutine(PhaseRunnerRoutine());
+
+        var currentlyCheckedPhase = CurrentPhase;
 
         while (true)
         {
-            if (!riseFromCenterPlatform && !CanSeeTarget)
-            {
-                AspidMode = Mode.Tactical;
-                while (!CanSeeTarget)
-                {
-                    yield return UpdateDirection();
-
-                    if (riseFromCenterPlatform)
-                    {
-                        break;
-                    }
-
-                    if (farAwayMove.MoveEnabled)
-                    {
-                        yield return RunMove(farAwayMove);
-                        yield return new WaitForSeconds(farAwayMove.PostDelay);
-                    }
-
-                    //yield return TacticalModeRoutine(1f);
-                }
-            }
-
-            if (riseFromCenterPlatform)
-            {
-                WeaverLog.LogError("ENTERING OFFENSIVE MODE PRE PRE");
-                currentMode = Mode.Offensive;
-            }
-            else if (AllMovesDisabled)
-            {
-                currentMode = Mode.Tactical;
-            }
-            /*else if (forceOffensiveModeNextTime)
-            {
-                forceOffensiveModeNextTime = false;
-                currentMode = Mode.Offensive;
-            }*/
-            else
-            {
-                if (currentMode != (Mode)(-1))
-                {
-                    var lastMove = currentMode;
-                    validModes.Remove(lastMove);
-
-                    int startIndex = OffensiveModeEnabled ? 0 : 1;
-                    int endIndex = GroundModeEnabled ? validModes.Count : validModes.Count - 1;
-
-                    currentMode = validModes.GetRandomElement(startIndex, endIndex);
-
-                    validModes.Add(lastMove);
-                }
-                else
-                {
-                    currentMode = Mode.Tactical;
-                }
-            }
-
-            
-
-
-            switch (currentMode)
-            {
-                case Mode.Tactical:
-                    yield return TacticalModeRoutine(6f);
-                    break;
-                case Mode.Offensive:
-                    WeaverLog.LogError("ENTERING OFFENSIVE MODE PRE");
-                    yield return OffensiveModeRoutine();
-                    break;
-                case Mode.Defensive:
-                    yield return DefensiveModeRoutine();
-                    break;
-                default:
-                    yield return TacticalModeRoutine(2f);
-                    break;
-            }
-
-
-
-
-            //START THE FIGHT IN TACTICAL MODE
-            /*float tacticalTime = 4f;
-            float tacticalStart = Time.time;
-
-            int currentMoveIndex = 0;
-            float lastMoveTime = Time.time;
-            ShuffleMoves(Moves);
-            while (Time.time - tacticalStart < tacticalTime)
-            {
-                if (currentMoveIndex == Moves.Count)
-                {
-                    currentMoveIndex = 0;
-                    ShuffleMoves(Moves);
-                }
-                yield return new WaitUntil(() => !Head.HeadLocked);
-                yield return CheckDirectionToPlayer();
-
-                var move = Moves[currentMoveIndex];
-
-                if (!move.MoveEnabled)
-                {
-                    currentMoveIndex++;
-                    continue;
-                }
-
-                if (Time.time - lastMoveTime < move.PreDelay)
-                {
-                    continue;
-                }
-
-                yield return RunMove(move);
-
-                lastMoveTime = Time.time + move.PostDelay;
-                currentMoveIndex++;
-            }
-            yield return new WaitUntil(() => !Head.HeadLocked);*/
-            //ENDING TACTICAL MODE
-            /*var time = Time.time;
-            while (Time.time <= time + 6f)
-            {
-                yield return CheckDirectionToPlayer(); //THIS IS A TEST
-            }*/
-            //yield return EnterGroundMode();
-            //yield return ExitGroundMode();
-
-
-
-            //ENTERING OFFENSIVE MODE
-
-            /*float offensiveTime = 10f;
-            float offensiveStart = Time.time;
-
-            yield return EnterCenterMode();
-            AspidMode = Mode.Offensive;
-
-            currentMoveIndex = 0;
-            lastMoveTime = Time.time;
-            ShuffleMoves(Moves);
-
-            while (Time.time - offensiveStart < offensiveTime)
-            {
-                if (currentMoveIndex == Moves.Count)
-                {
-                    currentMoveIndex = 0;
-                    ShuffleMoves(Moves);
-                }
-                yield return new WaitUntil(() => !Head.HeadLocked);
-                yield return CheckDirectionToPlayer();
-
-                var move = Moves[currentMoveIndex];
-
-                if (!move.MoveEnabled)
-                {
-                    currentMoveIndex++;
-                    continue;
-                }
-
-                if (Time.time - lastMoveTime < move.PreDelay)
-                {
-                    continue;
-                }
-
-                yield return RunMove(move);
-
-                lastMoveTime = Time.time + move.PostDelay;
-                currentMoveIndex++;
-            }
-
-            yield return new WaitUntil(() => !Head.HeadLocked);
-            yield return ExitCenterMode();*/
-
-            //ENDING OFFENSIVE MODE
-            //ENTERING TACTICAL MODE
-            AspidMode = Mode.Tactical;
-
-            yield return TacticalModeRoutine(2f);
+            yield return new WaitUntil(() => currentlyCheckedPhase.CanGoToNextPhase(this));
+            phaseQueue.Enqueue(currentlyCheckedPhase.NextPhase);
+            currentlyCheckedPhase = currentlyCheckedPhase.NextPhase;
         }
-    }
+        /*var oldPhase = Phase;
 
-    IEnumerator TacticalModeRoutine(float time)
-    {
-        Debug.Log("IN TACTICAL");
-        EnableQuickEscapes = true;
-        AspidMode = Mode.Tactical;
-        float tacticalTime = time;
-        float tacticalStart = Time.time;
-
-        //int currentMoveIndex = 0;
-        float lastMoveTime = Time.time;
-        //ShuffleMoves(Moves);
-        /*for (int i = 0; i < Moves.Count; i++)
+        while (true)
         {
-            Debug.Log($"Move {i} = {Moves[i].GetType().FullName}");
+            yield return new WaitUntil(() => Phase > oldPhase);
+
+            var newPhase = oldPhase + 1;
+
+            yield return ChangePhase(oldPhase, newPhase);
+
+            oldPhase = newPhase;
         }*/
-        yield return new WaitForSeconds(0.5f);
-        while (!riseFromCenterPlatform && Time.time - tacticalStart < tacticalTime && CanSeeTarget)
-        {
-            /*if (currentMoveIndex == Moves.Count)
-            {
-                currentMoveIndex = 0;
-                ShuffleMoves(Moves);
-            }*/
-            WeaverLog.Log("WAITING FOR HEAD LOCK = " + Time.time);
-            yield return new WaitUntil(() => !Head.HeadLocked && !Head.HeadBeingUnlocked);
-            WeaverLog.Log("UPDATING DIRECTION = " + Time.time);
-            yield return UpdateDirection();
-
-            WeaverLog.Log("NEXTING MOVE READY = " + Time.time);
-
-            //var move = Moves[currentMoveIndex];
-
-            MoveRandomizer.MoveNext();
-
-            var move = MoveRandomizer.Current;
-
-            if (move == null)
-            {
-                continue;
-            }
-
-            while (Time.time - lastMoveTime < move.PreDelay)
-            {
-                yield return UpdateDirection();
-            }
-
-            if (AllMovesDisabled)
-            {
-                continue;
-            }
-
-            WeaverLog.Log("Running Move = " + move.GetType().FullName);
-            var oldHealth = HealthManager.Health;
-            yield return RunMove(move);
-
-            //If the boss is hit, then remove the post delay so the boss attacks faster
-            if (HealthManager.Health != oldHealth)
-            {
-                lastMoveTime = Time.time;
-            }
-            else
-            {
-                lastMoveTime = Time.time + move.PostDelay;
-            }
-            //currentMoveIndex++;
-        }
-
-        Debug.Log("ENDING TACTICAL");
-
-        yield return new WaitUntil(() => !Head.HeadLocked);
-
-        EnableQuickEscapes = false;
     }
 
-    IEnumerator OffensiveModeRoutine()
+    IEnumerator PhaseRunnerRoutine()
     {
-        float offensiveTime = 10f;
-
-        if (!riseFromCenterPlatform && !OffensiveModeEnabled)
+        while (true)
         {
-            yield break;
-        }
+            yield return new WaitUntil(() => phaseQueue.Count > 0);
 
-        yield return EnterCenterMode();
-        //while (true)
-        //{
-        WeaverLog.LogError("BEFORE FORCE");
-        yield return new WaitUntil(() => !riseFromCenterPlatform);
-        WeaverLog.LogError("AFTER FORCE");
-
-        float offensiveStart = Time.time;
-
-        if (Orientation != AspidOrientation.Center)
-        {
-            yield break;
-        }
-        AspidMode = Mode.Offensive;
-
-        int currentMoveIndex = 0;
-        float lastMoveTime = Time.time;
-        //ShuffleMoves(Moves);
-
-        //var modeEnabled = (Phase == BossPhase.Default && OffensiveModeEnabled) || (Phase == BossPhase.Phase3 || Phase == BossPhase.Phase4);
-        var modeEnabled = OffensiveModeEnabled;
-
-        Head.GlobalLockSpeedMultiplier = 1.5f;
-
-        while (Time.time - offensiveStart < offensiveTime && modeEnabled && !AllMovesDisabled && CanSeeTarget && Vector3.Distance(transform.position, Player.Player1.transform.position) <= 25 && Player.Player1.transform.position.y < transform.position.y + 1)
-        {
-
-
-            /*WeaverLog.LogError("OFFENSIVE LOOP");
-            if (currentMoveIndex == Moves.Count)
-            {
-                currentMoveIndex = 0;
-                ShuffleMoves(Moves);
-            }*/
-
-
-
-            yield return new WaitUntil(() => !Head.HeadLocked && !Head.HeadBeingUnlocked);
-            yield return UpdateDirection();
-
-            MoveRandomizer.MoveNext();
-
-            var move = MoveRandomizer.Current;
-
-            if (centerForcedMove != null)
-            {
-                move = centerForcedMove;
-            }
-
-            if (move == null)
-            {
-                if (Phase == BossPhase.Phase3)
-                {
-                    offensiveStart = Time.time;
-                }
-                continue;
-            }
-
-            while (Time.time - lastMoveTime < move.PreDelay)
-            {
-                yield return UpdateDirection();
-            }
-
-            var oldHealth = HealthManager.Health;
-            WeaverLog.Log("Running Move = " + move.GetType().FullName);
-            yield return RunMove(move);
-
-
-            //If the boss is hit, then remove the post delay so the boss attacks faster
-            if (HealthManager.Health != oldHealth)
-            {
-                lastMoveTime = Time.time;
-            }
-            else
-            {
-                lastMoveTime = Time.time + move.PostDelay;
-            }
-            //lastMoveTime = Time.time + move.PostDelay;
-            currentMoveIndex++;
-            if (Phase == BossPhase.Phase3)
-            {
-                offensiveStart = Time.time;
-            }
-        }
-
-        /*if (forceOffensiveModeNextTime)
-        {
-            forceOffensiveModeNextTime = false;
-            continue;
-        }
-        else
-        {
-            break;
-        }*/
-        //}
-
-        yield return new WaitUntil(() => !Head.HeadLocked && !Head.HeadBeingUnlocked);
-        yield return ExitCenterMode();
-
-        Head.GlobalLockSpeedMultiplier = 1f;
-
-        AspidMode = Mode.Tactical;
-    }
-
-    IEnumerator DefensiveModeRoutine()
-    {
-        if (GroundModeEnabled && Vector3.Distance(Player.Player1.transform.position,transform.position) <= 35f && CanSeeTarget)
-        {
-            yield return EnterGroundMode();
-            yield return ExitGroundMode();
-            AspidMode = Mode.Tactical;
+            var newPhase = phaseQueue.Dequeue();
+            yield return CurrentPhase.PhaseEnd(this, newPhase);
+            var oldPhase = CurrentPhase;
+            CurrentPhase = newPhase;
+            yield return CurrentPhase.PhaseStart(this, oldPhase);
         }
     }
-
 
     public float GetHeadAngle()
     {
@@ -1987,7 +1436,43 @@ public class AncientAspid : Boss
         }
     }
 
-    void EnableCenterLock(Vector3 position, WeaverCameraLock camLock)
+    /// <summary>
+    /// Changes the flight system so that it flies and settles towards a target. Allows you to freely set the <see cref="OrbitReductionAmount"/>
+    /// </summary>
+    public void EnableHomeInOnTarget()
+    {
+        if (!homeInOnTarget)
+        {
+            minFlightSpeed /= 3f;
+            minimumFlightSpeed /= 4f;
+            homeInOnTarget = true;
+            flightSpeed /= 2f;
+
+            origOrbitReductionAmount = OrbitReductionAmount;
+        }
+    }
+
+    /// <summary>
+    /// Changes the flight system so that it no longer flies and settles towards a target
+    /// </summary>
+    public void DisableHomeInOnTarget()
+    {
+        if (homeInOnTarget)
+        {
+            minFlightSpeed *= 3f;
+            minimumFlightSpeed *= 4f;
+            homeInOnTarget = false;
+            OrbitReductionAmount = origOrbitReductionAmount;
+            flightSpeed *= 2f;
+        }
+    }
+
+    /// <summary>
+    /// Enables a cam lock and positions it at a certain location
+    /// </summary>
+    /// <param name="position">The location the camera lock should be at</param>
+    /// <param name="camLock">The cam lock to enable</param>
+    public void EnableCamLock(Vector3 position, WeaverCameraLock camLock)
     {
         var currentLocks = GameManager.instance.cameraCtrl.lockZoneList;
 
@@ -2000,7 +1485,7 @@ public class AncientAspid : Boss
             {
                 var sceneRect = wsm.SceneDimensions;
                 mainBounds = new Bounds();
-                mainBounds.SetMinMax(sceneRect.min,sceneRect.max);
+                mainBounds.SetMinMax(sceneRect.min, sceneRect.max);
             }
             else
             {
@@ -2015,19 +1500,15 @@ public class AncientAspid : Boss
             {
                 var l = currentLocks[i];
                 mainBounds = new Bounds();
-                mainBounds.SetMinMax(new Vector3(l.cameraXMin, l.cameraYMin,-1f), new Vector3(l.cameraXMax, l.cameraYMax,1f));
+                mainBounds.SetMinMax(new Vector3(l.cameraXMin, l.cameraYMin, -1f), new Vector3(l.cameraXMax, l.cameraYMax, 1f));
                 if (mainBounds.Contains(transform.position))
                 {
                     break;
                 }
             }
-
-            /*var mainLock = currentLocks[0];
-            mainBounds = new Bounds();
-            mainBounds.SetMinMax(new Vector3(mainLock.cameraXMin, mainLock.cameraYMin),new Vector3(mainLock.cameraXMax, mainLock.cameraYMax));*/
         }
 
-
+        camLock.gameObject.SetActive(false);
         camLock.transform.SetParent(null);
         camLock.transform.position = position;
         camLock.RefreshCamBounds();
@@ -2060,1237 +1541,15 @@ public class AncientAspid : Boss
         camLock.gameObject.SetActive(true);
     }
 
-    void DisableCenterLock(WeaverCameraLock camLock)
+    public void DisableCamLock(WeaverCameraLock camLock)
     {
         camLock.gameObject.SetActive(false);
         camLock.transform.SetParent(transform);
         camLock.transform.localPosition = default;
     }
 
-    IEnumerator EnterCenterMode()
-    {
-        WeaverLog.LogError("ENTERING CENTER MODE");
-        if (!riseFromCenterPlatform && Vector3.Distance(Player.Player1.transform.position, transform.position) >= 30)
-        {
-            yield break;
-        }
 
-        Recoil.SetRecoilSpeed(0f);
-        //var roomBounds = RoomScanner.GetRoomBoundaries(transform.position);
-        //Debug.DrawLine(new Vector3(roomBounds.xMin,roomBounds.yMin), new Vector3(roomBounds.xMax,roomBounds.yMax), Color.cyan, 5f);
-        //Debug.DrawLine(transform.position, new Vector3(roomBounds.xMin, transform.position.y), Color.cyan, 5f);
-        //Debug.DrawLine(transform.position, new Vector3(roomBounds.xMax, transform.position.y), Color.cyan, 5f);
-
-        //Debug.DrawLine(transform.position, new Vector3(transform.position.x, roomBounds.yMin), Color.cyan, 5f);
-        //Debug.DrawLine(transform.position, new Vector3(transform.position.x, roomBounds.yMax), Color.cyan, 5f);
-        minFlightSpeed /= 3f;
-
-        /*CurrentRoomRect = RoomScanner.GetRoomBoundaries(Player.Player1.transform.position);
-
-        var newTarget = new Vector3(Mathf.Lerp(CurrentRoomRect.Rect.xMin, CurrentRoomRect.Rect.xMax, 0.5f), CurrentRoomRect.Rect.yMin + offensiveHeight);
-
-        newTarget.x = Mathf.Clamp(newTarget.x,Player.Player1.transform.position.x - 10f,Player.Player1.transform.position.x + 10f);
-        newTarget.y = Mathf.Clamp(newTarget.y, Player.Player1.transform.position.y + 4f, Player.Player1.transform.position.y + 20f);*/
-
-
-        if (OffensiveAreaProvider == null)
-        {
-            yield return new WaitUntil(() => OffensiveAreaProvider != null);
-        }
-
-        var newTarget = OffensiveAreaProvider.GetModeTarget();
-        //newTarget = transform.position;
-        SetTarget(newTarget);
-        //flightOffset /= 4f;
-        minimumFlightSpeed /= 4f;
-        homeInOnTarget = true;
-        //orbitReductionAmount *= 4f;
-        flightSpeed /= 2f;
-
-        origOrbitReductionAmount = orbitReductionAmount;
-
-        //yield return ChangeDirection(AspidOrientation.Center);
-        yield return ChangeDirection(AspidOrientation.Center);
-
-        float timer = 0f;
-        float maxTimeToCenter = 4f;
-        float centeringTimer = 0;
-
-        bool centered = false;
-        //bool centeringDone = false;
-
-        while (!riseFromCenterPlatform && timer <= 0.25f && centeringTimer < maxTimeToCenter)
-        {
-            if (Vector3.Distance(transform.position, newTarget) <= 2f && !centered)
-            {
-                centered = true;
-
-                /*IEnumerator CenteringRoutine()
-                {
-                    EnableCenterLock(newTarget);
-                    //centeringDone = true;
-                }*/
-                //StartBoundRoutine(CenteringRoutine());
-                EnableCenterLock(newTarget, centerCamLock);
-            }
-
-            if (Vector3.Distance(Player.Player1.transform.position, newTarget) > 25f)
-            {
-                centeringTimer = maxTimeToCenter;
-                break;
-            }
-
-            centeringTimer += Time.deltaTime;
-            orbitReductionAmount += 3f * orbitReductionAmount * Time.deltaTime;
-            if (Vector3.Distance(transform.position, newTarget) <= 2f)
-            {
-                timer += Time.deltaTime;
-            }
-            else
-            {
-                timer = 0f;
-            }
-            yield return null;
-        }
-        Recoil.ResetRecoilSpeed();
-
-        /*if (centered)
-        {
-            yield return new WaitUntil(() => centeringDone);
-        }*/
-
-        //forceCentralMode = false;
-
-        if (centeringTimer >= maxTimeToCenter)
-        {
-            yield return ExitCenterMode();
-        }
-        //yield return new WaitUntil(() => Vector3.Distance(transform.position, newTarget) <= 1f);
-        //yield return new WaitForSeconds(0.25f);
-    }
-
-    IEnumerator ExitCenterMode()
-    {
-        return ExitCenterMode(GetOrientationToPlayer());
-    }
-
-    IEnumerator ExitCenterMode(AspidOrientation orientation,bool wait = true)
-    {
-        DisableCenterLock(centerCamLock);
-        minFlightSpeed *= 3f;
-        SetTarget(playerTarget);
-        //flightOffset *= 4f;
-        minimumFlightSpeed *= 4f;
-        homeInOnTarget = false;
-        orbitReductionAmount = origOrbitReductionAmount;
-        flightSpeed *= 2f;
-        yield return ChangeDirection(orientation);
-
-        if (wait)
-        {
-            yield return new WaitForSeconds(0.25f);
-        }
-    }
-
-
-    IEnumerator ShootGiantBlob(EnterGround_BigVomitShotMove move, float preDelay = 0.25f)
-    {
-        yield return new WaitForSeconds(preDelay);
-        WeaverLog.Log("Running Move = " + move.GetType().FullName);
-        yield return RunMove(move);
-
-
-        for (float t = move.SpawnedGlobEstLandTime; t >= 0.5f; t -= Time.deltaTime)
-        {
-            yield return null;
-        }
-    }
-
-    IEnumerator ShootExplosives(BombMove move, IBombController controller, float preDelay = 0.25f)
-    {
-        yield return new WaitForSeconds(preDelay);
-        move.CustomController = controller;
-        yield return RunMove(move);
-
-    }
-
-    enum GroundMode
-    {
-        Normal,
-        Glob,
-        Explosion
-    }
-
-    IEnumerator EnterGroundMode()
-    {
-        //var values = Enum.GetValues(typeof(GroundMode));
-
-        var mode = EnumUtilities.RandomEnumValue<GroundMode>();
-
-        //mode = GroundMode.Explosion;
-
-        //bool globMode = mode == GroundMode.Glob;
-        //bool globMode = UnityEngine.Random.Range(0f, 1f) > 0.5f;
-
-        //If we are already in center, then exit out of it
-        if (Orientation == AspidOrientation.Center)
-        {
-            yield return ExitCenterMode(GetOrientationToPlayer(),false);
-        }
-
-        Body.PlayDefaultAnimation = false;
-
-        IEnumerator Wait(float seconds)
-        {
-            yield return new WaitForSeconds(seconds);
-        }
-
-        ApplyFlightVariance = false;
-
-        var target = GroundAreaProvider.GetModeTarget();
-
-        //Move into position
-        /*if (Head.LookingDirection >= 0f)
-        {
-            SetTarget(Player.Player1.transform.position + lungeTargetOffset);
-        }
-        else
-        {
-            SetTarget(Player.Player1.transform.position + new Vector3(-lungeTargetOffset.x, lungeTargetOffset.y, lungeTargetOffset.z));
-        }*/
-        SetTarget(target);
-
-        var headRoutine = Head.LockHead(Head.LookingDirection >= 0f ? 60f : -60f);
-        var bodyRoutine = Body.RaiseTail();
-        var minWaitTimeRoutine = Wait(0.5f);
-
-        RoutineAwaiter awaiter = RoutineAwaiter.AwaitBoundRoutines(this, headRoutine, bodyRoutine, minWaitTimeRoutine);
-
-        yield return awaiter.WaitTillDone();
-
-        FlightEnabled = false;
-        Recoil.SetRecoilSpeed(0f);
-
-        var bigBlobMove = GetComponent<EnterGround_BigVomitShotMove>();
-        var bombMove = GetComponent<BombMove>();
-
-        MegaBombsController bombController = null;
-
-        if (mode == GroundMode.Glob)
-        {
-            //Debug.Log("GLOB START");
-            yield return ShootGiantBlob(bigBlobMove);
-            //Debug.Log("GLOB END");
-        }
-        else if (mode == GroundMode.Explosion)
-        {
-            bombController = new MegaBombsController(this, 3, 2f, 1f, 0.25f, bombMove.BombGravityScale);
-            yield return ShootExplosives(bombMove, bombController);
-        }
-
-        yield return new WaitUntil(() => !Claws.DoingBasicAttack);
-
-        foreach (var claw in Claws.claws)
-        {
-            yield return claw.LockClaw();
-        }
-
-        //yield return Body.RaiseTail();
-
-        if (lungeAnticSound != null)
-        {
-            WeaverAudio.PlayAtPoint(lungeAnticSound, transform.position);
-        }
-
-        Wings.PrepareForLunge();
-        Claws.PrepareForLunge();
-
-        yield return new WaitForSeconds(lungeAnticTime);
-
-        Wings.DoLunge();
-        Claws.DoLunge();
-        WingPlates.DoLunge();
-        Head.DoLunge();
-
-        if (lungeSound != null)
-        {
-            WeaverAudio.PlayAtPoint(lungeSound, transform.position);
-        }
-
-        CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.SmallShake);
-
-        foreach (var c in collidersEnableOnLunge)
-        {
-            if (c != null)
-            {
-                c.enabled = true;
-            }
-        }
-
-        foreach (var c in collidersDisableOnLunge)
-        {
-            if (c != null)
-            {
-                c.enabled = false;
-            }
-        }
-
-        Vector3 destination;
-
-        switch (mode)
-        {
-            case GroundMode.Glob:
-                destination = bigBlobMove.SpawnedGlob.transform.position + new Vector3(0, 2, 0);
-                break;
-            case GroundMode.Explosion:
-                destination = new Vector3(bombController.MinLandXPos,bombController.FloorHeight);
-                break;
-            default:
-                bool towardsPlayer = UnityEngine.Random.Range(0f, 1f) >= 0.5f;
-
-                if (UnityEngine.Random.Range(0, 2) == 1 || true)
-                {
-                    destination = Player.Player1.transform.position;
-                }
-                else
-                {
-                    destination = transform.position.With(y: CurrentRoomRect.Rect.yMin);
-                }
-                break;
-        }
-        /*if (!globMode)
-        {
-            bool towardsPlayer = UnityEngine.Random.Range(0f, 1f) >= 0.5f;
-
-            if (UnityEngine.Random.Range(0, 2) == 1 || true)
-            {
-                destination = Player.Player1.transform.position;
-            }
-            else
-            {
-                destination = transform.position.With(y: CurrentRoomRect.Rect.yMin);
-            }
-        }
-        else
-        {
-            destination = bigBlobMove.SpawnedGlob.transform.position + new Vector3(0,2,0);
-        }*/
-
-        var angleToDestination = VectorUtilities.VectorToDegrees((destination - transform.position).normalized);
-
-        var downwardAngle = Vector3.Dot(Vector3.right, (destination - transform.position).normalized) * 90f;
-
-        lungeDashEffect.SetActive(true);
-        lungeDashRotationOrigin.SetZLocalRotation(angleToDestination);
-
-
-        bool steepAngle = Mathf.Abs(downwardAngle) >= degreesSlantThreshold;
-
-        if (mode != GroundMode.Normal)
-        {
-            steepAngle = false;
-        }
-
-        Rbody.velocity = (destination - transform.position).normalized * lungeSpeed;
-
-        yield return null;
-
-        var yVelocity = Rbody.velocity.y;
-        var xVelocity = Rbody.velocity.x;
-        var halfVelocity = Mathf.Abs(Rbody.velocity.y) / 2f;
-
-
-        //
-        //Wait until landing, or cancel if needed
-        //
-
-        bool landed = false;
-
-        for (float t = 0; t < 2; t += Time.deltaTime)
-        {
-            if (Mathf.Abs(Rbody.velocity.y) < halfVelocity)
-            {
-                landed = true;
-                break;
-            }
-
-            if (t > 0.5f && Vector3.Distance(transform.position, Player.Player1.transform.position) >= 30)
-            {
-                break;
-            }
-
-            yield return null;
-        }
-
-        if (!landed)
-        {
-            yield return JumpCancel(false);
-
-            if (mode == GroundMode.Glob)
-            {
-                bigBlobMove.SpawnedGlob.ForceDisappear();
-            }
-            yield break;
-        }
-        //yield return new WaitUntil(() => Mathf.Abs(Rbody.velocity.y) < halfVelocity);
-
-        Rbody.velocity = default;
-
-        if (mode == GroundMode.Glob)
-        {
-            if (Vector3.Distance(transform.position, bigBlobMove.SpawnedGlob.transform.position) <= 5)
-            {
-                bigBlobMove.SpawnedGlob.ForceDisappear();
-                stompSplash.Play();
-                stompPillar.Play();
-
-                var spawnCount = UnityEngine.Random.Range(groundSplashBlobCount.x, groundSplashBlobCount.y);
-
-                for (int i = 0; i < spawnCount; i++)
-                {
-                    float angle = groundSplashAngleRange.RandomInRange();
-                    float magnitude = groundSplashVelocityRange.RandomInRange();
-
-                    var velocity = MathUtilities.PolarToCartesian(angle, magnitude);
-
-                    VomitGlob.Spawn(GlobPrefab, transform.position + groundSplashSpawnOffset, velocity);
-                }
-            }
-        }
-        else if (mode == GroundMode.Explosion)
-        {
-            foreach (var bomb in bombMove.LastFiredBombs)
-            {
-                if (bomb != null)
-                {
-                    bomb.Explode();
-                }
-            }
-
-            if (megaExplosionSound != null)
-            {
-                WeaverAudio.PlayAtPoint(megaExplosionSound, transform.position);
-            }
-
-            InfectedExplosion.Spawn(transform.position, megaExplosionSize);
-        }
-
-        StartBoundRoutine(PlayLungeLandAnimation());
-
-        var headLandRoutine = Head.PlayLanding(steepAngle);
-        var bodyLandRoutine = Body.PlayLanding(steepAngle);
-        var wingPlateLandRoutine = WingPlates.PlayLanding(steepAngle);
-        var wingsLandRoutine = Wings.PlayLanding(steepAngle);
-        var clawsLandRoutine = Claws.PlayLanding(steepAngle);
-        var shiftPartsRoutine = ShiftBodyParts(steepAngle, Body, WingPlates, Wings);
-
-        List<uint> landingRoutines = new List<uint>();
-
-        bool landingCancelled = false;
-
-        var landingAwaiter = RoutineAwaiter.AwaitBoundRoutines(this, landingRoutines, headLandRoutine, bodyLandRoutine, wingPlateLandRoutine, wingsLandRoutine, clawsLandRoutine, shiftPartsRoutine);
-
-        bool slammed = false;
-
-        uint switchDirectionRoutine = 0;
-        AspidOrientation oldOrientation = Orientation;
-
-        Rbody.gravityScale = onGroundGravity;
-
-        void StartSlideSound()
-        {
-            if (lungeSlideSoundPlayer == null)
-            {
-                lungeSlideSoundPlayer = WeaverAudio.PlayAtPointLooped(lungeSlideSound, transform.position, lungeSlideSoundVolume);
-                lungeSlideSoundPlayer.transform.parent = transform;
-                foreach (var p in groundSkidParticles)
-                {
-                    p.Play();
-                }
-            }
-        }
-
-        void StopSlideSound()
-        {
-            if (lungeSlideSoundPlayer != null)
-            {
-                lungeSlideSoundPlayer.Delete();
-                lungeSlideSoundPlayer = null;
-                foreach (var p in groundSkidParticles)
-                {
-                    p.Stop();
-                }
-            }
-        }
-
-        lungeRockParticles.Play();
-
-        if (steepAngle)
-        {
-            if (lungeLandSoundLight != null)
-            {
-                WeaverAudio.PlayAtPoint(lungeLandSoundLight, transform.position, lungeLandSoundLightVolume);
-            }
-
-            CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.AverageShake);
-
-            StartSlideSound();
-
-            var slideSpeed = (destination - transform.position).magnitude * lungeSpeed;
-
-            //var horizontalSpeed = Mathf.Lerp(slideSpeed, Mathf.Abs(yVelocity), 0.65f);
-            var horizontalSpeed = Mathf.Lerp(Mathf.Abs(yVelocity), Mathf.Abs(xVelocity), 0.5f);
-
-            if (downwardAngle >= 0f)
-            {
-                Rbody.velocity = new Vector2(horizontalSpeed, 0f);
-            }
-            else
-            {
-                Rbody.velocity = new Vector2(-horizontalSpeed, 0f);
-            }
-
-            yield return null;
-
-            var lastVelocityX = Rbody.velocity.x;
-
-            do
-            {
-                //TODO - CALL SWITCH DIRECTION FUNCTIONS SOMEWHERE HERE
-                lastVelocityX = Rbody.velocity.x;
-                if (Rbody.velocity.x >= 0f)
-                {
-                    Rbody.velocity = Rbody.velocity.With(x: Rbody.velocity.x - (lungeSlideDeacceleration * Time.deltaTime));
-                }
-                else
-                {
-                    Rbody.velocity = Rbody.velocity.With(x: Rbody.velocity.x + (lungeSlideDeacceleration * Time.deltaTime));
-                }
-
-                if (switchDirectionRoutine == 0)
-                {
-                    if ((Orientation == AspidOrientation.Right && Player.Player1.transform.position.x < transform.position.x) ||
-                        (Orientation == AspidOrientation.Left && Player.Player1.transform.position.x > transform.position.x))
-                    {
-                        /*if (!landingAwaiter.Done)
-                        {
-                            landingCancelled = true;
-                            foreach (var id in landingRoutines)
-                            {
-                                StopBoundRoutine(id);
-                            }
-                        }*/
-
-                        IEnumerator SwitchDirections()
-                        {
-                            Head.ToggleLaserBubbles(true);
-                            yield return SwitchDirectionDuringSlide();
-                            //yield return Head.PlayGroundLaserAntic(0);
-                            if (Rbody.velocity.x != 0)
-                            {
-                                yield return new WaitUntil(() => Rbody.velocity.x == 0);
-                            }
-                            Head.ToggleLaserBubbles(false);
-                            yield break;
-                        }
-
-                        switchDirectionRoutine = StartBoundRoutine(SwitchDirections());
-                    }
-                }
-
-                if (Rbody.velocity.y < -0.5f)
-                {
-                    StopSlideSound();
-                }
-                else
-                {
-                    StartSlideSound();
-                }
-
-                if (Rbody.velocity.y < -0.5f && Vector3.Distance(transform.position, Player.Player1.transform.position) >= 30)
-                {
-                    yield return JumpCancel(false);
-                    yield break;
-                }
-
-                yield return null;
-            } while (Mathf.Abs(Rbody.velocity.x) > Mathf.Abs(lastVelocityX / 3f) && Mathf.Abs(Rbody.velocity.x) > 0.1f);
-
-            if (Mathf.Abs(Rbody.velocity.x - lastVelocityX) >= lungeSlideSlamThreshold)
-            {
-                //THE BOSS SLAMMED INTO SOMETHING
-                if (lungeLandSoundHeavy != null)
-                {
-                    WeaverAudio.PlayAtPoint(lungeLandSoundHeavy, transform.position);
-                }
-                CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.EnemyKillShake);
-                slammed = true;
-            }
-            else
-            {
-                //THE BOSS STOPPED GRACEFULLY
-            }
-
-            StopSlideSound();
-
-            if (!landingAwaiter.Done)
-            {
-                landingCancelled = true;
-                foreach (var id in landingRoutines)
-                {
-                    StopBoundRoutine(id);
-                }
-            }
-        }
-        else
-        {
-            if (lungeLandSoundHeavy != null)
-            {
-                WeaverAudio.PlayAtPoint(lungeLandSoundHeavy, transform.position);
-            }
-            CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.EnemyKillShake);
-        }
-
-        Rbody.velocity = Rbody.velocity.With(x: 0f);
-
-        yield return new WaitUntil(() => landingCancelled || landingAwaiter.Done);
-
-        var headFinishRoutine = Head.FinishLanding(slammed);
-        var bodyFinishRoutine = Body.FinishLanding(slammed);
-        var wingPlateFinishRoutine = WingPlates.FinishLanding(slammed);
-        var wingsFinishRoutine = Wings.FinishLanding(slammed);
-        var clawsFinishRoutine = Claws.FinishLanding(slammed);
-
-        var finishAwaiter = RoutineAwaiter.AwaitBoundRoutines(this, headFinishRoutine, bodyFinishRoutine, wingPlateFinishRoutine, wingsFinishRoutine, clawsFinishRoutine);
-
-        yield return finishAwaiter.WaitTillDone();
-
-        if (switchDirectionRoutine != 0 && Orientation == oldOrientation)
-        {
-            yield return new WaitUntil(() => Orientation != oldOrientation);
-        }
-
-        if (Rbody.velocity.y < -2)
-        {
-            yield return JumpCancel(false);
-            yield break;
-        }
-
-        //if (true || (steepAngle && CanSeeTarget))
-        if (CanSeeTarget && ((Orientation == AspidOrientation.Left && Player.Player1.transform.position.x <= transform.position.x) || (Orientation == AspidOrientation.Right && Player.Player1.transform.position.x >= transform.position.x)))
-        {
-            //yield return FireGroundLaserSweep();
-            yield return FireGroundLaserAtPlayer();
-            /*float startAngle, endAngle;
-
-            if (Orientation == AspidOrientation.Right)
-            {
-                startAngle = groundLaserMinMaxAngle.x;
-                endAngle = groundLaserMinMaxAngle.y;
-            }
-            else
-            {
-                startAngle = 180f - groundLaserMinMaxAngle.x;
-                endAngle = 180f - groundLaserMinMaxAngle.y;
-            }
-
-            var startQ = Quaternion.Euler(0f, 0f, startAngle);
-            var endQ = Quaternion.Euler(0f, 0f, endAngle);
-
-            yield return new WaitForSeconds(groundLaserMaxDelay);
-
-            yield return Head.FireGroundLaser(startQ,endQ, groundLaserFireDuration);*/
-        }
-
-        if (Rbody.velocity.y < -2)
-        {
-            yield return JumpCancel(false);
-            yield break;
-        }
-
-
-        //TODO - AIM TOWARDS THE PLAYER OR TOWARDS THE GROUND
-
-        //TODO - PLAY PREPARE ANIMATION. The Wings stop, the claws stop and the body lifts up
-
-        //TODO - Either Lunge Towards the player or down towards the ground. If the enemy lunges towards the player,
-        //the boss will continue to slide on the ground until he stops.
-
-        //Make sure the claws and wings stay stopped during this state
-
-        AspidMode = Mode.Defensive;
-
-        bool jumpsCancelled = false;
-
-        void onCancel()
-        {
-            jumpsCancelled = true;
-        }
-
-        //yield return new WaitForSeconds(0.1f);
-
-        if (CanSeeTarget)
-        {
-            yield return DoGroundJump(2, JumpTargeter, onCancel);
-        }
-
-        if (jumpsCancelled || !CanSeeTarget)
-        {
-            yield return JumpCancel(false);
-            yield break;
-        }
-
-        //SHOOT MORE BLOBS
-        WeaverLog.Log("Running Move = " + typeof(VomitShotMove).FullName);
-        if ((Orientation == AspidOrientation.Left && Player.Player1.transform.position.x <= transform.position.x) || (Orientation == AspidOrientation.Right && Player.Player1.transform.position.x >= transform.position.x))
-        {
-            yield return RunMove(GetComponent<VomitShotMove>());
-        }
-
-        if (CanSeeTarget)
-        {
-            yield return DoGroundJump(3, JumpTargeter, onCancel);
-        }
-
-        if (jumpsCancelled || !CanSeeTarget)
-        {
-            yield return JumpCancel(false);
-            yield break;
-        }
-
-        yield return new WaitForSeconds(0.05f);
-
-        yield break;
-    }
-
-    IEnumerator ExitGroundMode()
-    {
-        if (AspidMode != Mode.Defensive)
-        {
-            yield break;
-        }
-        //TODO - Play the prepare animation for lifting off of the ground
-
-        //TODO - Play the jump animation for jumping back up into the air
-
-        //TODO - Switch back to tactic mode and play the default claw and wing animations
-
-        //bool onGround = Claws.OnGround;
-
-        yield return JumpPrepare();
-        yield return JumpLaunch();
-
-        foreach (var sound in jumpSounds)
-        {
-            WeaverAudio.PlayAtPoint(sound, transform.position);
-        }
-
-        Claws.OnGround = false;
-        Wings.PlayDefaultAnimation = true;
-
-        foreach (var claw in Claws.claws)
-        {
-            claw.UnlockClaw();
-        }
-
-        CameraShaker.Instance.Shake(jumpLaunchShakeType);
-
-        var target = transform.position + new Vector3(0f, 20f, 0f);
-
-        if (target.y < transform.position.y + 2f && target.y > transform.position.y - 2)
-        {
-            target.y = transform.position.y;
-        }
-
-        var velocity = MathUtilities.CalculateVelocityToReachPoint(transform.position, target, jumpTime, jumpGravity / 2);
-
-        Rbody.gravityScale = jumpGravity;
-        Rbody.velocity = velocity;
-
-        yield return null;
-        yield return null;
-
-
-        yield return new WaitUntil(() => Rbody.velocity.y <= 0);
-
-        FlightEnabled = true;
-        Rbody.velocity = default;
-        Rbody.gravityScale = 0f;
-
-
-
-
-        //var headRoutine = Head.LockHead(Head.LookingDirection >= 0f ? 60f : -60f);
-        //var bodyRoutine = Body.RaiseTail();
-        //var minWaitTimeRoutine = Wait(0.5f);
-
-        //RoutineAwaiter awaiter = RoutineAwaiter.AwaitBoundRoutines(this, headRoutine, bodyRoutine, minWaitTimeRoutine);
-        if (Head.HeadLocked)
-        {
-            Head.UnlockHead();
-        }
-
-        Recoil.ResetRecoilSpeed();
-
-        Body.PlayDefaultAnimation = true;
-
-
-
-        foreach (var c in collidersEnableOnLunge)
-        {
-            if (c != null)
-            {
-                c.enabled = false;
-            }
-        }
-
-        foreach (var c in collidersDisableOnLunge)
-        {
-            if (c != null)
-            {
-                c.enabled = true;
-            }
-        }
-
-        ApplyFlightVariance = true;
-        SetTarget(playerTarget);
-        AspidMode = Mode.Tactical;
-
-        yield break;
-    }
-
-    Vector2 JumpTargeter(int time)
-    {
-        //return Player.Player1.transform.position;
-        if (time % 2 == 0)
-        {
-            var rb = Player.Player1.GetComponent<Rigidbody2D>();
-
-            if (rb != null)
-            {
-                return Player.Player1.transform.position + new Vector3(rb.velocity.x * jumpTime + 0.1f,0f);
-            }
-            else
-            {
-                return Player.Player1.transform.position;
-            }
-
-            //return Player.Player1.transform.position;
-        }
-        else
-        {
-            //var area = CurrentRoomRect
-            var minX = CurrentRoomRect.Rect.xMin + 6f;
-            var maxX = CurrentRoomRect.Rect.xMax - 6f;
-
-            var randValue = UnityEngine.Random.Range(minX, maxX);
-
-            randValue = Mathf.Clamp(randValue, transform.position.x - 10f, transform.position.x + 10f);
-
-            return new Vector2(randValue,transform.position.y);
-        }
-    }
-
-    IEnumerator FireGroundLaserSweep()
-    {
-        float startAngle, endAngle;
-
-        if (Orientation == AspidOrientation.Right)
-        {
-            startAngle = groundLaserMinMaxAngle.x;
-            endAngle = groundLaserMinMaxAngle.y;
-        }
-        else
-        {
-            startAngle = 180f - groundLaserMinMaxAngle.x;
-            endAngle = 180f - groundLaserMinMaxAngle.y;
-        }
-
-        return FireGroundLaser(startAngle, endAngle);
-    }
-
-    IEnumerator FireGroundLaserAtPlayer()
-    {
-        var playerAngle = GetAngleToPlayer();
-
-        const float angleLimit = 45f;
-
-        if (Orientation == AspidOrientation.Left)
-        {
-            if (playerAngle < 0f)
-            {
-                playerAngle += 360f;
-            }
-            playerAngle = Mathf.Clamp(playerAngle, 180 - angleLimit, 180 + angleLimit);
-            if (playerAngle > 180)
-            {
-                playerAngle = 180f;
-            }
-        }
-        else
-        {
-            if (playerAngle >= 180f)
-            {
-                playerAngle -= 360f;
-            }
-            playerAngle = Mathf.Clamp(playerAngle, -angleLimit, angleLimit);
-            if (playerAngle < 0f)
-            {
-                playerAngle = 0f;
-            }
-        }
-
-        WeaverLog.Log("PLAYER ANGLE = " + playerAngle);
-
-        return FireGroundLaser(playerAngle, playerAngle);
-    }
-
-    IEnumerator FireGroundLaser(float startAngle, float endAngle)
-    {
-        var startQ = Quaternion.Euler(0f, 0f, startAngle);
-        var endQ = Quaternion.Euler(0f, 0f, endAngle);
-
-        yield return new WaitForSeconds(groundLaserMaxDelay);
-
-        yield return Head.FireGroundLaser(startQ, endQ, groundLaserFireDuration,true);
-    }
-
-    IEnumerator SwitchDirectionDuringSlide()
-    {
-        var oldDirection = Orientation;
-        var newDirection = oldDirection == AspidOrientation.Left ? AspidOrientation.Right : AspidOrientation.Left;
-
-        var clawsRoutine = Claws.SlideSwitchDirection(oldDirection, newDirection);
-        var headRoutine = Head.SlideSwitchDirection(oldDirection, newDirection);
-        var bodyRoutine = Body.SlideSwitchDirection(oldDirection, newDirection);
-        var wingPlateRoutine = WingPlates.SlideSwitchDirection(oldDirection, newDirection);
-        var wingsRoutine = Wings.SlideSwitchDirection(oldDirection, newDirection);
-
-        RoutineAwaiter awaiter = RoutineAwaiter.AwaitBoundRoutines(this, clawsRoutine, headRoutine, bodyRoutine, wingPlateRoutine, wingsRoutine);
-
-        yield return awaiter.WaitTillDone();
-
-        Orientation = newDirection;
-    }
-
-    IEnumerator ShiftBodyParts(bool slide, params AspidBodyPart[] bodyParts)
-    {
-        /*if (!slide)
-        {
-            yield return new WaitForSeconds(lungeDownwardsLandDelay);
-        }*/
-
-        List<float> defaultXValues = bodyParts.Select(p => p.transform.localPosition.x).ToList();
-        List<AspidBodyPart> bodyPartsList = bodyParts.ToList();
-
-        bool firstTime = true;
-
-        for (int i = 0; i < lungeXShiftValues.Count; i++)
-        {
-            int index = 0;
-            foreach (var part in bodyPartsList)
-            {
-                float shiftAmount = lungeXShiftValues[i];
-                if (Head.LookingDirection >= 60)
-                {
-                    shiftAmount = -shiftAmount;
-                }
-                part.transform.SetXLocalPosition(defaultXValues[index] + shiftAmount);
-                index++;
-            }
-            if (firstTime)
-            {
-                firstTime = false;
-                if (!slide)
-                {
-                    i--;
-                    yield return new WaitForSeconds(lungeDownwardsLandDelay);
-                    continue;
-                }
-            }
-            yield return new WaitForSeconds(1f / 12f);
-
-            for (int j = bodyPartsList.Count - 1; j >= 0; j--)
-            {
-                float shiftAmount = lungeXShiftValues[i];
-                if (Head.LookingDirection >= 60)
-                {
-                    shiftAmount = -shiftAmount;
-                }
-                if (bodyPartsList[j].transform.localPosition.x != defaultXValues[j] + shiftAmount)
-                {
-                    //Debug.Log("REMOVED BODY PART = " + bodyPartsList[j].GetType().FullName);
-                    bodyPartsList.RemoveAt(j);
-                    defaultXValues.RemoveAt(j);
-                }
-            }
-        }
-    }
-
-    IEnumerator PlayLungeLandAnimation()
-    {
-        yield break;
-    }
-
-    IEnumerator DoGroundJump(int jumpTimes, Func<int, Vector2> getTarget, Action onCancel)
-    {
-        yield return JumpPrepare();
-
-        for (int i = 0; i < jumpTimes; i++)
-        {
-            yield return JumpLaunch();
-
-            foreach (var sound in jumpSounds)
-            {
-                WeaverAudio.PlayAtPoint(sound, transform.position);
-            }
-
-            CameraShaker.Instance.Shake(jumpLaunchShakeType);
-
-            if (jumpLaunchEffectPrefab != null)
-            {
-                //Pooling.Instantiate(jumpLaunchEffectPrefab, transform.position + jumpLaunchEffectPrefab.transform.localPosition, jumpLaunchEffectPrefab.transform.localRotation);
-            }
-
-            var target = getTarget(i);
-
-            if (target.y < transform.position.y + 2f && target.y > transform.position.y - 2)
-            {
-                target.y = transform.position.y;
-            }
-
-            var groundHits = Physics2D.RaycastNonAlloc(target, Vector2.down, rayCache, 10, LayerMask.NameToLayer("Terrain"));
-
-            if (groundHits == 0)
-            {
-                if (CurrentRoomRect.BottomHit.collider != null)
-                {
-                    var colliderBounds = CurrentRoomRect.BottomHit.collider.bounds;
-
-                    target.x = Mathf.Clamp(target.x, colliderBounds.min.x + 5,colliderBounds.max.x - 5);
-                }
-            }
-
-            var velocity = MathUtilities.CalculateVelocityToReachPoint(transform.position, target, jumpTime, jumpGravity);
-
-            Rbody.gravityScale = jumpGravity;
-            Rbody.velocity = velocity;
-
-            Claws.OnGround = false;
-
-            bool switchDirection = false;
-            if (Orientation == AspidOrientation.Right && Player.Player1.transform.position.x < target.x)
-            {
-                switchDirection = true;
-            }
-
-            if (Orientation == AspidOrientation.Left && Player.Player1.transform.position.x >= target.x)
-            {
-                switchDirection = true;
-            }
-
-            if (switchDirection)
-            {
-                yield return JumpSwitchDirectionPrepare();
-                yield return JumpSwitchDirection();
-                if (Orientation == AspidOrientation.Left)
-                {
-                    Orientation = AspidOrientation.Right;
-                }
-                else
-                {
-                    Orientation = AspidOrientation.Left;
-                }
-            }
-
-            yield return new WaitUntil(() => Rbody.velocity.y <= 0f);
-            var fallingAwaiter = JumpBeginFalling(switchDirection);
-            yield return new WaitUntil(() => Rbody.velocity.y <= -0.5f);
-            //yield return new WaitForSeconds(Time.fixedDeltaTime * 2f);
-            //yield return new WaitForSeconds(jumpTime / 5f);
-
-            bool cancel = true;
-
-            for (float t = 0; t < 1.5f; t += Time.deltaTime)
-            {
-                if (Rbody.velocity.y >= -0.5f)
-                {
-                    cancel = false;
-                    break;
-                }
-                yield return null;
-            }
-
-            if (cancel)
-            {
-                onCancel?.Invoke();
-                yield break;
-            }
-            //yield return new WaitUntil(() => Rbody.velocity.y >= 0f);
-
-            yield return fallingAwaiter.WaitTillDone();
-
-            Rbody.velocity = Rbody.velocity.With(x: 0f);
-
-            Claws.OnGround = true;
-
-            if (jumpLandSound != null)
-            {
-                WeaverAudio.PlayAtPoint(jumpLandSound, transform.position);
-            }
-
-            CameraShaker.Instance.Shake(jumpLandShakeType);
-            jumpLandParticles.Play();
-
-            yield return JumpLand(i == jumpTimes - 1);
-        }
-
-        Rbody.velocity = default;
-        Rbody.gravityScale = 0f;
-    }
-
-    RoutineAwaiter JumpBeginFalling(bool switchedDirection)
-    {
-        var clawsRoutine = Claws.GroundJumpBeginFalling(switchedDirection);
-        var headRoutine = Head.GroundJumpBeginFalling(switchedDirection);
-        var wingsRoutine = Wings.GroundJumpBeginFalling(switchedDirection);
-        var wingPlatesRoutine = WingPlates.GroundJumpBeginFalling(switchedDirection);
-        var bodyRoutine = Body.GroundJumpBeginFalling(switchedDirection);
-        RoutineAwaiter awaiter = RoutineAwaiter.AwaitBoundRoutines(this, clawsRoutine, headRoutine, wingsRoutine, wingPlatesRoutine, bodyRoutine);
-        return awaiter;
-    }
-
-    IEnumerator JumpSwitchDirection()
-    {
-        var oldOrientation = Orientation;
-        AspidOrientation newOrientation;
-        if (oldOrientation == AspidOrientation.Left)
-        {
-            newOrientation = AspidOrientation.Right;
-        }
-        else
-        {
-            newOrientation = AspidOrientation.Left;
-        }
-
-        var clawsRoutine = Claws.MidJumpChangeDirection(oldOrientation,newOrientation);
-        var headRoutine = Head.MidJumpChangeDirection(oldOrientation, newOrientation);
-        var wingsRoutine = Wings.MidJumpChangeDirection(oldOrientation, newOrientation);
-        var wingPlatesRoutine = WingPlates.MidJumpChangeDirection(oldOrientation, newOrientation);
-        var bodyRoutine = Body.MidJumpChangeDirection(oldOrientation, newOrientation);
-        RoutineAwaiter awaiter = RoutineAwaiter.AwaitBoundRoutines(this, clawsRoutine, headRoutine, wingsRoutine, wingPlatesRoutine, bodyRoutine);
-        yield return awaiter.WaitTillDone();
-    }
-
-    IEnumerator JumpCancel(bool onGround)
-    {
-        Claws.OnGround = false;
-        Wings.PlayDefaultAnimation = true;
-
-        FlightEnabled = true;
-        Rbody.velocity = default;
-        Rbody.gravityScale = 0f;
-
-        foreach (var claw in Claws.claws)
-        {
-            claw.UnlockClaw();
-        }
-
-        var clawsRoutine = Claws.GroundMoveCancel(onGround);
-        var headRoutine = Head.GroundMoveCancel(onGround);
-        var wingsRoutine = Wings.GroundMoveCancel(onGround);
-        var wingPlatesRoutine = WingPlates.GroundMoveCancel(onGround);
-        var bodyRoutine = Body.GroundMoveCancel(onGround);
-        RoutineAwaiter awaiter = RoutineAwaiter.AwaitBoundRoutines(this, clawsRoutine, headRoutine, wingsRoutine, wingPlatesRoutine, bodyRoutine);
-
-        yield return awaiter.WaitTillDone();
-
-        Head.UnlockHead();
-
-        Recoil.ResetRecoilSpeed();
-
-        Body.PlayDefaultAnimation = true;
-
-
-
-        foreach (var c in collidersEnableOnLunge)
-        {
-            if (c != null)
-            {
-                c.enabled = false;
-            }
-        }
-
-        foreach (var c in collidersDisableOnLunge)
-        {
-            if (c != null)
-            {
-                c.enabled = true;
-            }
-        }
-
-        ApplyFlightVariance = true;
-        SetTarget(playerTarget);
-
-        AspidMode = Mode.Tactical;
-    }
-
-    IEnumerator JumpSwitchDirectionPrepare()
-    {
-        var clawsRoutine = Claws.WaitTillChangeDirectionMidJump();
-        var headRoutine = Head.WaitTillChangeDirectionMidJump();
-        var wingsRoutine = Wings.WaitTillChangeDirectionMidJump();
-        var wingPlatesRoutine = WingPlates.WaitTillChangeDirectionMidJump();
-        var bodyRoutine = Body.WaitTillChangeDirectionMidJump();
-        RoutineAwaiter awaiter = RoutineAwaiter.AwaitBoundRoutines(this, clawsRoutine, headRoutine, wingsRoutine, wingPlatesRoutine, bodyRoutine);
-        yield return awaiter.WaitTillDone();
-    }
-
-    IEnumerator JumpPrepare()
-    {
-        var clawsRoutine = Claws.GroundPrepareJump();
-        var headRoutine = Head.GroundPrepareJump();
-        var wingsRoutine = Wings.GroundPrepareJump();
-        var wingPlatesRoutine = WingPlates.GroundPrepareJump();
-        var bodyRoutine = Body.GroundPrepareJump();
-        RoutineAwaiter awaiter = RoutineAwaiter.AwaitBoundRoutines(this, clawsRoutine, headRoutine, wingsRoutine, wingPlatesRoutine,bodyRoutine);
-
-        yield return awaiter.WaitTillDone();
-
-        yield break;
-    }
-
-    IEnumerator JumpLaunch()
-    {
-        var clawsRoutine = Claws.GroundLaunch();
-        var headRoutine = Head.GroundLaunch();
-        var wingsRoutine = Wings.GroundLaunch();
-        var wingPlatesRoutine = WingPlates.GroundLaunch();
-        var bodyRoutine = Body.GroundLaunch();
-        RoutineAwaiter awaiter = RoutineAwaiter.AwaitBoundRoutines(this, clawsRoutine, headRoutine, wingsRoutine, wingPlatesRoutine, bodyRoutine);
-
-        yield return awaiter.WaitTillDone();
-
-        yield break;
-    }
-
-    IEnumerator JumpLand(bool finalLanding)
-    {
-        var clawsRoutine = Claws.GroundLand(finalLanding);
-        var headRoutine = Head.GroundLand(finalLanding);
-        var wingsRoutine = Wings.GroundLand(finalLanding);
-        var wingPlatesRoutine = WingPlates.GroundLand(finalLanding);
-        var bodyRoutine = Body.GroundLand(finalLanding);
-        RoutineAwaiter awaiter = RoutineAwaiter.AwaitBoundRoutines(this, clawsRoutine, headRoutine, wingsRoutine, wingPlatesRoutine, bodyRoutine);
-
-        yield return awaiter.WaitTillDone();
-
-        yield break;
-    }
-
-
-
-    private AspidOrientation GetOrientationToPlayer()
+    public AspidOrientation GetOrientationToPlayer()
     {
         if (transform.position.x >= Player.Player1.transform.position.x)
         {
@@ -3302,28 +1561,13 @@ public class AncientAspid : Boss
         }
     }
 
-    /*IEnumerator CenterizeTest()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(1f);
-            yield return ChangeDirection(AspidOrientation.Center);
-            yield return new WaitForSeconds(1f);
-            yield return ChangeDirection(AspidOrientation.Left);
-            yield return new WaitForSeconds(1f);
-            yield return ChangeDirection(AspidOrientation.Center);
-            yield return new WaitForSeconds(1f);
-            yield return ChangeDirection(AspidOrientation.Right);
-        }
-    }*/
-
-    IEnumerator UpdateDirection()
+    public IEnumerator UpdateDirection()
     {
         Vector3 targetPosition;
 
         if (followingPath)
         {
-            targetPosition = cornerCache[cornerIndex] - aspidTerrainCollider.transform.localPosition;
+            targetPosition = paths[cornerIndex] - aspidTerrainCollider.transform.localPosition;
         }
         else
         {
@@ -3353,51 +1597,9 @@ public class AncientAspid : Boss
                 yield return null;
             }
         }
-        /*while (true)
-        {
-            if (transform.position.x >= Player.Player1.transform.position.x)
-            {
-                if (Orientation == AspidOrientation.Right)
-                {
-                    yield return ChangeDirection(AspidOrientation.Left);
-                }
-                else
-                {
-                    yield return null;
-                }
-            }
-            else
-            {
-                if (Orientation == AspidOrientation.Left)
-                {
-                    yield return ChangeDirection(AspidOrientation.Right);
-                }
-                else
-                {
-                    yield return null;
-                }
-            }
-            //yield return new WaitForSeconds(4f);
-            //yield return ChangeDirection();
-        }*/
     }
 
-    /*private IEnumerator ChangeMode(Mode mode)
-    {
-        if (mode == Mode.Offensive)
-        {
-            if (AspidMode == Mode.Tactical)
-            {
-
-            }
-            else if (AspidMode == Mode.Defensive)
-            {
-
-            }
-        }
-    }*/
-
-    private IEnumerator ChangeDirection(AspidOrientation newOrientation, float speedMultiplier = 1f)
+    public IEnumerator ChangeDirection(AspidOrientation newOrientation, float speedMultiplier = 1f)
     {
         if (Orientation == newOrientation)
         {
@@ -3479,7 +1681,7 @@ public class AncientAspid : Boss
         }
     }
 
-    void ShuffleMoves(List<AncientAspidMove> moves)
+    /*void ShuffleMoves(List<AncientAspidMove> moves)
     {
         var lastMove = moves[moves.Count - 1];
         moves.RandomizeList();
@@ -3496,13 +1698,15 @@ public class AncientAspid : Boss
         var bounds = new Bounds(boxPos, boxSize);
 
         return targetPos.x > bounds.min.x && targetPos.x < bounds.max.x && targetPos.y > bounds.min.y && targetPos.y < bounds.max.y;
-    }
+    }*/
 
-    Vector3 GetPathTarget(PathfindingMode mode)
+    Vector3 GetPathTarget()
     {
-        Vector3 target = GetPathTargetUnclamped(mode);
+        //Vector3 target = GetPathTargetUnclamped(mode);
 
-        if (EnableTargetXRange)
+
+
+        /*if (EnableTargetXRange)
         {
             target.x = Mathf.Clamp(target.y, TargetXRange.x, TargetXRange.y);
         }
@@ -3510,48 +1714,95 @@ public class AncientAspid : Boss
         if (EnableTargetHeightRange)
         {
             target.y = Mathf.Clamp(target.y, TargetHeightRange.x, TargetHeightRange.y);
-        }
-        return target;
+        }*/
+        //return target;
+
+        return FlightRange.ClampWithin(TargetPosition);
+        //return TargetPosition;
     }
 
-    Vector3 GetPathTargetUnclamped(PathfindingMode mode)
+    /*Vector3 GetPathTargetUnclamped(PathfindingMode mode)
     {
         Vector3 target;
-        if (Phase == BossPhase.Phase4)
+        switch (mode)
         {
-            target = Player.Player1.transform.position + new Vector3(0f, 0.5f);
-        }
-        else
-        {
-            switch (mode)
-            {
-                case PathfindingMode.FollowPlayer:
-                    target = Player.Player1.transform.position + new Vector3(0f, 0.5f);
-                    break;
-                case PathfindingMode.FollowTarget:
-                    target = TargetPosition;
-                    break;
-                default:
-                    target = transform.position;
-                    break;
-            }
+            case PathfindingMode.FollowPlayer:
+                target = Player.Player1.transform.position + new Vector3(0f, 0.5f);
+                break;
+            case PathfindingMode.FollowTarget:
+                target = TargetPosition;
+                break;
+            default:
+                target = transform.position;
+                break;
         }
 
         return target;
-    }
+    }*/
+
+    bool generatingPath = false;
+    bool pathUpdated = false;
+    //object pathLock = new object();
 
     void UpdatePath()
     {
-        if (navigator != null && pathfindingEnabled && PathingMode != PathfindingMode.None)
+        Debug.DrawRay(PathfindingTarget, Vector3.up, Color.green, 5f);
+        //Debug.Log("Updating Path = " + generatingPath);
+        if (PathFinder != null && PathfindingEnabled)
+        {
+            if (!generatingPath)
+            {
+                var pathStartPos = transform.position + aspidTerrainCollider.transform.localPosition + (Vector3)(Rbody.velocity * 0.25f);
+
+                //var lastPos = transform.position + aspidTerrainCollider.transform.localPosition;
+
+
+                if (pathfindingOverrides.Count > 0)
+                {
+                    pathfindingOverrides.SortBy(p => -p.GetTargetPriority());
+                    generatingPath = false;
+                    pathUpdated = true;
+                    pathsCache.Clear();
+                    pathsCache.Add(pathStartPos);
+                    pathsCache.Add(pathfindingOverrides[0].GetTarget());
+                }
+                else
+                {
+                    generatingPath = true;
+                    PathFinder.GeneratePathAsync(pathStartPos, PathfindingTarget, pathsCache, () =>
+                    {
+                        /*if (pathsCache == null)
+                        {
+                            Debug.Log("GEN PATH = null");
+                        }
+                        else
+                        {
+                            Debug.Log("GEN PATH = " + pathsCache.Count);
+                        }*/
+                        if (pathsCache != null && pathsCache.Count > 2)
+                        {
+                            pathUpdated = true;
+                        }
+                        else
+                        {
+                            followingPath = false;
+                            generatingPath = false;
+                        }
+                    });
+                }
+            }
+        }
+        /*Debug.DrawRay(TargetPosition, Vector3.up, Color.red, 5f);
+        if (navigator != null && PathfindingEnabled)
         {
             if (path == null)
             {
                 path = new NavMeshPath();
             }
 
-            var distanceToTarget = Vector3.Distance(GetPathTarget(PathingMode), transform.position);
+            var distanceToTarget = Vector3.Distance(GetPathTarget(), transform.position);
 
-            Debug.DrawRay(transform.position, (GetPathTarget(PathingMode) - transform.position).normalized * distanceToTarget,Color.red, 0.5f);
+            Debug.DrawRay(transform.position, (GetPathTarget() - transform.position).normalized * distanceToTarget,Color.red, 0.5f);
 
             Vector3? startPos = null;
 
@@ -3560,12 +1811,9 @@ public class AncientAspid : Boss
                 if (stillStuck)
                 {
                     WeaverLog.Log("STILL STUCK");
-                    if (!riseFromCenterPlatform)
-                    {
-                        Rbody.velocity = UnityEngine.Random.insideUnitCircle * 50f;
-                    }
+                    StartBoundRoutine(FullyUnstuckRoutine());
                 }
-                startPos = Vector3.Lerp(new Vector3(CurrentRoomRect.Rect.xMin, transform.position.y + aspidTerrainCollider.transform.localPosition.y), new Vector3(CurrentRoomRect.Rect.xMax, transform.position.y + aspidTerrainCollider.transform.localPosition.y), 0.5f);
+                startPos = Vector3.Lerp(new Vector3(CurrentRoomRect.xMin, transform.position.y + aspidTerrainCollider.transform.localPosition.y), new Vector3(CurrentRoomRect.xMax, transform.position.y + aspidTerrainCollider.transform.localPosition.y), 0.5f);
                 stillStuck = true;
                 WeaverLog.Log("STUCK");
             }
@@ -3575,38 +1823,8 @@ public class AncientAspid : Boss
                 lastKnownPosition = transform.position;
             }
 
-            if (Physics2D.RaycastNonAlloc(transform.position, (GetPathTarget(PathingMode) - transform.position).normalized, singleHitCache, distanceToTarget, LayerMask.GetMask("Terrain")) == 1)
+            if (Physics2D.RaycastNonAlloc(transform.position, (GetPathTarget() - transform.position).normalized, singleHitCache, distanceToTarget, LayerMask.GetMask("Terrain")) > 0 || distanceToTarget > 25f)
             {
-                //Debug.Log("")
-                /*if (followingPath && WithinBox(Player.Player1.transform.position,lastKnownPlayerPos,playerMoveBoxSize))
-                {
-                    return;
-                }*/
-
-                //Debug.Log("VELOCITY = " + (Rbody.velocity * 0.25f));
-                //Debug.Log("MAGNITUDE = " + (Rbody.velocity.magnitude * 0.25f));
-
-                //Debug.DrawLine(transform.position, new Vector3(transform.position.x, CurrentRoomRect.Rect.yMax), Color.magenta, 1f);
-                //Debug.DrawLine(transform.position, new Vector3(transform.position.x, CurrentRoomRect.Rect.yMin), Color.magenta, 1f);
-                //Debug.DrawLine(transform.position, new Vector3(CurrentRoomRect.Rect.xMin, transform.position.y), Color.magenta, 1f);
-                //Debug.DrawLine(transform.position, new Vector3(CurrentRoomRect.Rect.xMax, transform.position.y), Color.magenta, 1f);
-
-                //Debug.DrawRay(transform.position, Rbody.velocity * 0.25f, Color.red, 1f);
-
-                /*if (startPos == null)
-                {
-                    var castAheadCount = Physics2D.RaycastNonAlloc(transform.position, Rbody.velocity.normalized, singleHitCache, Rbody.velocity.magnitude * 0.25f, LayerMask.GetMask("Terrain"));
-
-                    if (castAheadCount > 0)
-                    {
-                        startPos = singleHitCache[0].point;
-                        Debug.DrawLine(transform.position, startPos.Value, Color.grey, 1f);
-                    }
-                    else
-                    {
-                        startPos = transform.position + (Vector3)(Rbody.velocity * 0.25f);
-                    }
-                }*/
 
                 if (startPos == null)
                 {
@@ -3616,33 +1834,10 @@ public class AncientAspid : Boss
                 //Vector3 startPos = startPos.value;
                 Vector3 pathStartPos = startPos.Value;
 
-                if (pathStartPos.x < CurrentRoomRect.Rect.xMin + 4.21f)
-                {
-                    pathStartPos.x = CurrentRoomRect.Rect.xMin + 4.21f;
-                }
 
-                if (pathStartPos.x > CurrentRoomRect.Rect.xMax - 4.21f)
-                {
-                    pathStartPos.x = CurrentRoomRect.Rect.xMax - 4.21f;
-                }
+                Debug.DrawRay(pathStartPos, Vector3.up * 3f, Color.magenta,1f);
 
-                if (pathStartPos.y < CurrentRoomRect.Rect.yMin + 4.21f)
-                {
-                    pathStartPos.y = CurrentRoomRect.Rect.yMin + 4.21f;
-                }
-
-                if (pathStartPos.y > CurrentRoomRect.Rect.yMax - 4.21f)
-                {
-                    pathStartPos.y = CurrentRoomRect.Rect.yMax - 4.21f;
-                }
-
-
-                Debug.DrawLine(pathStartPos, new Vector3(pathStartPos.x, CurrentRoomRect.Rect.yMax), Color.green, 1f);
-                Debug.DrawLine(pathStartPos, new Vector3(pathStartPos.x, CurrentRoomRect.Rect.yMin), Color.green, 1f);
-                Debug.DrawLine(pathStartPos, new Vector3(CurrentRoomRect.Rect.xMin, pathStartPos.y), Color.green, 1f);
-                Debug.DrawLine(pathStartPos, new Vector3(CurrentRoomRect.Rect.xMax, pathStartPos.y), Color.green, 1f);
-
-                Debug.DrawLine(GetPathTarget(PathingMode), PathfindingTarget, Color.yellow, 1f);
+                Debug.DrawLine(GetPathTarget(), PathfindingTarget, Color.gray, 1f);
 
                 NavMesh.CalculatePath(pathStartPos, PathfindingTarget, NavMesh.AllAreas, path);
 
@@ -3655,14 +1850,16 @@ public class AncientAspid : Boss
 
                         Debug.DrawLine(transform.position, hit.position, Color.Lerp(Color.red, Color.white, 0.5f), 1f);
                     }
-                    //var midRoom = new Vector3(transform.position.x, Mathf.Lerp(CurrentRoomRect.Rect.yMax, CurrentRoomRect.Rect.yMin,0.5f));
+                    //var midRoom = new Vector3(transform.position.x, Mathf.Lerp(CurrentRoomRect.yMax, CurrentRoomRect.yMin,0.5f));
 
-                    //Debug.DrawLine(midRoom, new Vector3(midRoom.x, CurrentRoomRect.Rect.yMax), Color.black, 1f);
-                    //Debug.DrawLine(midRoom, new Vector3(midRoom.x, CurrentRoomRect.Rect.yMin), Color.black, 1f);
-                    //Debug.DrawLine(midRoom, new Vector3(CurrentRoomRect.Rect.xMin, midRoom.y), Color.black, 1f);
-                    //Debug.DrawLine(midRoom, new Vector3(CurrentRoomRect.Rect.xMax, midRoom.y), Color.black, 1f);
+                    //Debug.DrawLine(midRoom, new Vector3(midRoom.x, CurrentRoomRect.yMax), Color.black, 1f);
+                    //Debug.DrawLine(midRoom, new Vector3(midRoom.x, CurrentRoomRect.yMin), Color.black, 1f);
+                    //Debug.DrawLine(midRoom, new Vector3(CurrentRoomRect.xMin, midRoom.y), Color.black, 1f);
+                    //Debug.DrawLine(midRoom, new Vector3(CurrentRoomRect.xMax, midRoom.y), Color.black, 1f);
 
                 }
+
+                Debug.Log("PATH STATUS = " + path.status);
 
                 if (path.status != NavMeshPathStatus.PathInvalid)
                 {
@@ -3671,34 +1868,27 @@ public class AncientAspid : Boss
                     lastPathPos = transform.position + aspidTerrainCollider.transform.localPosition;
                     lastKnownPosition = transform.position + aspidTerrainCollider.transform.localPosition;
                     followingPath = true;
-                    //Debug.Log("FOUND PATH");
+                    Debug.Log("FOUND PATH");
                     cornerIndex = 1;
                     return;
-                    /*if (cornerCount > 2)
-                    {
-
-                    }
-                    else
-                    {
-                        Debug.Log("NOT FOUND PATH B");
-                    }*/
                 }
                 else
                 {
-                    //Debug.Log("NOT FOUND PATH A");
+                    Debug.Log("NOT FOUND PATH A");
                     followingPath = false;
                 }
             }
             else
             {
-                //Debug.Log("NOT FOUND PATH B");
+                Debug.Log("NOT FOUND PATH B");
                 followingPath = false;
             }
         }
         else
         {
+            Debug.Log("NOT FOUND PATH C");
             followingPath = false;
-        }
+        }*/
     }
 
     IEnumerator PathFindingRoutine()
@@ -3711,390 +1901,82 @@ public class AncientAspid : Boss
         }
     }
 
-    public IEnumerator TriggerTrailerLandingRoutine()
-    {
-        Body.PlayDefaultAnimation = false;
-
-        IEnumerator Wait(float seconds)
-        {
-            yield return new WaitForSeconds(seconds);
-        }
-
-        ApplyFlightVariance = false;
-
-        //Move into position
-        /*if (Head.LookingDirection >= 0f)
-        {
-            SetTarget(Player.Player1.transform.position + lungeTargetOffset);
-        }
-        else
-        {
-            SetTarget(Player.Player1.transform.position + new Vector3(-lungeTargetOffset.x, lungeTargetOffset.y, lungeTargetOffset.z));
-        }*/
-
-        var headRoutine = Head.LockHead(Head.LookingDirection >= 0f ? 60f : -60f);
-        var bodyRoutine = Body.RaiseTail();
-        var minWaitTimeRoutine = Wait(0.5f);
-
-        RoutineAwaiter awaiter = RoutineAwaiter.AwaitBoundRoutines(this, headRoutine, bodyRoutine, minWaitTimeRoutine);
-
-        yield return awaiter.WaitTillDone();
-
-        FlightEnabled = false;
-        Recoil.SetRecoilSpeed(0f);
-
-        var bigBlobMove = GetComponent<EnterGround_BigVomitShotMove>();
-
-        /*if (globMode)
-        {
-            yield return ShootGiantBlob(bigBlobMove);
-        }*/
-
-        yield return new WaitUntil(() => !Claws.DoingBasicAttack);
-
-        foreach (var claw in Claws.claws)
-        {
-            yield return claw.LockClaw();
-        }
-
-        //yield return Body.RaiseTail();
-
-        /*if (lungeAnticSound != null)
-        {
-            WeaverAudio.PlayAtPoint(lungeAnticSound, transform.position);
-        }*/
-
-        Wings.PrepareForLunge();
-        Claws.PrepareForLunge();
-
-        //yield return new WaitForSeconds(lungeAnticTime);
-
-        Wings.DoLunge();
-        Claws.DoLunge();
-        WingPlates.DoLunge();
-        Head.DoLunge();
-
-        if (lungeSound != null)
-        {
-            WeaverAudio.PlayAtPoint(lungeSound, transform.position);
-        }
-
-        //CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.SmallShake);
-
-        /*foreach (var c in collidersEnableOnLunge)
-        {
-            c.enabled = true;
-        }
-
-        foreach (var c in collidersDisableOnLunge)
-        {
-            c.enabled = false;
-        }*/
-
-        Vector3 destination = transform.position.With(y: transform.position.y - 100f);
-
-        /*if (!globMode)
-        {
-            bool towardsPlayer = UnityEngine.Random.Range(0f, 1f) >= 0.5f;
-
-            if (UnityEngine.Random.Range(0, 2) == 1 || true)
-            {
-                destination = Player.Player1.transform.position;
-            }
-            else
-            {
-                destination = transform.position.With(y: CurrentRoomRect.Rect.yMin);
-            }
-        }
-        else
-        {
-            destination = bigBlobMove.SpawnedGlob.transform.position + new Vector3(0, 2, 0);
-        }*/
-
-        var angleToDestination = VectorUtilities.VectorToDegrees((destination - transform.position).normalized);
-
-        var downwardAngle = Vector3.Dot(Vector3.right, (destination - transform.position).normalized) * 90f;
-
-        lungeDashEffect.SetActive(true);
-        lungeDashRotationOrigin.SetZLocalRotation(angleToDestination);
-
-
-        bool steepAngle = true;
-
-        /*if (globMode)
-        {
-            steepAngle = false;
-        }*/
-
-        Rbody.velocity = (destination - transform.position).normalized * lungeSpeed;
-
-        yield return null;
-
-        var yVelocity = Rbody.velocity.y;
-        var xVelocity = Rbody.velocity.x;
-        var halfVelocity = Mathf.Abs(Rbody.velocity.y) / 2f;
-
-
-        //
-        //Wait until landing, or cancel if needed
-        //
-
-        //bool landed = false;
-
-        yield return new WaitUntil(() => transform.position.y <= trailerModeDestY);
-
-        /*for (float t = 0; t < 2; t += Time.deltaTime)
-        {
-            if (Mathf.Abs(Rbody.velocity.y) < halfVelocity)
-            {
-                landed = true;
-                break;
-            }
-
-            if (t > 0.5f && Vector3.Distance(transform.position, Player.Player1.transform.position) >= 30)
-            {
-                break;
-            }
-
-            yield return null;
-        }*/
-
-        transform.SetPositionY(trailerModeDestY);
-
-        /*if (!landed)
-        {
-            yield return JumpCancel(false);
-
-            if (globMode)
-            {
-                bigBlobMove.SpawnedGlob.ForceDisappear();
-            }
-            yield break;
-        }*/
-        //yield return new WaitUntil(() => Mathf.Abs(Rbody.velocity.y) < halfVelocity);
-
-        Rbody.velocity = default;
-
-        /*if (globMode)
-        {
-            if (Vector3.Distance(transform.position, bigBlobMove.SpawnedGlob.transform.position) <= 5)
-            {
-                bigBlobMove.SpawnedGlob.ForceDisappear();
-                stompSplash.Play();
-                stompPillar.Play();
-
-                var spawnCount = UnityEngine.Random.Range(groundSplashBlobCount.x, groundSplashBlobCount.y);
-
-                for (int i = 0; i < spawnCount; i++)
-                {
-                    float angle = groundSplashAngleRange.RandomInRange();
-                    float magnitude = groundSplashVelocityRange.RandomInRange();
-
-                    var velocity = MathUtilities.PolarToCartesian(angle, magnitude);
-
-                    VomitGlob.Spawn(transform.position + groundSplashSpawnOffset, velocity);
-                }
-            }
-        }*/
-
-        StartBoundRoutine(PlayLungeLandAnimation());
-
-        var headLandRoutine = Head.PlayLanding(steepAngle);
-        var bodyLandRoutine = Body.PlayLanding(steepAngle);
-        var wingPlateLandRoutine = WingPlates.PlayLanding(steepAngle);
-        var wingsLandRoutine = Wings.PlayLanding(steepAngle);
-        var clawsLandRoutine = Claws.PlayLanding(steepAngle);
-        var shiftPartsRoutine = ShiftBodyParts(steepAngle, Body, WingPlates, Wings);
-
-        List<uint> landingRoutines = new List<uint>();
-
-        //bool landingCancelled = false;
-
-        var landingAwaiter = RoutineAwaiter.AwaitBoundRoutines(this, landingRoutines, headLandRoutine, bodyLandRoutine, wingPlateLandRoutine, wingsLandRoutine, clawsLandRoutine, shiftPartsRoutine);
-
-        bool slammed = false;
-
-        uint switchDirectionRoutine = 0;
-        AspidOrientation oldOrientation = Orientation;
-
-        //Rbody.gravityScale = onGroundGravity;
-
-        /*void StartSlideSound()
-        {
-            if (lungeSlideSoundPlayer == null)
-            {
-                lungeSlideSoundPlayer = WeaverAudio.PlayAtPointLooped(lungeSlideSound, transform.position, lungeSlideSoundVolume);
-                lungeSlideSoundPlayer.transform.parent = transform;
-                foreach (var p in groundSkidParticles)
-                {
-                    p.Play();
-                }
-            }
-        }
-
-        void StopSlideSound()
-        {
-            if (lungeSlideSoundPlayer != null)
-            {
-                lungeSlideSoundPlayer.Delete();
-                lungeSlideSoundPlayer = null;
-                foreach (var p in groundSkidParticles)
-                {
-                    p.Stop();
-                }
-            }
-        }*/
-
-        lungeRockParticles.Play();
-
-        /*if (steepAngle)
-        {
-            if (lungeLandSoundLight != null)
-            {
-                WeaverAudio.PlayAtPoint(lungeLandSoundLight, transform.position, lungeLandSoundLightVolume);
-            }
-
-            CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.AverageShake);
-
-            StartSlideSound();
-
-            var slideSpeed = (destination - transform.position).magnitude * lungeSpeed;
-
-            //var horizontalSpeed = Mathf.Lerp(slideSpeed, Mathf.Abs(yVelocity), 0.65f);
-            var horizontalSpeed = Mathf.Lerp(Mathf.Abs(yVelocity), Mathf.Abs(xVelocity), 0.5f);
-
-            if (downwardAngle >= 0f)
-            {
-                Rbody.velocity = new Vector2(horizontalSpeed, 0f);
-            }
-            else
-            {
-                Rbody.velocity = new Vector2(-horizontalSpeed, 0f);
-            }
-
-            yield return null;
-
-            var lastVelocityX = Rbody.velocity.x;
-
-            do
-            {
-                //TODO - CALL SWITCH DIRECTION FUNCTIONS SOMEWHERE HERE
-                lastVelocityX = Rbody.velocity.x;
-                if (Rbody.velocity.x >= 0f)
-                {
-                    Rbody.velocity = Rbody.velocity.With(x: Rbody.velocity.x - (lungeSlideDeacceleration * Time.deltaTime));
-                }
-                else
-                {
-                    Rbody.velocity = Rbody.velocity.With(x: Rbody.velocity.x + (lungeSlideDeacceleration * Time.deltaTime));
-                }
-
-                if (switchDirectionRoutine == 0)
-                {
-                    if ((Orientation == AspidOrientation.Right && Player.Player1.transform.position.x < transform.position.x) ||
-                        (Orientation == AspidOrientation.Left && Player.Player1.transform.position.x > transform.position.x))
-                    {
-
-                        IEnumerator SwitchDirections()
-                        {
-                            Head.ToggleLaserBubbles(true);
-                            yield return SwitchDirectionDuringSlide();
-                            //yield return Head.PlayGroundLaserAntic(0);
-                            if (Rbody.velocity.x != 0)
-                            {
-                                yield return new WaitUntil(() => Rbody.velocity.x == 0);
-                            }
-                            Head.ToggleLaserBubbles(false);
-                            yield break;
-                        }
-
-                        switchDirectionRoutine = StartBoundRoutine(SwitchDirections());
-                    }
-                }
-
-                if (Rbody.velocity.y < -0.5f)
-                {
-                    StopSlideSound();
-                }
-                else
-                {
-                    StartSlideSound();
-                }
-
-                if (Rbody.velocity.y < -0.5f && Vector3.Distance(transform.position, Player.Player1.transform.position) >= 30)
-                {
-                    yield return JumpCancel(false);
-                    yield break;
-                }
-
-                yield return null;
-            } while (Mathf.Abs(Rbody.velocity.x) > Mathf.Abs(lastVelocityX / 3f) && Mathf.Abs(Rbody.velocity.x) > 0.1f);
-
-            if (Mathf.Abs(Rbody.velocity.x - lastVelocityX) >= lungeSlideSlamThreshold)
-            {
-                //THE BOSS SLAMMED INTO SOMETHING
-                if (lungeLandSoundHeavy != null)
-                {
-                    WeaverAudio.PlayAtPoint(lungeLandSoundHeavy, transform.position);
-                }
-                CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.EnemyKillShake);
-                slammed = true;
-            }
-            else
-            {
-                //THE BOSS STOPPED GRACEFULLY
-            }
-
-            StopSlideSound();
-
-            if (!landingAwaiter.Done)
-            {
-                landingCancelled = true;
-                foreach (var id in landingRoutines)
-                {
-                    StopBoundRoutine(id);
-                }
-            }
-        }
-        else*/
-        {
-            if (lungeLandSoundHeavy != null)
-            {
-                WeaverAudio.PlayAtPoint(lungeLandSoundHeavy, transform.position);
-            }
-            CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.EnemyKillShake);
-        }
-
-        Rbody.velocity = Rbody.velocity.With(x: 0f);
-
-        //yield return new WaitUntil(() => landingCancelled || landingAwaiter.Done);
-
-        var headFinishRoutine = Head.FinishLanding(slammed);
-        var bodyFinishRoutine = Body.FinishLanding(slammed);
-        var wingPlateFinishRoutine = WingPlates.FinishLanding(slammed);
-        var wingsFinishRoutine = Wings.FinishLanding(slammed);
-        var clawsFinishRoutine = Claws.FinishLanding(slammed);
-
-        var finishAwaiter = RoutineAwaiter.AwaitBoundRoutines(this, headFinishRoutine, bodyFinishRoutine, wingPlateFinishRoutine, wingsFinishRoutine, clawsFinishRoutine);
-
-        yield return finishAwaiter.WaitTillDone();
-
-        if (switchDirectionRoutine != 0 && Orientation == oldOrientation)
-        {
-            yield return new WaitUntil(() => Orientation != oldOrientation);
-        }
-
-        /*if (Rbody.velocity.y < -2)
-        {
-            yield return JumpCancel(false);
-            yield break;
-        }*/
-
-        yield break;
-    }
 
     private void Update()
     {
+        if (pathUpdated)
+        {
+            pathUpdated = false;
+            cornerIndex = 1;
+            followingPath = true;
+
+            var temp = paths;
+            paths = pathsCache;
+            pathsCache = temp;
+
+            pathCount = paths.Count;
+
+            lastPathPos = transform.position + aspidTerrainCollider.transform.localPosition;
+            lastKnownPosition = transform.position + aspidTerrainCollider.transform.localPosition;
+            followingPath = true;
+            //Debug.Log("FOUND PATH = " + paths.Count);
+            generatingPath = false;
+        }
+
+        /*if (PathFinder != null)
+        {
+            var lastPath = PathFinder.GeneratePath(transform.position, Player.Player1.transform.position);
+
+            if (lastPath != null)
+            {
+                Debug.Log("Path = " + lastPath.Count);
+                for (int i = 0; i < lastPath.Count - 1; i++)
+                {
+                    Debug.DrawLine(lastPath[i], lastPath[i + 1], Color.white);
+                }
+            }
+            else
+            {
+                Debug.Log("Path = null");
+            }
+        }*/
+
+        /*if (PathFinder != null)
+        {
+            if (!generating)
+            {
+                generating = true;
+                PathFinder.GeneratePathAsync(transform.position, Player.Player1.transform.position, path =>
+                {
+                    lastPath = path;
+                    generating = false;
+                });
+            }
+
+            //Debug.Log("GENERATING = " + generating);
+
+            //var path = PathFinder.GeneratePath(transform.position, Player.Player1.transform.position);
+
+            if (lastPath != null)
+            {
+                //Debug.Log("Path = " + lastPath.Count);
+                for (int i = 0; i < lastPath.Count - 1; i++)
+                {
+                    Debug.DrawLine(lastPath[i], lastPath[i + 1], Color.white);
+                }
+            }
+            else
+            {
+                //Debug.Log("Path = null");
+            }
+        }
+        */
+        if (CurrentPhase != null)
+        {
+            Debug.DrawRay(primaryTarget.TargetPosition, Vector3.up * 2f, Color.red);
+            Debug.DrawRay(TargetPosition, Vector3.up * 2f, Color.blue);
+        }
+
         if (TrailerMode || !FullyAwake)
         {
             return;
@@ -4108,15 +1990,15 @@ public class AncientAspid : Boss
             if (followingPath)
             {
                 Vector3 lastPos = transform.position;
-                for (int i = 0; i < cornerCount; i++)
+                for (int i = 0; i < pathCount; i++)
                 {
-                    Debug.DrawLine(lastPos, cornerCache[i] - aspidTerrainCollider.transform.localPosition, Color.blue);
-                    lastPos = cornerCache[i] - aspidTerrainCollider.transform.localPosition;
+                    Debug.DrawLine(lastPos, paths[i] - aspidTerrainCollider.transform.localPosition, Color.blue);
+                    lastPos = paths[i] - aspidTerrainCollider.transform.localPosition;
                 }
 
-                Debug.DrawLine(lastPos, TargetPosition, Color.blue);
+                //Debug.DrawLine(lastPos, TargetPosition, Color.blue);
 
-                var currentCorner = cornerCache[cornerIndex] - aspidTerrainCollider.transform.localPosition;
+                var currentCorner = paths[cornerIndex] - aspidTerrainCollider.transform.localPosition;
 
 
                 var directionToCorner = (currentCorner - lastPathPos).normalized;
@@ -4131,7 +2013,7 @@ public class AncientAspid : Boss
                 if (distanceToCorner >= (currentCorner - lastPathPos).magnitude - 0.25f)
                 {
                     cornerIndex++;
-                    if (cornerIndex >= cornerCount)
+                    if (cornerIndex >= pathCount)
                     {
                         followingPath = false;
                         cornerIndex = 0;
@@ -4146,7 +2028,7 @@ public class AncientAspid : Boss
             }
             else
             {
-                pathPosition = TargetPosition;
+                pathPosition = GetPathTarget();
             }
             /*if (NavMesh.CalculatePath(transform.position, TargetPosition, NavMesh.AllAreas, path))
             {
@@ -4170,16 +2052,16 @@ public class AncientAspid : Boss
 
             if (followingPath)
             {
-                var currentCorner = cornerCache[cornerIndex] - aspidTerrainCollider.transform.localPosition;
+                var currentCorner = paths[cornerIndex] - aspidTerrainCollider.transform.localPosition;
                 float distanceToNextPoint = Vector2.Distance(transform.position, currentCorner);
                 distanceToTarget = Vector2.Distance(TargetPosition, transform.position);
 
 
                 float interpolationFactor = 1f;
 
-                if (cornerIndex + 1 < cornerCount)
+                if (cornerIndex + 1 < pathCount)
                 {
-                    var nextCorner = cornerCache[cornerIndex + 1] - aspidTerrainCollider.transform.localPosition;
+                    var nextCorner = paths[cornerIndex + 1] - aspidTerrainCollider.transform.localPosition;
                     var currentCornerVector = (currentCorner - transform.position).normalized;
                     var nextCornerVector = (nextCorner - currentCorner).normalized;
 
@@ -4279,7 +2161,7 @@ public class AncientAspid : Boss
 
         if (followingPath)
         {
-            pathPosition = cornerCache[cornerIndex] - aspidTerrainCollider.transform.localPosition;
+            pathPosition = paths[cornerIndex] - aspidTerrainCollider.transform.localPosition;
         }
         else
         {
@@ -4307,6 +2189,12 @@ public class AncientAspid : Boss
             settings.SetFieldValue(bossDefeatedField, true);
         }
 
+        if (CurrentRunningMode != null)
+        {
+            CurrentRunningMode.OnDeath();
+            CurrentRunningMode = null;
+        }
+
         Debug.Log("ON DEATH START");
         base.OnStun();
         Body.OnStun();
@@ -4321,32 +2209,22 @@ public class AncientAspid : Boss
         if (homeInOnTarget)
         {
             minFlightSpeed *= 3f;
-            SetTarget(playerTarget);
+            SetTarget(PlayerTarget);
             minimumFlightSpeed *= 4f;
             homeInOnTarget = false;
-            orbitReductionAmount = origOrbitReductionAmount;
+            OrbitReductionAmount = origOrbitReductionAmount;
             flightSpeed *= 2f;
         }
 
-        DisableCenterLock(centerCamLock);
         Claws.DisableSwingAttackImmediate();
         Body.PlayDefaultAnimation = false;
         Claws.OnGround = false;
-        Recoil.ResetRecoilSpeed();
+        //Recoil.ResetRecoilSpeed();
+        Recoil.ClearRecoilOverrides();
         Head.ToggleLaserBubbles(false);
 
         ApplyFlightVariance = false;
-        var groundGlob = GetComponent<EnterGround_BigVomitShotMove>().SpawnedGlob;
-        if (groundGlob != null)
-        {
-            groundGlob.ForceDisappear();
-        }
-        SetTarget(playerTarget);
-        if (lungeSlideSoundPlayer != null)
-        {
-            lungeSlideSoundPlayer.Delete();
-            lungeSlideSoundPlayer = null;
-        }
+        SetTarget(PlayerTarget);
         Rbody.gravityScale = 0f;
         Rbody.velocity = default;
 
@@ -4362,7 +2240,10 @@ public class AncientAspid : Boss
 
         FlightEnabled = false;
 
-        Head.UnlockHeadImmediate(Player.Player1.transform.position.x >= transform.position.x ? AspidOrientation.Right : AspidOrientation.Left);
+        if (Head.HeadLocked)
+        {
+            Head.UnlockHeadImmediate(Player.Player1.transform.position.x >= transform.position.x ? AspidOrientation.Right : AspidOrientation.Left);
+        }
 
         foreach (var laser in GetComponentsInChildren<LaserEmitter>())
         {
@@ -4383,9 +2264,8 @@ public class AncientAspid : Boss
         //TODO - FIGURE OUT WHY THE DEATH CAM LOCK ISN"T WORKING"
         if (!godhomeMode)
         {
-            EnableCenterLock(transform.position, deathCamLock);
+            EnableCamLock(transform.position, deathCamLock);
         }
-        centerCamLock.GetComponent<Collider2D>().enabled = true;
 
         var targetOrientation = Player.Player1.transform.position.x >= transform.position.x ? AspidOrientation.Right : AspidOrientation.Left;
 
@@ -4533,7 +2413,7 @@ public class AncientAspid : Boss
 
         if (!godhomeMode)
         {
-            DisableCenterLock(deathCamLock);
+            DisableCamLock(deathCamLock);
         }
 
         gameObject.SetActive(false);
@@ -4561,6 +2441,9 @@ public class AncientAspid : Boss
         {
             Gizmos.DrawCube(GizmoPlayer.transform.position, new Vector3(camBoxWidth, camBoxHeight, 0.1f));
         }
+
+        Gizmos.color = new Color(1f,0f,1f,0.3f);
+        Gizmos.DrawCube(FlightRange.center, (Vector3)FlightRange.size + new Vector3(0f,0f,0.1f));
     }
 
     public bool PointVisibleToPlayer(Vector2 point)
@@ -4586,19 +2469,13 @@ public class AncientAspid : Boss
         }*/
     }
 
-    private void SetTarget(Vector3 fixedTarget)
+
+    /*private void SetTarget(Vector3 fixedTarget)
     {
         if (primaryTarget.SetTarget(fixedTarget))
         {
             UpdatePath();
         }
-        /*if (targetingTransform == true || fixedTarget != fixedTargetPos)
-        {
-            targetingTransform = false;
-            TargetTransform = null;
-            fixedTargetPos = fixedTarget;
-            UpdatePath();
-        }*/
     }
 
     private void SetTarget(Func<Vector3> targetFunc)
@@ -4607,7 +2484,7 @@ public class AncientAspid : Boss
         {
             UpdatePath();
         }
-    }
+    }*/
 
     public TargetOverride AddTargetOverride(int priority = 0)
     {
@@ -4616,18 +2493,37 @@ public class AncientAspid : Boss
         targetOverrides.Sort(TargetOverride.Sorter.Instance);
 
         targetOverrides.Add(target);
+        //Debug.Log("ADDING TARGET OVERRIDE = " + target.guid);
 
         return target;
     }
 
     public bool RemoveTargetOverride(TargetOverride target)
     {
+        //Debug.Log("REMOVING TARGET OVERRIDE = " + target.guid);
         if (targetOverrides.Remove(target))
         {
             targetOverrides.Sort(TargetOverride.Sorter.Instance);
             return true;
         }
         return false;
+    }
+
+    public void AddPathfindingOverride(IPathfindingOverride pathOverride)
+    {
+        Debug.Log("Pathfinding override added = " + pathOverride.name);
+        pathfindingOverrides.Add(pathOverride);
+    }
+
+    public bool RemovePathfindingOverride(IPathfindingOverride pathOverride)
+    {
+        Debug.Log("Pathfinding override removed = " + pathOverride.name);
+        return pathfindingOverrides.Remove(pathOverride);
+    }
+
+    public void ClearPathfindingOverrides()
+    {
+        pathfindingOverrides.Clear();
     }
 
     /*public void FreezeTarget(Func<Vector3> frozenTargetOffset)
@@ -4659,671 +2555,5 @@ public class AncientAspid : Boss
         var direction = (target - Head.transform.position).normalized;
 
         return MathUtilities.CartesianToPolar(direction).x;
-    }
-
-    public void StartPhases()
-    {
-        Phase = AncientAspid.BossPhase.Phase1;
-        //OffensiveModeEnabled = false;
-        //GroundModeEnabled = false;
-
-        GetComponent<VomitShotMove>().EnableMove(false);
-    }
-
-    TargetOverride TopOverride;
-
-    public void GoToNextPhase()
-    {
-        switch (Phase)
-        {
-            case BossPhase.Phase1:
-                Phase = BossPhase.Phase2;
-                ExtraTargetOffset = new Vector3(0f,0.35f,0f);
-                GetComponent<VomitShotMove>().EnableMove(true);
-                break;
-            case BossPhase.Phase2:
-                Phase = BossPhase.Phase2A;
-                break;
-            case BossPhase.Phase2A:
-                Phase = BossPhase.Phase2B;
-                break;
-            case BossPhase.Phase2B:
-                Phase = BossPhase.Phase2C;
-                HealthManager.AddModifier<InvincibleHealthModifier>();
-                break;
-            case BossPhase.Phase2C:
-                Phase = BossPhase.Phase3;
-                ExtraTargetOffset = default;
-                HealthManager.RemoveModifier<InvincibleHealthModifier>();
-
-                GetComponent<MantisShotMove>().EnableMove(false);
-
-                EnteringFromBottom = true;
-
-                foreach (var obj in enableOnPhase3Begin)
-                {
-                    if (obj != null)
-                    {
-                        obj.SetActive(true);
-                    }
-                }
-
-                foreach (var obj in disableOnPhase3Begin)
-                {
-                    if (obj != null)
-                    {
-                        obj.SetActive(false);
-                    }
-                }
-                //WeaverLog.LogError("BEGINNING BOTTOM ENTRY PRE");
-                StartBoundRoutine(EnterFromBottomRoutine());
-
-                /*PathingMode = PathfindingMode.FollowTarget;
-                if (transform.position.x >= 223.7f)
-                {
-                    SetTarget(new Vector3(258.68f, 203.49f));
-                }
-                else
-                {
-                    SetTarget(new Vector3(184.3f, 203.49f));
-                }*/
-
-                /*if (Player.Player1.transform.position.y >= 200 && transform.position.y < 200)
-                {
-                    
-                }
-                else
-                {
-                    WeaverLog.LogError("NOT BEGINNING BOTTOM ENTRY PRE");
-                    OffensiveModeEnabled = true;
-                }*/
-                break;
-            case BossPhase.Phase3:
-
-                foreach (var obj in enableOnPhase3End)
-                {
-                    if (obj != null)
-                    {
-                        obj.SetActive(true);
-                    }
-                }
-
-                foreach (var obj in disableOnPhase3End)
-                {
-                    if (obj != null)
-                    {
-                        obj.SetActive(false);
-                    }
-                }
-
-                HealthManager.AddModifier<InvincibleHealthModifier>();
-                ExtraTargetOffset = new Vector3(0f, 10f, 0f);
-                PathingMode = PathfindingMode.FollowPlayer;
-                SetTarget(Player.Player1.transform);
-                Phase = BossPhase.Phase3A;
-                //OffensiveModeEnabled = false;
-                OffensiveAreaProvider = null;
-                break;
-            case BossPhase.Phase3A:
-                Phase = BossPhase.Phase3B;
-
-                ExtraTargetOffset = default;
-                PathingMode = PathfindingMode.FollowTarget;
-
-                TopOverride = AddTargetOverride(int.MaxValue / 2);
-
-                if (transform.position.x >= 223.7f)
-                {
-                    TopOverride.SetTarget(new Vector3(246.5f, 287.4f));
-                }
-                else
-                {
-                    TopOverride.SetTarget(new Vector3(195.1f, 287.4f));
-                }
-
-                break;
-            case BossPhase.Phase3B:
-                Phase = BossPhase.Phase3C;
-                //PathingMode = PathfindingMode.FollowPlayer;
-                //SetTarget(playerTarget);
-
-                break;
-            case BossPhase.Phase3C:
-                HealthManager.RemoveModifier<InvincibleHealthModifier>();
-                Phase = BossPhase.Phase4;
-                //GroundModeEnabled = true;
-                ExtraTargetOffset = default;
-                GetComponent<LaserRapidFireMove>().EnableMove(true);
-                //OffensiveModeEnabled = true;
-
-                PathingMode = PathfindingMode.FollowPlayer;
-                SetTarget(playerTarget);
-
-                RemoveTargetOverride(TopOverride);
-
-                EnableTargetXRange = true;
-                TargetXRange = new Vector2(160f, 275.3f);
-
-                StartBoundRoutine(CowardiceRoutine(2));
-                break;
-            default:
-                break;
-        }
-
-        //WeaverLog.LogError("NOW IN PHASE = " + Phase);
-    }
-
-    IEnumerator CowardiceRoutine(int timesBeforeFlyAway)
-    {
-        int timesCounted = 0;
-        while (true)
-        {
-            yield return new WaitUntil(() => Player.Player1.transform.position.y >= 271.3f);
-            yield return new WaitForSeconds(2f);
-            yield return new WaitUntil(() => Player.Player1.transform.position.y < 271.3f);
-            if (timesCounted++ >= timesBeforeFlyAway)
-            {
-                break;
-            }
-        }
-
-        FlyingAway = true;
-
-        AddTargetOverride(int.MaxValue).SetTarget(new Vector3(223.7f, 445.2f));
-
-        //SetTarget(new Vector3(223.7f, 445.2f));
-        PathingMode = PathfindingMode.FollowTarget;
-        WeaverLog.LogWarning("FLYING AWAY");
-
-        allMovesDisabled = true;
-        yield return new WaitUntil(() => AspidMode != Mode.Defensive);
-        yield return new WaitUntil(() => transform.position.y >= Player.Player1.transform.position.y + 20f);
-
-        FlightEnabled = false;
-        ApplyFlightVariance = false;
-
-        foreach (var sprite in enableOnCowardiceFlyAway)
-        {
-            sprite.enabled = true;
-        }
-
-        foreach (var sprite in disableOnCowardiceFlyAway)
-        {
-            sprite.enabled = false;
-        }
-
-        /*if (transform.position.y >= Player.Player1.transform.position.y + 20f)
-        {
-            
-        }*/
-
-        Music.ApplyMusicSnapshot(Music.SnapshotType.Silent,0f,0.5f);
-
-        while (true)
-        {
-            Rbody.velocity = Mathf.Max(Rbody.velocity.magnitude, 20f) * Vector2.up;
-            yield return null;
-        }
-
-        //TODO - FLY AWAY
-    }
-
-    enum CentralRiseSpeed
-    {
-        Default,
-        Quick,
-        Instant
-    }
-
-    IEnumerator CentralRiseRoutine()
-    {
-        FlightEnabled = false;
-        ApplyFlightVariance = false;
-        transform.SetPosition2D(220.8f, 188.95f);
-        SetTarget(transform.position);
-        Rbody.velocity = default;
-        Rbody.simulated = false;
-
-        var riseSpeed = CentralRiseSpeed.Default;
-
-        riseFromCenterPlatform = true;
-
-        var platformProvider = GameObject.FindObjectOfType<PlatformOffensiveAreaProvider>();
-
-        OffensiveAreaProvider = platformProvider;
-
-        bool retry = false;
-
-        if (centerPlatformLockArea != null)
-        {
-            //TODO - ALSO ACCOUNT FOR THE FACT THAT THE PLAYER CAN GO UNDERNEATH THE ARENA. Maybe make the boss immediately rise up in that case
-            //yield return new WaitUntil(() => GameManager.instance.cameraCtrl.lockZoneList.Contains(centerPlatformLockArea));
-
-            //242.3
-
-            while (true)
-            {
-                if (GameManager.instance.cameraCtrl.lockZoneList.Contains(centerPlatformLockArea))
-                {
-                    break;
-                }
-
-                if (Player.Player1.transform.position.y < 200)
-                {
-                    if (Player.Player1.transform.position.x <= 242.3f && Player.Player1.transform.position.x >= 201f)
-                    {
-                        riseSpeed = CentralRiseSpeed.Instant;
-                        retry = true;
-                        break;
-                    }
-                }
-
-                if (Player.Player1.transform.position.y >= 220f)
-                {
-                    riseSpeed = CentralRiseSpeed.Quick;
-                    break;
-                }
-
-                OffensiveAreaProvider = platformProvider;
-                yield return null;
-            }
-        }
-        else
-        {
-            yield return new WaitForSeconds(0.5f);
-        }
-
-
-        AudioPlayer rumbleSound = null;
-
-        if (riseSpeed == CentralRiseSpeed.Default)
-        {
-            if (centerModeSummonGrass != null)
-            {
-                centerModeSummonGrass.Play();
-            }
-
-            CameraShaker.Instance.SetRumble(RumbleType.RumblingMed);
-
-            rumbleSound = WeaverAudio.PlayAtPointLooped(centerModeRumbleSound, transform.position);
-        }
-
-        IEnumerator VisualsRoutine(float delay)
-        {
-            yield return new WaitForSeconds(delay);
-
-            if (centerModeSummonGrass != null)
-            {
-                centerModeSummonGrass.Stop();
-            }
-
-            rumbleSound?.StopPlaying();
-
-            CameraShaker.Instance.SetRumble(RumbleType.None);
-            CameraShaker.Instance.Shake(ShakeType.BigShake);
-
-            if (centerModeRiseSound != null)
-            {
-                WeaverAudio.PlayAtPoint(centerModeRiseSound, transform.position);
-            }
-
-            if (riseSpeed == CentralRiseSpeed.Default)
-            {
-                if (centerModeRoarSound != null)
-                {
-                    var instance = WeaverAudio.PlayAtPoint(centerModeRoarSound, transform.position);
-                    instance.AudioSource.pitch = centerModeRoarSoundPitch;
-                }
-
-                var roar = RoarEmitter.Spawn(transform.position);
-                roar.StopRoaringAfter(centerModeRoarDuration);
-
-                var prevPosition = transform.position;
-
-                for (float t = 0; t < centerModeRoarDuration; t += Time.deltaTime)
-                {
-                    var newPosition = transform.position;
-                    roar.transform.localPosition += newPosition - prevPosition;
-                    prevPosition = newPosition;
-                    yield return null;
-                }
-            }
-        }
-
-        //OffensiveModeEnabled = true;
-        //riseFromCenterPlatform = true;
-
-        if (riseSpeed == CentralRiseSpeed.Default)
-        {
-            EnableCenterLock(centerModePlatformDest, centerCamLock);
-        }
-
-        OffensiveAreaProvider = platformProvider;
-
-        if (riseSpeed == CentralRiseSpeed.Default)
-        {
-            yield return new WaitForSeconds(2f);
-        }
-
-        OffensiveAreaProvider = platformProvider;
-
-        yield return new WaitUntil(() => Orientation == AspidOrientation.Center);
-
-        if (riseSpeed != CentralRiseSpeed.Instant)
-        {
-            StartCoroutine(VisualsRoutine(centerModeRoarDelay));
-        }
-
-        SetTarget(centerModePlatformDest);
-
-        var oldPos = transform.position;
-
-        if (riseSpeed != CentralRiseSpeed.Instant)
-        {
-            for (float t = 0f; t < centerModePlatformTime; t += Time.deltaTime)
-            {
-                transform.position = Vector3.Lerp(oldPos, centerModePlatformDest, centerModePlatformCurve.Evaluate(t / centerModePlatformTime));
-
-                yield return null;
-            }
-        }
-
-        transform.position = centerModePlatformDest;
-
-        if (riseSpeed == CentralRiseSpeed.Instant || riseSpeed == CentralRiseSpeed.Quick)
-        {
-            //OffensiveModeEnabled = false;
-            OffensiveAreaProvider = null;
-        }
-        else
-        {
-            //OffensiveModeEnabled = true;
-            OffensiveAreaProvider = GameObject.FindObjectOfType<PlatformOffensiveAreaProvider>();
-        }
-
-        ExtraTargetOffset = default;
-
-        Rbody.velocity = default;
-        Rbody.simulated = true;
-
-        FlightEnabled = true;
-        ApplyFlightVariance = true;
-        riseFromCenterPlatform = false;
-        PathingMode = PathfindingMode.FollowPlayer;
-
-        if (riseSpeed == CentralRiseSpeed.Instant || riseSpeed == CentralRiseSpeed.Quick)
-        {
-            yield return new WaitUntil(() => Orientation != AspidOrientation.Center);
-            OffensiveAreaProvider = GameObject.FindObjectOfType<PlatformOffensiveAreaProvider>();
-            //OffensiveModeEnabled = true;
-        }
-
-        EnableTargetHeightRange = true;
-
-        if (retry)
-        {
-            StartBoundRoutine(EnterFromBottomRoutine());
-        }
-        else
-        {
-            TargetHeightRange.x = 201f;
-        }
-    }
-
-    enum CenterBottomTargetType
-    {
-        None,
-        Bottom,
-        Left,
-        Right
-    }
-
-    IEnumerator EnterFromBottomRoutine()
-    {
-        EnteringFromBottom = true;
-        yield return new WaitUntil(() => FullyAwake);
-        //SetTarget(transform.position.With(y: 0f));
-
-        //bool falling = false;
-        //var currentTargetType = CenterBottomTargetType.None;
-
-        var enterBottomTarget = AddTargetOverride(int.MaxValue / 2);
-
-        while (true)
-        {
-            var playerAboveArena = Player.Player1.transform.position.y >= 200;
-            var bossAboveArena = transform.position.y >= 200;
-
-            if ((playerAboveArena && bossAboveArena)/* || currentTargetType == CenterBottomTargetType.Left || currentTargetType != CenterBottomTargetType.Right*/)
-            {
-                TargetHeightRange.x = 0f;
-                ExtraTargetOffset = default;
-
-                //TODO - IF BOTH ARE ABOVE. TRY FLYING TO THE OTHER SIDE and TELEPORT TO THE BOTTOM.
-
-                if (Player.Player1.transform.position.x >= 197.62f)
-                {
-                    //if (currentTargetType != CenterBottomTargetType.Left)
-                    //{
-                    enterBottomTarget.SetTarget(new Vector3(167.4f,216.7f));
-                        PathingMode = PathfindingMode.FollowTarget;
-                        WeaverLog.LogWarning("FOLLOW LEFT TARGET");
-                        //currentTargetType = CenterBottomTargetType.Left;
-                    //}
-                    if (transform.position.x <= 179.7f || transform.position.x <= Player.Player1.transform.position.x - 20f)
-                    {
-                        yield return CentralRiseRoutine();
-                        break;
-                        /*if (!riseFromCenterPlatform)
-                        {
-                            yield break;
-                        }
-                        else
-                        {
-                            currentTargetType = CenterBottomTargetType.None;
-                        }*/
-                    }
-                }
-                else
-                {
-                    //if (currentTargetType != CenterBottomTargetType.Right)
-                    //{
-                    enterBottomTarget.SetTarget(new Vector3(262.5f, 216.7f));
-                        PathingMode = PathfindingMode.FollowTarget;
-                        WeaverLog.LogWarning("FOLLOW RIGHT TARGET");
-                        //currentTargetType = CenterBottomTargetType.Right;
-                    //}
-
-                    if (transform.position.x >= 251.1f || transform.position.x >= Player.Player1.transform.position.x + 20f)
-                    {
-                        yield return CentralRiseRoutine();
-                        break;
-                        /*if (!riseFromCenterPlatform)
-                        {
-                            yield break;
-                        }
-                        else
-                        {
-                            riseFromCenterPlatform = false;
-                            currentTargetType = CenterBottomTargetType.None;
-                        }*/
-                    }
-                }
-                //break;
-            }
-            else if (playerAboveArena && !bossAboveArena)
-            {
-                TargetHeightRange.x = 0f;
-                ExtraTargetOffset = default;
-                //if (currentTargetType != CenterBottomTargetType.Bottom)
-                //{
-                    PathingMode = PathfindingMode.FollowTarget;
-                    WeaverLog.LogWarning("FOLLOW BOTTOM TARGET");
-                enterBottomTarget.SetTarget(new Vector3(220.8f, 85.29f));
-                    //currentTargetType = CenterBottomTargetType.Bottom;
-                //}
-
-                if (transform.position.y <= Player.Player1.transform.position.y - 15f)
-                {
-                    yield return CentralRiseRoutine();
-                    break;
-                }
-            }
-            /*else if (!playerAboveArena && bossAboveArena)
-            {
-                TargetHeightRange.x = 0f;
-                ExtraTargetOffset = new Vector3(0f, 6.5f, 0f);
-                //if (currentTargetType != CenterBottomTargetType.None)
-                //{
-
-                    PathingMode = PathfindingMode.FollowTarget;
-                    SetTarget(Player.Player1.transform);
-                    WeaverLog.LogWarning("FOLLOW PLAYER A");
-                    //currentTargetType = CenterBottomTargetType.None;
-                //}
-            }*/
-            else if ((!playerAboveArena && !bossAboveArena) || (!playerAboveArena && bossAboveArena))
-            {
-                if (Player.Player1.transform.position.y <= transform.position.y)
-                {
-                    ExtraTargetOffset = new Vector3(0f, 0f, 0f);
-                    if (transform.position.y >= 180f)
-                    {
-                        TargetHeightRange.x = 0f;
-                        PathingMode = PathfindingMode.FollowTarget;
-                        if (transform.position.x >= 223.7f)
-                        {
-                            //SET TO RIGHT TARGET
-                            enterBottomTarget.SetTarget(new Vector3(250.46f, 213.86f));
-                        }
-                        else
-                        {
-                            //SET TO LEFT TARGET
-                            enterBottomTarget.SetTarget(new Vector3(185.6f, 213.86f));
-                        }
-                    }
-                    else
-                    {
-                        PathingMode = PathfindingMode.FollowPlayer;
-                        enterBottomTarget.SetTarget(playerTarget);
-
-                        TargetHeightRange.x = Mathf.Max(TargetHeightRange.x,Player.Player1.transform.position.y + 14f);
-                    }
-                }
-                else
-                {
-                    TargetHeightRange.x = 0f;
-                    PathingMode = PathfindingMode.FollowTarget;
-                    if (transform.position.x >= 223.7f)
-                    {
-                        //SET TO LEFT TARGET
-                        enterBottomTarget.SetTarget(new Vector3(185.6f, 213.86f));
-                    }
-                    else
-                    {
-                        //SET TO RIGHT TARGET
-                        enterBottomTarget.SetTarget(new Vector3(250.46f, 213.86f));
-                    }
-                }
-
-                /*if (Player.Player1.transform.position.y <= 180f)
-                {
-                    ExtraTargetOffset = new Vector3(0f, 6.5f, 0f);
-                    //if (currentTargetType != CenterBottomTargetType.None)
-                    //{
-                        PathingMode = PathfindingMode.FollowTarget;
-                        SetTarget(new Vector3(249.2f, 187.6f));
-                        WeaverLog.LogWarning("FOLLOW PLAYER B");
-                        //currentTargetType = CenterBottomTargetType.None;
-                    //}
-                }
-                else
-                {
-                    ExtraTargetOffset = default;
-                    //if (currentTargetType != CenterBottomTargetType.Bottom)
-                    //{
-                        PathingMode = PathfindingMode.FollowTarget;
-                        WeaverLog.LogWarning("FOLLOW BOTTOM TARGET");
-                        SetTarget(new Vector3(220.8f, 85.29f));
-                        //currentTargetType = CenterBottomTargetType.Bottom;
-                    //}
-
-                    if (transform.position.y <= Player.Player1.transform.position.y - 15f)
-                    {
-                        yield return CentralRiseRoutine();
-                        break;
-                    }
-                }*/
-            }
-
-            yield return null;
-            /*if (Player.Player1.transform.position.y >= 200 && transform.position.y < 200 && Player.Player1.transform.position.y <= 217f)
-            {
-
-            }*/
-        }
-
-        RemoveTargetOverride(enterBottomTarget);
-
-        EnteringFromBottom = false;
-
-        /*while (true)
-        {
-            if (Player.Player1.transform.position.y >= 200 && transform.position.y < 200 && Player.Player1.transform.position.y <= 217f)
-            {
-                WeaverLog.Log("BEGINNING BOTTOM ENTRY");
-                if (transform.position.y <= 170.0f)
-                {
-                    FlightEnabled = false;
-                    ApplyFlightVariance = false;
-                    transform.SetPosition2D(220.8f, 188.95f);
-                    SetTarget(transform.position);
-                    Rbody.velocity = default;
-                    Rbody.simulated = false;
-
-                    //TODO - PLAY RUMBLE
-
-                    //OffensiveModeEnabled = true;
-                    forceCentralMode = true;
-
-                    EnableCenterLock(centerModePlatformDest, centerCamLock);
-
-                    yield return new WaitForSeconds(1f);
-
-                    yield return new WaitUntil(() => Orientation == AspidOrientation.Center);
-
-                    SetTarget(centerModePlatformDest);
-
-                    var oldPos = transform.position;
-
-                    for (float t = 0f; t < centerModePlatformTime; t += Time.deltaTime)
-                    {
-                        transform.position = Vector3.Lerp(oldPos, centerModePlatformDest,centerModePlatformCurve.Evaluate(t /  centerModePlatformTime));
-
-                        yield return null;
-                    }
-
-                    ExtraTargetOffset = default;
-
-                    Rbody.velocity = default;
-                    Rbody.simulated = true;
-
-                    FlightEnabled = true;
-                    ApplyFlightVariance = true;
-                    forceCentralMode = false;
-
-
-                    WeaverLog.LogError("FORCED CENTERAL");
-                    yield break;
-                }
-            }
-            else
-            {
-                SetTarget(playerTarget);
-                yield break;
-            }
-
-            yield return null;
-        }*/
     }
 }

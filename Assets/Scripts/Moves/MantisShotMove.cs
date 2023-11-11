@@ -7,7 +7,7 @@ using WeaverCore.Utilities;
 
 public class MantisShotMove : AncientAspidMove
 {
-    public override bool MoveEnabled => Boss.CanSeeTarget && moveEnabled && Boss.AspidMode == AncientAspid.Mode.Tactical &&
+    public override bool MoveEnabled => Boss.CanSeeTarget && moveEnabled && Boss.CurrentRunningMode == Boss.TacticalMode &&
         Boss.Claws.claws.All(c => !c.ClawLocked) && CanRunMoveChance();
 
     [SerializeField]
@@ -64,7 +64,7 @@ public class MantisShotMove : AncientAspidMove
         moveEnabled = enabled;
     }
 
-    public override IEnumerator DoMove()
+    protected override IEnumerator OnExecute()
     {
         yield return Boss.Claws.DoMantisShots(OnSwing);
     }
@@ -79,16 +79,13 @@ public class MantisShotMove : AncientAspidMove
 
             var currentAngle = Mathf.Lerp(fireAngleRange.x, fireAngleRange.y,i / (shotAmount - 1f));
 
-            if (!Boss.RiseFromCenterPlatform)
-            {
-                var shot = MantisShot.Spawn(Boss.Claws.transform.position, MathUtilities.PolarToCartesian(currentAngle, velocityRange.RandomInRange()));
+            var shot = MantisShot.Spawn(Boss.Claws.transform.position, MathUtilities.PolarToCartesian(currentAngle, velocityRange.RandomInRange()));
 
-                shot.Audio.AudioSource.volume = 1f / shotAmount;
-            }
+            shot.Audio.AudioSource.volume = 1f / shotAmount;
         }
     }
 
-    public override float PostDelay => Boss.InClimbingPhase ? climbingPostDelay : postDelay;
+    public override float GetPostDelay(int prevHealth) => Boss.InClimbingPhase ? climbingPostDelay : postDelay;
 
     public override void OnStun()
     {

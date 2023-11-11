@@ -81,15 +81,19 @@ public class AspidShotMove : AncientAspidMove
 
     AspidOrientation startOrientation;
 
+    //bool stopping = false;
+
     private void Awake()
     {
         comboProviders = new List<IAspidComboProvider>();
         GetComponents(comboProviders);
     }
 
+    //public override bool Interruptible => true;
+
     public override bool MoveEnabled => Boss.CanSeeTarget && moveEnabled && Vector2.Distance(Player.Player1.transform.position,Boss.Head.transform.position) >= minDistance;// Boss.AspidMode == AncientAspid.Mode.Tactical || Boss.AspidMode == AncientAspid.Mode.Offensive;
 
-    public override float PostDelay => Boss.InClimbingPhase ? climbingPostDelay : postDelay;
+    public override float GetPostDelay(int prevHealth) => Boss.InClimbingPhase ? climbingPostDelay : postDelay;
 
     /*public override IEnumerator DoMove()
     {
@@ -116,7 +120,7 @@ public class AspidShotMove : AncientAspidMove
         yield return new WaitForSeconds(0.5f);
     }*/
 
-    public override IEnumerator DoMove()
+    protected override IEnumerator OnExecute()
     {
         startOrientation = Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left;
 
@@ -139,7 +143,7 @@ public class AspidShotMove : AncientAspidMove
             {
                 var info = enumerator.Current;
 
-                Fire(Boss.Head.LookingDirection, info.ShotAngleOffset, info.Shots, info.ShotSpeed, info.ShotAngleSeparation, info.ShotScale);
+                Fire(Boss.Head.MainRenderer.flipX ? 45f : -45f, info.ShotAngleOffset, info.Shots, info.ShotSpeed, info.ShotAngleSeparation, info.ShotScale);
             }
             //Fire(Boss.Head.LookingDirection, 3, 1);
             //Fire(Boss.Head.LookingDirection, 2, 0.5f);
@@ -147,6 +151,11 @@ public class AspidShotMove : AncientAspidMove
             yield return Boss.Head.Animator.PlayAnimationTillDone($"Fire - {attackVariant} - Attack{(i == comboCount - 1 ? "" : " - Quick")}");
 
             Boss.Head.MainRenderer.Restore(oldState);
+
+            if (Cancelled)
+            {
+                break;
+            }
 
             yield return Boss.Head.QuickFlipDirection(Boss.PlayerRightOfBoss);
         }
@@ -193,23 +202,26 @@ public class AspidShotMove : AncientAspidMove
 
     void FireShot(float playerAngle, float angle, Vector3 sourcePos, float velocity, float scale)
     {
-        if (!Boss.RiseFromCenterPlatform)
+        var instance = Pooling.Instantiate(ShotPrefab, sourcePos, Quaternion.identity);
+        if (instance.TryGetComponent(out Rigidbody2D rb))
         {
-            var instance = Pooling.Instantiate(ShotPrefab, sourcePos, Quaternion.identity);
-            if (instance.TryGetComponent(out Rigidbody2D rb))
-            {
-                rb.velocity = MathUtilities.PolarToCartesian(playerAngle + angle, velocity);
-            }
-            if (instance.TryGetComponent(out AspidShotBase aspidShot))
-            {
-                aspidShot.ScaleFactor = scale;
-            }
-            else
-            {
-                instance.transform.SetLocalScaleXY(scale, scale);
-            }
+            rb.velocity = MathUtilities.PolarToCartesian(playerAngle + angle, velocity);
+        }
+        if (instance.TryGetComponent(out AspidShotBase aspidShot))
+        {
+            aspidShot.ScaleFactor = scale;
+        }
+        else
+        {
+            instance.transform.SetLocalScaleXY(scale, scale);
         }
     }
+
+    /*protected override IEnumerator OnCancelRoutine()
+    {
+        OnStun();
+        yield break;
+    }*/
 
     public override void OnStun()
     {
@@ -219,4 +231,9 @@ public class AspidShotMove : AncientAspidMove
             Boss.Head.UnlockHead(startOrientation);
         }
     }
+
+    /*public override void GracefullyStop()
+    {
+        stopping = true;
+    }*/
 }

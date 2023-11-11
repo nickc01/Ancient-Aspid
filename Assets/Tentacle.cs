@@ -57,6 +57,19 @@ public class Tentacle : MonoBehaviour
         set
         {
             _color = value;
+            UpdateColor();
+        }
+    }
+
+    [SerializeField]
+    Texture _texture;
+    public Texture Texture
+    {
+        get => _texture;
+        set
+        {
+            _texture = value;
+            UpdateTexture();
         }
     }
 
@@ -86,6 +99,8 @@ public class Tentacle : MonoBehaviour
 
         mesh.MarkDynamic();
         UpdateMesh();
+        UpdateColor();
+        UpdateTexture();
 
         MainFilter.sharedMesh = mesh;
 
@@ -98,6 +113,7 @@ public class Tentacle : MonoBehaviour
     private void OnValidate()
     {
         UpdateColor();
+        UpdateTexture();
     }
 
     void UpdateColor()
@@ -110,6 +126,27 @@ public class Tentacle : MonoBehaviour
         MainRenderer.GetPropertyBlock(propBlock);
 
         propBlock.SetColor("_Color", _color);
+
+        MainRenderer.SetPropertyBlock(propBlock);
+    }
+
+    void UpdateTexture()
+    {
+        if (propBlock == null)
+        {
+            propBlock = new MaterialPropertyBlock();
+        }
+
+        MainRenderer.GetPropertyBlock(propBlock);
+
+        if (_texture == null)
+        {
+            propBlock.SetTexture("_MainTex", Texture2D.whiteTexture);
+        }
+        else
+        {
+            propBlock.SetTexture("_MainTex", _texture);
+        }
 
         MainRenderer.SetPropertyBlock(propBlock);
     }

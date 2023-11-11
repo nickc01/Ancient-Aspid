@@ -17,7 +17,7 @@ MonoBehaviour:
   snapshot: {fileID: 0}
   channelInfos:
   - clip: {fileID: 8300000, guid: 37a5f2e47dbd6714fb4409f9eb70c923, type: 3}
-    sync: 2
+    sync: 1
   - clip: {fileID: 0}
     sync: 2
   - clip: {fileID: 0}
@@ -29,6 +29,6 @@ MonoBehaviour:
   - clip: {fileID: 0}
     sync: 2
   alternatives: []
-  cueData: '{"channelInfos":[{"clip":{"instanceID":40316},"sync":2},{"clip":{"instanceID":0},"sync":2},{"clip":{"instanceID":0},"sync":2},{"clip":{"instanceID":0},"sync":2},{"clip":{"instanceID":0},"sync":2},{"clip":{"instanceID":0},"sync":2}],"alternatives":[]}'
+  cueData: '{"channelInfos":[{"clip":{"instanceID":56862},"sync":1},{"clip":{"instanceID":0},"sync":2},{"clip":{"instanceID":0},"sync":2},{"clip":{"instanceID":0},"sync":2},{"clip":{"instanceID":0},"sync":2},{"clip":{"instanceID":0},"sync":2}],"alternatives":[]}'
   useSnapshot: 1
   m_snapshot: 0

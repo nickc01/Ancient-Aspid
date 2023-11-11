@@ -12,7 +12,7 @@ public class RadialBulletHellMove : AncientAspidMove
         get
         {
             var enabled = Boss.CanSeeTarget &&
-        Boss.AspidMode == AncientAspid.Mode.Offensive &&
+        Boss.CurrentRunningMode == Boss.OffensiveMode &&
         Vector3.Distance(Player.Player1.transform.position, transform.position) <= 30f;
 
             //WeaverLog.LogError("RADIAL BULLET ENABLED = " + enabled);
@@ -69,7 +69,7 @@ public class RadialBulletHellMove : AncientAspidMove
     [SerializeField]
     AudioClip rumbleLoopSound;
 
-    Recoiler recoiler;
+    //Recoiler recoiler;
     FireLaserMove laserMove;
 
     RoarEmitter emitter;
@@ -84,7 +84,7 @@ public class RadialBulletHellMove : AncientAspidMove
 
     private void Awake()
     {
-        recoiler = GetComponent<Recoiler>();
+        //recoiler = GetComponent<Recoiler>();
         laserMove = GetComponent<FireLaserMove>();
     }
 
@@ -114,7 +114,7 @@ public class RadialBulletHellMove : AncientAspidMove
         }
     }
 
-    public override IEnumerator DoMove()
+    protected override IEnumerator OnExecute()
     {
         yield return Boss.Head.LockHead(Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left);
         yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser Antic");
@@ -124,7 +124,7 @@ public class RadialBulletHellMove : AncientAspidMove
         Boss.Head.MainRenderer.sprite = laserMove.head_Sprites[spriteIndex];
         Boss.Head.MainRenderer.flipX = laserMove.head_HorizFlip[spriteIndex];
 
-        recoiler.SetRecoilSpeed(0f);
+        //recoiler.SetRecoilSpeed(0f);
 
         emitter = RoarEmitter.Spawn(Boss.Head.transform.position);
 
@@ -170,7 +170,7 @@ public class RadialBulletHellMove : AncientAspidMove
                 Shoot();
             }
 
-            if (Vector3.Distance(Boss.transform.position,Player.Player1.transform.position) >= 28f || !IsPlayerWithinArea())
+            if (Cancelled || Vector3.Distance(Boss.transform.position,Player.Player1.transform.position) >= 28f || !IsPlayerWithinArea())
             {
                 break;
             }
@@ -204,11 +204,11 @@ public class RadialBulletHellMove : AncientAspidMove
 
         CameraShaker.Instance.SetRumble(RumbleType.None);
 
-        if (Vector3.Distance(Boss.transform.position, Player.Player1.transform.position) < 28f && !IsPlayerWithinArea())
+        if (!Cancelled && Vector3.Distance(Boss.transform.position, Player.Player1.transform.position) < 28f && !IsPlayerWithinArea())
         {
             //DO COUNTER ATTACK
 
-            recoiler.ResetRecoilSpeed();
+            //recoiler.ResetRecoilSpeed();
             //float directionScalar = playerAngle >= 0f ? 1f : -1f;
 
             //var startAngle = Boss.GetAngleToPlayer() < 0f ? shotAngleMinMax.x : shotAngleMinMax.y;
@@ -244,8 +244,9 @@ public class RadialBulletHellMove : AncientAspidMove
                 start,
                 destination,
                 1f,
+                true,
                 laserMove.followPlayerCurve
-                ), false, 0f);
+                ));
             firingLaser = false;
 
             /*float startAngle;
@@ -328,7 +329,7 @@ public class RadialBulletHellMove : AncientAspidMove
         AspidShot.Spawn(Boss.Head.transform.position + spawnOffset, velocity);
     }
 
-    public override float PostDelay => shootPostDelay;
+    public override float GetPostDelay(int prevHealth) => shootPostDelay;
 
     IEnumerator PlayShootSoundRoutine()
     {
@@ -375,6 +376,15 @@ public class RadialBulletHellMove : AncientAspidMove
         }
     }
 
+    public override void StopMove()
+    {
+        base.StopMove();
+        if (firingLaser)
+        {
+            laserMove.StopMove();
+        }
+    }
+
     public override void OnStun()
     {
         CameraShaker.Instance.SetRumble(RumbleType.None);
@@ -403,7 +413,7 @@ public class RadialBulletHellMove : AncientAspidMove
             playerAimCoroutine = 0;
         }
 
-        if (Boss.Head.HeadLocked && !Boss.Head.HeadBeingUnlocked)
+        if (Boss.Head.HeadLocked)
         {
             Boss.Head.UnlockHead();
         }
@@ -416,7 +426,7 @@ public class RadialBulletHellMove : AncientAspidMove
 
         if (firingLaser)
         {
-
+            laserMove.OnStun();
         }
     }
 }

@@ -156,12 +156,15 @@ public class LaserRapidFireMove : AncientAspidMove
     float prevMaxFlightSpeed;
     float prevMinFlightSpeed;
     float prevFlightSpeed;
+    float prevOrbitReductionAmount;
 
     public override bool MoveEnabled
     {
         get
         {
-            return Boss.CanSeeTarget && (moveEnabled || (Boss.Phase == AncientAspid.BossPhase.Default && Boss.HealthManager.Health <= 0.6f)) && Boss.AspidMode == AncientAspid.Mode.Tactical;
+            //return Boss.CanSeeTarget && (moveEnabled || (Boss.Phase == AncientAspid.BossPhase.Default && Boss.HealthManager.Health <= 0.6f)) && Boss.AspidMode == AncientAspid.Mode.Tactical;
+
+            return Boss.CanSeeTarget && moveEnabled && Boss.CurrentRunningMode == Boss.TacticalMode;
         }
     }
 
@@ -265,7 +268,7 @@ public class LaserRapidFireMove : AncientAspidMove
         }*/
     }
 
-    public override IEnumerator DoMove()
+    protected override IEnumerator OnExecute()
     {
         {
             cancelled = true;
@@ -302,10 +305,11 @@ public class LaserRapidFireMove : AncientAspidMove
                 yield break;
             }
         }
-        var currentPhase = Boss.Phase;
+        var currentPhase = Boss.CurrentPhase;
 
         doingShotgun = false;
-        Boss.orbitReductionAmount *= 3f;
+        prevOrbitReductionAmount = Boss.OrbitReductionAmount;
+        Boss.OrbitReductionAmount *= 3f;
         yield return Boss.Head.LockHead();
 
         SetLaserTarget();
@@ -361,7 +365,7 @@ public class LaserRapidFireMove : AncientAspidMove
 
         IEnumerator ChargeUpLaser()
         {
-            yield return prepareLaserEmitter.FireChargeUpOnlyRoutine();
+            yield return prepareLaserEmitter.PlayChargeUpInRoutine(chargeUpTime);
             //chargingUp = false;
         }
 
@@ -374,7 +378,7 @@ public class LaserRapidFireMove : AncientAspidMove
 
         originalOriginDistance = laserMove.Emitter.Laser.transform.GetYLocalPosition();
         //laserMove.Emitter.Laser.transform.SetYLocalPosition(laserOriginDistance);
-        Boss.StartBoundRoutine(ChargeUpLaser());
+        uint chargeUpInRoutine = Boss.StartBoundRoutine(ChargeUpLaser());
 
         //Debug.Log("PLAYER ANGLE = " + MathUtilities.ClampRotation(GetAngleToPlayer(prepareShotGunEmitter) + 90f));
         //Debug.Log("MIN ANGLE = " + angleLimits.x);
@@ -402,8 +406,18 @@ public class LaserRapidFireMove : AncientAspidMove
 
             chargeUpEffects.transform.localRotation = Quaternion.Euler(playerAngle - 90f, -90f, 0f);//destRotation * Quaternion.Euler(0f,-90f,0f);//Quaternion.Euler(-90f + main + extra,-90f,0f);
             //laserMove.UpdateHeadRotation(ref oldIndex, main);
+
+            if (Cancelled)
+            {
+                break;
+                //Cancel();
+                //yield break;
+            }
             yield return null;
         }
+
+        Boss.StopBoundRoutine(chargeUpInRoutine);
+        chargeUpInRoutine = Boss.StartBoundRoutine(prepareLaserEmitter.PlayChargeUpOutRoutine());
 
 
         //freezeTarget = true;
@@ -411,11 +425,20 @@ public class LaserRapidFireMove : AncientAspidMove
 
         yield return new WaitForSeconds(initialFireDelay);
 
+        if (Cancelled)
+        {
+            //break;
+            Cancel();
+            yield break;
+        }
+
         rapidFireRotationOrigin.SetXLocalPosition(Boss.Head.LookingDirection >= 0f ? -fireLaserXOffset : fireLaserXOffset);
 
         Boss.Head.Animator.PlaybackSpeed = animationSpeed;
-        var anticClip = Boss.Head.Animator.AnimationData.GetClip("Fire Laser Antic Quick");
-        var clipDuration = (1f / anticClip.FPS) * anticClip.Frames.Count;
+        //var anticClip = Boss.Head.Animator.AnimationData.GetClip("Fire Laser Antic Quick");
+        //var clipDuration = (1f / anticClip.FPS) * anticClip.Frames.Count;
+
+        var clipDuration = Boss.Head.Animator.AnimationData.GetClipDuration("Fire Laser Antic Quick");
 
         var shots = possibleShotAmounts.GetRandomElement();
 
@@ -423,7 +446,7 @@ public class LaserRapidFireMove : AncientAspidMove
 
         for (int i = 0; i < shots; i++)
         {
-            if (Boss.Phase != currentPhase || Vector3.Distance(transform.position, Player.Player1.transform.position) > 28f)
+            if (Cancelled || Boss.CurrentPhase != currentPhase || Vector3.Distance(transform.position, Player.Player1.transform.position) > 28f)
             {
                 break;
             }
@@ -466,7 +489,7 @@ public class LaserRapidFireMove : AncientAspidMove
 
             yield return new WaitUntil(() => !rapidFireEmitter.FiringLaser);
 
-            if (i >= 1 && Boss.HealthManager.Health < health)
+            if (i >= 1 && Boss.HealthManager.Health < health || Cancelled)
             {
                 break;
             }
@@ -505,7 +528,7 @@ public class LaserRapidFireMove : AncientAspidMove
 
         freezeTarget = false;
 
-        if (currentPhase == Boss.Phase && Vector3.Distance(transform.position, Player.Player1.transform.position) <= 28f)
+        if (!Cancelled && currentPhase == Boss.CurrentPhase && Vector3.Distance(transform.position, Player.Player1.transform.position) <= 28f)
         {
             doingShotgun = true;
 
@@ -513,16 +536,33 @@ public class LaserRapidFireMove : AncientAspidMove
 
             doingShotgun = false;
         }
-        Boss.orbitReductionAmount /= 3f;
+        //Boss.OrbitReductionAmount /= 3f;
         ResetTarget();
 
         //WeaverLog.LogError("OLD TARGET = " + oldTarget?.name);
         //Boss.SetTarget(oldTarget);
+        Boss.OrbitReductionAmount = prevOrbitReductionAmount;
         Boss.maximumFlightSpeed = prevMaxFlightSpeed;
         Boss.flightSpeed = prevFlightSpeed;
         Boss.Head.UnlockHead();
 
         //yield break;
+    }
+
+    void Cancel()
+    {
+        Boss.Head.Animator.PlaybackSpeed = 1f;
+        freezeTarget = false;
+
+        ResetTarget();
+
+        Boss.OrbitReductionAmount = prevOrbitReductionAmount;
+        Boss.maximumFlightSpeed = prevMaxFlightSpeed;
+        Boss.flightSpeed = prevFlightSpeed;
+        if (Boss.Head.HeadLocked)
+        {
+            Boss.Head.UnlockHead();
+        }
     }
 
     IEnumerator FireLaser(float delay, float duration)
@@ -588,7 +628,7 @@ public class LaserRapidFireMove : AncientAspidMove
         }
     }
 
-    public override float PostDelay => 0;
+    public override float GetPostDelay(int prevHealth) => 0;
 
     float ClampWithinRange(float angle, float a, float b)
     {
@@ -630,7 +670,7 @@ public class LaserRapidFireMove : AncientAspidMove
 
     public override void OnStun()
     {
-        if (Boss.Head.HeadLocked && !Boss.Head.HeadBeingUnlocked)
+        if (Boss.Head.HeadLocked)
         {
             Boss.Head.UnlockHead();
         }
@@ -646,7 +686,7 @@ public class LaserRapidFireMove : AncientAspidMove
             doingShotgun = false;
             shotgunMove.OnStun();
 
-            Boss.orbitReductionAmount /= 3f;
+            Boss.OrbitReductionAmount /= 3f;
             ResetTarget();
         }
         else
@@ -705,6 +745,15 @@ public class LaserRapidFireMove : AncientAspidMove
         for (int i = 0; i < amount; i++)
         {
             Blood.SpawnRandomBlood(pos);
+        }
+    }
+
+    public override void StopMove()
+    {
+        base.StopMove();
+        if (doingShotgun)
+        {
+            shotgunMove.StopMove();
         }
     }
 }

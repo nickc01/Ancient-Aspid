@@ -28,4 +28,9 @@ public class DirectBombController : IBombController
     {
         return float.NaN;
     }
+
+    public bool DoBombs(AncientAspid Boss)
+    {
+        return true;
+    }
 }

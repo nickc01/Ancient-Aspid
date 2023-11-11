@@ -11,7 +11,7 @@ public class MultiSweepLaserMove : AncientAspidMove
 
     public override bool MoveEnabled => moveEnabled &&
                 Boss.CanSeeTarget &&
-        Boss.AspidMode == AncientAspid.Mode.Offensive &&
+        Boss.CurrentRunningMode == Boss.OffensiveMode &&
         Vector3.Distance(Player.Player1.transform.position, transform.position) <= 30f;
 
     [SerializeField]
@@ -57,7 +57,7 @@ public class MultiSweepLaserMove : AncientAspidMove
     }
 
 
-    public override IEnumerator DoMove()
+    protected override IEnumerator OnExecute()
     {
         if (shootVomitShots)
         {
@@ -84,7 +84,10 @@ public class MultiSweepLaserMove : AncientAspidMove
             startAngle = Boss.GetAngleToPlayer() - startAngleFromPlayer;
         }
 
-        yield return laserMove.SweepLaser(new MultiSweepController(laserFireDuration,laserAcceleration, startAngle, laserInitialVelocity, maximumLaserVelocity),false,0f);
+        if (!Cancelled)
+        {
+            yield return laserMove.SweepLaser(new MultiSweepController(laserFireDuration, laserAcceleration, startAngle, laserInitialVelocity, maximumLaserVelocity));
+        }
 
         currentMoveState = MoveState.None;
 
@@ -107,5 +110,23 @@ public class MultiSweepLaserMove : AncientAspidMove
         }
 
         currentMoveState = MoveState.None;
+    }
+
+    public override void StopMove()
+    {
+        switch (currentMoveState)
+        {
+            case MoveState.None:
+                break;
+            case MoveState.VomitShots:
+                vomitShotMove.StopMove();
+                //vomitShotMove.OnStun();
+                break;
+            case MoveState.Laser:
+                laserMove.StopMove();
+                //laserMove.OnStun();
+                break;
+        }
+        base.StopMove();
     }
 }

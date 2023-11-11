@@ -33,7 +33,7 @@ public class MegaBombsController : IBombController
     {
         velocity = MathUtilities.CalculateVelocityToReachPoint(sourcePos, (Vector2)Player.Player1.transform.position + (Random.insideUnitCircle * BombTargetRandomness), BombAirDuration, GravityScale);
 
-        var floorHeight = Boss.CurrentRoomRect.Rect.yMin + 0.5f;
+        var floorHeight = Boss.CurrentRoomRect.yMin + 0.5f;
 
         FloorHeight = floorHeight;
 
@@ -53,5 +53,10 @@ public class MegaBombsController : IBombController
     public float GetBombZAxis(int bombIndex)
     {
         return -0.3f;
+    }
+
+    public bool DoBombs(AncientAspid Boss)
+    {
+        return true;
     }
 }

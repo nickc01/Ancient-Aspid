@@ -319,7 +319,7 @@ public class ClawAnimator : MonoBehaviour
             {
                 MainRenderer.sprite = Animator.AnimationData.GetFrameFromClip($"Lunge Land {clawType}", clip.Frames.Count - 1);
             }
-            yield return new WaitForSeconds(Controller.Boss.lungeDownwardsLandDelay);
+            yield return new WaitForSeconds(Controller.Boss.GroundMode.lungeDownwardsLandDelay);
         }
 
         float secondsPerFrame = 1f / clip.FPS;

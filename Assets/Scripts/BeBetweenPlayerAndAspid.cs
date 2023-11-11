@@ -33,6 +33,8 @@ public class BeBetweenPlayerAndAspid : MonoBehaviour
 
     public float currentDistanceToPlayer = 0f;
 
+    public Vector2 angleRange = new Vector2(5f, 180f - 5f);
+
     public AncientAspid Aspid;
 
     float floorLevel = 0;
@@ -100,14 +102,103 @@ public class BeBetweenPlayerAndAspid : MonoBehaviour
     {
         var playerPos = Player.Player1.transform.position;
 
-        var vectorToObject = (Aspid.transform.position - playerPos);
+        var dirToAspid = Aspid.transform.position - playerPos;
+
+        var angleToAspid = (MathUtilities.CartesianToPolar(dirToAspid).x + 360f) % 360f;
+
+        float magnitude;
+
+        if (angleToAspid > AboveMinAngle && angleToAspid < AboveMaxAngle)
+        {
+            magnitude = DistanceFromPlayerWhenAbove;
+        }
+        else
+        {
+            magnitude = currentDistanceToPlayer;
+        }
+
+        if (angleToAspid > 270f)
+        {
+            angleToAspid -= 360f;
+        }
+
+        angleToAspid = Mathf.Clamp(angleToAspid, angleRange.x, angleRange.y);
+
+        transform.position = playerPos + (Vector3)MathUtilities.PolarToCartesian(angleToAspid, magnitude);
+
+        var roomBoundaries = Aspid.CurrentRoomRect;
+
+        if (transform.position.y <= roomBoundaries.yMin + minDistanceFromFloor)
+        {
+            transform.SetPositionY(roomBoundaries.yMin + minDistanceFromFloor);
+        }
+    }
+
+    private void UpdateOLD()
+    {
+        var playerPos = Player.Player1.transform.position;
+
+        var vectorToObject = Aspid.transform.position - playerPos;
 
 
-        var angle = 180f + (Mathf.Rad2Deg * Mathf.Atan2(vectorToObject.y, vectorToObject.x));
+        //var angle = 180f + (Mathf.Rad2Deg * Mathf.Atan2(vectorToObject.y, vectorToObject.x));
+        var angle = (360f + Mathf.Rad2Deg * Mathf.Atan2(vectorToObject.y, vectorToObject.x)) % 360f;
+
+        float magnitude;
 
         //Debug.DrawLine(OtherObject.transform.position, OtherObject.transform.position + new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle)));
 
-        if (Aspid.Phase == AncientAspid.BossPhase.Phase2)
+        /*if (angle > AboveMinAngle && angle < AboveMaxAngle)
+        {
+            magnitude = DistanceFromPlayerWhenAbove;
+            transform.position = playerPos + (vectorToObject.normalized * DistanceFromPlayerWhenAbove);
+        }
+        else
+        {
+            magnitude = currentDistanceToPlayer;
+            transform.position = playerPos + (vectorToObject.normalized * currentDistanceToPlayer);
+
+            var roomBoundaries = Aspid.CurrentRoomRect;
+
+            if (transform.position.y <= roomBoundaries.yMin + minDistanceFromFloor)
+            {
+                transform.SetPositionY(roomBoundaries.yMin + minDistanceFromFloor);
+            }
+        }*/
+
+        if (angle > AboveMinAngle && angle < AboveMaxAngle)
+        {
+            magnitude = DistanceFromPlayerWhenAbove;
+            //magnitude = currentDistanceToPlayer;
+            //transform.position = playerPos + (vectorToObject.normalized * DistanceFromPlayerWhenAbove);
+        }
+        else
+        {
+            magnitude = currentDistanceToPlayer;
+            /*transform.position = playerPos + (vectorToObject.normalized * currentDistanceToPlayer);
+
+            var roomBoundaries = Aspid.CurrentRoomRect;
+
+            if (transform.position.y <= roomBoundaries.yMin + minDistanceFromFloor)
+            {
+                transform.SetPositionY(roomBoundaries.yMin + minDistanceFromFloor);
+            }*/
+        }
+
+
+        angle = Mathf.Clamp(angle, angleRange.x, angleRange.y);
+
+        transform.position = playerPos + (Vector3)MathUtilities.PolarToCartesian(angle, magnitude);
+
+        var roomBoundaries = Aspid.CurrentRoomRect;
+
+        if (transform.position.y <= roomBoundaries.yMin + minDistanceFromFloor)
+        {
+            transform.SetPositionY(roomBoundaries.yMin + minDistanceFromFloor);
+        }
+
+
+        /*if (Aspid.Phase == AncientAspid.BossPhase.Phase2)
         {
             if (vectorToObject.y < 0)
             {
@@ -133,7 +224,7 @@ public class BeBetweenPlayerAndAspid : MonoBehaviour
                     transform.SetPositionY(roomBoundaries.Rect.yMin + minDistanceFromFloor);
                 }
             }
-        }
+        }*/
 
         /*var roomBoundaries = Aspid.CurrentRoomRect;
 

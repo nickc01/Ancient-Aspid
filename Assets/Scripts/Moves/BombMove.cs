@@ -6,6 +6,8 @@ using WeaverCore.Utilities;
 
 public class BombMove : AncientAspidMove
 {
+    public const string CUSTOM_BOMB_CONTROLLER = nameof(CUSTOM_BOMB_CONTROLLER);
+
     [SerializeField]
     float headSpeed = 1.5f;
 
@@ -40,9 +42,21 @@ public class BombMove : AncientAspidMove
     [SerializeField]
     Vector2 angularVelocityRange = new Vector2(-50f,50f);
 
-    public override bool MoveEnabled => Boss.CanSeeTarget &&
-        Boss.AspidMode == AncientAspid.Mode.Tactical &&
-        Vector3.Distance(Player.Player1.transform.position, transform.position) <= 30f;
+    public override bool MoveEnabled
+    {
+        get
+        {
+            var enabled = Boss.CanSeeTarget &&
+        Boss.CurrentRunningMode == Boss.TacticalMode &&
+        Vector3.Distance(Player.Player1.transform.position, transform.position) <= 25f;
+
+            enabled = enabled && ((Boss.PlayerRightOfBoss && Boss.Orientation == AspidOrientation.Right) || (!Boss.PlayerRightOfBoss && Boss.Orientation == AspidOrientation.Left) || Boss.Orientation == AspidOrientation.Center);
+
+
+
+            return enabled;
+        }
+    }
 
     Vector3 baseFaderPos;
 
@@ -50,10 +64,12 @@ public class BombMove : AncientAspidMove
 
     public IEnumerable<Bomb> LastFiredBombs => _lastFiredBombs;
 
-    /// <summary>
+    /*/// <summary>
     /// If specified, this bomb controller will get executed when the move gets executed. Otherwise, the default bomb controller is used
     /// </summary>
-    public IBombController CustomController { get; set; } = null;
+    public IBombController CustomController { get; set; } = null;*/
+
+    //public override bool Interruptible => true;
 
     float _bombGravityScale = float.NaN;
     public float BombGravityScale
@@ -72,7 +88,7 @@ public class BombMove : AncientAspidMove
         }
     }
 
-    public override IEnumerator DoMove()
+    protected override IEnumerator OnExecute()
     {
         bool headPreLocked = Boss.Head.HeadLocked;
 
@@ -87,52 +103,11 @@ public class BombMove : AncientAspidMove
             gravityScale = rb.gravityScale;
         }
 
-        yield return FireBombs(CustomController ?? new DefaultBombController(shotSpeed, gravityScale));
+        Arguments.TryGetValueOfType(CUSTOM_BOMB_CONTROLLER, out IBombController customController);
 
-        CustomController = null;
-        /*yield return Boss.Head.LockHead(Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left, headSpeed);
 
-        if (baseFaderPos == default)
-        {
-            baseFaderPos = fader.transform.localPosition;
-        }
+        yield return FireBombs(customController ?? new DefaultBombController(shotSpeed, gravityScale));
 
-        if (Boss.Head.LookingDirection >= 0f)
-        {
-            fader.transform.localPosition = baseFaderPos.With(x: -baseFaderPos.x);
-            fader.transform.SetScaleX(-1f);
-        }
-        else
-        {
-            fader.transform.localPosition = baseFaderPos;
-            fader.transform.SetScaleX(1f);
-        }
-
-        fader.Fade(true);
-        bombParticles.Play();
-
-        var oldState = Boss.Head.MainRenderer.TakeSnapshot();
-
-        Boss.Head.MainRenderer.flipX = Boss.Head.LookingDirection >= 0f;
-
-        yield return Boss.Head.Animator.PlayAnimationTillDone($"Fire - {attackVariant} - Prepare");
-
-        float gravityScale = 1;
-        if (bombPrefab.TryGetComponent(out Rigidbody2D rb))
-        {
-            gravityScale = rb.gravityScale;
-        }
-
-        Fire(new DefaultBombController(shotSpeed, gravityScale));
-
-        fader.Fade(false);
-        bombParticles.Stop();
-
-        yield return Boss.Head.Animator.PlayAnimationTillDone($"Fire - {attackVariant} - Attack");
-
-        Boss.Head.MainRenderer.Restore(oldState);
-
-        Boss.Head.UnlockHead();*/
         if (!headPreLocked)
         {
             Boss.Head.UnlockHead();
@@ -144,6 +119,11 @@ public class BombMove : AncientAspidMove
     /// </summary>
     public IEnumerator FireBombs(IBombController bombController, bool doPrepare = true)
     {
+        if (!bombController.DoBombs(Boss))
+        {
+            yield break;
+        }
+        Cancelled = false;
         if (baseFaderPos == default)
         {
             baseFaderPos = fader.transform.localPosition;
@@ -171,15 +151,10 @@ public class BombMove : AncientAspidMove
         {
             yield return Boss.Head.Animator.PlayAnimationTillDone($"Fire - {attackVariant} - Prepare");
         }
-
-        /*float gravityScale = 1;
-        if (bombPrefab.TryGetComponent(out Rigidbody2D rb))
+        if (bombController.DoBombs(Boss))
         {
-            gravityScale = rb.gravityScale;
-        }*/
-
-        Fire(bombController);
-        //Fire(Boss.Head.LookingDirection, 2, 0.5f);
+            Fire(bombController);
+        }
 
         fader.Fade(false);
         bombParticles.Stop();
@@ -187,11 +162,9 @@ public class BombMove : AncientAspidMove
         yield return Boss.Head.Animator.PlayAnimationTillDone($"Fire - {attackVariant} - Attack");
 
         Boss.Head.MainRenderer.Restore(oldState);
-
-        //Boss.Head.UnlockHead();
     }
 
-    void Fire(IBombController bombController /*float angle, int shots, float velocityMultplier = 1f*/)
+    void Fire(IBombController bombController)
     {
         _lastFiredBombs.Clear();
         if (shotSpeed <= 0)
@@ -202,9 +175,6 @@ public class BombMove : AncientAspidMove
         var sourcePos = Boss.Head.GetFireSource(Boss.Head.LookingDirection);
 
         Blood.SpawnBlood(sourcePos, new Blood.BloodSpawnInfo(3*2, 7*2, 10f, 25f, Boss.Head.LookingDirection - 90f - 40f, Boss.Head.LookingDirection - 90f + 40f, null));
-        //Blood.SpawnBlood(sourcePos, new Blood.BloodSpawnInfo(3, 4, 10f, 15f, 120f, 150f, null));
-
-        //var velocityToPlayer = MathUtilities.CalculateVelocityToReachPoint(sourcePos, Player.Player1.transform.position, Vector3.Distance(sourcePos, Player.Player1.transform.position) / shotSpeed, gravityScale);
 
         int shots = bombController.BombsToShoot;
 
@@ -246,43 +216,39 @@ public class BombMove : AncientAspidMove
 
     Bomb FireShot(float playerAngle, float angle, Vector3 sourcePos, float velocity, float size)
     {
-        if (!Boss.RiseFromCenterPlatform)
-        {
-            //var instance = Pooling.Instantiate(ShotPrefab, sourcePos, Quaternion.identity);
-            var bomb = Bomb.Spawn(bombPrefab, sourcePos, MathUtilities.PolarToCartesian(playerAngle + angle, velocity), angularVelocityRange.RandomInRange());
+        var bomb = Bomb.Spawn(bombPrefab, sourcePos, MathUtilities.PolarToCartesian(playerAngle + angle, velocity), angularVelocityRange.RandomInRange());
 
-            if (!float.IsNaN(size))
-            {
-                bomb.transform.SetLocalScaleXY(size, size);
-            }
-            return bomb;
-            /*if (instance.TryGetComponent(out Rigidbody2D rb))
-            {
-                rb.velocity = MathUtilities.PolarToCartesian(playerAngle + angle, velocity);
-            }*/
-            /*if (instance.TryGetComponent(out AspidShotBase aspidShot))
-            {
-                aspidShot.ScaleFactor = shotScale;
-            }
-            else
-            {
-                instance.transform.SetLocalScaleXY(shotScale, shotScale);
-            }*/
+        if (!float.IsNaN(size))
+        {
+            bomb.transform.SetLocalScaleXY(size, size);
         }
+        return bomb;
         return null;
     }
 
-    public override float PostDelay => postDelay;
+    public override float GetPostDelay(int prevHealth) => postDelay;
+
+
+    /*protected override IEnumerator OnCancelRoutine()
+    {
+        OnStun();
+        yield break;
+    }*/
 
     public override void OnStun()
     {
         fader.Fade(false);
         bombParticles.Stop();
         Boss.Head.Animator.StopCurrentAnimation();
-        CustomController = null;
+        //CustomController = null;
         if (Boss.Head.HeadLocked)
         {
             Boss.Head.UnlockHead();
         }
     }
+
+    /*public override void GracefullyStop()
+    {
+        
+    }*/
 }

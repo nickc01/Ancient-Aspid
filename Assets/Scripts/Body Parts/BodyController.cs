@@ -269,14 +269,14 @@ public class BodyController : AspidBodyPart
     {
         if (!slide)
         {
-            yield return new WaitForSeconds(Boss.lungeDownwardsLandDelay);
+            yield return new WaitForSeconds(Boss.GroundMode.lungeDownwardsLandDelay);
         }
         yield break;
     }
 
     public IEnumerator SlideSwitchDirection(AspidOrientation oldDirection, AspidOrientation newDirection)
     {
-        yield return ChangeDirection(newDirection, Boss.lungeTurnaroundSpeed);
+        yield return ChangeDirection(newDirection, Boss.GroundMode.lungeTurnaroundSpeed);
         yield break;
     }
 
@@ -289,31 +289,31 @@ public class BodyController : AspidBodyPart
     {
         var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
 
-        for (int i = 0; i < Boss.groundJumpFrames; i++)
+        for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
         {
-            transform.localPosition += Boss.jumpPosIncrements;
-            transform.localEulerAngles += Boss.jumpRotIncrements * lookingDirection;
-            yield return new WaitForSeconds(1f / Boss.groundJumpPrepareFPS);
+            transform.localPosition += Boss.GroundMode.jumpPosIncrements;
+            transform.localEulerAngles += Boss.GroundMode.jumpRotIncrements * lookingDirection;
+            yield return new WaitForSeconds(1f / Boss.GroundMode.groundJumpPrepareFPS);
         }
         yield break;
     }
 
     public IEnumerator GroundLaunch()
     {
-        animator.PlaybackSpeed = Boss.MidAirSwitchSpeed * 1.5f;
+        animator.PlaybackSpeed = Boss.GroundMode.MidAirSwitchSpeed * 1.5f;
         //StartCoroutine(PlayBodyAnim());
         var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
-        for (int i = 0; i < Boss.groundJumpFrames; i++)
+        for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
         {
-            transform.localPosition -= Boss.jumpPosIncrements;
-            transform.localEulerAngles -= Boss.jumpRotIncrements * lookingDirection;
+            transform.localPosition -= Boss.GroundMode.jumpPosIncrements;
+            transform.localEulerAngles -= Boss.GroundMode.jumpRotIncrements * lookingDirection;
             if (i == 1)
             {
                 animator.PlayAnimation("Lower Tail Quick");
             }
-            if (i != Boss.groundJumpFrames - 1)
+            if (i != Boss.GroundMode.groundJumpFrames - 1)
             {
-                yield return new WaitForSeconds(1f / Boss.groundJumpLaunchFPS);
+                yield return new WaitForSeconds(1f / Boss.GroundMode.groundJumpLaunchFPS);
             }
         }
         TailRaised = false;
@@ -330,18 +330,18 @@ public class BodyController : AspidBodyPart
     {
         var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
 
-        transform.localPosition += Boss.jumpPosIncrements * Boss.groundJumpFrames;
-        transform.localEulerAngles += Boss.jumpRotIncrements * lookingDirection * Boss.groundJumpFrames;
+        transform.localPosition += Boss.GroundMode.jumpPosIncrements * Boss.GroundMode.groundJumpFrames;
+        transform.localEulerAngles += Boss.GroundMode.jumpRotIncrements * lookingDirection * Boss.GroundMode.groundJumpFrames;
 
-        yield return new WaitForSeconds(Boss.groundJumpLandDelay);
+        yield return new WaitForSeconds(Boss.GroundMode.groundJumpLandDelay);
 
         if (finalLanding)
         {
-            for (int i = 0; i < Boss.groundJumpFrames; i++)
+            for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
             {
-                transform.localPosition -= Boss.jumpPosIncrements;
-                transform.localEulerAngles -= Boss.jumpRotIncrements * lookingDirection;
-                yield return new WaitForSeconds(1f / Boss.groundJumpLaunchFPS);
+                transform.localPosition -= Boss.GroundMode.jumpPosIncrements;
+                transform.localEulerAngles -= Boss.GroundMode.jumpRotIncrements * lookingDirection;
+                yield return new WaitForSeconds(1f / Boss.GroundMode.groundJumpLaunchFPS);
             }
 
             yield return new WaitUntil(() => animator.PlayingGUID == default);
@@ -360,7 +360,7 @@ public class BodyController : AspidBodyPart
     public override IEnumerator MidJumpChangeDirection(AspidOrientation oldOrientation, AspidOrientation newOrientation)
     {
         PreviousOrientation = CurrentOrientation;
-        animator.PlaybackSpeed = Boss.MidAirSwitchSpeed;
+        animator.PlaybackSpeed = Boss.GroundMode.MidAirSwitchSpeed;
         CurrentOrientation = newOrientation;
         MainRenderer.flipX = oldOrientation == AspidOrientation.Right;
         yield return animator.PlayAnimationTillDone("Lowered - Change Direction Quick");
@@ -368,7 +368,7 @@ public class BodyController : AspidBodyPart
         MainRenderer.flipX = newOrientation == AspidOrientation.Right;
         MainRenderer.sprite = animator.AnimationData.GetFrameFromClip("Lowered - Change Direction", 0);
 
-        animator.PlaybackSpeed = Boss.MidAirSwitchSpeed * 1.5f;
+        animator.PlaybackSpeed = Boss.GroundMode.MidAirSwitchSpeed * 1.5f;
         yield return animator.PlayAnimationTillDone("Raise Tail Quick");
         TailRaised = true;
     }

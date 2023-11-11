@@ -4,17 +4,14 @@ using WeaverCore.Features;
 
 public class DefaultGroundAreaProvider : IModeAreaProvider
 {
-    AncientAspid boss;
-
     Vector3 lungeTargetOffset;
 
-    public DefaultGroundAreaProvider(AncientAspid boss, Vector3 lungeTargetOffset)
+    public DefaultGroundAreaProvider(Vector3 lungeTargetOffset)
     {
-        this.boss = boss;
         this.lungeTargetOffset = lungeTargetOffset;
     }
 
-    public Vector2 GetModeTarget()
+    public Vector2 GetModeTarget(AncientAspid boss)
     {
         if (boss.Head.LookingDirection >= 0f)
         {
@@ -24,5 +21,10 @@ public class DefaultGroundAreaProvider : IModeAreaProvider
         {
             return Player.Player1.transform.position + new Vector3(-lungeTargetOffset.x, lungeTargetOffset.y, lungeTargetOffset.z);
         }
+    }
+
+    public bool IsTargetActive(AncientAspid boss)
+    {
+        return Vector3.Distance(boss.transform.position, Player.Player1.transform.position) <= 30f;
     }
 }

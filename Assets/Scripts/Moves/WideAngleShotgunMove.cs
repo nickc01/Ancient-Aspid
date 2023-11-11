@@ -42,8 +42,8 @@ public class WideAngleShotgunMove : AncientAspidMove
         get
         {
             var enabled = Boss.CanSeeTarget &&
-        Boss.AspidMode == AncientAspid.Mode.Offensive &&
-        Vector3.Distance(Player.Player1.transform.position, transform.position) <= 30f;
+        Boss.CurrentRunningMode == Boss.OffensiveMode &&
+        Vector3.Distance(Player.Player1.transform.position, transform.position) <= 30f && Player.Player1.transform.position.y <= Boss.transform.position.y - 1.5f;
             return enabled;
         }
     }
@@ -59,16 +59,16 @@ public class WideAngleShotgunMove : AncientAspidMove
         bombMove = GetComponent<BombMove>();
     }
 
-    public override IEnumerator DoMove()
+    protected override IEnumerator OnExecute()
     {
         //yield return shotgunMove.DoShotgunLaser(new WideAngleShotgunController(Boss,Boss.GetAngleToPlayer()), 0f, 1.5f);
 
-        var angleToPlayer = Boss.GetAngleToPlayer();
+        //var angleToPlayer = Boss.GetAngleToPlayer();
 
-        if (angleToPlayer > 180f)
+        /*if (angleToPlayer > 180f)
         {
             angleToPlayer -= 360f;
-        }
+        }*/
 
 
         Vector2 destPos;
@@ -97,7 +97,10 @@ public class WideAngleShotgunMove : AncientAspidMove
 
         IEnumerator LaserRoutine()
         {
-            yield return shotgunMove.DoShotgunLaser(controller, 0f, laserTime, true, fireSprite, laserOffset);
+            if (controller.PlayerWithinLasers)
+            {
+                yield return shotgunMove.DoShotgunLaser(controller, 0f, laserTime, true, fireSprite, laserOffset);
+            }
             shotgunFinished = true;
         }
 
@@ -132,12 +135,12 @@ public class WideAngleShotgunMove : AncientAspidMove
 
         firingLaser = false;
 
-        if (endTime - startTime >= 0.5f)
+        if (!Cancelled && endTime - startTime >= 0.5f)
         {
             yield return bombMove.FireBombs(new DirectBombController(bombAirTime, bombMove.BombGravityScale, bombSize), false);
         }
 
-        if (Boss.Head.HeadLocked && !Boss.Head.HeadBeingUnlocked)
+        if (Boss.Head.HeadLocked)
         {
             Boss.Head.UnlockHead();
         }
@@ -152,6 +155,19 @@ public class WideAngleShotgunMove : AncientAspidMove
         else
         {
             bombMove.OnStun();
+        }
+    }
+
+    public override void StopMove()
+    {
+        base.StopMove();
+        if (firingLaser)
+        {
+            shotgunMove.StopMove();
+        }
+        else
+        {
+            bombMove.StopMove();
         }
     }
 }

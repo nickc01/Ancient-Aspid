@@ -31,7 +31,7 @@ public class VomitLasersMove : AncientAspidMove
         {
             var enabled = moveEnabled && 
                 Boss.CanSeeTarget &&
-        Boss.AspidMode == AncientAspid.Mode.Offensive &&
+        Boss.CurrentRunningMode == Boss.OffensiveMode &&
         Vector3.Distance(Player.Player1.transform.position, transform.position) <= 30f;
 
             //WeaverLog.LogError("RADIAL BULLET ENABLED = " + enabled);
@@ -52,7 +52,7 @@ public class VomitLasersMove : AncientAspidMove
         shotgunMove = GetComponent<LaserShotgunMove>();
     }
 
-    public override IEnumerator DoMove()
+    protected override IEnumerator OnExecute()
     {
         moveState = 1;
 
@@ -72,15 +72,34 @@ public class VomitLasersMove : AncientAspidMove
             shot.ForceDisappear(prepareTime);
         }
 
-        yield return shotgunMove.DoShotgunLaser(new VomitLasersShotgunController(shots, laserInterpSpeed), prepareTime, attackTime);
+        if (!Cancelled)
+        {
+            yield return shotgunMove.DoShotgunLaser(new VomitLasersShotgunController(shots, laserInterpSpeed), prepareTime, attackTime);
+        }
 
         moveState = 0;
 
         shots = null;
 
-        if (Boss.Head.HeadLocked && !Boss.Head.HeadBeingUnlocked)
+        if (Boss.Head.HeadLocked)
         {
             Boss.Head.UnlockHead();
+        }
+    }
+
+    public override void StopMove()
+    {
+        base.StopMove();
+        switch (moveState)
+        {
+            case 1:
+                vomitShotMove.StopMove();
+                break;
+            case 2:
+                shotgunMove.StopMove();
+                break;
+            default:
+                break;
         }
     }
 
@@ -95,7 +114,7 @@ public class VomitLasersMove : AncientAspidMove
             shots = null;
         }
 
-        if (Boss.Head.HeadLocked && !Boss.Head.HeadBeingUnlocked)
+        if (Boss.Head.HeadLocked)
         {
             Boss.Head.UnlockHead();
         }

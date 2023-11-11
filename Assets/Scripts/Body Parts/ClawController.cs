@@ -404,34 +404,34 @@ public class ClawController : AspidBodyPart
 
     public IEnumerator GroundPrepareJump()
     {
-        for (int i = 0; i < Boss.groundJumpFrames; i++)
+        for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
         {
-            leftClawsOrigin.transform.localPosition += Boss.jumpPosIncrements;
+            leftClawsOrigin.transform.localPosition += Boss.GroundMode.jumpPosIncrements;
             //leftClawsOrigin.transform.localEulerAngles -= Boss.jumpRotIncrements;
-            leftClawsOrigin.transform.localScale += Boss.jumpScaleIncrements;
+            leftClawsOrigin.transform.localScale += Boss.GroundMode.jumpScaleIncrements;
 
-            rightClawsOrigin.transform.localPosition += Boss.jumpPosIncrements * 1.5f;
-            rightClawsOrigin.transform.localScale += Boss.jumpScaleIncrements;
+            rightClawsOrigin.transform.localPosition += Boss.GroundMode.jumpPosIncrements * 1.5f;
+            rightClawsOrigin.transform.localScale += Boss.GroundMode.jumpScaleIncrements;
             //rightClawsOrigin.transform.localEulerAngles += Boss.jumpRotIncrements;
-            yield return new WaitForSeconds(1f / Boss.groundJumpPrepareFPS);
+            yield return new WaitForSeconds(1f / Boss.GroundMode.groundJumpPrepareFPS);
         }
         yield break;
     }
 
     public IEnumerator GroundLaunch()
     {
-        for (int i = 0; i < Boss.groundJumpFrames; i++)
+        for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
         {
-            leftClawsOrigin.transform.localPosition -= Boss.jumpPosIncrements;
+            leftClawsOrigin.transform.localPosition -= Boss.GroundMode.jumpPosIncrements;
             //leftClawsOrigin.transform.localEulerAngles += Boss.jumpRotIncrements;
-            leftClawsOrigin.transform.localScale -= Boss.jumpScaleIncrements;
+            leftClawsOrigin.transform.localScale -= Boss.GroundMode.jumpScaleIncrements;
 
-            rightClawsOrigin.transform.localPosition -= Boss.jumpPosIncrements * 1.5f;
+            rightClawsOrigin.transform.localPosition -= Boss.GroundMode.jumpPosIncrements * 1.5f;
             //rightClawsOrigin.transform.localEulerAngles -= Boss.jumpRotIncrements;
-            rightClawsOrigin.transform.localScale -= Boss.jumpScaleIncrements;
-            if (i != Boss.groundJumpFrames - 1)
+            rightClawsOrigin.transform.localScale -= Boss.GroundMode.jumpScaleIncrements;
+            if (i != Boss.GroundMode.groundJumpFrames - 1)
             {
-                yield return new WaitForSeconds(1f / Boss.groundJumpLaunchFPS);
+                yield return new WaitForSeconds(1f / Boss.GroundMode.groundJumpLaunchFPS);
             }
         }
 
@@ -450,28 +450,28 @@ public class ClawController : AspidBodyPart
             claw.UpdateGroundSprite();
         }
 
-        leftClawsOrigin.transform.localPosition += Boss.jumpPosIncrements * Boss.groundJumpFrames;
+        leftClawsOrigin.transform.localPosition += Boss.GroundMode.jumpPosIncrements * Boss.GroundMode.groundJumpFrames;
         //leftClawsOrigin.transform.localEulerAngles -= Boss.jumpRotIncrements * Boss.groundJumpFrames;
-        leftClawsOrigin.transform.localScale += Boss.jumpScaleIncrements * Boss.groundJumpFrames;
+        leftClawsOrigin.transform.localScale += Boss.GroundMode.jumpScaleIncrements * Boss.GroundMode.groundJumpFrames;
 
-        rightClawsOrigin.transform.localPosition += Boss.jumpPosIncrements * 1.5f * Boss.groundJumpFrames;
+        rightClawsOrigin.transform.localPosition += Boss.GroundMode.jumpPosIncrements * 1.5f * Boss.GroundMode.groundJumpFrames;
         //rightClawsOrigin.transform.localEulerAngles += Boss.jumpRotIncrements * Boss.groundJumpFrames;
-        rightClawsOrigin.transform.localScale += Boss.jumpScaleIncrements * Boss.groundJumpFrames;
+        rightClawsOrigin.transform.localScale += Boss.GroundMode.jumpScaleIncrements * Boss.GroundMode.groundJumpFrames;
 
-        yield return new WaitForSeconds(Boss.groundJumpLandDelay);
+        yield return new WaitForSeconds(Boss.GroundMode.groundJumpLandDelay);
 
         if (finalLanding)
         {
-            for (int i = 0; i < Boss.groundJumpFrames; i++)
+            for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
             {
-                leftClawsOrigin.transform.localPosition -= Boss.jumpPosIncrements;
+                leftClawsOrigin.transform.localPosition -= Boss.GroundMode.jumpPosIncrements;
                 //leftClawsOrigin.transform.localEulerAngles += Boss.jumpRotIncrements;
-                leftClawsOrigin.transform.localScale -= Boss.jumpScaleIncrements;
+                leftClawsOrigin.transform.localScale -= Boss.GroundMode.jumpScaleIncrements;
 
-                rightClawsOrigin.transform.localPosition -= Boss.jumpPosIncrements * 1.5f;
+                rightClawsOrigin.transform.localPosition -= Boss.GroundMode.jumpPosIncrements * 1.5f;
                 //rightClawsOrigin.transform.localEulerAngles -= Boss.jumpRotIncrements;
-                rightClawsOrigin.transform.localScale -= Boss.jumpScaleIncrements;
-                yield return new WaitForSeconds(1f / Boss.groundJumpLaunchFPS);
+                rightClawsOrigin.transform.localScale -= Boss.GroundMode.jumpScaleIncrements;
+                yield return new WaitForSeconds(1f / Boss.GroundMode.groundJumpLaunchFPS);
             }
             yield break;
         }

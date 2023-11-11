@@ -10892,17 +10892,17 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -0.07}
       - {x: 0, y: 0.07}
-      - {x: 7.823538, y: 0.3368702}
-      - {x: 7.887986, y: 0.271245}
-      - {x: 7.953259, y: 0.20478153}
-      - {x: 8.019408, y: 0.13742542}
-      - {x: 8.086433, y: 0.069176674}
-      - {x: 8.154367, y: 0.0000019073486}
-      - {x: 8.22321, y: -0.07009792}
-      - {x: 8.292973, y: -0.14113331}
-      - {x: 8.3637295, y: -0.21318245}
-      - {x: 8.435437, y: -0.28619957}
-      - {x: 8.508119, y: -0.3602066}
+      - {x: 3.1719053, y: 0.17818856}
+      - {x: 3.20599, y: 0.14348173}
+      - {x: 3.2405133, y: 0.10832834}
+      - {x: 3.2755065, y: 0.07269597}
+      - {x: 3.3109493, y: 0.03660655}
+      - {x: 3.3468943, y: 0.0000052452087}
+      - {x: 3.3833096, y: -0.037074804}
+      - {x: 3.420217, y: -0.07465577}
+      - {x: 3.4576478, y: -0.11277032}
+      - {x: 3.4955819, y: -0.15139651}
+      - {x: 3.5340288, y: -0.19054532}
 --- !u!114 &3718199228378612896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11235,17 +11235,17 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -0.31}
       - {x: 0, y: 0.31}
-      - {x: 4.709563, y: 0.75656176}
-      - {x: 4.709563, y: 0.60524035}
-      - {x: 4.709563, y: 0.45394945}
-      - {x: 4.709563, y: 0.30262804}
-      - {x: 4.709563, y: 0.15130663}
-      - {x: 4.709563, y: 0.000015735626}
-      - {x: 4.709563, y: -0.15130568}
-      - {x: 4.709563, y: -0.30259657}
-      - {x: 4.709563, y: -0.45393324}
-      - {x: 4.709563, y: -0.6052394}
-      - {x: 4.709563, y: -0.7565608}
+      - {x: 1.2795615, y: 0.43133563}
+      - {x: 1.2795616, y: 0.34506238}
+      - {x: 1.2795616, y: 0.25880444}
+      - {x: 1.2795616, y: 0.17251599}
+      - {x: 1.2795616, y: 0.08627331}
+      - {x: 1.2795616, y: 0.00000011920929}
+      - {x: 1.2795616, y: -0.08624256}
+      - {x: 1.2795616, y: -0.17253101}
+      - {x: 1.2795616, y: -0.2588042}
+      - {x: 1.2795616, y: -0.34506214}
+      - {x: 1.2795618, y: -0.43132007}
 --- !u!114 &3718199228427007950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12076,17 +12076,17 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -0.07}
       - {x: 0, y: 0.07}
-      - {x: 11.124759, y: 0.44948387}
-      - {x: 10.985063, y: 0.3557806}
-      - {x: 10.848268, y: 0.26402378}
-      - {x: 10.714335, y: 0.17418766}
-      - {x: 10.583154, y: 0.086195946}
-      - {x: 10.454659, y: 0.000005722046}
-      - {x: 10.328725, y: -0.084466934}
-      - {x: 10.205323, y: -0.16723919}
-      - {x: 10.084344, y: -0.24838829}
-      - {x: 9.965734, y: -0.32794762}
-      - {x: 9.849429, y: -0.40596008}
+      - {x: 4.6374474, y: 0.22819042}
+      - {x: 4.5665216, y: 0.18061638}
+      - {x: 4.4970784, y: 0.13403654}
+      - {x: 4.42908, y: 0.08842611}
+      - {x: 4.362501, y: 0.043767452}
+      - {x: 4.2972527, y: 0.0000009536743}
+      - {x: 4.233322, y: -0.04288149}
+      - {x: 4.170684, y: -0.08489704}
+      - {x: 4.1092496, y: -0.12610483}
+      - {x: 4.0490446, y: -0.1664877}
+      - {x: 3.9899929, y: -0.2060976}
 --- !u!114 &3718199228499386966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12239,17 +12239,17 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -0.31}
       - {x: 0, y: 0.31}
-      - {x: 5.4523363, y: 0.82698107}
-      - {x: 5.452337, y: 0.66159105}
-      - {x: 5.452337, y: 0.49620104}
-      - {x: 5.452337, y: 0.33079576}
-      - {x: 5.4523373, y: 0.16540575}
-      - {x: 5.4523373, y: -0.000014781952}
-      - {x: 5.4523373, y: -0.16538954}
-      - {x: 5.4523377, y: -0.3307948}
-      - {x: 5.4523377, y: -0.49620008}
-      - {x: 5.4523377, y: -0.6615901}
-      - {x: 5.452338, y: -0.8269954}
+      - {x: 2.0223367, y: 0.5017519}
+      - {x: 2.0223367, y: 0.4014101}
+      - {x: 2.022337, y: 0.30105305}
+      - {x: 2.022337, y: 0.20071125}
+      - {x: 2.0223372, y: 0.100354195}
+      - {x: 2.0223372, y: -0.000002861023}
+      - {x: 2.0223372, y: -0.10035992}
+      - {x: 2.0223374, y: -0.20070171}
+      - {x: 2.0223374, y: -0.3010435}
+      - {x: 2.0223377, y: -0.40140057}
+      - {x: 2.0223377, y: -0.5017576}
 --- !u!114 &3718199228550122308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13838,17 +13838,17 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -0.07}
       - {x: 0, y: 0.07}
-      - {x: 6.1880393, y: 0.28108788}
-      - {x: 6.2111626, y: 0.22549343}
-      - {x: 6.234414, y: 0.16958904}
-      - {x: 6.257788, y: 0.11338949}
-      - {x: 6.281309, y: 0.056837082}
-      - {x: 6.3049474, y: 0.000002861023}
-      - {x: 6.3287263, y: -0.057169437}
-      - {x: 6.3526397, y: -0.114665985}
-      - {x: 6.3767056, y: -0.17252874}
-      - {x: 6.4008884, y: -0.23067284}
-      - {x: 6.4252186, y: -0.2891698}
+      - {x: 2.52516, y: 0.15615058}
+      - {x: 2.5380106, y: 0.12525392}
+      - {x: 2.5509255, y: 0.09420228}
+      - {x: 2.5639107, y: 0.06298137}
+      - {x: 2.5769663, y: 0.031591654}
+      - {x: 2.5901036, y: 0.000004529953}
+      - {x: 2.6033115, y: -0.031751633}
+      - {x: 2.6166015, y: -0.06370497}
+      - {x: 2.6299615, y: -0.09582734}
+      - {x: 2.643404, y: -0.12814689}
+      - {x: 2.6569107, y: -0.16062164}
 --- !u!114 &3718199228821575009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15737,17 +15737,17 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -0.31}
       - {x: 0, y: 0.31}
-      - {x: 5.4223366, y: 0.8241539}
-      - {x: 5.422337, y: 0.65932846}
-      - {x: 5.422337, y: 0.4944725}
-      - {x: 5.422337, y: 0.32966232}
-      - {x: 5.4223375, y: 0.16483688}
-      - {x: 5.4223375, y: 0.000011444092}
-      - {x: 5.4223375, y: -0.16482925}
-      - {x: 5.422338, y: -0.32966995}
-      - {x: 5.422338, y: -0.49448013}
-      - {x: 5.422338, y: -0.6593056}
-      - {x: 5.4223385, y: -0.8241615}
+      - {x: 1.9923368, y: 0.49890947}
+      - {x: 1.9923369, y: 0.39913225}
+      - {x: 1.9923294, y: 0.29935503}
+      - {x: 1.992337, y: 0.19956255}
+      - {x: 1.9923371, y: 0.09978533}
+      - {x: 1.9923372, y: 0.000008106232}
+      - {x: 1.9923373, y: -0.099784374}
+      - {x: 1.9923375, y: -0.19957685}
+      - {x: 1.9923298, y: -0.29933882}
+      - {x: 1.9923376, y: -0.3991313}
+      - {x: 1.9923377, y: -0.49892378}
 --- !u!114 &3718199229280042639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15900,17 +15900,17 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -0.31}
       - {x: 0, y: 0.31}
-      - {x: 5.0473366, y: 0.7885866}
-      - {x: 5.047337, y: 0.6308565}
-      - {x: 5.047337, y: 0.47315693}
-      - {x: 5.047337, y: 0.31542683}
-      - {x: 5.0473375, y: 0.15771198}
-      - {x: 5.0473375, y: -0.000002861023}
-      - {x: 5.0473375, y: -0.1577177}
-      - {x: 5.047338, y: -0.31543255}
-      - {x: 5.047338, y: -0.4731474}
-      - {x: 5.047338, y: -0.63086224}
-      - {x: 5.0473385, y: -0.78859234}
+      - {x: 1.6173368, y: 0.46337283}
+      - {x: 1.6173369, y: 0.37067568}
+      - {x: 1.617337, y: 0.27802432}
+      - {x: 1.617337, y: 0.18534243}
+      - {x: 1.6173371, y: 0.09266055}
+      - {x: 1.6173372, y: 0.000009179115}
+      - {x: 1.6173373, y: -0.092672706}
+      - {x: 1.6173375, y: -0.18532407}
+      - {x: 1.6173375, y: -0.27800596}
+      - {x: 1.6173376, y: -0.37067258}
+      - {x: 1.6173377, y: -0.46335447}
 --- !u!114 &3718199229369823859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20707,9 +20707,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 0ae3c4cbc1544544fa45fb9c1a986d19, type: 3}
   - {fileID: 21300000, guid: 3864ea0f616d22f4bb1500c33a450002, type: 3}
   - {fileID: 21300000, guid: e5c2eac1938394c4f91e73da86ac64ed, type: 3}
-  - {fileID: 21300000, guid: 552013e6bd115fa498ee87163f5721eb, type: 3}
-  - {fileID: 21300000, guid: f0de5569a3ad5c244a17631f7071613b, type: 3}
-  idle_Flip: 0000000000
+  - {fileID: 21300000, guid: 3864ea0f616d22f4bb1500c33a450002, type: 3}
+  - {fileID: 21300000, guid: 0ae3c4cbc1544544fa45fb9c1a986d19, type: 3}
+  idle_Flip: 0000000101
   idle_Degrees:
   - -60
   - -30
@@ -20753,6 +20753,8 @@ MonoBehaviour:
   groundLaserEmitter: {fileID: 3718199229487059831}
   groundLaserOrigin: {fileID: 3718199228141276630}
   groundLaserSound: {fileID: 8300000, guid: 32b1f57d3c32acf41af904badea7fc1a, type: 3}
+  spitSourceLeft: {fileID: 3718199228159796579}
+  spitSourceRight: {fileID: 3718199229162254212}
   groundLaserBloodSpawnRate: 0.15
 --- !u!114 &3718199229977973021
 MonoBehaviour:
@@ -20872,7 +20874,6 @@ GameObject:
   - component: {fileID: 3718199229979044252}
   - component: {fileID: 3718199229979044253}
   - component: {fileID: 3718199229979044242}
-  - component: {fileID: 3718199229979044243}
   - component: {fileID: 1904823578}
   - component: {fileID: 1904823557}
   - component: {fileID: 6296667563420573262}
@@ -20880,6 +20881,10 @@ GameObject:
   - component: {fileID: 1904823582}
   - component: {fileID: 3142900350958000206}
   - component: {fileID: 7846033510451751354}
+  - component: {fileID: 951185217796302362}
+  - component: {fileID: 1904823558}
+  - component: {fileID: 1904823559}
+  - component: {fileID: 1904823560}
   m_Layer: 11
   m_Name: Ancient Aspid
   m_TagString: Untagged
@@ -20943,53 +20948,37 @@ MonoBehaviour:
   disableDamagersOnDeath: 1
   _bossStage: 1
   <TrailerMode>k__BackingField: 0
+  defaultPhase: {fileID: 0}
   godhomeMode: 0
   bossMusic: {fileID: 11400000, guid: f24b2904e1b7c924785e5d4a5218b4d3, type: 2}
-  trailerModeDestY: 0
   attunedHealth: 2900
   ascendedHealth: 3000
   radiantHealth: 3100
   camBoxWidth: 27.8
   camBoxHeight: 15.6
-  centerForcedMove: {fileID: 0}
-  allMovesDisabled: 0
+  prefabs: {fileID: 11400000, guid: 84ae0980edb43bc40b0dd26f6f8f96eb, type: 2}
+  tailCollider: {fileID: 3718199228944484916}
   <GlobPrefab>k__BackingField: {fileID: 7446022173067174804, guid: a4af869b900b45a4ca2017f67e52640a, type: 3}
   <StartAsleep>k__BackingField: 1
-  useNewSleepSprites: 1
-  sleepScalesBefore:
-  - 1
-  - 0.2
-  sleepScalesAfter:
-  - 0.2
-  - 1
   enableOnWakeUp:
   - {fileID: 0}
-  sleepJumpVelocity: 35
-  sleepScaleChangeSpeed: 0.083333336
   sleepSprite: {fileID: 3718199230118346639}
   sleepAwakeSound: {fileID: 8300000, guid: c80c740bf78b08147aacd61d89c15b39, type: 3}
   sleepAwakeSoundPitch: 0.9
   sleepPreJumpDelay: 0.5
-  sleepJumpGravity: 2
   sleepShakeIntensity: 0.1
   sleepRoarDuration: 2.4
   sleepRoarSound: {fileID: 8300000, guid: 724aaa9603b3cc14f92d66a647ba2139, type: 3}
   sleepRoarSoundPitch: 0.9
-  sleepRoarQuickSound: {fileID: 8300000, guid: 0624befbf6fb976419c83b4ea887114f, type: 3}
-  sleepRoarQuickTime: 2
-  pathfindingEnabled: 1
-  pathRegenInterval: 1
-  playerMoveBoxSize: {x: 5, y: 5}
+  awakenGroupSpawners:
+  - {fileID: 0}
+  <PathfindingEnabled>k__BackingField: 1
+  <PathFinder>k__BackingField: {fileID: 0}
+  pathRegenInterval: 0.1
   aspidTerrainCollider: {fileID: 523647862}
   flightAcceleration: 35
   flightSpeedOverDistance: 2
-  leftWallBuffer: 3
-  rightWallBuffer: 3
-  ceilingBuffer: 3
-  floorBuffer: 3
   minFlightSpeed: 1
-  degreesSlantThreshold: 30
-  orbitReductionAmount: 5
   flightOffset: {x: 1, y: 1}
   flightOffsetResetTime: 0
   flightOffsetChangeTime: 0.3
@@ -20997,114 +20986,13 @@ MonoBehaviour:
   minimumFlightSpeed: 4
   maximumFlightSpeed: 5
   <ApplyFlightVariance>k__BackingField: 1
-  playerTarget: {fileID: 0}
-  ExtraTargetOffset: {x: 0, y: 0, z: 0}
-  EnableTargetHeightRange: 0
-  EnableTargetXRange: 0
-  TargetHeightRange: {x: 0, y: 0}
-  TargetXRange: {x: 0, y: 0}
-  offensiveHeight: 12
-  homingAmount: 0.8
-  spitTargetLeft: {fileID: 3718199228159796579}
-  spitTargetRight: {fileID: 3718199229162254212}
-  prefabs: {fileID: 11400000, guid: 84ae0980edb43bc40b0dd26f6f8f96eb, type: 2}
-  tailCollider: {fileID: 3718199228944484916}
-  centerCamLock: {fileID: 3718199230156670468}
-  centerModePlatformDest: {x: 220.8, y: 215}
-  centerModePlatformTime: 0.75
-  centerModePlatformCurve:
+  <PlayerTarget>k__BackingField: {fileID: 0}
+  FlightRange:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  centerModeRumbleSound: {fileID: 8300000, guid: d0c199f3352cfc244b8b46931bdb7d68, type: 3}
-  centerModeSummonGrass: {fileID: 0}
-  centerModeRoarDelay: 0.1
-  centerModeRiseSound: {fileID: 0}
-  centerModeRoarSound: {fileID: 8300000, guid: 0624befbf6fb976419c83b4ea887114f, type: 3}
-  centerModeRoarSoundPitch: 1
-  centerModeRoarDuration: 1
-  centerPlatformLockArea: {fileID: 0}
-  lungeTargetOffset: {x: -11.36, y: 10, z: 0}
-  lungeAnticTime: 0.45
-  lungeAnticSound: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  lungeSound: {fileID: 8300000, guid: 98fcbbb093b00fa4b9fe8edaefdf9c2f, type: 3}
-  collidersDisableOnLunge:
-  - {fileID: 3718199228387567352}
-  - {fileID: 3718199229118187018}
-  - {fileID: 0}
-  - {fileID: 0}
-  collidersEnableOnLunge:
-  - {fileID: 3718199228300016894}
-  lungeSpeed: 40
-  lungeLandSoundLight: {fileID: 8300000, guid: efe95eb6b7e445542a15b7814bf80504, type: 3}
-  lungeLandSoundLightVolume: 0.75
-  lungeLandSoundHeavy: {fileID: 8300000, guid: 2a2539ac61cf8f947a5fe08ffe6c85c1, type: 3}
-  lungeSlideSound: {fileID: 8300000, guid: d0c199f3352cfc244b8b46931bdb7d68, type: 3}
-  lungeSlideSoundVolume: 0.65
-  lungeSlideDeacceleration: 30
-  lungeSlideSlamThreshold: 2
-  lungeXShiftValues:
-  - -0.56
-  - -0.1
-  - 0
-  lungeTurnaroundSpeed: 1.5
-  groundSkidParticles:
-  - {fileID: 7484582835821951848}
-  - {fileID: 6873085295497549932}
-  onGroundGravity: 1
-  lungeDashEffect: {fileID: 3718199228184773708}
-  lungeRockParticles: {fileID: 3718199229837390374}
-  lungeDashRotationOrigin: {fileID: 3718199228726244710}
-  <lungeDownwardsLandDelay>k__BackingField: 0.5
-  megaExplosionSound: {fileID: 0}
-  megaExplosionSize: 3
-  groundLaserMinMaxAngle: {x: -20, y: 30}
-  groundLaserFireDuration: 0.5
-  groundLaserMaxDelay: 0.15
-  <jumpPosIncrements>k__BackingField: {x: 0, y: -0.2, z: 0}
-  <jumpRotIncrements>k__BackingField: {x: 0, y: 0, z: 8}
-  <jumpScaleIncrements>k__BackingField: {x: 0, y: -0.1, z: 0}
-  <groundJumpFrames>k__BackingField: 3
-  <groundJumpPrepareFPS>k__BackingField: 12
-  <groundJumpLaunchFPS>k__BackingField: 18
-  <groundJumpLandFPS>k__BackingField: 18
-  <MidAirSwitchSpeed>k__BackingField: 2
-  <groundJumpLandDelay>k__BackingField: 0.2
-  jumpTime: 0.525
-  jumpGravity: 6
-  jumpSounds:
-  - {fileID: 8300000, guid: 55a9b68a6f7bc114cb73538c8aa13d0c, type: 3}
-  jumpLandSound: {fileID: 8300000, guid: efe95eb6b7e445542a15b7814bf80504, type: 3}
-  jumpLandShakeType: 5
-  jumpLaunchEffectPrefab: {fileID: 3470698695718237122, guid: 4eee241137d709f4d93f1c8dd3e81ba8, type: 3}
-  jumpLaunchShakeType: 7
-  jumpLandParticles: {fileID: 3718199229837390374}
-  stompSplash: {fileID: 6410414674929478461}
-  stompPillar: {fileID: 5923722338655231265}
-  groundSplashSpawnOffset: {x: 0, y: 0, z: 0}
-  groundSplashBlobCount: {x: 10, y: 17}
-  groundSplashAngleRange: {x: 45, y: 135}
-  groundSplashVelocityRange: {x: 15, y: 40}
+    x: 0
+    y: 0
+    width: 0
+    height: 0
   deathCamLock: {fileID: 3718199230121202258}
   deathCenterRoomAxis: 219.9
   deathDropItemXRange: {x: 180.02, y: 259.7}
@@ -21113,29 +21001,11 @@ MonoBehaviour:
   flyAwayDelay: 0.5
   flyAwayAcceleration: 35
   flyAwayThunkSound: {fileID: 8300000, guid: 2a2539ac61cf8f947a5fe08ffe6c85c1, type: 3}
-  enableOnCowardiceFlyAway:
-  - {fileID: 931691897}
-  - {fileID: 1756827070}
-  - {fileID: 1387883396}
-  - {fileID: 15677393}
-  disableOnCowardiceFlyAway:
-  - {fileID: 3718199228387567332}
-  - {fileID: 3718199230014458667}
-  - {fileID: 3718199228497162530}
-  - {fileID: 3718199229977973023}
   itemPrefab: {fileID: 1235928596345842495, guid: eea916634ff53b44391551efd3dff9b4, type: 3}
   deathItemVelocity: 5
   spitItemAudio: {fileID: 8300000, guid: 3dab1f31e07ebbd4e8ae70543f3d9547, type: 3}
   settings: {fileID: 11400000, guid: 53925bd5d3de07c4c99ae7f55fedf179, type: 2}
   bossDefeatedField: aspidBossDefeated
-  enableOnPhase3Begin: []
-  disableOnPhase3Begin:
-  - {fileID: 0}
-  - {fileID: 0}
-  enableOnPhase3End:
-  - {fileID: 0}
-  - {fileID: 0}
-  disableOnPhase3End: []
   flightEnabled: 1
 --- !u!50 &3718199229979044237
 Rigidbody2D:
@@ -21417,12 +21287,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveEnabled: 1
-  postDelay: 0
+  postDelay: 0.45
   climbingPostDelay: 0.55
   headResetSpeed: 2
   emitter: {fileID: 3718199228053294616}
   sweepTime: 1.9
-  shadowDashSweepTime: 2.45
+  shadowDashSweepTime: 1.9
   sweepStartAngle: -60
   sweepEndAngle: 60
   sweepGlobSpawnRate: 0.75
@@ -21452,7 +21322,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   followPlayerTime: 1.6
-  followPlayerShadowDashTime: 2.25
+  followPlayerShadowDashTime: 1.6
   minFollowPlayerDistance: 6
   followPlayerStartAngle: 55
   followPlayerEndAngle: -55
@@ -21759,29 +21629,6 @@ MonoBehaviour:
   DeathType: 2
   InfectedDeathWavePrefab: {fileID: 1981710639690590, guid: d1ff38f4378cb9047b90dafb0de036e1, type: 3}
   DeathPuffPrefab: {fileID: 1199975730311981, guid: 5acd7f22f0831ef42ab5f43da5152601, type: 3}
---- !u!114 &3718199229979044243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3718199229979044238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e137f9106b81dc4f9d12e651afc8c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  phase2StartHeight: 92.75
-  phase2AStartHeight: 123.4
-  phase2BStartHeight: 164.8
-  phase2CStartHeight: 201
-  phase3StartHeight: 200.5
-  phase3AStartHeight: 220.57
-  phase3BStartHeight: 234.8
-  phase3CStartHeight: 249.1
-  phase4StartHeight: 283.7
-  finalHeightLimit: 280.89
-  finalPhaseRegion: {fileID: 0}
 --- !u!114 &1904823578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21856,7 +21703,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e0ae4cb383a5ef74db04ad069da3b841, type: 3}
   fader: {fileID: 2090731162}
   bombParticles: {fileID: 1503853623}
-  postDelay: 0.25
+  postDelay: 0.5
   angularVelocityRange: {x: -50, y: 50}
 --- !u!114 &6339752278025668268
 MonoBehaviour:
@@ -21947,6 +21794,156 @@ MonoBehaviour:
   preFireSound: {fileID: 8300000, guid: 5fbfd6e43b7839240b067e75c21041a9, type: 3}
   fireSound: {fileID: 8300000, guid: 32b1f57d3c32acf41af904badea7fc1a, type: 3}
   <moveEnabled>k__BackingField: 1
+--- !u!114 &951185217796302362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3718199229979044238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a53e683cbf34ad45a043f0d44428e62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lungeTargetOffset: {x: -11.36, y: 10, z: 0}
+  lungeAnticTime: 0.45
+  lungeAnticSound: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
+  lungeSound: {fileID: 8300000, guid: 98fcbbb093b00fa4b9fe8edaefdf9c2f, type: 3}
+  collidersDisableOnLunge:
+  - {fileID: 3718199228387567352}
+  - {fileID: 3718199229118187018}
+  collidersEnableOnLunge:
+  - {fileID: 3718199228300016894}
+  lungeSpeed: 40
+  lungeLandSoundLight: {fileID: 8300000, guid: efe95eb6b7e445542a15b7814bf80504, type: 3}
+  lungeLandSoundLightVolume: 0.75
+  lungeLandSoundHeavy: {fileID: 8300000, guid: 2a2539ac61cf8f947a5fe08ffe6c85c1, type: 3}
+  lungeSlideSound: {fileID: 8300000, guid: d0c199f3352cfc244b8b46931bdb7d68, type: 3}
+  lungeSlideSoundVolume: 0.65
+  lungeSlideDeacceleration: 30
+  lungeSlideSlamThreshold: 2
+  lungeXShiftValues:
+  - -0.56
+  - -0.1
+  - 0
+  lungeTurnaroundSpeed: 1.5
+  groundSkidParticles:
+  - {fileID: 7484582835821951848}
+  - {fileID: 6873085295497549932}
+  onGroundGravity: 1
+  lungeDashEffect: {fileID: 3718199228184773708}
+  lungeRockParticles: {fileID: 3718199229837390374}
+  lungeDashRotationOrigin: {fileID: 3718199228726244710}
+  <lungeDownwardsLandDelay>k__BackingField: 0.5
+  <megaExplosionSound>k__BackingField: {fileID: 0}
+  <megaExplosionSize>k__BackingField: 3
+  <DegreesSlantThreshold>k__BackingField: 30
+  groundLaserMinMaxAngle: {x: -20, y: 30}
+  groundLaserFireDuration: 0.5
+  groundLaserMaxDelay: 0.15
+  <jumpPosIncrements>k__BackingField: {x: 0, y: -0.2, z: 0}
+  <jumpRotIncrements>k__BackingField: {x: 0, y: 0, z: 8}
+  <jumpScaleIncrements>k__BackingField: {x: 0, y: -0.1, z: 0}
+  <groundJumpFrames>k__BackingField: 3
+  <groundJumpPrepareFPS>k__BackingField: 12
+  <groundJumpLaunchFPS>k__BackingField: 18
+  <groundJumpLandFPS>k__BackingField: 18
+  <MidAirSwitchSpeed>k__BackingField: 2
+  <groundJumpLandDelay>k__BackingField: 0.2
+  <stompSplash>k__BackingField: {fileID: 6410414674929478461}
+  <stompPillar>k__BackingField: {fileID: 5923722338655231265}
+  <groundSplashSpawnOffset>k__BackingField: {x: 0, y: 0, z: 0}
+  <groundSplashBlobCount>k__BackingField: {x: 10, y: 17}
+  <groundSplashAngleRange>k__BackingField: {x: 45, y: 135}
+  <groundSplashVelocityRange>k__BackingField: {x: 15, y: 40}
+--- !u!114 &1904823558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3718199229979044238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6296d29e4a61c124f97cdf11688c4f6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <DefaultModeDuration>k__BackingField: 10
+  <OffensiveMaxDistance>k__BackingField: 30
+  <OffensiveAttackDistance>k__BackingField: 25
+  <CenterCamLock>k__BackingField: {fileID: 3718199230156670468}
+  <FinalOrbitReduction>k__BackingField: 50
+  centerModeRiseSound: {fileID: 0}
+  centerModeRoarSound: {fileID: 8300000, guid: 0624befbf6fb976419c83b4ea887114f, type: 3}
+  centerModeRoarSoundPitch: 1
+  centerModeRoarDuration: 0.75
+  centerPlatformLockArea: {fileID: 0}
+  centerModePlatformDest: {x: 220.8, y: 214.5}
+  centerModePlatformTime: 0.75
+  centerModePlatformCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  centerModeRumbleSound: {fileID: 8300000, guid: d0c199f3352cfc244b8b46931bdb7d68, type: 3}
+  centerModeSummonGrass: {fileID: 0}
+  centerModeRoarDelay: 0.1
+  <OffensiveHeight>k__BackingField: 9
+  platformGroupSpawners:
+  - {fileID: 0}
+--- !u!114 &1904823559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3718199229979044238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eab2233ea72ff5544aa1c1f64b27a4c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1904823560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3718199229979044238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb2778b8dd1666c41ad55b17fea90e75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpTime: 0.525
+  jumpGravity: 6
+  jumpSounds:
+  - {fileID: 8300000, guid: 55a9b68a6f7bc114cb73538c8aa13d0c, type: 3}
+  jumpLandSound: {fileID: 8300000, guid: efe95eb6b7e445542a15b7814bf80504, type: 3}
+  jumpLandShakeType: 5
+  jumpLaunchEffectPrefab: {fileID: 3718199228184773708}
+  jumpLaunchShakeType: 7
+  jumpLandParticles: {fileID: 3718199229837390374}
 --- !u!1 &3718199230014458644
 GameObject:
   m_ObjectHideFlags: 0
@@ -23352,17 +23349,17 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -0.07}
       - {x: 0, y: 0.07}
-      - {x: 6.557861, y: 0.29369974}
-      - {x: 6.5343513, y: 0.23431063}
-      - {x: 6.510977, y: 0.17526197}
-      - {x: 6.4877243, y: 0.11652517}
-      - {x: 6.464591, y: 0.058086872}
-      - {x: 6.441592, y: -0.000011444092}
-      - {x: 6.418722, y: -0.057783127}
-      - {x: 6.3959646, y: -0.11527109}
-      - {x: 6.373336, y: -0.1724329}
-      - {x: 6.350831, y: -0.22928238}
-      - {x: 6.3284335, y: -0.28586245}
+      - {x: 2.8183901, y: 0.16614914}
+      - {x: 2.8050852, y: 0.1325388}
+      - {x: 2.7918644, y: 0.09914136}
+      - {x: 2.7787108, y: 0.065913916}
+      - {x: 2.7656248, y: 0.03285694}
+      - {x: 2.7526171, y: -0.0000014305115}
+      - {x: 2.739677, y: -0.03268957}
+      - {x: 2.7268043, y: -0.06520748}
+      - {x: 2.713999, y: -0.09755516}
+      - {x: 2.7012725, y: -0.12970424}
+      - {x: 2.688602, y: -0.16171122}
 --- !u!114 &3718199230153357417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23417,7 +23414,7 @@ GameObject:
   - component: {fileID: 3718199230156670468}
   - component: {fileID: 3718199230156670471}
   m_Layer: 13
-  m_Name: Camera Lock Region
+  m_Name: Center Lock Region
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
