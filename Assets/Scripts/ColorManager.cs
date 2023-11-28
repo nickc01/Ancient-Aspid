@@ -17,15 +17,11 @@ public class ColorManager : MonoBehaviour
     [SerializeField]
     ColorSlider BlueColorSlider;
 
-
-
-
     [SerializeField]
     ColorSlider SaturationSlider;
 
     [SerializeField]
     ColorSlider AmbientLightIntensitySlider;
-
 
     [SerializeField]
     ColorMode RedColorMode;
@@ -89,7 +85,6 @@ public class ColorManager : MonoBehaviour
         {
             correctionCurves.ReflectSetField("redChannel", GetCurve(RedColorMode, v));
             correctionCurves.ReflectCallMethod("UpdateParameters");
-            //GameCameras.instance.colorCorrectionCurves.redChannel = GetCurve(RedColorMode, v);
             correctionCurves.ReflectCallMethod("UpdateParameters");
         };
 
@@ -97,16 +92,12 @@ public class ColorManager : MonoBehaviour
         {
             correctionCurves.ReflectSetField("greenChannel", GetCurve(GreenColorMode, v));
             correctionCurves.ReflectCallMethod("UpdateParameters");
-            //GameCameras.instance.colorCorrectionCurves.greenChannel = GetCurve(GreenColorMode, v);
-            //GameCameras.instance.colorCorrectionCurves.UpdateParameters();
         };
 
         Action<float> updateBlue = v =>
         {
             correctionCurves.ReflectSetField("blueChannel", GetCurve(BlueColorMode, v));
             correctionCurves.ReflectCallMethod("UpdateParameters");
-            //GameCameras.instance.colorCorrectionCurves.blueChannel = GetCurve(BlueColorMode, v);
-            //GameCameras.instance.colorCorrectionCurves.UpdateParameters();
         };
 
 
@@ -119,10 +110,8 @@ public class ColorManager : MonoBehaviour
 
         SaturationSlider.onSliderUpdate.AddListener(v =>
         {
-            //GameCameras.instance.colorCorrectionCurves.saturation = v;
             correctionCurves.ReflectSetField("saturation", v);
             correctionCurves.ReflectCallMethod("UpdateParameters");
-            //GameCameras.instance.colorCorrectionCurves.UpdateParameters();
         });
 
         RedColorMode.onCurveUpdate.AddListener(v =>

@@ -66,17 +66,9 @@ public class TopPhase : Phase
             {TacticalMode.DO_FLY_AWAY, true}
         });
 
-        //boss.FlyingAway = true;
-
         boss.AddTargetOverride(int.MaxValue).SetTarget(new Vector3(223.7f, 445.2f));
 
-        //SetTarget(new Vector3(223.7f, 445.2f));
-        //boss.PathingMode = AncientAspid.PathfindingMode.FollowTarget;
         WeaverLog.LogWarning("FLYING AWAY");
-
-        //allMovesDisabled = true;
-        //yield return new WaitUntil(() => AspidMode != Mode.Defensive);
-        //yield return new WaitUntil(() => transform.position.y >= Player.Player1.transform.position.y + 20f);
 
         boss.FlightEnabled = false;
         boss.ApplyFlightVariance = false;
@@ -91,11 +83,6 @@ public class TopPhase : Phase
             sprite.enabled = false;
         }
 
-        /*if (transform.position.y >= Player.Player1.transform.position.y + 20f)
-        {
-            
-        }*/
-
         Music.ApplyMusicSnapshot(Music.SnapshotType.Silent, 0f, 0.5f);
 
         while (true)
@@ -104,6 +91,5 @@ public class TopPhase : Phase
             yield return null;
         }
 
-        //TODO - FLY AWAY
     }
 }

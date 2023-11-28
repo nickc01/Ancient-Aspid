@@ -29,12 +29,6 @@ public class GroundJumpMove : AncientAspidMove
 
     public override bool MoveEnabled => false;
 
-    //public int JumpTimes { get; set; } = 0;
-
-    //public bool Cancelled { get; private set; } = false;
-
-    //public override bool Interruptible => false;
-
     Vector2 JumpTargeter(int time)
     {
         if (time % 2 == 0)
@@ -70,11 +64,6 @@ public class GroundJumpMove : AncientAspidMove
             throw new System.Exception("The JumpTimes variable was not set before running the Ground Jump Move");
         }
 
-        //var jumpTimes = JumpTimes;
-        //JumpTimes = 0;
-
-        //Cancelled = false;
-
         yield return JumpPrepare();
 
         for (int i = 0; i < jumpTimes; i++)
@@ -88,11 +77,6 @@ public class GroundJumpMove : AncientAspidMove
 
             CameraShaker.Instance.Shake(jumpLaunchShakeType);
 
-            //if (jumpLaunchEffectPrefab != null)
-            //{
-                //Pooling.Instantiate(jumpLaunchEffectPrefab, transform.position + jumpLaunchEffectPrefab.transform.localPosition, jumpLaunchEffectPrefab.transform.localRotation);
-            //}
-
             var target = JumpTargeter(i);
 
             if (target.y < transform.position.y + 2f && target.y > transform.position.y - 2)
@@ -101,16 +85,6 @@ public class GroundJumpMove : AncientAspidMove
             }
 
             var groundHits = Physics2D.RaycastNonAlloc(target, Vector2.down, rayCache, 10, LayerMask.NameToLayer("Terrain"));
-
-            /*if (groundHits == 0)
-            {
-                if (Boss.CurrentRoomRect.BottomHit.collider != null)
-                {
-                    var colliderBounds = Boss.CurrentRoomRect.BottomHit.collider.bounds;
-
-                    target.x = Mathf.Clamp(target.x, colliderBounds.min.x + 5, colliderBounds.max.x - 5);
-                }
-            }*/
 
             if (groundHits > 0)
             {
@@ -159,9 +133,6 @@ public class GroundJumpMove : AncientAspidMove
             yield return new WaitUntil(() => Boss.Rbody.velocity.y <= 0f);
             var fallingAwaiter = JumpBeginFalling(switchDirection);
             yield return new WaitUntil(() => Boss.Rbody.velocity.y <= -0.5f);
-            //yield return new WaitForSeconds(Time.fixedDeltaTime * 2f);
-            //yield return new WaitForSeconds(jumpTime / 5f);
-
             bool cancel = true;
 
             for (float t = 0; t < 1.5f; t += Time.deltaTime)
@@ -177,11 +148,8 @@ public class GroundJumpMove : AncientAspidMove
             if (cancel)
             {
                 Cancelled = true;
-                //onCancel?.Invoke();
                 yield break;
             }
-            //yield return new WaitUntil(() => Boss.Rbody.velocity.y >= 0f);
-
             yield return fallingAwaiter.WaitTillDone();
 
             Boss.Rbody.velocity = Boss.Rbody.velocity.With(x: 0f);
@@ -202,10 +170,6 @@ public class GroundJumpMove : AncientAspidMove
         Boss.Rbody.velocity = default;
         Boss.Rbody.gravityScale = 0f;
 
-        /*if (Boss.CanSeeTarget)
-        {
-            yield return DoGroundJump(2, JumpTargeter, onCancel);
-        }*/
     }
 
     RoutineAwaiter JumpBeginFalling(bool switchedDirection)

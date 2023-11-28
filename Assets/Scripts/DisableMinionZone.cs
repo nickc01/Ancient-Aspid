@@ -11,9 +11,6 @@ public class DisableMinionZone : MonoBehaviour
     [NonSerialized]
     List<GameObject> enemyObjects;
 
-    //[NonSerialized]
-    //List<int> oldLayers;
-
     private void Awake()
     {
         gameObject.layer = LayerMask.NameToLayer("Hero Detector");
@@ -46,15 +43,6 @@ public class DisableMinionZone : MonoBehaviour
     {
         if (collision.GetComponent<HeroController>() != null)
         {
-            /*if (oldLayers == null)
-            {
-                oldLayers = new List<int>();
-            }
-            else
-            {
-                oldLayers.Clear();
-            }*/
-
             if (enemyObjects == null)
             {
                 enemyObjects = new List<GameObject>();

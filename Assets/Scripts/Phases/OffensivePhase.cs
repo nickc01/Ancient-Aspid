@@ -15,7 +15,6 @@ public class OffensivePhase : Phase
         if (boss.CurrentRunningMode == boss.OffensiveMode)
         {
             yield return boss.StopCurrentMode();
-            //yield return new WaitUntil(() => boss.CurrentRunningMode != boss.OffensiveMode);
         }
         yield break;
     }

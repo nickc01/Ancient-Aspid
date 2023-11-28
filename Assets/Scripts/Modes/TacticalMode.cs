@@ -1,17 +1,13 @@
 ﻿using System.Collections;
-using UnityEngine;
-using WeaverCore.Implementations;
-using WeaverCore;
-using WeaverCore.Utilities;
 using System.Collections.Generic;
+using UnityEngine;
+using WeaverCore.Utilities;
 
 public class TacticalMode : AncientAspidMode
 {
     public const string TACTICAL_TIME = nameof(TACTICAL_TIME);
     public const string DO_FLY_AWAY = nameof(DO_FLY_AWAY);
-    //public override bool ModeEnabled => true;
-
-    bool stop = false;
+    private bool stop = false;
 
 
 
@@ -25,50 +21,45 @@ public class TacticalMode : AncientAspidMode
 
         yield return CoroutineUtilities.WaitForTimeOrPredicate(0.5f, () => stop);
 
-        args.TryGetValueOfType(TACTICAL_TIME, out float tacticalTime, 6);
-        args.TryGetValueOfType(DO_FLY_AWAY, out bool doFlyAway, false);
+         args.TryGetValueOfType(TACTICAL_TIME, out float tacticalTime, 6);
+         args.TryGetValueOfType(DO_FLY_AWAY, out bool doFlyAway, false);
 
         float endTime = Time.time + tacticalTime;
 
         while (Time.time < endTime && !stop)
         {
-            Debug.Log("STARTING LOOP");
             yield return new WaitUntil(() => !Boss.Head.HeadLocked);
             yield return Boss.UpdateDirection();
 
             if (doFlyAway)
             {
-                Debug.Log("EXIT A");
                 break;
             }
 
-            Boss.MoveRandomizer.MoveNext();
+             Boss.MoveRandomizer.MoveNext();
 
-            var move = Boss.MoveRandomizer.Current;
+            AncientAspidMove move = Boss.MoveRandomizer.Current;
 
             if (move == null)
             {
-                Debug.Log("EXIT B");
                 continue;
             }
+
+            var oldHealth = Boss.HealthManager.Health;
 
             while (Time.time - lastMoveTime < move.PreDelay + lastMoveDelay)
             {
+                if (Boss.HealthManager.Health != oldHealth)
+                {
+                    oldHealth = Boss.HealthManager.Health;
+                    lastMoveDelay *= 0.8f;
+                }
                 yield return Boss.UpdateDirection();
             }
 
-            /*if (Boss.AllMovesDisabled)
-            {
-                continue;
-            }*/
-
-            var oldHealth = Boss.HealthManager.Health;
+            oldHealth = Boss.HealthManager.Health;
             Debug.Log("RUNNING ASPID MOVE = " + move.GetType().Name);
             yield return RunAspidMove(move, args);
-            //yield return Boss.RunMoveWhile(move, () => !stop);
-            //yield return RunMoveWhile(move, () => !stop);
-
-            //lastMoveTime = Time.time + move.GetPostDelay(oldHealth);
             lastMoveTime = Time.time;
             lastMoveDelay = move.GetPostDelay(oldHealth);
         }

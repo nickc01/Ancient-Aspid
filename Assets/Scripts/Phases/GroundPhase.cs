@@ -9,7 +9,6 @@ public class GroundPhase : Phase
 
     protected override IEnumerator OnPhaseStart(AncientAspid boss, Phase prevPhase)
     {
-        //Debug.Log("SETTING RANGE TO = " + PhaseBoundaries);
         boss.FlightRange = PhaseBoundaries;
         boss.FlightRange.yMax = 9999f;
         boss.FlightRange.yMin = groundMinFlightHeight;

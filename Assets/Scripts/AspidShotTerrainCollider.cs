@@ -28,19 +28,4 @@ public class AspidShotTerrainCollider : MonoBehaviour
         }
     }
 
-    /*private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (!projectile.Rigidbody.isKinematic)
-        {
-            projectile.ForceHit(collision.gameObject);
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (!projectile.Rigidbody.isKinematic)
-        {
-            projectile.ForceHit(collision.gameObject);
-        }
-    }*/
 }

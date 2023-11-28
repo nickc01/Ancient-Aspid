@@ -16,17 +16,8 @@ public class VomitShotMove : AncientAspidMove
         !(Boss.CurrentPhase is GroundPhase) &&
         Vector3.Distance(Player.Player1.transform.position, transform.position) <= 40 &&
         Vector2.Distance(Player.Player1.transform.position, Boss.Head.transform.position) >= minDistance;
-    /*Mathf.Abs(Boss.Head.transform.position.x - Player.Player1.transform.position.x) >= minXDistance &&
-    Boss.Head.transform.position.y - Player.Player1.transform.position.y >= minYDistance;*/
-
     [SerializeField]
     bool moveEnabled = true;
-
-    /*[SerializeField]
-    float minXDistance = 5f;
-
-    [SerializeField]
-    float minYDistance = 4f;*/
 
     [SerializeField]
     float minDistance = 10.4f;
@@ -53,8 +44,6 @@ public class VomitShotMove : AncientAspidMove
     [SerializeField]
     Vector2 angleRange = new Vector2(-30f,30f);
 
-    /*[SerializeField]
-    Vector2 velocityRange = new Vector2(5f,10f);*/
     [SerializeField]
     [Tooltip("The amount of time the projectiles should take to reach their targets")]
     Vector2 timeRange = new Vector2(0.75f,1.25f);
@@ -75,9 +64,6 @@ public class VomitShotMove : AncientAspidMove
 
     List<VomitGlob> firedShots = new List<VomitGlob>();
 
-    /// <summary>
-    /// A list of all the shots that were fired after the call to FireVomitShots
-    /// </summary>
     public List<VomitGlob> FiredShots => firedShots;
 
     public void EnableMove(bool enabled)
@@ -162,29 +148,6 @@ public class VomitShotMove : AncientAspidMove
             return shots[index];
         });
 
-        /*if (Boss.AspidMode != AncientAspid.Mode.Defensive)
-        {
-            yield return Boss.Head.LockHead(Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left, headSpeed);
-        }
-
-        var oldState = Boss.Head.MainRenderer.TakeSnapshot();
-
-        Boss.Head.MainRenderer.flipX = Boss.Head.LookingDirection >= 0f;
-
-        yield return Boss.Head.Animator.PlayAnimationTillDone($"Fire - {attackVariant} - Prepare");
-
-        //FireShots();
-
-        yield return Boss.Head.Animator.PlayAnimationTillDone($"Fire - {attackVariant} - Attack");
-
-        Boss.Head.MainRenderer.Restore(oldState);
-
-        if (Boss.AspidMode != AncientAspid.Mode.Defensive)
-        {
-            Boss.Head.UnlockHead();
-        }
-
-        yield break;*/
     }
 
     IEnumerable<Vector2> GetRandomAnglesToPlayer(int shots)
@@ -220,34 +183,12 @@ public class VomitShotMove : AncientAspidMove
 
             yield return MathUtilities.CalculateVelocityToReachPoint(fireSource, (Vector2)fireSource + target, timeRange.RandomInRange(), gravityScale);
 
-            //FireInDirection(playerAngle + randomAngle + offset, playerDistance, fireSource);
         }
 
-        /*Blood.SpawnBlood(fireSource, new Blood.BloodSpawnInfo(4, 8, 10f, 25f, playerAngle + offset - 50f, playerAngle + offset + 50f, null));*/
-
-        /*if (fireSound != null)
-        {
-            WeaverAudio.PlayAtPoint(fireSound, fireSource);
-        }*/
     }
 
     void FireShots(int shots, IEnumerable<Vector2> velocities)
     {
-        /*var offset = angleOffset;
-        if (Boss.Head.LookingDirection < 0f)
-        {
-            offset = -offset;
-        }
-        var gapSize = gapSizeDegreesRange.RandomInRange();
-
-        var gapStartPosition = UnityEngine.Random.Range(angleRange.x, angleRange.y - gapSize);
-
-        var playerAngle = Boss.GetAngleToPlayer();
-        var playerDistance = Vector2.Distance(Player.Player1.transform.position,Boss.Head.transform.position);
-
-        var fireSource = Boss.Head.GetFireSource(Boss.Head.LookingDirection);
-        */
-
         firedShots.Clear();
 
         var fireSource = Boss.Head.GetFireSource(Boss.Head.LookingDirection);
@@ -257,19 +198,6 @@ public class VomitShotMove : AncientAspidMove
         for (int i = 0; i < shots; i++)
         {
             enumerator.MoveNext();
-            /*var randomAngle = UnityEngine.Random.Range(angleRange.x, angleRange.y - gapSize);
-            if (randomAngle > gapStartPosition)
-            {
-                randomAngle += gapSize;
-            }
-
-            if (Boss.Head.LookingDirection < 0f)
-            {
-                randomAngle = -randomAngle;
-            }
-
-            FireInDirection(playerAngle + randomAngle + offset, playerDistance, fireSource);*/
-
             var velocity = enumerator.Current;
 
 
@@ -278,7 +206,6 @@ public class VomitShotMove : AncientAspidMove
             var angle = Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg;
 
             Blood.SpawnBlood(fireSource, new Blood.BloodSpawnInfo(1, 2, 10f, 25f, angle - 50f, angle + 50f, null));
-            //FireInDirection()
         }
 
         if (fireSound != null)
@@ -288,24 +215,6 @@ public class VomitShotMove : AncientAspidMove
     }
 
     public override float GetPostDelay(int prevHealth) => Boss.InClimbingPhase ? climbingPostDelay : postDelay;
-
-    /*float DistanceToPlayer()
-    {
-        return Vector2.Distance(Player.Player1.transform.position,Boss.Head.transform.position);
-    }
-
-
-    void FireInDirection(float angle, float magnitude, Vector3 position)
-    {
-        var target = MathUtilities.PolarToCartesian(angle, magnitude);
-
-        var velocity = MathUtilities.CalculateVelocityToReachPoint(position, (Vector2)position + target, timeRange.RandomInRange(), gravityScale);
-
-        if (!Boss.RiseFromCenterPlatform)
-        {
-            VomitGlob.Spawn(position, velocity, gravityScale);
-        }
-    }*/
 
     public override void OnStun()
     {

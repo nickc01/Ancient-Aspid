@@ -8,7 +8,6 @@ public class GodhomePhase : Phase
         var bounds = GetComponent<Collider2D>().bounds;
         var rect = new Rect(bounds.center, bounds.size);
         rect.center = bounds.center;
-        //Debug.Log("RECT = " + rect);
         boss.FlightRange = rect;
         yield break;
     }

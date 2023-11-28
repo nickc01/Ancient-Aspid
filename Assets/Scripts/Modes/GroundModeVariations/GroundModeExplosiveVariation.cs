@@ -6,17 +6,14 @@ using WeaverCore.Components;
 
 public class GroundModeExplosiveVariation : GroundModeVariationBase
 {
-    MegaBombsController bombController;
-    BombMove bombMove;
+    private MegaBombsController bombController;
+    private BombMove bombMove;
 
     public GroundModeExplosiveVariation(GroundMode mode) : base(mode) { }
 
-    IEnumerator ShootExplosives(BombMove move, IBombController controller, float preDelay = 0.25f)
+    private IEnumerator ShootExplosives(BombMove move, IBombController controller, float preDelay = 0.25f)
     {
         yield return new WaitForSeconds(preDelay);
-        //move.CustomController = controller;
-        //yield return Boss.RunMove(move);
-
         yield return Mode.RunAspidMove(move, new Dictionary<string, object>
         {
             { BombMove.CUSTOM_BOMB_CONTROLLER, controller }
@@ -43,7 +40,7 @@ public class GroundModeExplosiveVariation : GroundModeVariationBase
 
     public override void LungeLand(bool sliding)
     {
-        foreach (var bomb in bombMove.LastFiredBombs)
+        foreach (Bomb bomb in bombMove.LastFiredBombs)
         {
             if (bomb != null)
             {
@@ -53,10 +50,10 @@ public class GroundModeExplosiveVariation : GroundModeVariationBase
 
         if (Mode.megaExplosionSound != null)
         {
-            WeaverAudio.PlayAtPoint(Mode.megaExplosionSound, transform.position);
+             WeaverAudio.PlayAtPoint(Mode.megaExplosionSound, transform.position);
         }
 
-        InfectedExplosion.Spawn(transform.position, Mode.megaExplosionSize);
+         InfectedExplosion.Spawn(transform.position, Mode.megaExplosionSize);
     }
 }
 

@@ -25,7 +25,7 @@ namespace NavMeshPlus.Components
         [SerializeField]
         List<int> m_AffectedAgents = new List<int>(new int[] { -1 });    // Default value is All
 
-        static readonly List<NavMeshModifierVolume> s_NavMeshModifiers = new List<NavMeshModifierVolume>();
+        static List<NavMeshModifierVolume> s_NavMeshModifiers = new List<NavMeshModifierVolume>();
 
         public static List<NavMeshModifierVolume> activeModifiers
         {

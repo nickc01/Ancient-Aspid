@@ -42,7 +42,6 @@ public class AspidAspectCharm : WeaverCharm
     {
         loadedCharm = charm;
         CharmRefresh();
-        //WeaverLog.Log("CHARM LOAD = " + charm);
     }
 
     [OnFeatureUnload]
@@ -50,13 +49,11 @@ public class AspidAspectCharm : WeaverCharm
     {
         loadedCharm = null;
         CharmRefresh();
-        //WeaverLog.Log("CHARM UNLOAD = " + charm);
     }
 
     [OnPlayerInit]
     static void PlayerLoad(Player player)
     {
-        //WeaverLog.Log("PLAYER LOADED = " + player);
         loadedPlayer = player;
         CharmRefresh();
     }
@@ -64,7 +61,6 @@ public class AspidAspectCharm : WeaverCharm
     [OnPlayerUninit]
     static void PlayerUnload(Player player)
     {
-        //WeaverLog.Log("PLAYER UNLOADED = " + player);
         loadedPlayer = null;
         CharmRefresh();
     }
@@ -94,7 +90,6 @@ public class AspidAspectCharm : WeaverCharm
         if (loaded != fullyLoaded)
         {
             fullyLoaded = loaded;
-            WeaverLog.Log("CHARM LOADED = " + fullyLoaded);
             if (loaded)
             {
                 EquippedEvent += OnCharmEquipped;
@@ -114,58 +109,14 @@ public class AspidAspectCharm : WeaverCharm
             }
         }
 
-        /*if (loadedCharm != null && loadedPlayer != null)
-        {
-            MiniAspidPet.ReplaceHatchlingPrefab(loadedPlayer);
-        }
-        else
-        {
-            if (loadedPlayer != null)
-            {
-                MiniAspidPet.RevertHatchlingPrefab(loadedPlayer);
-            }
-        }*/
     }
-
-    /*[OnPlayerInit]
-    static void PlayerInit(Player player)
-    {
-        WeaverLog.Log("PLAYER INIT");
-        var charm = Registry.GetFeature<AspidAspectCharm>();
-
-        EquippedEvent += (charm, equipped) =>
-        {
-            charm.OnCharmEquipped(charm, equipped);
-        };
-
-        if (charm.Equipped)
-        {
-            EquippedEvent?.Invoke(charm, true);
-        }
-    }
-
-    [OnPlayerUninit]
-    static void PlayerUninit(Player player)
-    {
-        WeaverLog.Log("PLAYER UNINIT");
-        var charm = Registry.GetFeature<AspidAspectCharm>();
-
-        if (charm.Equipped)
-        {
-            EquippedEvent?.Invoke(charm, false);
-        }
-
-        EquippedEvent -= charm.OnCharmEquipped;
-    }*/
 
     static SpitterPet petInstance;
 
     static void OnCharmEquipped(AspidAspectCharm charm, bool equipped)
     {
-        WeaverLog.Log("CHARM EQUIPPED = " + equipped);
         if (equipped && petInstance == null)
         {
-            WeaverLog.Log("SPAWNING PET = " + charm.petPrefab);
             petInstance = GameObject.Instantiate(charm.petPrefab, Player.Player1.transform.position + new Vector3(0f, 4f, 0f), Quaternion.identity);
         }
         else if (!equipped && petInstance != null)
@@ -208,85 +159,3 @@ public class AspidAspectCharm : WeaverCharm
     }
 }
 
-/*public class TestCharm : IWeaverCharm
-{
-    void TestPrint(string message)
-    {
-        WeaverLog.Log($"{GetType().Name} - {message}");
-    }
-
-
-
-    public string Name
-    {
-        get
-        {
-            TestPrint($"Getting Charm Cost = Test Charm");
-            return "Test Charm";
-        }
-    }
-
-    public string Description
-    {
-        get
-        {
-            TestPrint($"Getting Charm Cost = This is a test charm");
-            return "This is a test charm";
-        }
-    }
-
-    public int NotchCost
-    {
-        get
-        {
-            TestPrint($"Getting Charm Cost = {2}");
-            return 2;
-        }
-    }
-
-    bool _acquired = false;
-    public bool Acquired
-    {
-        get
-        {
-            TestPrint($"Getting Acquired = {_acquired}");
-            return _acquired;
-        }
-        set
-        {
-            TestPrint($"Setting Acquired = {value}");
-            _acquired = value;
-        }
-    }
-
-
-    bool _equipped = false;
-    public bool Equipped
-    {
-        get
-        {
-            TestPrint($"Getting Equipped = {_equipped}");
-            return _equipped;
-        }
-        set
-        {
-            TestPrint($"Setting Equipped = {value}");
-            _equipped = value;
-        }
-    }
-
-    bool _newlyCollected = false;
-    public bool NewlyCollected
-    {
-        get
-        {
-            TestPrint($"Getting Newly Collected = {_newlyCollected}");
-            return _newlyCollected;
-        }
-        set
-        {
-            TestPrint($"Setting Newly Collected = {value}");
-            _newlyCollected = value;
-        }
-    }
-}*/

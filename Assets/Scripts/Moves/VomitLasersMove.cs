@@ -34,8 +34,6 @@ public class VomitLasersMove : AncientAspidMove
         Boss.CurrentRunningMode == Boss.OffensiveMode &&
         Vector3.Distance(Player.Player1.transform.position, transform.position) <= 30f;
 
-            //WeaverLog.LogError("RADIAL BULLET ENABLED = " + enabled);
-
             return enabled;
         }
     }

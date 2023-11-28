@@ -1,18 +1,14 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using WeaverCore;
 using WeaverCore.Assets.Components;
 
 public class VomitLasersShotgunController : ShotgunController
 {
-    VomitGlob[] globs;
-    float aimInterpSpeed;
-
-    Vector3[] currentLaserTargets;
-
-    bool aimAtPlayer = false;
-
-    bool ending = false;
+    private VomitGlob[] globs;
+    private float aimInterpSpeed;
+    private Vector3[] currentLaserTargets;
+    private bool aimAtPlayer = false;
+    private bool ending = false;
 
     public VomitLasersShotgunController(VomitGlob[] globs, float aimInterpSpeed)
     {
@@ -54,7 +50,7 @@ public class VomitLasersShotgunController : ShotgunController
             currentLaserTargets[laserIndex] = globs[laserIndex].transform.position;
         }
 
-        var rotation = AimLaserAtTarget(Lasers[laserIndex], currentLaserTargets[laserIndex]);
+        float rotation = AimLaserAtTarget(Lasers[laserIndex], currentLaserTargets[laserIndex]);
 
         return Quaternion.Euler(0f, 0f, rotation);
     }

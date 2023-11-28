@@ -222,8 +222,6 @@ public class SpitterPet : MonoBehaviour
                     lookPosition = enemyTarget.transform.position;
                 }
 
-                //WeaverLog.Log("FACE RIGHT = " + (transform.position.x < lookPosition.x ? true : false));
-
                 yield return FaceDirection(transform.position.x < lookPosition.x ? true : false);
             }
 
@@ -350,10 +348,6 @@ public class SpitterPet : MonoBehaviour
     {
         while (true)
         {
-            //var hits = Physics2D.CircleCastNonAlloc(transform.position, collisionRadius, Vector2.right, enemyHitCache,Mathf.Infinity,LayerMask.GetMask("Enemies"));
-
-            WeaverLog.Log("HITS = " + inRangeObjects.CollidedObjectCount);
-
             enemyTarget = inRangeObjects.GetNearestTarget(transform.position)?.gameObject;
 
             if (enemyTarget == null)
@@ -365,61 +359,6 @@ public class SpitterPet : MonoBehaviour
                 lookTarget = enemyTarget;
             }
 
-            /*if (inRangeObjects.CollidedObjectCount > 0)
-            {
-                float nearestDistance = float.PositiveInfinity;
-                GameObject nearestTarget = null;
-
-                foreach (var target in inRangeObjects.CollidedObjects)
-                //for (int i = 0; i < inRangeObjects.CollidedObjectCount; i++)
-                {
-                    WeaverLog.Log("OBJ = " + target.transform.gameObject);
-                    Debug.DrawLine(transform.position, target.gameObject.transform.position, Color.red, 0.75f);
-
-                    //var target = enemyHitCache[i];
-
-                    var distance = Vector2.Distance(target.transform.position, transform.position);
-
-                    if (distance < nearestDistance)
-                    {
-                        nearestDistance = distance;
-                        nearestTarget = target.transform.gameObject;
-                    }
-                }
-
-                enemyTarget = nearestTarget;
-                lookTarget = nearestTarget;
-            }
-            else
-            {
-                enemyTarget = null;
-                lookTarget = Player.Player1.gameObject;
-            }*/
-
-            /*if (inRangeObjects.CollidedObjectCount > 0)
-            {
-                float nearestDistance = float.PositiveInfinity;
-                GameObject nearestTarget = null;
-
-                foreach (var target in inRangeObjects.CollidedObjects)
-                {
-                    var distance = Vector2.Distance(target.transform.position, transform.position);
-
-                    if (distance < nearestDistance)
-                    {
-                        nearestDistance = distance;
-                        nearestTarget = target.gameObject;
-                    }
-                }
-
-                enemyTarget = nearestTarget;
-                lookTarget = nearestTarget;
-            }
-            else
-            {
-                enemyTarget = null;
-                lookTarget = Player.Player1.gameObject;
-            }*/
             yield return new WaitForSeconds(0.75f);
         }
     }
@@ -498,16 +437,6 @@ public class SpitterPet : MonoBehaviour
         }
     }
 
-
-    /*IEnumerator MainRoutine()
-    {
-        while (true)
-        {
-            
-
-            yield return null;
-        }
-    }*/
 
     IEnumerator FaceDirection(bool faceRight)
     {

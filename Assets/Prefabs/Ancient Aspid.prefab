@@ -20994,7 +20994,6 @@ MonoBehaviour:
     width: 0
     height: 0
   deathCamLock: {fileID: 3718199230121202258}
-  deathCenterRoomAxis: 219.9
   deathDropItemXRange: {x: 180.02, y: 259.7}
   deathSound: {fileID: 8300000, guid: 0624befbf6fb976419c83b4ea887114f, type: 3}
   deathSpitDelay: 2
@@ -21002,7 +21001,6 @@ MonoBehaviour:
   flyAwayAcceleration: 35
   flyAwayThunkSound: {fileID: 8300000, guid: 2a2539ac61cf8f947a5fe08ffe6c85c1, type: 3}
   itemPrefab: {fileID: 1235928596345842495, guid: eea916634ff53b44391551efd3dff9b4, type: 3}
-  deathItemVelocity: 5
   spitItemAudio: {fileID: 8300000, guid: 3dab1f31e07ebbd4e8ae70543f3d9547, type: 3}
   settings: {fileID: 11400000, guid: 53925bd5d3de07c4c99ae7f55fedf179, type: 2}
   bossDefeatedField: aspidBossDefeated
@@ -21267,7 +21265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveEnabled: 1
-  postDelay: 0.5
+  postDelay: 0.4
   climbingPostDelay: 0.8
   minDistance: 5
   headSpeed: 1.5
@@ -21287,8 +21285,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveEnabled: 1
-  postDelay: 0.45
-  climbingPostDelay: 0.55
+  postDelay: 0.4
+  climbingPostDelay: 0.5
   headResetSpeed: 2
   emitter: {fileID: 3718199228053294616}
   sweepTime: 1.9
@@ -21405,8 +21403,8 @@ MonoBehaviour:
   timeRange: {x: 0.75, y: 1.25}
   gravityScale: 0.28
   fireSound: {fileID: 8300000, guid: 1c6b7160fd6c3014baaa16be8bebf606, type: 3}
-  postDelay: 0.5
-  climbingPostDelay: 0.5
+  postDelay: 0.45
+  climbingPostDelay: 0.45
 --- !u!114 &3718199229979044248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21703,7 +21701,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e0ae4cb383a5ef74db04ad069da3b841, type: 3}
   fader: {fileID: 2090731162}
   bombParticles: {fileID: 1503853623}
-  postDelay: 0.5
+  postDelay: 0.45
   angularVelocityRange: {x: -50, y: 50}
 --- !u!114 &6339752278025668268
 MonoBehaviour:

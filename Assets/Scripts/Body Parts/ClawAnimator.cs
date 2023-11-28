@@ -1,11 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using WeaverCore;
 using WeaverCore.Components;
-using WeaverCore.Features;
 using WeaverCore.Utilities;
 using static WeaverCore.Utilities.WeaverAnimationData;
 
@@ -18,75 +16,72 @@ public class ClawAnimator : MonoBehaviour
     [field: SerializeField]
     public int FrameToStartOn { get; private set; }
 
-    SpriteRenderer _mainRenderer;
+    private SpriteRenderer _mainRenderer;
     public SpriteRenderer MainRenderer => _mainRenderer ??= GetComponent<SpriteRenderer>();
 
-    SpriteFlasher _flasher;
+    private SpriteFlasher _flasher;
     public SpriteFlasher Flasher => _flasher ??= GetComponent<SpriteFlasher>();
 
-    WeaverAnimationPlayer _animator;
+    private WeaverAnimationPlayer _animator;
     public WeaverAnimationPlayer Animator => _animator ??= GetComponent<WeaverAnimationPlayer>();
 
-    ClawController _controller;
+    private ClawController _controller;
     public ClawController Controller => _controller ??= GetComponentInParent<ClawController>();
 
     public WeaverAnimationData.Clip DefaultClip { get; private set; }
 
-    bool playDefaultAnimation = true;
+    private bool playDefaultAnimation = true;
     public int CurrentFrame { get; set; }
-    float secondsPerFrame;
-    int frameCount;
+
+    private float secondsPerFrame;
+    private int frameCount;
 
     public bool ClawLocked { get; private set; }
 
-    float timer = 0f;
+    private float timer = 0f;
 
     [SerializeField]
-    float attackRotation;
+    private float attackRotation;
 
     [SerializeField]
-    Vector2Int maxRotationFrameRange;
+    private Vector2Int maxRotationFrameRange;
 
     [SerializeField]
-    string attackAnticAnimation;
+    private string attackAnticAnimation;
 
     [SerializeField]
-    string attackAnimation;
+    private string attackAnimation;
 
     [SerializeField]
-    string attackFullAnimation;
+    private string attackFullAnimation;
 
     [SerializeField]
-    float anticTime = 0.5f;
+    private float anticTime = 0.5f;
 
     [SerializeField]
-    AudioClip anticSoundEffect;
+    private AudioClip anticSoundEffect;
 
     [SerializeField]
-    AudioClip anticSwingSound;
+    private AudioClip anticSwingSound;
 
     [SerializeField]
-    GameObject slashObject;
+    private GameObject slashObject;
 
     [SerializeField]
     [FormerlySerializedAs("groundPosition")]
-    Vector2 groundPositionLeft;
+    private Vector2 groundPositionLeft;
 
     [SerializeField]
-    Vector2 groundPositionRight;
+    private Vector2 groundPositionRight;
 
     [SerializeField]
-    Vector3 groundRotation;
+    private Vector3 groundRotation;
 
     public bool PlayingSwingAttack { get; private set; }
 
-    /*[SerializeField]
-    float rightGroundOffset;*/
-
     [SerializeField]
-    string clawType;
-
-    bool _onGround = false;
+    private string clawType;
+    private bool _onGround = false;
 
     public bool OnGround
     {
@@ -97,18 +92,11 @@ public class ClawAnimator : MonoBehaviour
             {
                 _onGround = value;
 
-                //float directionSign = Controller.Boss.Orientation == AspidOrientation.Left ? -1f : 1f;
-
                 if (_onGround)
                 {
-                    if (Controller.Boss.Orientation == AspidOrientation.Left)
-                    {
-                        transform.localPosition = transform.localPosition.With(x: groundPositionLeft.x, groundPositionLeft.y);
-                    }
-                    else
-                    {
-                        transform.localPosition = transform.localPosition.With(x: groundPositionRight.x, groundPositionRight.y);
-                    }
+                    transform.localPosition = Controller.Boss.Orientation == AspidOrientation.Left
+                        ? transform.localPosition.With(x: groundPositionLeft.x, groundPositionLeft.y)
+                        : transform.localPosition.With(x: groundPositionRight.x, groundPositionRight.y);
                     transform.localEulerAngles = groundRotation;
                 }
                 else
@@ -117,21 +105,7 @@ public class ClawAnimator : MonoBehaviour
                     transform.localEulerAngles = baseRotation;
                 }
 
-                /*if (directionSign == 1f)
-                {
-                    transform.SetXLocalPosition(transform.GetXLocalPosition() + rightGroundOffset);
-                }*/
 
-
-                /*var oldPosition = transform.localPosition;
-                var oldRotation = transform.localEulerAngles;
-
-                transform.localPosition = transform.localPosition.With(x: previousPosition.x, previousPosition.y);
-                transform.localEulerAngles = previousRotation;
-
-                previousPosition = oldPosition;
-                previousRotation = oldRotation;
-                */
                 if (attackAnimation == "Attack Right")
                 {
                     MainRenderer.flipX = !_onGround;
@@ -140,8 +114,8 @@ public class ClawAnimator : MonoBehaviour
         }
     }
 
-    Vector2 basePosition;
-    Vector3 baseRotation;
+    private Vector2 basePosition;
+    private Vector3 baseRotation;
 
 
 
@@ -174,7 +148,7 @@ public class ClawAnimator : MonoBehaviour
             }
         }
     }
-    
+
 
     public IEnumerator LockClaw()
     {
@@ -221,16 +195,15 @@ public class ClawAnimator : MonoBehaviour
     {
         PlayingSwingAttack = true;
         doAttack = doAttack && slashObject != null;
-        var defaultRotation = Quaternion.Euler(0f, 0f, transform.GetZLocalRotation());
-        var maxRotation = Quaternion.Euler(0f, 0f, attackRotation);
-        var attackClip = Animator.AnimationData.GetClip(attackFullAnimation);
+        Quaternion defaultRotation = Quaternion.Euler(0f, 0f, transform.GetZLocalRotation());
+        Quaternion maxRotation = Quaternion.Euler(0f, 0f, attackRotation);
+        Clip attackClip = Animator.AnimationData.GetClip(attackFullAnimation);
 
         if (playAntic && anticSoundEffect != null)
         {
-            WeaverAudio.PlayAtPoint(anticSoundEffect, transform.position);
+             WeaverAudio.PlayAtPoint(anticSoundEffect, transform.position);
         }
         Flasher.FlashColor = Color.white;
-        //Flasher.DoFlash(maxRotationFrameRange.x * (1f / attackClip.FPS), (attackClip.Frames.Count - maxRotationFrameRange.x) * (1f / attackClip.FPS), 1f, anticTime);
         Flasher.DoFlash(0.1f, anticTime / 2f, 1f, 0.1f);
 
         for (int i = 0; i < attackClip.Frames.Count; i++)
@@ -240,13 +213,11 @@ public class ClawAnimator : MonoBehaviour
             {
                 transform.localRotation = Quaternion.Slerp(defaultRotation, maxRotation, i / (float)maxRotationFrameRange.x);
             }
-            else if (i >= maxRotationFrameRange.x && i < maxRotationFrameRange.y)
-            {
-                transform.localRotation = maxRotation;
-            }
             else
             {
-                transform.localRotation = Quaternion.Slerp(defaultRotation, maxRotation, 1f - ((i - maxRotationFrameRange.y) / (float)(attackClip.Frames.Count - maxRotationFrameRange.y)));
+                transform.localRotation = i >= maxRotationFrameRange.x && i < maxRotationFrameRange.y
+                    ? maxRotation
+                    : Quaternion.Slerp(defaultRotation, maxRotation, 1f - ((i - maxRotationFrameRange.y) / (float)(attackClip.Frames.Count - maxRotationFrameRange.y)));
             }
             yield return new WaitForSeconds(1f / attackClip.FPS);
 
@@ -255,7 +226,7 @@ public class ClawAnimator : MonoBehaviour
                 yield return new WaitForSeconds(anticTime);
                 if (playSwingSound && anticSwingSound != null)
                 {
-                    WeaverAudio.PlayAtPoint(anticSwingSound, transform.position);
+                     WeaverAudio.PlayAtPoint(anticSwingSound, transform.position);
                 }
                 if (doAttack)
                 {
@@ -271,54 +242,34 @@ public class ClawAnimator : MonoBehaviour
 
     public void UpdateGroundSprite()
     {
-        var clip = Animator.AnimationData.GetClip($"Lunge Land {clawType}");
-        if (Controller.Boss.Orientation == AspidOrientation.Left)
-        {
-            MainRenderer.sprite = Animator.AnimationData.GetFrameFromClip($"Lunge Land {clawType}", clip.Frames.Count - 1);
-        }
-        else
-        {
-            MainRenderer.sprite = Animator.AnimationData.GetFrameFromClip($"Lunge Land {clawType}", 0);
-        }
+        Clip clip = Animator.AnimationData.GetClip($"Lunge Land {clawType}");
+        MainRenderer.sprite = Controller.Boss.Orientation == AspidOrientation.Left
+            ? Animator.AnimationData.GetFrameFromClip($"Lunge Land {clawType}", clip.Frames.Count - 1)
+            : Animator.AnimationData.GetFrameFromClip($"Lunge Land {clawType}", 0);
     }
 
 
-    /*public void ExitGroundMode()
-    {
-        OnGround = false;
-    }*/
-
     public void LandImmediately()
     {
-        var orientation = Controller.Boss.Orientation;
-        var clip = Animator.AnimationData.GetClip($"Lunge Land {clawType}");
-        if (orientation == AspidOrientation.Left)
-        {
-            MainRenderer.sprite = Animator.AnimationData.GetFrameFromClip($"Lunge Land {clawType}", clip.Frames.Count - 1);
-        }
-        else
-        {
-            MainRenderer.sprite = Animator.AnimationData.GetFrameFromClip($"Lunge Land {clawType}", 0);
-        }
+        AspidOrientation orientation = Controller.Boss.Orientation;
+        Clip clip = Animator.AnimationData.GetClip($"Lunge Land {clawType}");
+        MainRenderer.sprite = orientation == AspidOrientation.Left
+            ? Animator.AnimationData.GetFrameFromClip($"Lunge Land {clawType}", clip.Frames.Count - 1)
+            : Animator.AnimationData.GetFrameFromClip($"Lunge Land {clawType}", 0);
     }
 
     public IEnumerator PlayLanding(bool slide)
     {
         OnGround = true;
 
-        var orientation = Controller.Boss.Orientation;
-        var clip = Animator.AnimationData.GetClip($"Lunge Land {clawType}");
+        AspidOrientation orientation = Controller.Boss.Orientation;
+        Clip clip = Animator.AnimationData.GetClip($"Lunge Land {clawType}");
 
         if (!slide)
         {
-            if (orientation == AspidOrientation.Left)
-            {
-                MainRenderer.sprite = Animator.AnimationData.GetFrameFromClip($"Lunge Land {clawType}", 0);
-            }
-            else
-            {
-                MainRenderer.sprite = Animator.AnimationData.GetFrameFromClip($"Lunge Land {clawType}", clip.Frames.Count - 1);
-            }
+            MainRenderer.sprite = orientation == AspidOrientation.Left
+                ? Animator.AnimationData.GetFrameFromClip($"Lunge Land {clawType}", 0)
+                : Animator.AnimationData.GetFrameFromClip($"Lunge Land {clawType}", clip.Frames.Count - 1);
             yield return new WaitForSeconds(Controller.Boss.GroundMode.lungeDownwardsLandDelay);
         }
 
@@ -356,48 +307,21 @@ public class ClawAnimator : MonoBehaviour
         }
 
 
-        //yield return Animator.PlayAnimationTillDone($"Lunge Land {clawType}");
     }
 
     public IEnumerator SlideSwitchDirection(AspidOrientation oldDirection, AspidOrientation newDirection)
     {
-        //float oldDirSign = oldDirection == AspidOrientation.Right ? -1f : 1f;
-        //float newDirSign = newDirection == AspidOrientation.Right ? -1f : 1f;
-
-        //float oldX = oldDirSign * groundPosition.x;
-        //float newX = newDirSign * groundPosition.x;
-
         Vector2 oldPos = oldDirection == AspidOrientation.Left ? groundPositionLeft : groundPositionRight;
         Vector2 newPos = newDirection == AspidOrientation.Left ? groundPositionLeft : groundPositionRight;
 
-        /*if (newDirection == AspidOrientation.Left)
-        {
-            //transform.localPosition = transform.localPosition.With(x: groundPositionLeft.x, groundPositionLeft.y);
-        }
-        else
-        {
-            //transform.localPosition = transform.localPosition.With(x: groundPositionRight.x, groundPositionRight.y);
-        }*/
-
         for (float t = 0; t < 4; t++)
         {
-            transform.localPosition = transform.localPosition.With(x: Mathf.Lerp(oldPos.x, newPos.x,t / 4f), y: Mathf.Lerp(oldPos.y, newPos.y, t / 4f));
+            transform.localPosition = transform.localPosition.With(x: Mathf.Lerp(oldPos.x, newPos.x, t / 4f), y: Mathf.Lerp(oldPos.y, newPos.y, t / 4f));
             yield return new WaitForSeconds(1f / 8f);
         }
 
         transform.localPosition = transform.localPosition.With(x: newPos.x, newPos.y);
 
-
-        /*if (_onGround)
-        {
-            transform.localPosition = transform.localPosition.With(x: groundPosition.x, groundPosition.y);
-            transform.localEulerAngles = groundRotation;
-        }
-        else
-        {
-            transform.localPosition = transform.localPosition.With(x: basePosition.x, basePosition.y);
-            transform.localEulerAngles = baseRotation;
-        }*/
 
         yield break;
     }
@@ -415,45 +339,4 @@ public class ClawAnimator : MonoBehaviour
         transform.localEulerAngles = baseRotation;
     }
 
-    /*public IEnumerator PlayAttackAnimation(bool playSounds)
-    {
-        var defaultRotation = Quaternion.Euler(0f, 0f, transform.GetZLocalRotation());
-        var maxRotation = Quaternion.Euler(0f,0f, attackRotation);
-        var attackClip = Animator.AnimationData.GetClip(attackFullAnimation);
-
-        if (playSounds && anticSoundEffect != null)
-        {
-            WeaverAudio.PlayAtPoint(anticSoundEffect, transform.position);
-        }
-
-        for (int i = 0; i < attackClip.Frames.Count; i++)
-        {
-            MainRenderer.sprite = attackClip.Frames[i];
-            if (i < maxRotationFrameRange.x)
-            {
-                transform.localRotation = Quaternion.Slerp(defaultRotation,maxRotation,i / maxRotationFrameRange.x);
-            }
-            else if (i >= maxRotationFrameRange.x && i < maxRotationFrameRange.y)
-            {
-                transform.localRotation = maxRotation;
-            }
-            else
-            {
-                transform.localRotation = Quaternion.Slerp(defaultRotation,maxRotation,1f - ((i - maxRotationFrameRange.y) / (float)(attackClip.Frames.Count - maxRotationFrameRange.y)));
-            }
-
-            if (i == 3)
-            {
-                if (playSounds && anticSwingSound != null)
-                {
-                    WeaverAudio.PlayAtPoint(anticSwingSound, transform.position);
-                }
-                slashObject.SetActive(true);
-                
-            }
-
-            yield return new WaitForSeconds(1f / attackClip.FPS);
-        }
-        transform.localRotation = defaultRotation;
-    }*/
 }

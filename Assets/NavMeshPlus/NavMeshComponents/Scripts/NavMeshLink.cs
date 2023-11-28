@@ -47,7 +47,7 @@ namespace NavMeshPlus.Components
         Vector3 m_LastPosition = Vector3.zero;
         Quaternion m_LastRotation = Quaternion.identity;
 
-        static readonly List<NavMeshLink> s_Tracked = new List<NavMeshLink>();
+        static List<NavMeshLink> s_Tracked = new List<NavMeshLink>();
 
         void OnEnable()
         {

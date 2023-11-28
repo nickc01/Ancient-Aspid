@@ -20,35 +20,8 @@ public class AspidShotExtraDamager : EnemyExtraDamager
         projectile = GetComponent<EnemyProjectile>();
     }
 
-    /*protected override void OnCollisionEnter2D(Collision2D collision)
-    {
-        base.OnCollisionEnter2D(collision);
-    }
-
-    protected override void OnTriggerEnter2D(Collider2D collider)
-    {
-        base.OnTriggerEnter2D(collider);
-    }*/
-
-    /*private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (!projectile.Rigidbody.isKinematic && collision.gameObject.GetComponentInChildren<IExtraDamageable>() != null)
-        {
-            projectile.ForceHit(collision.gameObject);
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (!projectile.Rigidbody.isKinematic && collision.gameObject.GetComponentInChildren<IExtraDamageable>() != null)
-        {
-            projectile.ForceHit(collision.gameObject);
-        }
-    }*/
-
     protected override void OnExtraDamage(IExtraDamageable hitEnemy)
     {
-        //WeaverLog.Log("HIT ENEMY = " + hitEnemy);
         if (hitEnemy is Component component)
         {
             if (component.TryGetComponent<EntityHealth>(out var entityHealth))

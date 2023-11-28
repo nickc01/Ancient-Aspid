@@ -135,8 +135,6 @@ public class FarAwayLaser : AncientAspidMove
 
         rangeCheckerCoroutine = Boss.StartBoundRoutine(RangeCheckerRoutine());
 
-        //laserRotationOrigin.SetXLocalPosition(Boss.Head.CurrentOrientation == AspidOrientation.Right ? -oldRotationX : oldRotationX);
-
         if (preFireSound != null)
         {
             WeaverAudio.PlayAtPoint(preFireSound, Player.Player1.transform.position);
@@ -147,20 +145,11 @@ public class FarAwayLaser : AncientAspidMove
         aimTargetGetter = () => Player.Player1.transform.position + new Vector3(0f, 0.5f);
         aimRoutine = Boss.StartBoundRoutine(AimTowardsPlayerRoutine());
 
-        /*for (float t = 0; t < prepareDuration; t += Time.deltaTime)
-        {
-            //PointLaserTowards(Player.Player1.transform.position + new Vector3(0f, 0.5f));
-            //laserRotationOrigin.LookAt(Player.Player1.transform.position);
-            yield return null;
-        }*/
-
         yield return new WaitForSeconds(prepareDuration);
 
         yield return WaitIfNotCancelled(farLaserEmitter.EndLaser_P3());
 
         yield return WaitIfNotCancelled(fireDelay);
-        //yield return new WaitForSeconds(fireDelay);
-
         if (!Cancelled)
         {
             var playerOld = Player.Player1.transform.position;
@@ -171,13 +160,9 @@ public class FarAwayLaser : AncientAspidMove
 
             var playerVelocity = (playerNew - playerOld) / (1f / 30f);
 
-            //laserRotationOrigin.LookAt(Player.Player1.transform.position + (playerVelocity * predictionAmount));
-
             var lastPlayerPos = Player.Player1.transform.position + new Vector3(0f, 0.5f) + (playerVelocity * predictionAmount);
 
             aimTargetGetter = () => lastPlayerPos;
-
-            //PointLaserTowards(lastPlayerPos);
 
             yield return new WaitForSeconds(farLaserEmitter.ChargeUpLaser_P1());
 
@@ -188,15 +173,11 @@ public class FarAwayLaser : AncientAspidMove
 
             farLaserEmitter.FireLaser_P2();
 
-            //yield return new WaitForSeconds(fireDuration);
-
             yield return WaitIfNotCancelled(fireDuration);
 
 
             yield return WaitIfNotCancelled(farLaserEmitter.EndLaser_P3());
         }
-
-        //laserRotationOrigin.SetXLocalPosition(oldRotationX);
 
         Boss.StopBoundRoutine(aimRoutine);
         aimRoutine = 0;
@@ -224,8 +205,6 @@ public class FarAwayLaser : AncientAspidMove
         }
 
         farLaserEmitter.StopLaser();
-        //laserRotationOrigin.SetXLocalPosition(oldRotationX);
-
         if (Boss.Head.HeadLocked)
         {
             Boss.Head.UnlockHead();

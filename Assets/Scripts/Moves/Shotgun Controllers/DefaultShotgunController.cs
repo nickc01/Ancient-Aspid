@@ -5,13 +5,11 @@ using WeaverCore.Components;
 
 public class DefaultShotgunController : ShotgunController
 {
-    float prepareLerpSpeed;
-    float attackLerpSpeed;
-    List<float> laserRotations;
-
-    LaserEmitter centerLaser;
-
-    Vector3 targetPos;
+    private float prepareLerpSpeed;
+    private float attackLerpSpeed;
+    private List<float> laserRotations;
+    private LaserEmitter centerLaser;
+    private Vector3 targetPos;
 
     public DefaultShotgunController(float prepareLerpSpeed, float attackLerpSpeed, List<float> laserRotations)
     {
@@ -49,7 +47,7 @@ public class DefaultShotgunController : ShotgunController
 
     public override Quaternion GetLaserRotation(int laserIndex)
     {
-        var rotation = AimLaserAtTarget(centerLaser, targetPos);
+        float rotation = AimLaserAtTarget(centerLaser, targetPos);
 
         return Quaternion.Euler(0f, 0f, rotation + laserRotations[laserIndex]);
     }

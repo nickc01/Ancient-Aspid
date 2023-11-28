@@ -12,8 +12,6 @@ public sealed class AncientAspidGlobalSettings : GlobalSettings
     public void OpenDebugTools()
     {
         SettingsScreen.Instance.Hide();
-
-
         GameObject.Instantiate(WeaverAssets.LoadAssetFromBundle<GameObject,AncientAspidMod>("Color Manager"), WeaverDebugCanvas.Content);
     }
 }

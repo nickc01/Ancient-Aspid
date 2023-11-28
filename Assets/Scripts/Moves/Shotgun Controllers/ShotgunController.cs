@@ -43,7 +43,10 @@ public abstract class ShotgunController
         CurrentMode = mode;
     }
 
-    public virtual bool DoScaleFlip() => true;
+    public virtual bool DoScaleFlip()
+    {
+        return true;
+    }
 
     public abstract Quaternion GetLaserRotation(int laserIndex);
 
@@ -54,20 +57,18 @@ public abstract class ShotgunController
 
     public float AimLaserAtTarget(LaserEmitter source, Vector3 target)
     {
-        var origin = GetOrigin(source);
+        Transform origin = GetOrigin(source);
 
-        var difference = new Vector2(target.x, target.y) - new Vector2(origin.position.x, origin.position.y);
+        Vector2 difference = new Vector2(target.x, target.y) - new Vector2(origin.position.x, origin.position.y);
 
         difference = origin.transform.parent.InverseTransformVector(difference);
 
-        var angle = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
-
-        //origin.transform.SetRotationZ(angle + 90f);
+        float angle = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
 
         return angle;
     }
 
-    Transform GetOrigin(LaserEmitter emitter)
+    private Transform GetOrigin(LaserEmitter emitter)
     {
         return emitter.Laser.transform.parent;
     }
