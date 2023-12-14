@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using WeaverCore.Components;
 using WeaverCore.Utilities;
@@ -15,19 +14,12 @@ public class BodyController : AspidBodyPart
 
     public bool AnimationStateChanging => ChangingDirection || ChangingTailState;
 
-    WeaverAnimationPlayer animator;
-
-    /*WeaverAnimationData.Clip changeDirectionClip;
-    WeaverAnimationData.Clip centerizeClip;
-    WeaverAnimationData.Clip decenterizeClip;*/
-
-    Coroutine defaultAnimationRoutine;
-
-    bool playDefaultAnimation = true;
-
-    float currentFrameTimer = 0;
-    int currentFrame = 0;
-    WeaverAnimationData.Clip currentClip;
+    private WeaverAnimationPlayer animator;
+    private Coroutine defaultAnimationRoutine;
+    private bool playDefaultAnimation = true;
+    private float currentFrameTimer = 0;
+    private int currentFrame = 0;
+    private WeaverAnimationData.Clip currentClip;
 
     public bool PlayDefaultAnimation
     {
@@ -57,27 +49,20 @@ public class BodyController : AspidBodyPart
     {
         base.Awake();
         animator = GetComponent<WeaverAnimationPlayer>();
-        /*changeDirectionClip = animator.AnimationData.GetClip("Change Direction");
-        centerizeClip = animator.AnimationData.GetClip("Centerize");
-        decenterizeClip = animator.AnimationData.GetClip("Decenterize");*/
         defaultAnimationRoutine = StartCoroutine(DefaultAnimationRoutine(CurrentOrientation));
     }
 
     public override void OnStun()
     {
-        transform.SetXLocalPosition(GetXForOrientation(CurrentOrientation));
-        transform.SetYLocalPosition(0f);
+         transform.SetXLocalPosition(GetXForOrientation(CurrentOrientation));
+         transform.SetYLocalPosition(0f);
         transform.localEulerAngles = default;
         animator.PlaybackSpeed = 1f;
         base.OnStun();
     }
 
-    IEnumerator DefaultAnimationRoutine(AspidOrientation orientation)
+    private IEnumerator DefaultAnimationRoutine(AspidOrientation orientation)
     {
-        /*if (TailRaised)
-        {
-            yield break;
-        }*/
         while (true)
         {
             currentClip = GetClipForState(TailRaised, PulsingUp, orientation);
@@ -106,7 +91,7 @@ public class BodyController : AspidBodyPart
         }
     }
 
-    void StopDefaultAnimation()
+    private void StopDefaultAnimation()
     {
         if (defaultAnimationRoutine != null)
         {
@@ -115,10 +100,9 @@ public class BodyController : AspidBodyPart
         }
     }
 
-
-    WeaverAnimationData.Clip GetClipForState(bool tailRaised, bool goingUp, AspidOrientation orientation)
+    private WeaverAnimationData.Clip GetClipForState(bool tailRaised, bool goingUp, AspidOrientation orientation)
     {
-        if (orientation == AspidOrientation.Left || orientation == AspidOrientation.Right)
+        if (orientation is AspidOrientation.Left || orientation is AspidOrientation.Right)
         {
             string pulseState = goingUp ? "Up" : "Down";
             string tailState = tailRaised ? "Raised" : "Lowered";
@@ -132,38 +116,6 @@ public class BodyController : AspidBodyPart
             return animator.AnimationData.GetClip($"TailLowered-{pulseState}-Centered");
         }
     }
-
-    /*public float GetChangeDirectionDelay()
-    {
-        float fps = changeDirectionClip.FPS;
-        float delay = 0;
-        if (PulsingUp)
-        {
-            float timer = 0;
-            for (int i = currentFrame; i > 0; i--)
-            {
-                delay += timer;
-                currentFrame--;
-                timer = (1f / fps);
-            }
-        }
-        else
-        {
-            float timer = 0;
-            for (int i = currentFrame; i < currentClip.Frames.Count; i++)
-            {
-                delay += timer;
-                currentFrame++;
-                timer = (1f / fps);
-                if (currentFrame >= currentClip.Frames.Count)
-                {
-                    currentFrame = 0;
-                    break;
-                }
-            }
-        }
-        return delay;
-    }*/
 
     public IEnumerator PrepareChangeDirection()
     {
@@ -182,7 +134,7 @@ public class BodyController : AspidBodyPart
                 }
                 currentFrame--;
                 animator.SpriteRenderer.sprite = currentClip.Frames[currentFrame];
-                timer = (1f / fps);
+                timer = 1f / fps;
             }
         }
         else
@@ -195,7 +147,7 @@ public class BodyController : AspidBodyPart
                     yield return new WaitForSeconds(timer);
                 }
                 currentFrame++;
-                timer = (1f / fps);
+                timer = 1f / fps;
                 if (currentFrame >= currentClip.Frames.Count)
                 {
                     currentFrame = 0;
@@ -209,15 +161,6 @@ public class BodyController : AspidBodyPart
 
     protected override IEnumerator ChangeDirectionRoutine(float speedMultiplier = 1f)
     {
-        /*if (CurrentOrientation == AspidOrientation.Center)
-        {
-            MainCollider.offset += new Vector2(0f, 1.17f);
-        }
-        else if (PreviousOrientation == AspidOrientation.Center)
-        {
-            MainCollider.offset -= new Vector2(0f, 1.17f);
-        }*/
-
         if (PreviousOrientation == AspidOrientation.Center && CurrentOrientation != AspidOrientation.Center)
         {
             MainCollider.offset += new Vector2(0f, 1.17f);
@@ -249,8 +192,6 @@ public class BodyController : AspidBodyPart
                 Animator.SpriteRenderer.sprite = initialFrame;
             }
         }
-        //yield return base.ChangeDirectionRoutine();
-
         if (CurrentOrientation == AspidOrientation.Center)
         {
             MainCollider.offset -= new Vector2(0f, 1.17f);
@@ -287,7 +228,7 @@ public class BodyController : AspidBodyPart
 
     public IEnumerator GroundPrepareJump()
     {
-        var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
+        float lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
 
         for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
         {
@@ -301,8 +242,7 @@ public class BodyController : AspidBodyPart
     public IEnumerator GroundLaunch()
     {
         animator.PlaybackSpeed = Boss.GroundMode.MidAirSwitchSpeed * 1.5f;
-        //StartCoroutine(PlayBodyAnim());
-        var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
+        float lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
         for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
         {
             transform.localPosition -= Boss.GroundMode.jumpPosIncrements;
@@ -320,15 +260,9 @@ public class BodyController : AspidBodyPart
         yield break;
     }
 
-    /*IEnumerator PlayBodyAnim()
-    {
-        yield return animator.PlayAnimationTillDone("Lower Tail");
-        yield return animator.PlayAnimationTillDone("Raise Tail");
-    }*/
-
     public IEnumerator GroundLand(bool finalLanding)
     {
-        var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
+        float lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
 
         transform.localPosition += Boss.GroundMode.jumpPosIncrements * Boss.GroundMode.groundJumpFrames;
         transform.localEulerAngles += Boss.GroundMode.jumpRotIncrements * lookingDirection * Boss.GroundMode.groundJumpFrames;
@@ -379,47 +313,6 @@ public class BodyController : AspidBodyPart
         TailRaised = false;
     }
 
-    /*protected override IEnumerator ChangeDirectionRoutine(AspidOrientation newOrientation)
-    {
-        IEnumerator ApplyClip(WeaverAnimationData.Clip clip)
-        {
-            StartCoroutine(ChangeXPosition(GetDestinationLocalX(Orientation), GetDestinationLocalX(newOrientation), clip));
-            StartCoroutine(ChangeColliderOffset(GetDestinationLocalX(StartingColliderOffset, Orientation), GetDestinationLocalX(StartingColliderOffset, newOrientation), clip));
-            yield return AnimationPlayer.PlayAnimationTillDone(clip.Name);
-            PulsingUp = true;
-            currentFrame = 0;
-            defaultAnimationRoutine = StartCoroutine(DefaultAnimationRoutine(newOrientation));
-        }
-
-        if (newOrientation != AspidOrientation.Center)
-        {
-            if (Orientation == AspidOrientation.Center)
-            {
-                if (newOrientation == AspidOrientation.Left)
-                {
-                    AnimationPlayer.SpriteRenderer.flipX = false;
-                }
-                else
-                {
-                    AnimationPlayer.SpriteRenderer.flipX = true;
-                }
-                MainCollider.offset += new Vector2(0f, 1.17f);
-                yield return ApplyClip(decenterizeClip);
-            }
-            else
-            {
-                yield return ApplyClip(changeDirectionClip);
-                AnimationPlayer.SpriteRenderer.flipX = newOrientation == AspidOrientation.Right;
-            }
-        }
-        else
-        {
-            yield return ApplyClip(centerizeClip);
-            MainCollider.offset -= new Vector2(0f, 1.17f);
-        }
-        ChangingDirection = false;
-    }*/
-
     public IEnumerator RaiseTail(float speed = 1f)
     {
         VerifyState();
@@ -464,7 +357,7 @@ public class BodyController : AspidBodyPart
         }
     }
 
-    void VerifyState()
+    private void VerifyState()
     {
         if (ChangingTailState)
         {
@@ -478,183 +371,3 @@ public class BodyController : AspidBodyPart
 }
 
 
-/*public class BodyAnimatorOLO : BodyPartAnimator
-{
-    [SerializeField]
-    List<Sprite> risingFrames;
-
-    [SerializeField]
-    List<Sprite> loweringFrames;
-
-    [SerializeField]
-    float defaultFPS = 8;
-
-    bool rising = true;
-    int currentFrame = 0;
-
-
-    float secondsPerFrame = 0;
-    float frameTimer = 0;
-
-    [field: SerializeField]
-    public bool PlayDefaultAnimation { get; set; } = true;
-
-    public bool ChangingDirection { get; private set; }
-
-    public float DefaultFPS
-    {
-        get => defaultFPS;
-        set
-        {
-            defaultFPS = value;
-            secondsPerFrame = 1f / value;
-        }
-    }
-
-    WeaverAnimationData.Clip defaultClip;
-    WeaverAnimationData.Clip changeDirectionClip;
-
-
-    Sprite GetCurrentFrame()
-    {
-        if (rising)
-        {
-            return risingFrames[currentFrame];
-        }
-        else
-        {
-            return loweringFrames[currentFrame];
-        }
-    }
-
-    void GotoNextFrame()
-    {
-        currentFrame++;
-        if (rising)
-        {
-            if (currentFrame >= risingFrames.Count)
-            {
-                rising = !rising;
-                currentFrame = 0;
-            }
-        }
-        else
-        {
-            if (currentFrame >= loweringFrames.Count)
-            {
-                rising = !rising;
-                currentFrame = 0;
-            }
-        }
-    }
-
-    private void Awake()
-    {
-        secondsPerFrame = 1f / defaultFPS;
-        defaultClip = AnimationPlayer.AnimationData.GetClip("Default");
-        changeDirectionClip = AnimationPlayer.AnimationData.GetClip("Change Direction");
-        AnimationPlayer.SpriteRenderer.sprite = GetCurrentFrame();
-    }
-
-    private void Update()
-    {
-        if (!ChangingDirection)
-        {
-            frameTimer += Time.deltaTime;
-            if (frameTimer >= secondsPerFrame)
-            {
-                GotoNextFrame();
-                AnimationPlayer.SpriteRenderer.sprite = GetCurrentFrame();
-                frameTimer -= secondsPerFrame;
-            }
-        }
-    }
-
-    public void SetFacingDirection(bool right)
-    {
-        AnimationPlayer.SpriteRenderer.flipX = right;
-    }
-
-    //Gets the delay before the body of the boss can change direction smoothly
-    public float GetChangeDirectionDelay()
-    {
-        float fps = changeDirectionClip.FPS;
-        float delay = 0;
-        if (rising)
-        {
-            float timer = 0;
-            for (int i = currentFrame; i > 0; i--)
-            {
-                delay += timer;
-                currentFrame--;
-                timer = (1f / fps);
-            }
-        }
-        else
-        {
-            float timer = 0;
-            for (int i = currentFrame; i < loweringFrames.Count; i++)
-            {
-                delay += timer;
-                currentFrame++;
-                timer = (1f / fps);
-                if (currentFrame >= loweringFrames.Count)
-                {
-                    currentFrame = 0;
-                    break;
-                }
-            }
-        }
-        return delay;
-    }
-
-    public float GetChangeDirectionTime()
-    {
-        return (1f / changeDirectionClip.FPS) * changeDirectionClip.Frames.Count;
-    }
-
-    public IEnumerator ChangeDirection()
-    {
-        ChangingDirection = true;
-        float fps = changeDirectionClip.FPS;
-        if (rising)
-        {
-            float timer = 0;
-            for (int i = currentFrame; i > 0; i--)
-            {
-                if (timer > 0)
-                {
-                    yield return new WaitForSeconds(timer);
-                }
-                currentFrame--;
-                timer = (1f / fps);
-            }
-        }
-        else
-        {
-            float timer = 0;
-            for (int i = currentFrame; i < loweringFrames.Count; i++)
-            {
-                if (timer > 0)
-                {
-                    yield return new WaitForSeconds(timer);
-                }
-                currentFrame++;
-                timer = (1f / fps);
-                if (currentFrame >= loweringFrames.Count)
-                {
-                    currentFrame = 0;
-                    break;
-                }
-            }
-        }
-        StartCoroutine(FlipXPosition(changeDirectionClip));
-        yield return AnimationPlayer.PlayAnimationTillDone(changeDirectionClip.Name);
-        ChangingDirection = false;
-        rising = true;
-        currentFrame = 0;
-        AnimationPlayer.SpriteRenderer.sprite = GetCurrentFrame();
-        AnimationPlayer.SpriteRenderer.flipX = !AnimationPlayer.SpriteRenderer.flipX;
-    }
-
-}*/

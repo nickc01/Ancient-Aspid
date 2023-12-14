@@ -6,9 +6,6 @@ using WeaverCore.Utilities;
 
 public class BeBetweenPlayerAndAspid : MonoBehaviour
 {
-    //public float DistanceFromPlayer = 5f;
-    //public Vector2 DistanceFromPlayerMinMax = new Vector2(7f,12f);
-
     public Vector2 FarDistanceRange = new Vector2(10f,13f);
     public Vector2 NearDistanceRange = new Vector2(7.5f,10f);
 
@@ -19,12 +16,6 @@ public class BeBetweenPlayerAndAspid : MonoBehaviour
 
     public float AboveMinAngle = 45;
     public float AboveMaxAngle = 90 + 45;
-
-    /*[Tooltip("If set to true, then this will make sure this object stays above the player at a certain height")]
-    public bool KeepAboveFloorHeight = true;
-
-    [Tooltip("The minimum height this object can be above the player")]
-    public float HeightAboveFloor = 5f;*/
 
     public float minDistanceFromFloor = 5f;
     public float minDistanceFromRightWall = 5f;
@@ -43,24 +34,6 @@ public class BeBetweenPlayerAndAspid : MonoBehaviour
 
     bool doFarDistance = false;
 
-
-    /*private void Awake()
-    {
-        StartCoroutine(FloorCheckRoutine());
-    }
-
-    IEnumerator FloorCheckRoutine()
-    {
-        while (true)
-        {
-            if (Physics2D.RaycastNonAlloc(OtherObject.transform.position, Vector2.down, resultStorage,100,LayerMask.GetMask("Terrain")) > 0)
-            {
-                floorLevel = resultStorage[0].point.y;
-                Debug.DrawLine(OtherObject.transform.position, resultStorage[0].point, Color.green, 0.5f);
-            }
-            yield return new WaitForSeconds(0.5f);
-        }
-    }*/
 
     private void Awake()
     {
@@ -132,128 +105,5 @@ public class BeBetweenPlayerAndAspid : MonoBehaviour
         {
             transform.SetPositionY(roomBoundaries.yMin + minDistanceFromFloor);
         }
-    }
-
-    private void UpdateOLD()
-    {
-        var playerPos = Player.Player1.transform.position;
-
-        var vectorToObject = Aspid.transform.position - playerPos;
-
-
-        //var angle = 180f + (Mathf.Rad2Deg * Mathf.Atan2(vectorToObject.y, vectorToObject.x));
-        var angle = (360f + Mathf.Rad2Deg * Mathf.Atan2(vectorToObject.y, vectorToObject.x)) % 360f;
-
-        float magnitude;
-
-        //Debug.DrawLine(OtherObject.transform.position, OtherObject.transform.position + new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle)));
-
-        /*if (angle > AboveMinAngle && angle < AboveMaxAngle)
-        {
-            magnitude = DistanceFromPlayerWhenAbove;
-            transform.position = playerPos + (vectorToObject.normalized * DistanceFromPlayerWhenAbove);
-        }
-        else
-        {
-            magnitude = currentDistanceToPlayer;
-            transform.position = playerPos + (vectorToObject.normalized * currentDistanceToPlayer);
-
-            var roomBoundaries = Aspid.CurrentRoomRect;
-
-            if (transform.position.y <= roomBoundaries.yMin + minDistanceFromFloor)
-            {
-                transform.SetPositionY(roomBoundaries.yMin + minDistanceFromFloor);
-            }
-        }*/
-
-        if (angle > AboveMinAngle && angle < AboveMaxAngle)
-        {
-            magnitude = DistanceFromPlayerWhenAbove;
-            //magnitude = currentDistanceToPlayer;
-            //transform.position = playerPos + (vectorToObject.normalized * DistanceFromPlayerWhenAbove);
-        }
-        else
-        {
-            magnitude = currentDistanceToPlayer;
-            /*transform.position = playerPos + (vectorToObject.normalized * currentDistanceToPlayer);
-
-            var roomBoundaries = Aspid.CurrentRoomRect;
-
-            if (transform.position.y <= roomBoundaries.yMin + minDistanceFromFloor)
-            {
-                transform.SetPositionY(roomBoundaries.yMin + minDistanceFromFloor);
-            }*/
-        }
-
-
-        angle = Mathf.Clamp(angle, angleRange.x, angleRange.y);
-
-        transform.position = playerPos + (Vector3)MathUtilities.PolarToCartesian(angle, magnitude);
-
-        var roomBoundaries = Aspid.CurrentRoomRect;
-
-        if (transform.position.y <= roomBoundaries.yMin + minDistanceFromFloor)
-        {
-            transform.SetPositionY(roomBoundaries.yMin + minDistanceFromFloor);
-        }
-
-
-        /*if (Aspid.Phase == AncientAspid.BossPhase.Phase2)
-        {
-            if (vectorToObject.y < 0)
-            {
-                vectorToObject.y = -vectorToObject.y;
-            }
-
-            transform.position = playerPos + (vectorToObject.normalized * FarDistanceRange.y);
-        }
-        else
-        {
-            if (angle > AboveMinAngle && angle < AboveMaxAngle)
-            {
-                transform.position = playerPos + (vectorToObject.normalized * DistanceFromPlayerWhenAbove);
-            }
-            else
-            {
-                transform.position = playerPos + (vectorToObject.normalized * currentDistanceToPlayer);
-
-                var roomBoundaries = Aspid.CurrentRoomRect;
-
-                if (transform.position.y <= roomBoundaries.Rect.yMin + minDistanceFromFloor)
-                {
-                    transform.SetPositionY(roomBoundaries.Rect.yMin + minDistanceFromFloor);
-                }
-            }
-        }*/
-
-        /*var roomBoundaries = Aspid.CurrentRoomRect;
-
-        if (transform.position.y < roomBoundaries.Rect.yMin + minDistanceFromFloor)
-        {
-            transform.SetPositionY(roomBoundaries.Rect.yMin + minDistanceFromFloor);
-        }
-
-        if (transform.position.y > roomBoundaries.Rect.xMax - minDistanceFromCeiling)
-        {
-            transform.SetPositionY(roomBoundaries.Rect.xMax - minDistanceFromCeiling);
-        }
-
-        if (transform.position.x < roomBoundaries.Rect.xMin + minDistanceFromLeftWall)
-        {
-            transform.SetPositionX(roomBoundaries.Rect.xMin + minDistanceFromLeftWall);
-        }
-
-        if (transform.position.x > roomBoundaries.Rect.xMax - minDistanceFromRightWall)
-        {
-            transform.SetPositionX(roomBoundaries.Rect.xMax - minDistanceFromRightWall);
-        }*/
-
-        /*if (KeepAboveFloorHeight)
-        {
-            if (transform.position.y < floorLevel + HeightAboveFloor)
-            {
-                transform.SetPositionY(floorLevel + HeightAboveFloor);
-            }
-        }*/
     }
 }

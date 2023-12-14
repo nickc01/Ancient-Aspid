@@ -64,13 +64,6 @@ public class BombMove : AncientAspidMove
 
     public IEnumerable<Bomb> LastFiredBombs => _lastFiredBombs;
 
-    /*/// <summary>
-    /// If specified, this bomb controller will get executed when the move gets executed. Otherwise, the default bomb controller is used
-    /// </summary>
-    public IBombController CustomController { get; set; } = null;*/
-
-    //public override bool Interruptible => true;
-
     float _bombGravityScale = float.NaN;
     public float BombGravityScale
     {
@@ -114,9 +107,6 @@ public class BombMove : AncientAspidMove
         }
     }
 
-    /// <summary>
-    /// Fires bombs using the passed in controller. Assumes the boss head is already locked
-    /// </summary>
     public IEnumerator FireBombs(IBombController bombController, bool doPrepare = true)
     {
         if (!bombController.DoBombs(Boss))
@@ -229,26 +219,15 @@ public class BombMove : AncientAspidMove
     public override float GetPostDelay(int prevHealth) => postDelay;
 
 
-    /*protected override IEnumerator OnCancelRoutine()
-    {
-        OnStun();
-        yield break;
-    }*/
-
     public override void OnStun()
     {
         fader.Fade(false);
         bombParticles.Stop();
         Boss.Head.Animator.StopCurrentAnimation();
-        //CustomController = null;
         if (Boss.Head.HeadLocked)
         {
             Boss.Head.UnlockHead();
         }
     }
 
-    /*public override void GracefullyStop()
-    {
-        
-    }*/
 }

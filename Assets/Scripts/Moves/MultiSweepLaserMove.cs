@@ -120,11 +120,9 @@ public class MultiSweepLaserMove : AncientAspidMove
                 break;
             case MoveState.VomitShots:
                 vomitShotMove.StopMove();
-                //vomitShotMove.OnStun();
                 break;
             case MoveState.Laser:
                 laserMove.StopMove();
-                //laserMove.OnStun();
                 break;
         }
         base.StopMove();

@@ -18,7 +18,7 @@ public class GroupSpawner : MonoBehaviour
     public Vector2 GeneralSpawnDirection { get; private set; } = new Vector2(0, 0);
 
     [field: SerializeField]
-    public Vector2 GeneralSpawnVelocity { get; private set; } = new Vector2(10f,10f);
+    public Vector2 GeneralSpawnVelocity { get; private set; } = new Vector2(10f, 10f);
 
     [field: SerializeField]
     public Vector2 SpawnZPosition { get; private set; } = new Vector2(0f, 0f);
@@ -43,7 +43,7 @@ public class GroupSpawner : MonoBehaviour
     public virtual void StartSpawning()
     {
         Spawning = true;
-        StartCoroutine(SpawnRoutine(UnityEngine.Random.Range(SpawnAmount.x, SpawnAmount.y + 1),SpawnDelay.RandomInRange()));
+         StartCoroutine(SpawnRoutine(UnityEngine.Random.Range(SpawnAmount.x, SpawnAmount.y + 1), SpawnDelay.RandomInRange()));
     }
 
     public virtual void StopSpawning()
@@ -52,18 +52,12 @@ public class GroupSpawner : MonoBehaviour
         StopAllCoroutines();
     }
 
-    IEnumerator SpawnRoutine(int spawnAmount, float spawnDelay)
+    private IEnumerator SpawnRoutine(int spawnAmount, float spawnDelay)
     {
         for (int t = 0; t < spawnAmount; t++)
         {
-            //var spawnPos = transform.position + (Vector3)(UnityEngine.Random.insideUnitCircle * GeneralSpawnRadius);
-
-            GetSpawnPosAndRot(out var pos, out var rot);
-
-
-
-            //var spawnRot = Quaternion.Euler(0f,0f, GeneralSpawnDirection.RandomInRange());
-            var instance = Pooling.Instantiate(Prefab, pos, rot);
+            GetSpawnPosAndRot(out Vector3 pos, out Quaternion rot);
+            BackgroundFlier instance = Pooling.Instantiate(Prefab, pos, rot);
 
             instance.VelocityRange = GeneralSpawnVelocity;
             yield return new WaitForSeconds(spawnDelay);
@@ -82,7 +76,7 @@ public class GroupSpawner : MonoBehaviour
 
     protected virtual void OnDrawGizmosSelected()
     {
-        Gizmos.color = new Color(0f,0f,1f,0.5f);
+        Gizmos.color = new Color(0f, 0f, 1f, 0.5f);
         Gizmos.DrawWireSphere(transform.position, GeneralSpawnRadius);
 
         Gizmos.color = Color.red;

@@ -68,14 +68,11 @@ public class PathfindingNode : MonoBehaviour
                 var midPoint = Vector2.Lerp(transform.position, allNodes[i].transform.position, 0.5f);
 
                 var hits = Physics2D.CapsuleCastNonAlloc(midPoint, new Vector2(distanceToNode, bossSize), CapsuleDirection2D.Horizontal, Mathf.Atan2(directionToPoint.y, directionToPoint.x) * Mathf.Rad2Deg, directionToPoint, singleHitCache,distanceToNode,collisionMask);
-                //if (Physics2D.RaycastNonAlloc(transform.position, (allNodes[i].transform.position - transform.position).normalized, singleHitCache, distanceToNode, collisionMask) == 0)
                 if (hits == 0)
                 {
                     neighbors.Add(allNodes[i]);
                 }
             }
-            //Debug.Log("Nearby Count = " + nearbyCount);
-            //Debug.Log("CIRCLE RADIUS = " + pathGenCircleRadius);
         }
     }
 
@@ -114,9 +111,4 @@ public class PathfindingNode : MonoBehaviour
             preGenerated = false;
         }
     }
-    /*private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(transform.position, PathGenCircleRadius);
-    }*/
 }

@@ -13,7 +13,7 @@ public class TargetOverride
 
     public int Mode => mode;
 
-    public readonly int Priority;
+    public int Priority;
 
 
     public TargetOverride(int priority)

@@ -15,10 +15,7 @@ public class ColorBox : MonoBehaviour
     {
         toggle = GetComponentInChildren<Toggle>();
 
-        toggle.onValueChanged.AddListener(v =>
-        {
-            onValueChanged.Invoke(v);
-        });
+        toggle.onValueChanged.AddListener(onValueChanged.Invoke);
     }
 
     public void SetValue(bool ticked)

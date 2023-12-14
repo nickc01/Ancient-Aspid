@@ -72,9 +72,6 @@ public class LaserRapidFireMove : AncientAspidMove
     [SerializeField]
     AudioClip fireSound;
 
-    //[SerializeField]
-    //bool doPhase1VolumeAdjust = true;
-
     [SerializeField]
     float volumeDecreaseDelay = 0.1f;
 
@@ -105,29 +102,6 @@ public class LaserRapidFireMove : AncientAspidMove
     [SerializeField]
     float flightSpeed = 10f;
 
-    /*[Space]
-    [Header("Phase 2")]
-    [SerializeField]
-    float phase2InitialDelay = 0.25f;
-
-    [SerializeField]
-    float headRotationAmount = 20f;
-
-    [SerializeField]
-    float headRotationFPS = 12f;
-
-    [SerializeField]
-    int headRotationFrames = 3;
-
-    [SerializeField]
-    float headRotationResetDelay = 0.25f;
-
-    [SerializeField]
-    float laserOriginDistance = 0.458f;
-
-    [SerializeField]
-    float laserMainOffset = 0f;*/
-
 
 
     float prepareLaserXOffset;
@@ -135,8 +109,6 @@ public class LaserRapidFireMove : AncientAspidMove
 
 
     Transform shotGunTarget;
-
-    //Transform oldTarget;
 
     FireLaserMove laserMove;
 
@@ -162,8 +134,6 @@ public class LaserRapidFireMove : AncientAspidMove
     {
         get
         {
-            //return Boss.CanSeeTarget && (moveEnabled || (Boss.Phase == AncientAspid.BossPhase.Default && Boss.HealthManager.Health <= 0.6f)) && Boss.AspidMode == AncientAspid.Mode.Tactical;
-
             return Boss.CanSeeTarget && moveEnabled && Boss.CurrentRunningMode == Boss.TacticalMode;
         }
     }
@@ -192,31 +162,14 @@ public class LaserRapidFireMove : AncientAspidMove
         Gizmos.DrawRay(transform.position, secondAngle);
     }
 
-    //uint targetRoutine = 0;
-
-    /*void StartTargeting()
-    {
-        SetLaserTarget();
-    }*/
-
     void ResetTarget()
     {
-        //Boss.LaserTargetOffset = default;
-
         if (target != null)
         {
             Boss.RemoveTargetOverride(target);
             target = null;
         }
 
-        //Boss.UnfreezeTarget();
-        /*if (targetRoutine != 0)
-        {
-            Boss.StopBoundRoutine(targetRoutine);
-            targetRoutine = 0;
-            Boss.LaserTargetOffset = default;
-            //Boss.SetTarget(oldTarget);
-        }*/
     }
 
     void SetLaserTarget()
@@ -237,8 +190,6 @@ public class LaserRapidFireMove : AncientAspidMove
             targetPos = relativeTargetPos;
         }
 
-        //Boss.LaserTargetOffset = targetPos;
-
         if (target == null)
         {
             target = Boss.AddTargetOverride();
@@ -256,16 +207,6 @@ public class LaserRapidFireMove : AncientAspidMove
             return targetPos + lastPTarget;
         });
 
-        //Boss.FreezeTarget(() => targetPos + Player.Player1.transform.position);
-
-        //oldTarget = Boss.TargetTransform;
-        //Boss.SetTarget(shotGunTarget);
-
-        /*while (true)
-        {
-            shotGunTarget.transform.position = Player.Player1.transform.position + targetPos;
-            yield return null;
-        }*/
     }
 
     protected override IEnumerator OnExecute()
@@ -321,31 +262,6 @@ public class LaserRapidFireMove : AncientAspidMove
 
         prevMinFlightSpeed = Boss.minimumFlightSpeed;
         Boss.minimumFlightSpeed = minimumFlightSpeed;
-        //StartTargeting();
-        /*if (shotGunTarget == null)
-        {
-            shotGunTarget = Player.Player1.transform.Find("Laser Target");
-            if (shotGunTarget == null)
-            {
-                var target = new GameObject("Laser Target");
-                target.transform.SetParent(Player.Player1.transform);
-                shotGunTarget = target.transform;
-            }
-        }
-
-        if (Boss.Head.LookingDirection >= 0f)
-        {
-            shotGunTarget.localPosition = relativeTargetPos.With(x: -relativeTargetPos.x);
-        }
-        else
-        {
-            shotGunTarget.localPosition = relativeTargetPos;
-        }
-
-
-        oldTarget = Boss.TargetTransform;
-        Boss.SetTarget(shotGunTarget);*/
-
         yield return new WaitForSeconds(preparationDelay);
 
         prepareLaserOrigin.SetXLocalPosition(Boss.Head.LookingDirection >= 0f ? -prepareLaserXOffset : prepareLaserXOffset);
@@ -358,15 +274,11 @@ public class LaserRapidFireMove : AncientAspidMove
             audio.transform.SetParent(transform, true);
         }
 
-        //laserMove.Emitter.ChargeUpDuration = chargeUpTime;
         prepareLaserEmitter.ChargeUpDuration = chargeUpTime;
-
-        //bool chargingUp = true;
 
         IEnumerator ChargeUpLaser()
         {
             yield return prepareLaserEmitter.PlayChargeUpInRoutine(chargeUpTime);
-            //chargingUp = false;
         }
 
         Vector2 angleLimits = angleRange;
@@ -377,41 +289,19 @@ public class LaserRapidFireMove : AncientAspidMove
         }
 
         originalOriginDistance = laserMove.Emitter.Laser.transform.GetYLocalPosition();
-        //laserMove.Emitter.Laser.transform.SetYLocalPosition(laserOriginDistance);
         uint chargeUpInRoutine = Boss.StartBoundRoutine(ChargeUpLaser());
 
-        //Debug.Log("PLAYER ANGLE = " + MathUtilities.ClampRotation(GetAngleToPlayer(prepareShotGunEmitter) + 90f));
-        //Debug.Log("MIN ANGLE = " + angleLimits.x);
-        //Debug.Log("MAX ANGLE = " + angleLimits.y);
-        //int oldIndex = -1;
-
-        //while (chargingUp)
         for (float t = 0; t < chargeUpTime; t += Time.deltaTime)
         {
-            //Debug.Log("TRUE ANGLE TO PLAYER = " + GetAngleToPlayer(prepareShotgunOrigin));
-
-            //Debug.DrawRay(prepareShotgunOrigin.position,MathUtilities.PolarToCartesian(GetAngleToPlayer(prepareShotgunOrigin),10f),Color.cyan);
-
-            //Debug.DrawLine(prepareShotgunOrigin.position, Player.Player1.transform.position, Color.Lerp(Color.red,Color.blue,0.5f));
-
             var playerAngle = ClampWithinRange(MathUtilities.ClampRotation(GetAngleToPlayer(prepareLaserOrigin) + 90f),angleLimits.x,angleLimits.y);
             var destRotation = Quaternion.Euler(0f, 0f,playerAngle - 90f);
 
-            //Debug.Log("FINAL PLAYER ANGLE = " + playerAngle);
-            //var (main, extra) = laserMove.CalculateLaserRotation(destRotation,100f);
-
-            //laserMove.SetLaserRotation(laserMainOffset, main + extra - laserMainOffset);
-
             SetPrepareLaserAngle(playerAngle);
 
-            chargeUpEffects.transform.localRotation = Quaternion.Euler(playerAngle - 90f, -90f, 0f);//destRotation * Quaternion.Euler(0f,-90f,0f);//Quaternion.Euler(-90f + main + extra,-90f,0f);
-            //laserMove.UpdateHeadRotation(ref oldIndex, main);
-
+            chargeUpEffects.transform.localRotation = Quaternion.Euler(playerAngle - 90f, -90f, 0f);      
             if (Cancelled)
             {
                 break;
-                //Cancel();
-                //yield break;
             }
             yield return null;
         }
@@ -420,14 +310,12 @@ public class LaserRapidFireMove : AncientAspidMove
         chargeUpInRoutine = Boss.StartBoundRoutine(prepareLaserEmitter.PlayChargeUpOutRoutine());
 
 
-        //freezeTarget = true;
         chargeUpEffects.Stop();
 
         yield return new WaitForSeconds(initialFireDelay);
 
         if (Cancelled)
         {
-            //break;
             Cancel();
             yield break;
         }
@@ -435,9 +323,6 @@ public class LaserRapidFireMove : AncientAspidMove
         rapidFireRotationOrigin.SetXLocalPosition(Boss.Head.LookingDirection >= 0f ? -fireLaserXOffset : fireLaserXOffset);
 
         Boss.Head.Animator.PlaybackSpeed = animationSpeed;
-        //var anticClip = Boss.Head.Animator.AnimationData.GetClip("Fire Laser Antic Quick");
-        //var clipDuration = (1f / anticClip.FPS) * anticClip.Frames.Count;
-
         var clipDuration = Boss.Head.Animator.AnimationData.GetClipDuration("Fire Laser Antic Quick");
 
         var shots = possibleShotAmounts.GetRandomElement();
@@ -451,17 +336,10 @@ public class LaserRapidFireMove : AncientAspidMove
                 break;
             }
 
-            //Boss.Head.Animator.PlaybackSpeed = 20f / 12f;
-
             rapidFireEmitter.FireDuration = fireDuration;
-            //shotgunFireEmitter.ChargeUpLaser_P1();
-            //shotgunFireEmitter.FireLaserQuick();
-
             Boss.StartBoundRoutine(FireLaser(clipDuration - rapidFireEmitter.ChargeUpDuration,fireDuration));
 
             yield return null;
-            //yield return new WaitForSeconds(0.1f);
-
             yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser Antic Quick");
 
             Boss.Head.MainRenderer.sprite = fireSprite;
@@ -476,11 +354,6 @@ public class LaserRapidFireMove : AncientAspidMove
 
             CameraShaker.Instance.Shake(cameraShake);
 
-            /*for (float t = 0; t < fireDuration; t += Time.deltaTime)
-            {
-                AimAtTarget();
-                yield return null;
-            }*/
             yield return new WaitForSeconds(fireDuration);
 
             rapidFireEmitter.EndLaser_P3();
@@ -497,33 +370,7 @@ public class LaserRapidFireMove : AncientAspidMove
 
         Boss.Head.Animator.PlaybackSpeed = 1f;
 
-        /*float facingRight = Boss.Head.LookingDirection >= 0f ? 1f : -1f;
 
-        yield return new WaitForSeconds(phase2InitialDelay);
-
-        for (int i = 1; i <= headRotationFrames; i++)
-        {
-            Boss.Head.transform.SetZLocalRotation(Mathf.Lerp(0f,headRotationAmount * facingRight, i / (float)headRotationFrames));
-            yield return new WaitForSeconds(1f / headRotationFPS);
-        }
-
-        yield return new WaitForSeconds(headRotationResetDelay);
-
-        for (int i = 1; i <= headRotationFrames; i++)
-        {
-            Boss.Head.transform.SetZLocalRotation(Mathf.Lerp(headRotationAmount * facingRight, 0f, i / (float)headRotationFrames));
-            yield return new WaitForSeconds(1f / headRotationFPS);
-        }
-
-        yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser Antic Quick");*/
-
-
-        //ALSO MAKE SURE THAT THE BOSS STOPS THE ATTACK PREMATURELY IF THE PLAYER IS COMPLETELY OUT OF RANGE
-
-        //Boss.Head.UnlockHead();
-
-        //OnStun();
-        //laserMove.Emitter.Laser.transform.SetYLocalPosition(originalOriginDistance);
         Boss.Head.Animator.PlaybackSpeed = 1f;
 
         freezeTarget = false;
@@ -536,17 +383,13 @@ public class LaserRapidFireMove : AncientAspidMove
 
             doingShotgun = false;
         }
-        //Boss.OrbitReductionAmount /= 3f;
         ResetTarget();
 
-        //WeaverLog.LogError("OLD TARGET = " + oldTarget?.name);
-        //Boss.SetTarget(oldTarget);
         Boss.OrbitReductionAmount = prevOrbitReductionAmount;
         Boss.maximumFlightSpeed = prevMaxFlightSpeed;
         Boss.flightSpeed = prevFlightSpeed;
         Boss.Head.UnlockHead();
 
-        //yield break;
     }
 
     void Cancel()
@@ -567,33 +410,17 @@ public class LaserRapidFireMove : AncientAspidMove
 
     IEnumerator FireLaser(float delay, float duration)
     {
-        //fireTarget = Player.Player1.transform.position;
-
-        //var oldPosition = Player.Player1.transform.position;
         double oldRotation = MathUtilities.ClampRotation(GetAngleToPlayer(rapidFireEmitter, Player.Player1.transform.position) + 90f);
-        //yield return new WaitForSeconds(0.1f);
         yield return null;
         double newRotation = MathUtilities.ClampRotation(GetAngleToPlayer(rapidFireEmitter, Player.Player1.transform.position) + 90f);
-        //var newPosition = Player.Player1.transform.position;
-
-        //var directionVector = (newPosition - oldPosition).normalized;
-
         float difference = (float)((newRotation - oldRotation) / (double)Time.deltaTime);
 
-        //var predictedPosition = Vector3.LerpUnclamped(newPosition, newPosition + directionVector, playerPredictionAmount);
         var predictedRotation = Mathf.LerpUnclamped((float)oldRotation,(float)oldRotation + difference,playerPredictionAmount);
 
-        //fireTarget = predictedPosition;
         fireRotation = predictedRotation;
 
         yield return new WaitForSeconds(delay);
 
-        //var playerRotation = MathUtilities.ClampRotation(GetAngleToPlayer(rapidFireEmitter, predictedPosition) + 90f);
-
-
-        //var playerRotation = MathUtilities.ClampRotation(GetAngleToPlayer(rapidFireEmitter) + 90f);
-
-        //rapidFireRotationOrigin.transform.SetZLocalRotation(playerRotation);
 
 
         rapidFireEmitter.ChargeUpLaser_P1();
@@ -607,10 +434,6 @@ public class LaserRapidFireMove : AncientAspidMove
 
     void AimAtTarget()
     {
-        /*fireTarget = Vector3.Lerp(fireTarget,Player.Player1.transform.position, playerAimSpeed * Time.deltaTime);
-        var playerRotation = MathUtilities.ClampRotation(GetAngleToPlayer(rapidFireEmitter, fireTarget) + 90f);
-        rapidFireRotationOrigin.transform.SetZLocalRotation(playerRotation);*/
-
         var newRotation = MathUtilities.ClampRotation(GetAngleToPlayer(rapidFireEmitter, Player.Player1.transform.position) + 90f);
         fireRotation = Mathf.Lerp(fireRotation,newRotation,playerAimSpeed * Time.deltaTime);
         rapidFireRotationOrigin.transform.SetZLocalRotation(fireRotation);
@@ -652,22 +475,6 @@ public class LaserRapidFireMove : AncientAspidMove
         }
     }
 
-    /*bool AngleWithinRange(float angle, float a, float b)
-    {
-        if (a > b)
-        {
-            var temp = b;
-            b = a;
-            a = temp;
-        }
-        return angle >= a && angle <= b;
-    }
-
-    void UpdateLaserRotation()
-    {
-        //CalculateLaserRotation();
-    }*/
-
     public override void OnStun()
     {
         if (Boss.Head.HeadLocked)
@@ -697,17 +504,6 @@ public class LaserRapidFireMove : AncientAspidMove
             Boss.Head.Animator.PlaybackSpeed = 1f;
         }
     }
-
-    /*void SetShotgunLaserAngle(float downwardAngle)
-    {
-        rapidFireRotationOrigin.SetZLocalRotation(downwardAngle * rapidFireRotationOrigin.transform.localScale.z);
-    }*/
-
-    /*void SetShotGunLaserAngle(Quaternion rotation)
-    {
-        var angle = MathUtilities.ClampRotation(rotation.eulerAngles.z + 90f);
-        SetShotgunLaserAngle(angle);
-    }*/
 
     void SetPrepareLaserAngle(float downwardAngle)
     {

@@ -51,37 +51,11 @@ public class RoutineAwaiter
     public static RoutineAwaiter AwaitRoutines(IEnumerable<IEnumerator> routines, MonoBehaviour source = null)
     {
         return AwaitRoutines(source, routines.ToArray());
-        /*int count = routines.Count();
-        if (source == null)
-        {
-            source = AlternateRoutineSource.Instance;
-        }
-        var awaiter = new RoutineAwaiter();
-        awaiter.completedTasks = new bool[count];
-        int index = 0;
-        foreach (var routine in routines)
-        {
-            source.StartCoroutine(awaiter.RoutineRunner(routine, index++));
-        }
-        return awaiter;*/
     }
 
     public static RoutineAwaiter AwaitRoutines(MonoBehaviour source = null, params IEnumerator[] routines)
     {
         return AwaitRoutines(source, null, routines);
-        /*int count = routines.Count();
-        if (source == null)
-        {
-            source = AlternateRoutineSource.Instance;
-        }
-        var awaiter = new RoutineAwaiter();
-        awaiter.completedTasks = new bool[count];
-        int index = 0;
-        foreach (var routine in routines)
-        {
-            source.StartCoroutine(awaiter.RoutineRunner(routine, index++));
-        }
-        return awaiter;*/
     }
 
     public static RoutineAwaiter AwaitRoutines(MonoBehaviour source = null, List<Coroutine> outputRoutines = null, params IEnumerator[] routines)
@@ -126,15 +100,6 @@ public class RoutineAwaiter
     public static RoutineAwaiter AwaitBoundRoutines(IEnumerable<IEnumerator> routines, Enemy source)
     {
         return AwaitBoundRoutines(source, null, routines.ToArray());
-        /*int count = routines.Count();
-        var awaiter = new RoutineAwaiter();
-        awaiter.completedTasks = new bool[count];
-        int index = 0;
-        foreach (var routine in routines)
-        {
-            source.StartBoundRoutine(awaiter.RoutineRunner(routine, index++));
-        }
-        return awaiter;*/
     }
 
     IEnumerator RoutineRunner(IEnumerator routine, int completionIndex)

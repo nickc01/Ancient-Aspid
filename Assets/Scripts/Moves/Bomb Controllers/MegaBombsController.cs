@@ -7,11 +7,11 @@ public class MegaBombsController : IBombController
 {
     public int BombsToShoot { get; private set; }
 
-    public readonly float BombSize;
-    public readonly float BombAirDuration;
-    public readonly float BombTargetRandomness;
-    public readonly float GravityScale;
-    public readonly AncientAspid Boss;
+    public float BombSize;
+    public float BombAirDuration;
+    public float BombTargetRandomness;
+    public float GravityScale;
+    public AncientAspid Boss;
 
     public float BombFireTimeStamp { get; private set; }
 
@@ -33,11 +33,11 @@ public class MegaBombsController : IBombController
     {
         velocity = MathUtilities.CalculateVelocityToReachPoint(sourcePos, (Vector2)Player.Player1.transform.position + (Random.insideUnitCircle * BombTargetRandomness), BombAirDuration, GravityScale);
 
-        var floorHeight = Boss.CurrentRoomRect.yMin + 0.5f;
+        float floorHeight = Boss.CurrentRoomRect.yMin + 0.5f;
 
         FloorHeight = floorHeight;
 
-        var timeToFloor = MathUtilities.CalculateTimeToReachHeight(sourcePos, velocity, floorHeight, GravityScale);
+        float timeToFloor = MathUtilities.CalculateTimeToReachHeight(sourcePos, velocity, floorHeight, GravityScale);
 
         if (timeToFloor < MinTimeToFloor)
         {

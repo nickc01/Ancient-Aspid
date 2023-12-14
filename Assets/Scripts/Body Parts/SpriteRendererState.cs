@@ -2,9 +2,9 @@
 
 public struct SpriteRendererState
 {
-    Sprite sprite;
-    bool flipX;
-    bool flipY;
+    private Sprite sprite;
+    private bool flipX;
+    private bool flipY;
 
     public SpriteRendererState(SpriteRenderer renderer)
     {

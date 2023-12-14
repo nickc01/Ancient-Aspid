@@ -7,8 +7,8 @@ public class DefaultBombController : IBombController
 {
     public int BombsToShoot => 1;
 
-    public readonly float ShotSpeed;
-    public readonly float GravityScale;
+    public float ShotSpeed;
+    public float GravityScale;
 
     public DefaultBombController(float shotSpeed, float gravityScale)
     {
@@ -31,6 +31,5 @@ public class DefaultBombController : IBombController
     public bool DoBombs(AncientAspid Boss)
     {
         return (Vector3.Distance(Boss.Head.transform.position, Player.Player1.transform.position) / ShotSpeed) < 1.5f;
-        //var velocity = MathUtilities.CalculateVelocityToReachPoint(Boss.Head.transform.position, Player.Player1.transform.position, Vector3.Distance(Boss.Head.transform.position, Player.Player1.transform.position) / ShotSpeed, GravityScale);
     }
 }

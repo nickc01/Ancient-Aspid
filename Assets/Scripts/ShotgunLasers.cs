@@ -5,15 +5,6 @@ using WeaverCore.Components;
 
 public class ShotgunLasers : MonoBehaviour
 {
-    /*public enum ShotgunLaser
-    {
-        Leftest,
-        Left,
-        Central,
-        Right,
-        Rightest
-    }*/
-
     public List<LaserEmitter> Lasers;
 
     [SerializeField]
@@ -30,12 +21,6 @@ public class ShotgunLasers : MonoBehaviour
 
     [SerializeField]
     Vector3 attackRotation;
-
-    /*[SerializeField]
-    float anticDuration = 0.75f;
-
-    [SerializeField]
-    float attackDuration = 1.5f;*/
 
     public void PlayAntics()
     {

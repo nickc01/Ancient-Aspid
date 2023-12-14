@@ -13,10 +13,6 @@ public abstract class Phase : MonoBehaviour
     [field: SerializeField]
     public bool ClimbingPhase { get; private set; } = false;
 
-    /*[SerializeField]
-    Rect _phaseBoundaries;
-
-    public Rect PhaseBoundaries => new Rect(_phaseBoundaries.position + (Vector2)transform.position, _phaseBoundaries.size);*/
     [NonSerialized]
     BoxCollider2D _boundary;
 
@@ -36,9 +32,6 @@ public abstract class Phase : MonoBehaviour
             return rect;
         }
     }
-
-    //[field: SerializeField]
-    //public Rect PhaseBoundaries { get; private set; }
 
     [field: SerializeField]
     public Phase NextPhase { get; private set; }
@@ -96,8 +89,6 @@ public abstract class Phase : MonoBehaviour
         {
             canTransition = canTransition || phaseRegion.EnteredPhaseRegion;
         }
-
-        //Debug.Log($"{PhaseName} next = {canTransition && NextPhase != null}");
 
         return canTransition && NextPhase != null;
     }

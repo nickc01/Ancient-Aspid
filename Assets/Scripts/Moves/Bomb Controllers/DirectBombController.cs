@@ -7,9 +7,9 @@ public class DirectBombController : IBombController
 {
     public int BombsToShoot => 1;
 
-    public readonly float AirTime;
-    public readonly float GravityScale;
-    public readonly float BombSize;
+    public float AirTime;
+    public float GravityScale;
+    public float BombSize;
 
     public DirectBombController(float airTime, float gravityScale, float bombSize)
     {

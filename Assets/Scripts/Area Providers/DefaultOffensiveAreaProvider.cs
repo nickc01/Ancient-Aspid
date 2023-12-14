@@ -14,9 +14,9 @@ public class DefaultOffensiveAreaProvider : IModeAreaProvider
 
     public Vector2 GetModeTarget(AncientAspid boss)
     {
-        var rect = RoomScanner.GetRoomBoundaries(Player.Player1.transform.position);
+        RoomScanResult rect = RoomScanner.GetRoomBoundaries(Player.Player1.transform.position);
 
-        var targetX = boss.transform.position.x;
+        float targetX = boss.transform.position.x;
 
         if (targetX > rect.Rect.xMax - 7f)
         {
@@ -28,13 +28,7 @@ public class DefaultOffensiveAreaProvider : IModeAreaProvider
             targetX = rect.Rect.xMin + 7f;
         }
 
-        //Mathf.Lerp(rect.Rect.xMin, rect.Rect.xMax, 0.5f)
-        var newTarget = new Vector3(targetX, rect.Rect.yMin + OffensiveHeight);
-
-        //newTarget.x = Mathf.Clamp(newTarget.x, Player.Player1.transform.position.x - 10f, Player.Player1.transform.position.x + 10f);
-        //newTarget.y = Mathf.Clamp(newTarget.y, Player.Player1.transform.position.y + 4f, Player.Player1.transform.position.y + 20f);
-
-        return newTarget;
+        return new Vector2(targetX, rect.Rect.yMin + OffensiveHeight);
     }
 
     public bool IsTargetActive(AncientAspid boss)

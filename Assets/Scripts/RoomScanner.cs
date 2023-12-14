@@ -32,7 +32,6 @@ public static class RoomScanner
 
         if (Physics2D.RaycastNonAlloc(position, Vector2.up, hits, maxDistance, layerMask) > 0)
         {
-            //Debug.DrawLine(position, hits[0].point, Color.green, 0.25f);
             topSide = hits[0].point.y;
             result.TopHit = hits[0];
         }
@@ -42,14 +41,12 @@ public static class RoomScanner
 
         if (Physics2D.RaycastNonAlloc(position, Vector2.down, hits, maxDistance, layerMask) > 0)
         {
-            //Debug.DrawLine(position, hits[0].point, Color.green, 0.25f);
             bottomSide = hits[0].point.y;
             result.BottomHit = hits[0];
         }
 
         if (Physics2D.RaycastNonAlloc(new Vector2(position.x,Mathf.Lerp(topSide,bottomSide,0.5f)), Vector2.left, hits, maxDistance, layerMask) > 0)
         {
-            //Debug.DrawLine(position, hits[0].point, Color.green,0.25f);
             leftSide = hits[0].point.x;
             result.LeftHit = hits[0];
         }
@@ -58,12 +55,10 @@ public static class RoomScanner
 
         if (Physics2D.RaycastNonAlloc(new Vector2(position.x, Mathf.Lerp(topSide, bottomSide, 0.5f)), Vector2.right, hits, maxDistance, layerMask) > 0)
         {
-            //Debug.DrawLine(position, hits[0].point, Color.green, 0.25f);
             rightSide = hits[0].point.x;
             result.RightHit = hits[0];
         }
 
-        //return new Rect(leftSide, bottomSide, rightSide - leftSide, topSide - bottomSide);
         result.Rect = new Rect(leftSide, bottomSide, rightSide - leftSide, topSide - bottomSide);
 
         return result;

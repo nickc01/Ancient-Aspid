@@ -78,10 +78,7 @@ public class EnterGround_BigVomitShotMove : AncientAspidMove
         }
         var playerDistance = Vector2.Distance(Player.Player1.transform.position, Boss.Head.transform.position);
 
-        //Debug.Log("Player Angle PRE = " + playerAngle);
         playerAngle = Mathf.Clamp(playerAngle, angleRange.x, angleRange.y);
-
-        //Debug.Log("Player Angle POST = " + playerAngle);
 
         Blood.SpawnBlood(fireSource, new Blood.BloodSpawnInfo(4, 8, 10f, 25f, playerAngle - 50f, playerAngle + 50f, null));
 

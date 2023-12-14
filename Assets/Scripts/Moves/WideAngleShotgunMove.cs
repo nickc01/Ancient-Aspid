@@ -61,15 +61,6 @@ public class WideAngleShotgunMove : AncientAspidMove
 
     protected override IEnumerator OnExecute()
     {
-        //yield return shotgunMove.DoShotgunLaser(new WideAngleShotgunController(Boss,Boss.GetAngleToPlayer()), 0f, 1.5f);
-
-        //var angleToPlayer = Boss.GetAngleToPlayer();
-
-        /*if (angleToPlayer > 180f)
-        {
-            angleToPlayer -= 360f;
-        }*/
-
 
         Vector2 destPos;
 
@@ -118,18 +109,14 @@ public class WideAngleShotgunMove : AncientAspidMove
         }
 
         var endTime = Time.time;
-        /*Boss.Head.UnlockHeadImmediate(Player.Player1.transform.position.x >= Boss.transform.position.x ? AspidOrientation.Right : AspidOrientation.Left);*/
-
         var onRightSide = Player.Player1.transform.position.x >= Boss.transform.position.x;
 
         Boss.Head.MainRenderer.flipX = onRightSide;
 
-        //yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser End Quick");
-
-        //Boss.Head.UnlockHeadImmediate(AspidOrientation.Center);
-        Boss.Head.UnlockHead(0f);
-
-        //Boss.Head.Animator.PlayAnimation("Fire Laser End Quick");
+        if (Boss.Head.HeadLocked)
+        {
+            Boss.Head.UnlockHead(0f);
+        }
 
         yield return Boss.Head.LockHead(Player.Player1.transform.position.x >= Boss.transform.position.x ? AspidOrientation.Right : AspidOrientation.Left, bombHeadLockSpeed);
 

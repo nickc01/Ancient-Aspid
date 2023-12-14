@@ -5,15 +5,10 @@ using WeaverCore.Utilities;
 public class GodhomeOffensiveAreaProvider : MonoBehaviour, IModeAreaProvider
 {
     [SerializeField]
-    float healthThreshold = 0.7f;
-
-    //[SerializeField]
-    //Vector3 platformTarget;
+    private float healthThreshold = 0.7f;
 
     [SerializeField]
-    Rect platformArea;
-
-    //409.84, 14.98, 0
+    private Rect platformArea;
 
     private void Awake()
     {
@@ -28,7 +23,6 @@ public class GodhomeOffensiveAreaProvider : MonoBehaviour, IModeAreaProvider
     public Vector2 GetModeTarget(AncientAspid boss)
     {
         return platformArea.ClampWithin(Player.Player1.transform.position);
-        //return platformTarget;
     }
 
     public bool IsTargetActive(AncientAspid boss)
@@ -38,26 +32,8 @@ public class GodhomeOffensiveAreaProvider : MonoBehaviour, IModeAreaProvider
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = new Color(0.5f,0.5f,0.5f,0.5f);
-        Gizmos.DrawCube(platformArea.center, new Vector3(platformArea.size.x,platformArea.size.y,0.1f));
+        Gizmos.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+        Gizmos.DrawCube(platformArea.center, new Vector3(platformArea.size.x, platformArea.size.y, 0.1f));
     }
 
-    /*private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent<AncientAspid>(out var boss))
-        {
-            boss.OffensiveMode.OffensiveAreaProvider = this;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent<AncientAspid>(out var boss))
-        {
-            if (boss.OffensiveMode.OffensiveAreaProvider != null && boss.OffensiveMode.OffensiveAreaProvider.Equals(this))
-            {
-                boss.OffensiveMode.OffensiveAreaProvider = null;
-            }
-        }
-    }*/
 }

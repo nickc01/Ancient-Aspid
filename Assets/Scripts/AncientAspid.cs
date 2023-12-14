@@ -15,68 +15,8 @@ using WeaverCore.Settings;
 using WeaverCore.Implementations;
 using UnityEngine.Serialization;
 
-
-
-/*[Serializable]
-public class FlightParameters
-{
-    public readonly FlightParameters Original;
-
-    public float flightAcceleration;
-    public float flightSpeedOverDistance;
-    public float minFlightSpeed;
-    public float orbitReductionAmount;
-    public Vector2 flightOffset;
-    public float flightOffsetResetTime;
-    public float flightOffsetChangeTime;
-    public float flightSpeed;
-    public float minimumFlightSpeed;
-    public float maximumFlightSpeed;
-    public bool applyFlightVariance;
-    public bool homeInOnTarget;
-
-    public FlightParameters(float flightAcceleration, float flightSpeedOverDistance, float minFlightSpeed, float orbitReductionAmount, Vector2 flightOffset, float flightOffsetResetTime, float flightOffsetChangeTime, float flightSpeed, float minimumFlightSpeed, float maximumFlightSpeed, bool applyFlightVariance, bool homeInOnTarget)
-    {
-        this.flightAcceleration = flightAcceleration;
-        this.flightSpeedOverDistance = flightSpeedOverDistance;
-        this.minFlightSpeed = minFlightSpeed;
-        this.orbitReductionAmount = orbitReductionAmount;
-        this.flightOffset = flightOffset;
-        this.flightOffsetResetTime = flightOffsetResetTime;
-        this.flightOffsetChangeTime = flightOffsetChangeTime;
-        this.flightSpeed = flightSpeed;
-        this.minimumFlightSpeed = minimumFlightSpeed;
-        this.maximumFlightSpeed = maximumFlightSpeed;
-        this.applyFlightVariance = applyFlightVariance;
-        this.homeInOnTarget = homeInOnTarget;
-    }
-}*/
-
 public class AncientAspid : Boss
 {
-    /*public enum PathfindingMode
-    {
-        None,
-        FollowPlayer,
-        FollowTarget
-    }*/
-
-    /*public enum BossPhase
-    {
-        Default,
-        Phase1,
-        Phase2,
-        Phase2A,
-        Phase2B,
-        Phase2C,
-        Phase3,
-        Phase3A,
-        Phase3B,
-        Phase3C,
-        Phase4
-    }*/
-
-
     [field: Header("General Config")]
     [field: SerializeField]
     public bool TrailerMode { get; private set; } = false;
@@ -179,9 +119,6 @@ public class AncientAspid : Boss
     [SerializeField]
     float minFlightSpeed = 0.25f;
 
-    /// <summary>
-    /// The higher this number, the less likely the aspid will orbit around it's target. This is used to make it settle at the target instead
-    /// </summary>
     public float OrbitReductionAmount { get; set; } = 5f;
 
     [Tooltip("How much offset should be applied when moving towards a target?")]
@@ -208,27 +145,16 @@ public class AncientAspid : Boss
 
     bool homeInOnTarget = false;
 
-    /*[SerializeField]
-    [Tooltip("The target object that is used when aiming towards the player")]
-    private Transform playerTarget;
-
-    public Transform PlayerTarget => playerTarget;*/
-
     [field: SerializeField]
     [field: Tooltip("The target object that is used when aiming towards the player")]
     [field: FormerlySerializedAs("playerTarget")]
     public Transform PlayerTarget { get; private set; }
-
-    //public Vector3 ExtraTargetOffset;
 
     public Rect FlightRange;
 
     [Header("Death")]
     [SerializeField]
     WeaverCameraLock deathCamLock;
-
-    [SerializeField]
-    float deathCenterRoomAxis = 219.9f;
 
     [SerializeField]
     Vector2 deathDropItemXRange = new Vector2(180.02f, 259.7f);
@@ -250,9 +176,6 @@ public class AncientAspid : Boss
 
     [SerializeField]
     DroppedItem itemPrefab;
-
-    [SerializeField]
-    float deathItemVelocity = 5f;
 
     [SerializeField]
     AudioClip spitItemAudio;
@@ -291,10 +214,6 @@ public class AncientAspid : Boss
 
     public Rect CurrentRoomRect => CurrentPhase.PhaseBoundaries;
 
-    //public bool FlyingAway { get; set; } = false;
-
-    //public bool InClimbingPhase => Phase != BossPhase.Phase1 && Phase != BossPhase.Phase3 && Phase != BossPhase.Phase4;
-    //public bool InClimbingPhase => false;
     public bool InClimbingPhase => CurrentPhase.ClimbingPhase;
     public Vector3 TargetPosition
     {
@@ -309,7 +228,6 @@ public class AncientAspid : Boss
                     break;
                 }
             }
-            //target = (Vector3)FlightRange.ClampWithin(target) + TargetOffset;
             return target;
         }
     }
@@ -320,42 +238,7 @@ public class AncientAspid : Boss
         {
             return GetPathTarget() + new Vector3(0f, 4.5f);
         }
-        /*get
-        {
-            if (NavMesh.FindClosestEdge(GetPathTarget() + new Vector3(0f,1f), out var hit, NavMesh.AllAreas))
-            {
-                return hit.position;
-            }
-            else
-            {
-                if (NavMesh.FindClosestEdge(GetPathTarget() + new Vector3(0f, -1f), out hit, NavMesh.AllAreas))
-                {
-                    return hit.position;
-                }
-                else
-                {
-                    return GetPathTarget();
-                }
-                //return Player.Player1.transform.position;
-            }
-        }*/
     }
-
-    /*PathfindingMode _pathingMode = PathfindingMode.FollowPlayer;
-    public PathfindingMode PathingMode
-    {
-        get => _pathingMode;
-        set
-        {
-            if (_pathingMode != value)
-            {
-                _pathingMode = value;
-                UpdatePath();
-            }
-        }
-    }*/
-
-    //public bool EnteringFromBottom { get; private set; } = false;
 
     public Rect CamRect => new Rect { size = new Vector2(camBoxWidth, camBoxHeight), center = Player.Player1.transform.position };
 
@@ -395,11 +278,6 @@ public class AncientAspid : Boss
         return rect.Contains(pos);
     }
 
-    //public bool AllMovesDisabled => allMovesDisabled;
-
-    //public Vector3 SpitTargetLeft => spitSourceLeft.transform.position;
-    //public Vector3 SpitTargetRight => spitSourceRight.transform.position;
-
     public Rigidbody2D Rbody { get; private set; }
 
     public BodyController Body { get; private set; }
@@ -410,55 +288,25 @@ public class AncientAspid : Boss
 
     public Recoiler Recoil { get; private set; }
 
-    /// <summary>
-    /// The moves for the boss
-    /// </summary>
     public List<AncientAspidMove> Moves { get; private set; }
 
     public AncientAspidHealth HealthManager { get; private set; }
 
-    /// <summary>
-    /// Returns true if the player is to the right of the boss.
-    /// </summary>
     public bool PlayerRightOfBoss => Player.Player1.transform.position.x >= transform.position.x;
 
-    //PlayerDamager[] damagers;
     float origOrbitReductionAmount;
 
-    /*public int Damage
-    {
-        get => damagers[0].damageDealt;
-        set
-        {
-            for (int i = damagers.GetLength(0) - 1; i >= 0; i--)
-            {
-                damagers[i].damageDealt = value;
-            }
-        }
-    }*/
-
-    /// <summary>
-    /// Checks if the mode picker is running. When this is running, a random aspid mode will be selected and used to run moves.
-    /// </summary>
     public bool ModePickerRunning => modePickerRoutine != 0;
 
-    /// <summary>
-    /// The currently running mode that has been selected by the mode picker
-    /// </summary>
     public AncientAspidMode CurrentRunningMode { get; set; }
 
     uint modePickerRoutine = 0;
     int modeCounter = 0;
     bool stoppingModePicker = false;
-    //bool stoppingCurrentMode = false;
     AncientAspidMode forcedMode = null;
     Dictionary<string, object> forcedModeArgs = null;
 
-    //RaycastHit2D[] rayCache = new RaycastHit2D[4];
-
     NavMeshSurface navigator = null;
-    NavMeshPath path = null;
-    //Vector3[] cornerCache = new Vector3[100];
     List<Vector3> paths = new List<Vector3>();
     List<Vector3> pathsCache = new List<Vector3>();
     int pathCount = 0;
@@ -466,22 +314,13 @@ public class AncientAspid : Boss
     bool followingPath = false;
     Vector3 lastPathPos = default;
     RaycastHit2D[] singleHitCache = new RaycastHit2D[1];
-    Vector3 lastKnownPosition = new Vector3(100000,100000);
-    bool stillStuck = false;
     List<IPathfindingOverride> pathfindingOverrides = new List<IPathfindingOverride>();
-    //bool riseFromCenterPlatform = false;
-
     public GroundMode GroundMode { get; private set; }
     public TacticalMode TacticalMode { get; private set; }
     public OffensiveMode OffensiveMode { get; private set; }
 
     Bounds stuckBox;
     int stuckCounter = 0;
-
-    //FarAwayLaser farAwayMove;
-    //bool forceOffensiveModeNextTime = false;
-
-    //public bool RiseFromCenterPlatform => riseFromCenterPlatform;
 
     List<Renderer> renderers = new List<Renderer>();
 
@@ -588,7 +427,6 @@ public class AncientAspid : Boss
 
         modePickerRoutine = StartBoundRoutine(ModePickerRoutine(), () =>
         {
-            //CurrentRunningMode = null;
             modeCounter = 0;
             modePickerRoutine = 0;
             forcedMode = null;
@@ -596,9 +434,6 @@ public class AncientAspid : Boss
         return true;
     }
 
-    /// <summary>
-    /// Stops the current mode, and will switch to a new mode. Doesn't do anything if the mode picker isn't running. This function will run the new mode even if <seealso cref="AncientAspidMode.ModeEnabled"/> is false, so be careful
-    /// </summary>
     public IEnumerator SwitchToNewMode(AncientAspidMode newMode, Dictionary<string, object> customArgs)
     {
         if (!ModePickerRunning)
@@ -614,10 +449,6 @@ public class AncientAspid : Boss
         yield return new WaitUntil(() => forcedMode == null);
     }
 
-    /// <summary>
-    /// Stops the currently running mode and the mode picker
-    /// </summary>
-    /// <returns></returns>
     public IEnumerator StopModePicker()
     {
         if (!ModePickerRunning)
@@ -634,9 +465,6 @@ public class AncientAspid : Boss
         }
     }
 
-    /// <summary>
-    /// Forcefully stops the currently running mode so a new mode can be picked by the mode picker (assuming it's running)
-    /// </summary>
     public IEnumerator StopCurrentMode()
     {
         if (!ModePickerRunning)
@@ -664,11 +492,7 @@ public class AncientAspid : Boss
         modes.Remove(TacticalMode);
 
         stoppingModePicker = false;
-        //stoppingCurrentMode = false;
-
         modeCounter = 1;
-
-        //var emptyArgs = new Dictionary<string, object>();
 
         IEnumerator RunMode(AncientAspidMode mode, Dictionary<string, object> args)
         {
@@ -735,10 +559,7 @@ public class AncientAspid : Boss
         navigator = GameObject.FindObjectOfType<NavMeshSurface>();
         base.Awake();
         AncientAspidPrefabs.Instance = prefabs;
-        //farAwayMove = GetComponent<FarAwayLaser>();
         Moves = GetComponents<AncientAspidMove>().ToList();
-        //damagers = GetComponentsInChildren<PlayerDamager>();
-        //CurrentRoomRect = RoomScanner.GetRoomBoundaries(transform.position);
         HealthManager = GetComponent<AncientAspidHealth>();
         Rbody = GetComponent<Rigidbody2D>();
         Body = GetComponentInChildren<BodyController>();
@@ -823,22 +644,11 @@ public class AncientAspid : Boss
 
         if (godhomeMode)
         {
-            //OffensiveModeEnabled = false;
-            //GroundModeEnabled = false;
-
             HealthManager.AddHealthMilestone(Mathf.RoundToInt(StartingHealth * 0.7f), () => 
             {
-                //OffensiveModeEnabled = true;
-                //OffensiveAreaProvider = new DefaultOffensiveAreaProvider(this);
-                //OffensiveMode.OffensiveAreaProvider = new DefaultOffensiveAreaProvider(OffensiveMode.OffensiveHeight);
                 GetComponent<LaserRapidFireMove>().EnableMove(true);
             });
 
-            /*HealthManager.AddHealthMilestone(Mathf.RoundToInt(StartingHealth * 0.45f), () =>
-            {
-                GroundMode.GroundAreaProvider = new DefaultGroundAreaProvider(GroundMode.lungeTargetOffset);
-                //GroundAreaProvider = new DefaultGroundAreaProvider(this, lungeTargetOffset);
-            });*/
         }
     }
 
@@ -884,14 +694,12 @@ public class AncientAspid : Boss
     {
         if (StartAsleep)
         {
-            //Recoil.SetRecoilSpeed(0);
             Claws.DisableSwingAttackImmediate();
             StartBoundRoutine(PreBossRoutine());
         }
 
         if (!TrailerMode && !StartAsleep)
         {
-            //StartBoundRoutine(SlowUpdate());
             StartBoundRoutine(MainBossRoutine());
         }
 
@@ -912,7 +720,6 @@ public class AncientAspid : Boss
             if (stuckCounter >= 5)
             {
                 stuckCounter = 0;
-                //StartBoundRoutine(FullyUnstuckRoutine());
             }
         }
         else
@@ -921,13 +728,6 @@ public class AncientAspid : Boss
             stuckCounter = 0;
         }
     }
-
-    /*IEnumerator FullyUnstuckRoutine()
-    {
-        aspidTerrainCollider.enabled = false;
-        yield return new WaitForSeconds(5f);
-        aspidTerrainCollider.enabled = true;
-    }*/
 
     IEnumerator ShakeRoutine(float intensity, float shakeFPS = 60f)
     {
@@ -1004,8 +804,6 @@ public class AncientAspid : Boss
 
         var health = HealthComponent.Health;
 
-        //Wait until the health changes
-        //yield return new WaitUntil(() => health != HealthComponent.Health || Phase >= BossPhase.Phase2);
         yield return new WaitUntil(() => health != HealthComponent.Health);
 
         health = HealthComponent.Health;
@@ -1014,12 +812,6 @@ public class AncientAspid : Boss
         {
             obj.layer = enemyLayer;
         }
-
-        /*if (Phase >= BossPhase.Phase2)
-        {
-            yield return QuickWakeRoutine();
-            yield break;
-        }*/
 
 
         var flasher = sleepSprite.GetComponent<SpriteFlasher>();
@@ -1049,64 +841,17 @@ public class AncientAspid : Boss
         }
          
 
-        //Claws.OnGround = true;
-
         awaiter = RoutineAwaiter.AwaitBoundRoutines(this, headRoutine, bodyRoutine);
-
-        /*if (!useNewSleepSprites)
-        {
-            Rbody.velocity = new Vector2(0f, sleepJumpVelocity);
-            Rbody.gravityScale = sleepJumpGravity;
-        }
-        else
-        {
-            //Rbody.velocity = new Vector2(0f, sleepJumpVelocity / 2f);
-            //Rbody.gravityScale = sleepJumpGravity / 2;
-        }*/
 
         GroundMode.lungeDashEffect.SetActive(true);
         GroundMode.lungeDashRotationOrigin.SetZLocalRotation(90);
 
         float stompingRate = 0.3f;
 
-        //float stompingPitch = 
-
-        /*IEnumerator DoStomping()
-        {
-            while (true)
-            {
-                if (lungeLandSoundHeavy != null)
-                {
-                    var sound = WeaverAudio.PlayAtPoint(lungeLandSoundHeavy, transform.position);
-                    sound.AudioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
-                }
-                CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.EnemyKillShake);
-                yield return new WaitForSeconds(stompingRate);
-            }
-        }*/
-
         var sleepAnimator = sleepSprite.GetComponent<WeaverAnimationPlayer>();
         yield return sleepAnimator.PlayAnimationTillDone("Turn Around Pre");
         sleepSprite.flipX = Player.Player1.transform.position.x >= transform.position.x;
         yield return sleepAnimator.PlayAnimationTillDone("Turn Around Post");
-
-        /*if (useNewSleepSprites)
-        {
-            //Coroutine stompingRoutine = StartCoroutine(DoStomping());
-            var sleepAnimator = sleepSprite.GetComponent<WeaverAnimationPlayer>();
-            yield return sleepAnimator.PlayAnimationTillDone("Turn Around Pre");
-            sleepSprite.flipX = Player.Player1.transform.position.x >= transform.position.x;
-            yield return sleepAnimator.PlayAnimationTillDone("Turn Around Post");
-            //StopCoroutine(stompingRoutine);
-        }
-        else
-        {
-            foreach (var scale in sleepScalesBefore)
-            {
-                sleepSprite.transform.localScale = sleepSprite.transform.localScale.With(x: scale);
-                yield return new WaitForSeconds(sleepScaleChangeSpeed);
-            }
-        }*/
 
         foreach (var claw in Claws.claws)
         {
@@ -1117,28 +862,9 @@ public class AncientAspid : Boss
 
         yield return awaiter.WaitTillDone();
 
-        /*if (!useNewSleepSprites)
-        {
-            sleepSprite.gameObject.SetActive(false);
-
-            foreach (var renderer in renderers)
-            {
-                renderer.enabled = true;
-            }
-
-            foreach (var scale in sleepScalesAfter)
-            {
-                transform.localScale = transform.localScale.With(x: scale);
-                yield return new WaitForSeconds(sleepScaleChangeSpeed);
-            }
-        }*/
-
         var time = Time.time;
 
-        //WeaverLog.Log("A");
         yield return new WaitUntil(() => Rbody.velocity.y <= 0f || Time.time > time + 3f);
-        //WeaverLog.Log("B");
-
         var prevVelocity = Rbody.velocity.y;
 
         for (float t = 0; t < 3f; t += 0f)
@@ -1154,16 +880,6 @@ public class AncientAspid : Boss
             }
         }
 
-        /*if (useNewSleepSprites)
-        {
-            sleepSprite.gameObject.SetActive(false);
-
-            foreach (var renderer in renderers)
-            {
-                renderer.enabled = true;
-            }
-        }*/
-
         sleepSprite.gameObject.SetActive(false);
 
         foreach (var renderer in renderers)
@@ -1171,21 +887,6 @@ public class AncientAspid : Boss
             renderer.enabled = true;
         }
 
-
-        /*if (!useNewSleepSprites)
-        {
-            groundMode.lungeRockParticles.Play();
-
-            if (groundMode.lungeLandSoundHeavy != null)
-            {
-                WeaverAudio.PlayAtPoint(groundMode.lungeLandSoundHeavy, transform.position);
-            }
-            CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.EnemyKillShake);
-        }
-        else
-        {
-            //lungeRockParticles.Play();
-        }*/
 
         var headLandRoutine = Head.PlayLanding(true);
         var bodyLandRoutine = Body.PlayLanding(true);
@@ -1195,8 +896,6 @@ public class AncientAspid : Boss
         var shiftPartsRoutine = ShiftBodyParts(true, Body, WingPlates, Wings);
 
         List<uint> landingRoutines = new List<uint>();
-
-        //bool landingCancelled = false;
 
         var landingAwaiter = RoutineAwaiter.AwaitBoundRoutines(this, landingRoutines, headLandRoutine, bodyLandRoutine, wingPlateLandRoutine, wingsLandRoutine, clawsLandRoutine, shiftPartsRoutine);
 
@@ -1227,8 +926,6 @@ public class AncientAspid : Boss
             StartBoundRoutine(GroundMode.ExitGroundMode());
             yield return new WaitUntil(() => Claws.OnGround == false);
         }
-
-        //yield return new WaitUntil(() => !Head.HeadBeingUnlocked);
 
         if (!Head.HeadLocked)
         {
@@ -1282,8 +979,6 @@ public class AncientAspid : Boss
         }
 
         Music.PlayMusicCue(bossMusic);
-
-        //Recoil.ResetRecoilSpeed();
 
         StartBoundRoutine(VarianceResetter());
 
@@ -1345,20 +1040,10 @@ public class AncientAspid : Boss
         }
     }
 
-    /*private IEnumerator SlowUpdate()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(0.5f);
-            CurrentRoomRect = RoomScanner.GetRoomBoundaries(transform.position);
-        }
-    }*/
-
     public IEnumerator MainBossRoutine()
     {
         SetTarget(PlayerTarget);
         EnableQuickEscapes = true;
-        //HealthComponent.OnHealthChangeEvent += HealthComponent_OnHealthChangeEvent;
         HealthManager.OnHitEvent += HealthManager_OnHitEvent;
 
         StartModePicker();
@@ -1382,18 +1067,6 @@ public class AncientAspid : Boss
             phaseQueue.Enqueue(currentlyCheckedPhase.NextPhase);
             currentlyCheckedPhase = currentlyCheckedPhase.NextPhase;
         }
-        /*var oldPhase = Phase;
-
-        while (true)
-        {
-            yield return new WaitUntil(() => Phase > oldPhase);
-
-            var newPhase = oldPhase + 1;
-
-            yield return ChangePhase(oldPhase, newPhase);
-
-            oldPhase = newPhase;
-        }*/
     }
 
     IEnumerator PhaseRunnerRoutine()
@@ -1436,9 +1109,6 @@ public class AncientAspid : Boss
         }
     }
 
-    /// <summary>
-    /// Changes the flight system so that it flies and settles towards a target. Allows you to freely set the <see cref="OrbitReductionAmount"/>
-    /// </summary>
     public void EnableHomeInOnTarget()
     {
         if (!homeInOnTarget)
@@ -1452,9 +1122,6 @@ public class AncientAspid : Boss
         }
     }
 
-    /// <summary>
-    /// Changes the flight system so that it no longer flies and settles towards a target
-    /// </summary>
     public void DisableHomeInOnTarget()
     {
         if (homeInOnTarget)
@@ -1467,11 +1134,6 @@ public class AncientAspid : Boss
         }
     }
 
-    /// <summary>
-    /// Enables a cam lock and positions it at a certain location
-    /// </summary>
-    /// <param name="position">The location the camera lock should be at</param>
-    /// <param name="camLock">The cam lock to enable</param>
     public void EnableCamLock(Vector3 position, WeaverCameraLock camLock)
     {
         var currentLocks = GameManager.instance.cameraCtrl.lockZoneList;
@@ -1606,9 +1268,7 @@ public class AncientAspid : Boss
             yield break;
         }
 
-        //WeaverLog.Log("CHANGING DIRECTION to = " + newOrientation);
         yield return Body.PrepareChangeDirection();
-        //WeaverLog.Log("PREP DONE");
         IEnumerator bodyRoutine = Body.ChangeDirection(newOrientation, speedMultiplier);
         IEnumerator wingPlateRoutine = WingPlates.ChangeDirection(newOrientation, speedMultiplier);
         IEnumerator wingRoutine = Wings.ChangeDirection(newOrientation, speedMultiplier);
@@ -1642,12 +1302,6 @@ public class AncientAspid : Boss
         Orientation = newOrientation;
     }
 
-    /*static IEnumerator StartAfterDelay(IEnumerator routine, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        yield return routine;
-    }*/
-
     private IEnumerator VarianceResetter()
     {
         while (true)
@@ -1655,8 +1309,6 @@ public class AncientAspid : Boss
             if (ApplyFlightVariance)
             {
                 Vector3 oldOffset = TargetOffset;
-                //MathUtilities.PolarToCartesian(Random.Range(0f,360f),1f)
-                //Random.insideUnitCircle
                 Vector2 newOffset = UnityEngine.Random.insideUnitCircle * flightOffset;
                 for (float t = 0; t < flightOffsetChangeTime; t += Time.deltaTime)
                 {
@@ -1681,80 +1333,23 @@ public class AncientAspid : Boss
         }
     }
 
-    /*void ShuffleMoves(List<AncientAspidMove> moves)
-    {
-        var lastMove = moves[moves.Count - 1];
-        moves.RandomizeList();
-        if (moves[0] == lastMove)
-        {
-            var swappedMove = moves[moves.Count - 1];
-            moves[moves.Count - 1] = lastMove;
-            moves[0] = swappedMove;
-        }
-    }
-
-    bool WithinBox(Vector3 targetPos, Vector3 boxPos, Vector2 boxSize)
-    {
-        var bounds = new Bounds(boxPos, boxSize);
-
-        return targetPos.x > bounds.min.x && targetPos.x < bounds.max.x && targetPos.y > bounds.min.y && targetPos.y < bounds.max.y;
-    }*/
-
     Vector3 GetPathTarget()
     {
-        //Vector3 target = GetPathTargetUnclamped(mode);
 
-
-
-        /*if (EnableTargetXRange)
-        {
-            target.x = Mathf.Clamp(target.y, TargetXRange.x, TargetXRange.y);
-        }
-
-        if (EnableTargetHeightRange)
-        {
-            target.y = Mathf.Clamp(target.y, TargetHeightRange.x, TargetHeightRange.y);
-        }*/
-        //return target;
 
         return FlightRange.ClampWithin(TargetPosition);
-        //return TargetPosition;
     }
-
-    /*Vector3 GetPathTargetUnclamped(PathfindingMode mode)
-    {
-        Vector3 target;
-        switch (mode)
-        {
-            case PathfindingMode.FollowPlayer:
-                target = Player.Player1.transform.position + new Vector3(0f, 0.5f);
-                break;
-            case PathfindingMode.FollowTarget:
-                target = TargetPosition;
-                break;
-            default:
-                target = transform.position;
-                break;
-        }
-
-        return target;
-    }*/
 
     bool generatingPath = false;
     bool pathUpdated = false;
-    //object pathLock = new object();
-
     void UpdatePath()
     {
         Debug.DrawRay(PathfindingTarget, Vector3.up, Color.green, 5f);
-        //Debug.Log("Updating Path = " + generatingPath);
         if (PathFinder != null && PathfindingEnabled)
         {
             if (!generatingPath)
             {
                 var pathStartPos = transform.position + aspidTerrainCollider.transform.localPosition + (Vector3)(Rbody.velocity * 0.25f);
-
-                //var lastPos = transform.position + aspidTerrainCollider.transform.localPosition;
 
 
                 if (pathfindingOverrides.Count > 0)
@@ -1771,14 +1366,6 @@ public class AncientAspid : Boss
                     generatingPath = true;
                     PathFinder.GeneratePathAsync(pathStartPos, PathfindingTarget, pathsCache, () =>
                     {
-                        /*if (pathsCache == null)
-                        {
-                            Debug.Log("GEN PATH = null");
-                        }
-                        else
-                        {
-                            Debug.Log("GEN PATH = " + pathsCache.Count);
-                        }*/
                         if (pathsCache != null && pathsCache.Count > 2)
                         {
                             pathUpdated = true;
@@ -1792,103 +1379,6 @@ public class AncientAspid : Boss
                 }
             }
         }
-        /*Debug.DrawRay(TargetPosition, Vector3.up, Color.red, 5f);
-        if (navigator != null && PathfindingEnabled)
-        {
-            if (path == null)
-            {
-                path = new NavMeshPath();
-            }
-
-            var distanceToTarget = Vector3.Distance(GetPathTarget(), transform.position);
-
-            Debug.DrawRay(transform.position, (GetPathTarget() - transform.position).normalized * distanceToTarget,Color.red, 0.5f);
-
-            Vector3? startPos = null;
-
-            if (Vector3.Distance(lastKnownPosition, transform.position) <= 0.05f)
-            {
-                if (stillStuck)
-                {
-                    WeaverLog.Log("STILL STUCK");
-                    StartBoundRoutine(FullyUnstuckRoutine());
-                }
-                startPos = Vector3.Lerp(new Vector3(CurrentRoomRect.xMin, transform.position.y + aspidTerrainCollider.transform.localPosition.y), new Vector3(CurrentRoomRect.xMax, transform.position.y + aspidTerrainCollider.transform.localPosition.y), 0.5f);
-                stillStuck = true;
-                WeaverLog.Log("STUCK");
-            }
-            else
-            {
-                stillStuck = false;
-                lastKnownPosition = transform.position;
-            }
-
-            if (Physics2D.RaycastNonAlloc(transform.position, (GetPathTarget() - transform.position).normalized, singleHitCache, distanceToTarget, LayerMask.GetMask("Terrain")) > 0 || distanceToTarget > 25f)
-            {
-
-                if (startPos == null)
-                {
-                    startPos = transform.position + aspidTerrainCollider.transform.localPosition + (Vector3)(Rbody.velocity * 0.25f);
-                }
-
-                //Vector3 startPos = startPos.value;
-                Vector3 pathStartPos = startPos.Value;
-
-
-                Debug.DrawRay(pathStartPos, Vector3.up * 3f, Color.magenta,1f);
-
-                Debug.DrawLine(GetPathTarget(), PathfindingTarget, Color.gray, 1f);
-
-                NavMesh.CalculatePath(pathStartPos, PathfindingTarget, NavMesh.AllAreas, path);
-
-                if (path.status == NavMeshPathStatus.PathInvalid)
-                {
-                    if (NavMesh.FindClosestEdge(pathStartPos, out var hit, NavMesh.AllAreas))
-                    {
-
-                        NavMesh.CalculatePath(hit.position, PathfindingTarget, NavMesh.AllAreas, path);
-
-                        Debug.DrawLine(transform.position, hit.position, Color.Lerp(Color.red, Color.white, 0.5f), 1f);
-                    }
-                    //var midRoom = new Vector3(transform.position.x, Mathf.Lerp(CurrentRoomRect.yMax, CurrentRoomRect.yMin,0.5f));
-
-                    //Debug.DrawLine(midRoom, new Vector3(midRoom.x, CurrentRoomRect.yMax), Color.black, 1f);
-                    //Debug.DrawLine(midRoom, new Vector3(midRoom.x, CurrentRoomRect.yMin), Color.black, 1f);
-                    //Debug.DrawLine(midRoom, new Vector3(CurrentRoomRect.xMin, midRoom.y), Color.black, 1f);
-                    //Debug.DrawLine(midRoom, new Vector3(CurrentRoomRect.xMax, midRoom.y), Color.black, 1f);
-
-                }
-
-                Debug.Log("PATH STATUS = " + path.status);
-
-                if (path.status != NavMeshPathStatus.PathInvalid)
-                {
-                    cornerCount = path.GetCornersNonAlloc(cornerCache);
-
-                    lastPathPos = transform.position + aspidTerrainCollider.transform.localPosition;
-                    lastKnownPosition = transform.position + aspidTerrainCollider.transform.localPosition;
-                    followingPath = true;
-                    Debug.Log("FOUND PATH");
-                    cornerIndex = 1;
-                    return;
-                }
-                else
-                {
-                    Debug.Log("NOT FOUND PATH A");
-                    followingPath = false;
-                }
-            }
-            else
-            {
-                Debug.Log("NOT FOUND PATH B");
-                followingPath = false;
-            }
-        }
-        else
-        {
-            Debug.Log("NOT FOUND PATH C");
-            followingPath = false;
-        }*/
     }
 
     IEnumerator PathFindingRoutine()
@@ -1917,60 +1407,10 @@ public class AncientAspid : Boss
             pathCount = paths.Count;
 
             lastPathPos = transform.position + aspidTerrainCollider.transform.localPosition;
-            lastKnownPosition = transform.position + aspidTerrainCollider.transform.localPosition;
             followingPath = true;
-            //Debug.Log("FOUND PATH = " + paths.Count);
             generatingPath = false;
         }
 
-        /*if (PathFinder != null)
-        {
-            var lastPath = PathFinder.GeneratePath(transform.position, Player.Player1.transform.position);
-
-            if (lastPath != null)
-            {
-                Debug.Log("Path = " + lastPath.Count);
-                for (int i = 0; i < lastPath.Count - 1; i++)
-                {
-                    Debug.DrawLine(lastPath[i], lastPath[i + 1], Color.white);
-                }
-            }
-            else
-            {
-                Debug.Log("Path = null");
-            }
-        }*/
-
-        /*if (PathFinder != null)
-        {
-            if (!generating)
-            {
-                generating = true;
-                PathFinder.GeneratePathAsync(transform.position, Player.Player1.transform.position, path =>
-                {
-                    lastPath = path;
-                    generating = false;
-                });
-            }
-
-            //Debug.Log("GENERATING = " + generating);
-
-            //var path = PathFinder.GeneratePath(transform.position, Player.Player1.transform.position);
-
-            if (lastPath != null)
-            {
-                //Debug.Log("Path = " + lastPath.Count);
-                for (int i = 0; i < lastPath.Count - 1; i++)
-                {
-                    Debug.DrawLine(lastPath[i], lastPath[i + 1], Color.white);
-                }
-            }
-            else
-            {
-                //Debug.Log("Path = null");
-            }
-        }
-        */
         if (CurrentPhase != null)
         {
             Debug.DrawRay(primaryTarget.TargetPosition, Vector3.up * 2f, Color.red);
@@ -1983,8 +1423,6 @@ public class AncientAspid : Boss
         }
         if (FlightEnabled)
         {
-            //navigator.
-
             Vector3 pathPosition;
 
             if (followingPath)
@@ -1996,8 +1434,6 @@ public class AncientAspid : Boss
                     lastPos = paths[i] - aspidTerrainCollider.transform.localPosition;
                 }
 
-                //Debug.DrawLine(lastPos, TargetPosition, Color.blue);
-
                 var currentCorner = paths[cornerIndex] - aspidTerrainCollider.transform.localPosition;
 
 
@@ -2005,11 +1441,9 @@ public class AncientAspid : Boss
 
                 var directionToBoss = (transform.position - lastPathPos);
 
-                //Project the directionToBoss Vector onto the directionToCorner line
                 var distanceToCorner = Vector2.Dot(directionToBoss, directionToCorner);
 
 
-                /*if (Vector3.Distance(lastPathPos, transform.position) >= Vector3.Distance(lastPathPos, currentCorner) || Vector3.Distance(currentCorner, transform.position) <= 0.5f)*/
                 if (distanceToCorner >= (currentCorner - lastPathPos).magnitude - 0.25f)
                 {
                     cornerIndex++;
@@ -2030,24 +1464,6 @@ public class AncientAspid : Boss
             {
                 pathPosition = GetPathTarget();
             }
-            /*if (NavMesh.CalculatePath(transform.position, TargetPosition, NavMesh.AllAreas, path))
-            {
-                //Debug.Log("PATH GENERATED");
-                int count = path.GetCornersNonAlloc(cornerCache);
-                Debug.Log("PATH COUNT = " + count);
-
-
-                Vector3 lastPos = transform.position;
-                for (int i = 0; i < count; i++)
-                {
-                    Debug.DrawLine(lastPos, cornerCache[i], Color.blue);
-                    lastPos = cornerCache[i];
-                }
-
-                Debug.DrawLine(lastPos, TargetPosition, Color.blue);
-
-            }*/
-
             float distanceToTarget;
 
             if (followingPath)
@@ -2065,12 +1481,8 @@ public class AncientAspid : Boss
                     var currentCornerVector = (currentCorner - transform.position).normalized;
                     var nextCornerVector = (nextCorner - currentCorner).normalized;
 
-                    //Debug.Log("DOT = " + Vector2.Dot(currentCorner, nextCornerVector));
-
-                    //interpolationFactor = Mathf.Abs(Mathf.Lerp(0.15f, 1f, Mathf.Clamp01(Vector2.Dot(currentCornerVector, nextCornerVector))));
                     interpolationFactor = Mathf.Clamp01(Vector2.Dot(currentCornerVector, nextCornerVector));
 
-                    //Debug.Log("TURN FACTOR = " + interpolationFactor);
                 }
 
                 distanceToTarget = Mathf.Lerp(distanceToNextPoint, distanceToTarget, interpolationFactor);
@@ -2080,7 +1492,6 @@ public class AncientAspid : Boss
                 distanceToTarget = Vector2.Distance(TargetPosition, transform.position);
             }
 
-            //var distanceToTarget = Vector2.Distance(TargetPosition, transform.position);
             var directionToTarget = (Vector2)(pathPosition - transform.position);
 
             Debug.DrawLine(transform.position, pathPosition, Color.cyan);
@@ -2091,8 +1502,6 @@ public class AncientAspid : Boss
             {
                 maxVelocity = minFlightSpeed;
             }
-
-            //maxVelocity = float.PositiveInfinity;
 
             var prevVelocity = Rbody.velocity;
 
@@ -2105,43 +1514,6 @@ public class AncientAspid : Boss
 
             Rbody.velocity = newVelocity;
         }
-
-        /*var newVelocity = prevVelocity + flightSpeed * Time.deltaTime;
-        if (newVelocity >= maxVelocity)
-        {
-            newVelocity = maxVelocity;
-        }
-
-        Rbody.velocity = (TargetPosition - transform.position).normalized * newVelocity;*/
-
-        /*float distanceToTarget = Vector3.Distance(TargetPosition, transform.position);
-        float distanceSquared = distanceToTarget * distanceToTarget;
-        float velocity = flightSpeed + distanceSquared;
-
-        Vector2 targetV2 = TargetPosition;
-
-        Vector3 targetDirection = (TargetPosition - transform.position).normalized * flightSpeed * Time.deltaTime;
-
-        Rbody.velocity = Vector3.RotateTowards(Rbody.velocity, (targetV2 - (Vector2)transform.position).normalized * Rbody.velocity.magnitude, (orbitReductionAmount / 100) * distanceSquared * Time.deltaTime, 0f);
-
-        Rbody.velocity += (Vector2)targetDirection;
-
-        if (Rbody.velocity.magnitude > maximumFlightSpeed + (distanceSquared))
-        {
-            Rbody.velocity = Rbody.velocity.normalized * (maximumFlightSpeed + (distanceSquared));
-        }
-
-        if (Rbody.velocity.magnitude < minimumFlightSpeed)
-        {
-            Rbody.velocity = Rbody.velocity.normalized * (minimumFlightSpeed);
-        }
-
-        if (homeInOnTarget)
-        {
-            Rbody.velocity *= Mathf.Clamp(distanceToTarget,0.05f + homingAmount, 1f);
-            //transform.position = Vector3.Lerp(transform.position,TargetPosition,homingAmount * Time.deltaTime / 100f);
-            //Rbody.velocity = Vector3.RotateTowards(Rbody.velocity, (targetV2 - (Vector2)transform.position).normalized * Rbody.velocity.magnitude, homingAmount * (1f / Mathf.Clamp(distanceToTarget,0.1f,9999f)) * Time.deltaTime, 0f);
-        }*/
 
         if (Player.Player1.transform.position.y > transform.position.y && Mathf.Abs(Player.Player1.transform.position.x - transform.position.x) <= (Player.Player1.transform.position.y - transform.position.y))
         {
@@ -2219,7 +1591,6 @@ public class AncientAspid : Boss
         Claws.DisableSwingAttackImmediate();
         Body.PlayDefaultAnimation = false;
         Claws.OnGround = false;
-        //Recoil.ResetRecoilSpeed();
         Recoil.ClearRecoilOverrides();
         Head.ToggleLaserBubbles(false);
 
@@ -2261,10 +1632,16 @@ public class AncientAspid : Boss
 
     IEnumerator DeathRoutine()
     {
-        //TODO - FIGURE OUT WHY THE DEATH CAM LOCK ISN"T WORKING"
+        var targetPos = transform.position;
+
+        if (targetPos.y <= Player.Player1.transform.position.y + 5f)
+        {
+            targetPos.y = Player.Player1.transform.position.y + 5f;
+        }
+
         if (!godhomeMode)
         {
-            EnableCamLock(transform.position, deathCamLock);
+            EnableCamLock(targetPos, deathCamLock);
         }
 
         var targetOrientation = Player.Player1.transform.position.x >= transform.position.x ? AspidOrientation.Right : AspidOrientation.Left;
@@ -2313,56 +1690,39 @@ public class AncientAspid : Boss
         }
         else
         {
-            yield return new WaitForSeconds(deathSpitDelay);
+            for (float t = 0; t < deathSpitDelay; t += Time.deltaTime)
+            {
+                transform.position = Vector3.Lerp(transform.position, targetPos, 5 * Time.deltaTime);
+                yield return null;
+            }
+            //yield return new WaitForSeconds(deathSpitDelay);
         }
 
         if (!godhomeMode)
         {
-
             yield return Head.Animator.PlayAnimationTillDone("Fire - 1 - Prepare");
-
-            //FIRE ITEM
-
-            /*float angleMin;
-            float angleMax;
-
-            if (Head.CurrentOrientation == AspidOrientation.Right)
-            {
-                angleMin = -90;
-                angleMax = 0f;
-            }
-            else
-            {
-                angleMin = -180;
-                angleMax = -90;
-            }*/
-
-            //var centerVector = new Vector2(deathCenterRoomAxis,transform.position.y);
 
             var startPoint = (Vector2)transform.position;
 
-            startPoint.x = Mathf.Clamp(startPoint.x, deathDropItemXRange.x, deathDropItemXRange.y);
+            //startPoint.x = Mathf.Clamp(startPoint.x, deathDropItemXRange.x, deathDropItemXRange.y);
 
-            Vector2 target;
+            Vector2 target = Player.Player1.transform.position;
 
-            if (Physics2D.RaycastNonAlloc(startPoint, Vector2.down, singleHitCache, 10, LayerMask.GetMask("Terrain")) > 0)
+            target.x = Mathf.Clamp(target.x, deathDropItemXRange.x, deathDropItemXRange.y);
+
+            /*if (Physics2D.RaycastNonAlloc(startPoint, Vector2.down, singleHitCache, 10, LayerMask.GetMask("Terrain")) > 0)
             {
                 target = singleHitCache[0].point;
             }
             else
             {
                 target = startPoint + (Vector2.down * 10f);
-            }
+            }*/
 
             Debug.DrawLine(startPoint, target, Color.red, 100f);
 
 
-            //var angle = UnityEngine.Random.Range(angleMin, angleMax);
-
-            //var velocity = MathUtilities.PolarToCartesian(angle, deathItemVelocity);
             var velocity = MathUtilities.CalculateVelocityToReachPoint(Head.transform.position, target, 0.75f);
-
-            //velocity = velocity.normalized * deathItemVelocity;
 
             Blood.SpawnDirectionalBlood(Head.transform.position, Head.CurrentOrientation == AspidOrientation.Right ? CardinalDirection.Right : CardinalDirection.Left);
 
@@ -2461,30 +1821,8 @@ public class AncientAspid : Boss
         {
             UpdatePath();
         }
-        /*if ((targetTransform != null) != targetingTransform || targetTransform != TargetTransform)
-        {
-            targetingTransform = targetTransform != null;
-            TargetTransform = targetTransform;
-            UpdatePath();
-        }*/
     }
 
-
-    /*private void SetTarget(Vector3 fixedTarget)
-    {
-        if (primaryTarget.SetTarget(fixedTarget))
-        {
-            UpdatePath();
-        }
-    }
-
-    private void SetTarget(Func<Vector3> targetFunc)
-    {
-        if (primaryTarget.SetTarget(targetFunc))
-        {
-            UpdatePath();
-        }
-    }*/
 
     public TargetOverride AddTargetOverride(int priority = 0)
     {
@@ -2493,14 +1831,11 @@ public class AncientAspid : Boss
         targetOverrides.Sort(TargetOverride.Sorter.Instance);
 
         targetOverrides.Add(target);
-        //Debug.Log("ADDING TARGET OVERRIDE = " + target.guid);
-
         return target;
     }
 
     public bool RemoveTargetOverride(TargetOverride target)
     {
-        //Debug.Log("REMOVING TARGET OVERRIDE = " + target.guid);
         if (targetOverrides.Remove(target))
         {
             targetOverrides.Sort(TargetOverride.Sorter.Instance);
@@ -2525,25 +1860,6 @@ public class AncientAspid : Boss
     {
         pathfindingOverrides.Clear();
     }
-
-    /*public void FreezeTarget(Func<Vector3> frozenTargetOffset)
-    {
-        if (!targetFrozen)
-        {
-            targetFrozen = true;
-        }
-
-        this.frozenTargetPosition = frozenTargetOffset;
-    }
-
-    public void UnfreezeTarget()
-    {
-        if (targetFrozen)
-        {
-            frozenTargetPosition = default;
-            targetFrozen = false;
-        }
-    }*/
 
     public float GetAngleToPlayer()
     {

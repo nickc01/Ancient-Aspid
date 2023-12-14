@@ -1,38 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using WeaverCore.Utilities;
 
 public class WingsController : AspidBodyPart
 {
     [SerializeField]
-    Sprite lungeAnticSprite;
+    private Sprite lungeAnticSprite;
 
     [SerializeField]
-    Sprite lungeSprite;
-
-    /*[field: SerializeField]
-    public float XFlipFPS { get; private set; } = 8;
-
-    [field: SerializeField]
-    public int XFlipIncrements { get; private set; } = 5;
-
-    protected override IEnumerator ChangeDirectionRoutine(AspidOrientation newOrientation)
-    {
-        yield return ChangeXPosition(GetDestinationLocalX(Orientation), GetDestinationLocalX(newOrientation), XFlipFPS, XFlipIncrements);
-    }*/
+    private Sprite lungeSprite;
 
     [SerializeField]
-    List<Sprite> groundSwitchSprites;
+    private List<Sprite> groundSwitchSprites;
 
     [SerializeField]
-    List<bool> groundSpritesFlipped;
-
-
-    bool playDefaultAnimation = true;
-
-    float baseYPos;
+    private List<bool> groundSpritesFlipped;
+    private bool playDefaultAnimation = true;
+    private float baseYPos;
 
     public bool PlayDefaultAnimation
     {
@@ -57,23 +42,15 @@ public class WingsController : AspidBodyPart
         }
     }
 
-    bool jumping = false;
+    private bool jumping = false;
 
     protected override IEnumerator ChangeDirectionRoutine(float speedMultiplier = 1)
     {
         if (Boss.Claws.OnGround)
         {
             int frameCount = 4;
-            /*if (jumping)
-            {
-                frameCount = 3;
-            }*/
-            //Debug.Log("SWITCHING WING DIRECTION");
-
-            //var fps = (1f / (8f * Boss.lungeTurnaroundSpeed));
-
-            Boss.StartBoundRoutine(UpdateLocalPosition(8f * speedMultiplier, frameCount));
-            Boss.StartBoundRoutine(UpdateColliderOffset(8f * speedMultiplier, frameCount));
+             Boss.StartBoundRoutine(UpdateLocalPosition(8f * speedMultiplier, frameCount));
+             Boss.StartBoundRoutine(UpdateColliderOffset(8f * speedMultiplier, frameCount));
 
             float frameTime = 1f / (8f * speedMultiplier);
             float timer = 0;
@@ -81,7 +58,7 @@ public class WingsController : AspidBodyPart
             for (int i = 0; i < groundSwitchSprites.Count; i++)
             {
                 MainRenderer.sprite = groundSwitchSprites[i];
-                var flipped = groundSpritesFlipped[i];
+                bool flipped = groundSpritesFlipped[i];
                 if (CurrentOrientation == AspidOrientation.Left)
                 {
                     flipped = !flipped;
@@ -97,7 +74,6 @@ public class WingsController : AspidBodyPart
                         break;
                     }
                 }
-                //yield return new WaitForSeconds(frameTime);
             }
         }
         else
@@ -108,8 +84,8 @@ public class WingsController : AspidBodyPart
 
     public override void OnStun()
     {
-        transform.SetXLocalPosition(GetXForOrientation(CurrentOrientation));
-        transform.SetYLocalPosition(baseYPos);
+         transform.SetXLocalPosition(GetXForOrientation(CurrentOrientation));
+         transform.SetYLocalPosition(baseYPos);
         transform.localEulerAngles = default;
         Animator.PlaybackSpeed = 1f;
         base.OnStun();
@@ -158,12 +134,9 @@ public class WingsController : AspidBodyPart
 
     public IEnumerator GroundPrepareJump()
     {
-        //var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
-
         for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
         {
             transform.localPosition += Boss.GroundMode.jumpPosIncrements;
-            //transform.localEulerAngles += Boss.jumpRotIncrements * lookingDirection;
             yield return new WaitForSeconds(1f / Boss.GroundMode.groundJumpPrepareFPS);
         }
         yield break;
@@ -171,11 +144,9 @@ public class WingsController : AspidBodyPart
 
     public IEnumerator GroundLaunch()
     {
-        //var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
         for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
         {
             transform.localPosition -= Boss.GroundMode.jumpPosIncrements;
-            //transform.localEulerAngles -= Boss.jumpRotIncrements * lookingDirection;
             if (i != Boss.GroundMode.groundJumpFrames - 1)
             {
                 yield return new WaitForSeconds(1f / Boss.GroundMode.groundJumpLaunchFPS);
@@ -199,12 +170,10 @@ public class WingsController : AspidBodyPart
             for (int i = 0; i < Boss.GroundMode.groundJumpFrames; i++)
             {
                 transform.localPosition -= Boss.GroundMode.jumpPosIncrements;
-                //transform.localEulerAngles -= Boss.jumpRotIncrements * lookingDirection;
                 yield return new WaitForSeconds(1f / Boss.GroundMode.groundJumpLaunchFPS);
             }
             yield break;
         }
-        //var lookingDirection = Boss.Orientation == AspidOrientation.Right ? -1f : 1f;
     }
 
     public override IEnumerator WaitTillChangeDirectionMidJump()
@@ -217,17 +186,12 @@ public class WingsController : AspidBodyPart
         PreviousOrientation = oldOrientation;
         CurrentOrientation = newOrientation;
         CurrentOrientation = newOrientation;
-        Boss.StartBoundRoutine(UpdateColliderOffset(8f * Boss.GroundMode.MidAirSwitchSpeed, 1));
-        //Boss.StartBoundRoutine();
-
-        //float oldX = GetXForOrientation(StartingLocalX, PreviousOrientation);
+         Boss.StartBoundRoutine(UpdateColliderOffset(8f * Boss.GroundMode.MidAirSwitchSpeed, 1));
         float newX = GetXForOrientation(StartingLocalX, CurrentOrientation);
 
-        yield return UpdateLocalPosition(8f * Boss.GroundMode.MidAirSwitchSpeed, 1,0f,newX);
+        yield return UpdateLocalPosition(8f * Boss.GroundMode.MidAirSwitchSpeed, 1, 0f, newX);
 
         MainRenderer.flipX = newOrientation == AspidOrientation.Right;
 
-        //return ChangeDirection(newOrientation,Boss.MidAirSwitchSpeed);
-        //yield break;
     }
 }

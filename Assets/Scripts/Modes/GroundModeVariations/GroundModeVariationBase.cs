@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 using UnityEngine;
 using WeaverCore;
 using WeaverCore.Utilities;
 
 public abstract class GroundModeVariationBase
 {
-    public readonly GroundMode Mode;
+    public GroundMode Mode;
 
     public AncientAspid Boss => Mode.Boss;
     public Transform transform => Mode.transform;
@@ -26,23 +22,16 @@ public abstract class GroundModeVariationBase
 
     public virtual IEnumerator LungeAntic() { yield break; }
 
-    //public virtual IEnumerator BeforeLunging() { yield break; }
-
     public virtual Vector3 GetLungeTarget()
     {
-        if (UnityEngine.Random.Range(0, 2) == 1)
-        {
-            return Player.Player1.transform.position;
-        }
-        else
-        {
-            return transform.position.With(y: Boss.CurrentRoomRect.yMin);
-        }
+        return UnityEngine.Random.Range(0, 2) == 1
+            ? Player.Player1.transform.position
+            : transform.position.With(y: Boss.CurrentRoomRect.yMin);
     }
 
     public virtual bool DoSlide(Vector3 lungeTarget)
     {
-        var downwardAngle = Vector3.Dot(Vector3.right, (lungeTarget - transform.position).normalized) * 90f;
+        float downwardAngle = Vector3.Dot(Vector3.right, (lungeTarget - transform.position).normalized) * 90f;
         return Mathf.Abs(downwardAngle) >= Mode.DegreesSlantThreshold;
     }
 
@@ -80,7 +69,7 @@ public abstract class GroundModeVariationBase
 
     public virtual bool FireGroundLaser(out Quaternion laserDirection)
     {
-        var playerAngle = Boss.GetAngleToPlayer();
+        float playerAngle = Boss.GetAngleToPlayer();
 
         const float angleLimit = 45f;
 

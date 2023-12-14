@@ -11,13 +11,11 @@ using static ShotgunController;
 
 public class OffensiveMode : AncientAspidMode
 {
-    //CUSTOM MODE ARGS
     public const string OFFENSIVE_TIME = nameof(OFFENSIVE_TIME);
     public const string CHECK_TOO_FAR_AWAY_PRE = nameof(CHECK_TOO_FAR_AWAY_PRE);
     public const string AUTO_ENABLE_CAM_LOCK = nameof(AUTO_ENABLE_CAM_LOCK);
     public const string WAIT_TILL_IN_POS = nameof(WAIT_TILL_IN_POS);
     public const string OVERRIDE_CENTER_CHECK = nameof(OVERRIDE_CENTER_CHECK);
-    //public const string AREA_PROVIDER = nameof(AREA_PROVIDER);
     public const string ON_CENTER_START = nameof(ON_CENTER_START);
     public const string ON_CENTER_END = nameof(ON_CENTER_END);
     public const string ON_CENTER_FAIL = nameof(ON_CENTER_FAIL);
@@ -25,19 +23,6 @@ public class OffensiveMode : AncientAspidMode
     public const string FORCE_CENTER_MODE = nameof(FORCE_CENTER_MODE);
 
     public IModeAreaProvider OffensiveAreaProvider { get; set; }
-
-    /*public IModeAreaProvider OffensiveAreaProvider
-    {
-        get
-        {
-            if (DefaultArgs.TryGetValueOfType(AREA_PROVIDER, out IModeAreaProvider provider))
-            {
-                return provider;
-            }
-            return null;
-        }
-        set => DefaultArgs[AREA_PROVIDER] = value;
-    }*/
 
     public bool RanAtLeastOnce { get; private set; } = false;
 
@@ -100,81 +85,6 @@ public class OffensiveMode : AncientAspidMode
     [SerializeField]
     List<GroupSpawner> platformGroupSpawners = new List<GroupSpawner>();
 
-    //[Header("Offensive Mode")]
-    //[SerializeField]
-
-
-    /*[SerializeField]
-    [Header("Offensive Mode")]
-    [Tooltip("The height the boss will be at when entering offensive mode")]
-    float offensiveHeight = 10f;
-
-    public float OffensiveHeight => offensiveHeight;
-
-    bool homeInOnTarget = false;
-
-    [SerializeField]
-    float homingAmount = 0f;
-
-    [SerializeField]
-    GameObject spitTargetLeft;
-
-    [SerializeField]
-    GameObject spitTargetRight;
-
-    [SerializeField]
-    AncientAspidPrefabs prefabs;
-
-    [SerializeField]
-    TailCollider tailCollider;
-
-    [SerializeField]
-    WeaverCameraLock centerCamLock;
-
-    [SerializeField]
-    Vector2 centerModePlatformDest = new Vector2(220.8f, 211.5f);
-
-    [SerializeField]
-    float centerModePlatformTime = 0.75f;
-
-    [SerializeField]
-    AnimationCurve centerModePlatformCurve;
-
-    [SerializeField]
-    AudioClip centerModeRumbleSound;
-
-    [SerializeField]
-    ParticleSystem centerModeSummonGrass;
-
-    [SerializeField]
-    float centerModeRoarDelay = 0.1f;
-
-    //[field: SerializeField]
-    //public bool OffensiveModeEnabled { get; private set; } = true;
-
-    public IModeAreaProvider OffensiveAreaProvider { get; set; }
-
-    public bool OffensiveModeEnabled => OffensiveAreaProvider != null;
-
-    [SerializeField]
-    AudioClip centerModeRiseSound;
-
-    [SerializeField]
-    AudioClip centerModeRoarSound;
-
-    [SerializeField]
-    float centerModeRoarSoundPitch = 1f;
-
-    [SerializeField]
-    float centerModeRoarDuration = 0.75f;
-
-    [SerializeField]
-    CameraLockArea centerPlatformLockArea;*/
-
-    /*/// <summary>
-    /// Used for controlling where the boss flies to when in offensive mode. Must be provided for offensive mode to work
-    /// </summary>
-    public IModeAreaProvider OffensiveAreaProvider { get; set; }*/
 
     bool stop = false;
     TargetOverride offensiveTarget;
@@ -256,12 +166,19 @@ public class OffensiveMode : AncientAspidMode
                     continue;
                 }
 
+                var oldHealth = Boss.HealthManager.Health;
+
                 while (Time.time - lastMoveTime < move.PreDelay + lastMoveDelay)
                 {
+                    if (Boss.HealthManager.Health != oldHealth)
+                    {
+                        oldHealth = Boss.HealthManager.Health;
+                        lastMoveDelay = 0.25f;
+                    }
                     yield return Boss.UpdateDirection();
                 }
 
-                var oldHealth = Boss.HealthManager.Health;
+                oldHealth = Boss.HealthManager.Health;
                 yield return RunAspidMove(move, args);
 
                 lastMoveTime = Time.time;
@@ -303,47 +220,12 @@ public class OffensiveMode : AncientAspidMode
         StopCurrentMove();
     }
 
-    /// <summary>
-    /// Attempts to enter center mode. Sets <see cref="InCenterMode"/> to true if successful
-    /// </summary>
     IEnumerator EnterCenterMode(Dictionary<string, object> args)
     {
 
 
         InCenterMode = false;
-        //WeaverLog.Log("ENTERING CENTER MODE");
-
-        /*if (!riseFromCenterPlatform && Vector3.Distance(Player.Player1.transform.position, transform.position) >= 30)
-        {
-            yield break;
-        }*/
-
-        //Boss.Recoil.SetRecoilSpeed(0f);
-        //var roomBounds = RoomScanner.GetRoomBoundaries(transform.position);
-        //Debug.DrawLine(new Vector3(roomBounds.xMin,roomBounds.yMin), new Vector3(roomBounds.xMax,roomBounds.yMax), Color.cyan, 5f);
-        //Debug.DrawLine(transform.position, new Vector3(roomBounds.xMin, transform.position.y), Color.cyan, 5f);
-        //Debug.DrawLine(transform.position, new Vector3(roomBounds.xMax, transform.position.y), Color.cyan, 5f);
-
-        //Debug.DrawLine(transform.position, new Vector3(transform.position.x, roomBounds.yMin), Color.cyan, 5f);
-        //Debug.DrawLine(transform.position, new Vector3(transform.position.x, roomBounds.yMax), Color.cyan, 5f);
-        //minFlightSpeed /= 3f;
-
-        /*CurrentRoomRect = RoomScanner.GetRoomBoundaries(Player.Player1.transform.position);
-
-        var newTarget = new Vector3(Mathf.Lerp(CurrentRoomRect.xMin, CurrentRoomRect.xMax, 0.5f), CurrentRoomRect.yMin + offensiveHeight);
-
-        newTarget.x = Mathf.Clamp(newTarget.x,Player.Player1.transform.position.x - 10f,Player.Player1.transform.position.x + 10f);
-        newTarget.y = Mathf.Clamp(newTarget.y, Player.Player1.transform.position.y + 4f, Player.Player1.transform.position.y + 20f);*/
-
         Boss.EnableHomeInOnTarget();
-
-        /*if (OffensiveAreaProvider == null)
-        {
-            yield return new WaitUntil(() => OffensiveAreaProvider != null);
-        }*/
-
-        //var newTarget = OffensiveAreaProvider.GetModeTarget();
-        //args.TryGetValueOfType(AREA_PROVIDER, out IModeAreaProvider provider);
 
 
         var newTarget = OffensiveAreaProvider.GetModeTarget(Boss);
@@ -353,19 +235,8 @@ public class OffensiveMode : AncientAspidMode
         Debug.DrawLine(newTarget, newTarget + Vector2.left, Color.green, 2f);
         Debug.DrawLine(newTarget, newTarget + Vector2.right, Color.cyan, 2f);
 
-        //newTarget = transform.position;
-        //SetTarget(newTarget);
         offensiveTarget = Boss.AddTargetOverride(-10);
         offensiveTarget.SetTarget(newTarget);
-        //flightOffset /= 4f;
-        /*minimumFlightSpeed /= 4f;
-        homeInOnTarget = true;
-        //orbitReductionAmount *= 4f;
-        flightSpeed /= 2f;*/
-
-        //origOrbitReductionAmount = orbitReductionAmount;
-
-        //yield return ChangeDirection(AspidOrientation.Center);
         yield return Boss.ChangeDirection(AspidOrientation.Center);
 
         float timer = 0f;
@@ -397,7 +268,6 @@ public class OffensiveMode : AncientAspidMode
                 }
 
                 centeringTimer += Time.deltaTime;
-                //Slowly increase the orbit reduction amount so it' homes in on the target
                 Boss.OrbitReductionAmount += 3f * Boss.OrbitReductionAmount * Time.deltaTime;
                 if (Vector3.Distance(transform.position, newTarget) <= 2f)
                 {
@@ -417,8 +287,6 @@ public class OffensiveMode : AncientAspidMode
                 Boss.EnableCamLock(newTarget, CenterCamLock);
             }
         }
-
-        //Boss.Recoil.ResetRecoilSpeed();
 
         if (centeringTimer >= maxTimeToCenter)
         {
@@ -447,8 +315,6 @@ public class OffensiveMode : AncientAspidMode
         yield return Boss.ChangeDirection(orientation);
 
         Boss.EnableQuickEscapes = true;
-        //Boss.Recoil.ResetRecoilSpeed();
-
         if (wait)
         {
             yield return new WaitForSeconds(0.25f);
@@ -471,7 +337,6 @@ public class OffensiveMode : AncientAspidMode
     protected override bool ModeEnabled(Dictionary<string, object> args)
     {
         return OffensiveAreaProvider != null && OffensiveAreaProvider.IsTargetActive(Boss);
-        //return args.TryGetValueOfType(AREA_PROVIDER, out IModeAreaProvider provider) && provider != null;
     }
 
     enum CenterBottomTargetType
@@ -484,13 +349,7 @@ public class OffensiveMode : AncientAspidMode
 
     public IEnumerator EnterFromBottomRoutine()
     {
-        //EnteringFromBottom = true;
         yield return new WaitUntil(() => Boss.FullyAwake);
-        //SetTarget(transform.position.With(y: 0f));
-
-        //bool falling = false;
-        //var currentTargetType = CenterBottomTargetType.None;
-
         var enterBottomTarget = Boss.AddTargetOverride(int.MaxValue / 2);
 
         while (true)
@@ -498,117 +357,59 @@ public class OffensiveMode : AncientAspidMode
             var playerAboveArena = Player.Player1.transform.position.y >= 200;
             var bossAboveArena = transform.position.y >= 200;
 
-            if ((playerAboveArena && bossAboveArena)/* || currentTargetType == CenterBottomTargetType.Left || currentTargetType != CenterBottomTargetType.Right*/)
+            if ((playerAboveArena && bossAboveArena)        )
             {
                 Boss.FlightRange.yMin = 0f;
-                //Boss.ExtraTargetOffset = default;
-
-                //TODO - IF BOTH ARE ABOVE. TRY FLYING TO THE OTHER SIDE and TELEPORT TO THE BOTTOM.
-
                 if (Player.Player1.transform.position.x >= 197.62f)
                 {
-                    //if (currentTargetType != CenterBottomTargetType.Left)
-                    //{
                     enterBottomTarget.SetTarget(new Vector3(167.4f, 216.7f));
-                    //Boss.PathingMode = PathfindingMode.FollowTarget;
                     WeaverLog.LogWarning("FOLLOW LEFT TARGET");
-                    //currentTargetType = CenterBottomTargetType.Left;
-                    //}
                     if (transform.position.x <= 179.7f || transform.position.x <= Player.Player1.transform.position.x - 20f)
                     {
                         yield return CentralRiseRoutine();
                         break;
-                        /*if (!riseFromCenterPlatform)
-                        {
-                            yield break;
-                        }
-                        else
-                        {
-                            currentTargetType = CenterBottomTargetType.None;
-                        }*/
                     }
                 }
                 else
                 {
-                    //if (currentTargetType != CenterBottomTargetType.Right)
-                    //{
                     enterBottomTarget.SetTarget(new Vector3(262.5f, 216.7f));
-                    //Boss.PathingMode = PathfindingMode.FollowTarget;
                     WeaverLog.LogWarning("FOLLOW RIGHT TARGET");
-                    //currentTargetType = CenterBottomTargetType.Right;
-                    //}
-
                     if (transform.position.x >= 251.1f || transform.position.x >= Player.Player1.transform.position.x + 20f)
                     {
                         yield return CentralRiseRoutine();
                         break;
-                        /*if (!riseFromCenterPlatform)
-                        {
-                            yield break;
-                        }
-                        else
-                        {
-                            riseFromCenterPlatform = false;
-                            currentTargetType = CenterBottomTargetType.None;
-                        }*/
                     }
                 }
-                //break;
             }
             else if (playerAboveArena && !bossAboveArena)
             {
                 Boss.FlightRange.yMin = 0f;
-                //Boss.ExtraTargetOffset = default;
-                //if (currentTargetType != CenterBottomTargetType.Bottom)
-                //{
-                //Boss.PathingMode = PathfindingMode.FollowTarget;
                 WeaverLog.LogWarning("FOLLOW BOTTOM TARGET");
                 enterBottomTarget.SetTarget(new Vector3(220.8f, 85.29f));
-                //currentTargetType = CenterBottomTargetType.Bottom;
-                //}
-
                 if (transform.position.y <= Player.Player1.transform.position.y - 15f)
                 {
                     yield return CentralRiseRoutine();
                     break;
                 }
             }
-            /*else if (!playerAboveArena && bossAboveArena)
-            {
-                FlightRange.yMin = 0f;
-                ExtraTargetOffset = new Vector3(0f, 6.5f, 0f);
-                //if (currentTargetType != CenterBottomTargetType.None)
-                //{
-
-                    PathingMode = PathfindingMode.FollowTarget;
-                    SetTarget(Player.Player1.transform);
-                    WeaverLog.LogWarning("FOLLOW PLAYER A");
-                    //currentTargetType = CenterBottomTargetType.None;
-                //}
-            }*/
             else if ((!playerAboveArena && !bossAboveArena) || (!playerAboveArena && bossAboveArena))
             {
                 if (Player.Player1.transform.position.y <= transform.position.y)
                 {
-                    //Boss.ExtraTargetOffset = new Vector3(0f, 0f, 0f);
                     if (transform.position.y >= 180f)
                     {
                         Boss.FlightRange.yMin = 0f;
-                        //Boss.PathingMode = PathfindingMode.FollowTarget;
                         if (transform.position.x >= 223.7f)
                         {
-                            //SET TO RIGHT TARGET
                             enterBottomTarget.SetTarget(new Vector3(250.46f, 213.86f));
                         }
                         else
                         {
-                            //SET TO LEFT TARGET
                             enterBottomTarget.SetTarget(new Vector3(185.6f, 213.86f));
                         }
                     }
                     else
                     {
-                        //Boss.PathingMode = PathfindingMode.FollowPlayer;
                         enterBottomTarget.SetTarget(Boss.PlayerTarget);
 
                         Boss.FlightRange.yMin = Mathf.Max(Boss.FlightRange.yMin, Player.Player1.transform.position.y + 14f);
@@ -617,118 +418,23 @@ public class OffensiveMode : AncientAspidMode
                 else
                 {
                     Boss.FlightRange.yMin = 0f;
-                    //Boss.PathingMode = PathfindingMode.FollowTarget;
                     if (transform.position.x >= 223.7f)
                     {
-                        //SET TO LEFT TARGET
                         enterBottomTarget.SetTarget(new Vector3(185.6f, 213.86f));
                     }
                     else
                     {
-                        //SET TO RIGHT TARGET
                         enterBottomTarget.SetTarget(new Vector3(250.46f, 213.86f));
                     }
                 }
 
-                /*if (Player.Player1.transform.position.y <= 180f)
-                {
-                    ExtraTargetOffset = new Vector3(0f, 6.5f, 0f);
-                    //if (currentTargetType != CenterBottomTargetType.None)
-                    //{
-                        PathingMode = PathfindingMode.FollowTarget;
-                        SetTarget(new Vector3(249.2f, 187.6f));
-                        WeaverLog.LogWarning("FOLLOW PLAYER B");
-                        //currentTargetType = CenterBottomTargetType.None;
-                    //}
-                }
-                else
-                {
-                    ExtraTargetOffset = default;
-                    //if (currentTargetType != CenterBottomTargetType.Bottom)
-                    //{
-                        PathingMode = PathfindingMode.FollowTarget;
-                        WeaverLog.LogWarning("FOLLOW BOTTOM TARGET");
-                        SetTarget(new Vector3(220.8f, 85.29f));
-                        //currentTargetType = CenterBottomTargetType.Bottom;
-                    //}
-
-                    if (transform.position.y <= Player.Player1.transform.position.y - 15f)
-                    {
-                        yield return CentralRiseRoutine();
-                        break;
-                    }
-                }*/
             }
 
             yield return null;
-            /*if (Player.Player1.transform.position.y >= 200 && transform.position.y < 200 && Player.Player1.transform.position.y <= 217f)
-            {
-
-            }*/
         }
 
         Boss.RemoveTargetOverride(enterBottomTarget);
 
-        //EnteringFromBottom = false;
-
-        /*while (true)
-        {
-            if (Player.Player1.transform.position.y >= 200 && transform.position.y < 200 && Player.Player1.transform.position.y <= 217f)
-            {
-                WeaverLog.Log("BEGINNING BOTTOM ENTRY");
-                if (transform.position.y <= 170.0f)
-                {
-                    FlightEnabled = false;
-                    ApplyFlightVariance = false;
-                    transform.SetPosition2D(220.8f, 188.95f);
-                    SetTarget(transform.position);
-                    Rbody.velocity = default;
-                    Rbody.simulated = false;
-
-                    //TODO - PLAY RUMBLE
-
-                    //OffensiveModeEnabled = true;
-                    forceCentralMode = true;
-
-                    EnableCenterLock(centerModePlatformDest, centerCamLock);
-
-                    yield return new WaitForSeconds(1f);
-
-                    yield return new WaitUntil(() => Orientation == AspidOrientation.Center);
-
-                    SetTarget(centerModePlatformDest);
-
-                    var oldPos = transform.position;
-
-                    for (float t = 0f; t < centerModePlatformTime; t += Time.deltaTime)
-                    {
-                        transform.position = Vector3.Lerp(oldPos, centerModePlatformDest,centerModePlatformCurve.Evaluate(t /  centerModePlatformTime));
-
-                        yield return null;
-                    }
-
-                    ExtraTargetOffset = default;
-
-                    Rbody.velocity = default;
-                    Rbody.simulated = true;
-
-                    FlightEnabled = true;
-                    ApplyFlightVariance = true;
-                    forceCentralMode = false;
-
-
-                    WeaverLog.LogError("FORCED CENTERAL");
-                    yield break;
-                }
-            }
-            else
-            {
-                SetTarget(playerTarget);
-                yield break;
-            }
-
-            yield return null;
-        }*/
     }
 
     enum CentralRiseSpeed
@@ -739,27 +445,11 @@ public class OffensiveMode : AncientAspidMode
     }
 
 
-    /*
-    public const string OFFENSIVE_TIME = nameof(OFFENSIVE_TIME);
-    public const string CHECK_TOO_FAR_AWAY_PRE = nameof(CHECK_TOO_FAR_AWAY_PRE);
-    public const string AUTO_ENABLE_CAM_LOCK = nameof(AUTO_ENABLE_CAM_LOCK);
-    public const string WAIT_TILL_IN_POS = nameof(WAIT_TILL_IN_POS);
-    public const string OVERRIDE_CENTER_CHECK = nameof(OVERRIDE_CENTER_CHECK);
-    public const string AREA_PROVIDER = nameof(AREA_PROVIDER);
-    public const string ON_CENTER_START = nameof(ON_CENTER_START);
-    public const string ON_CENTER_END = nameof(ON_CENTER_END);
-    public const string ON_CENTER_FAIL = nameof(ON_CENTER_FAIL);
-
-    public const string FORCE_CENTER_MODE = nameof(FORCE_CENTER_MODE);
-     */
-    //public 
-
     IEnumerator CentralRiseRoutine()
     {
         Boss.FlightEnabled = false;
         Boss.ApplyFlightVariance = false;
         transform.SetPosition2D(220.8f, 188.95f);
-        //Boss.SetTarget(transform.position);
         Boss.Rbody.velocity = default;
         Boss.Rbody.simulated = false;
 
@@ -799,8 +489,6 @@ public class OffensiveMode : AncientAspidMode
             {OVERRIDE_CENTER_CHECK, new Func<bool>(CenterCheck)}
         });
 
-        //DefaultArgs[AREA_PROVIDER] = platformProvider;
-
         if (centerPlatformLockArea != null)
         {
             while (true)
@@ -826,8 +514,6 @@ public class OffensiveMode : AncientAspidMode
                     break;
                 }
 
-                //OffensiveAreaProvider = platformProvider;
-                //DefaultArgs[AREA_PROVIDER] = platformProvider;
                 yield return null;
             }
         }
@@ -860,7 +546,10 @@ public class OffensiveMode : AncientAspidMode
                 centerModeSummonGrass.Stop();
             }
 
-            rumbleSound?.StopPlaying();
+            if (rumbleSound != null)
+            {
+                rumbleSound.StopPlaying();
+            }
 
             CameraShaker.Instance.SetRumble(RumbleType.None);
             CameraShaker.Instance.Shake(ShakeType.BigShake);
@@ -905,16 +594,10 @@ public class OffensiveMode : AncientAspidMode
             Boss.EnableCamLock(centerModePlatformDest, CenterCamLock);
         }
 
-        //OffensiveAreaProvider = platformProvider;
-        //DefaultArgs[AREA_PROVIDER] = platformProvider;
-
         if (riseSpeed == CentralRiseSpeed.Default)
         {
             yield return new WaitForSeconds(2f);
         }
-
-        //OffensiveAreaProvider = platformProvider;
-        //DefaultArgs[AREA_PROVIDER] = platformProvider;
 
         yield return new WaitUntil(() => Boss.Orientation == AspidOrientation.Center);
 
@@ -922,8 +605,6 @@ public class OffensiveMode : AncientAspidMode
         {
             StartCoroutine(VisualsRoutine(centerModeRoarDelay));
         }
-
-        //SetTarget(centerModePlatformDest);
 
         var oldPos = transform.position;
 
@@ -939,34 +620,16 @@ public class OffensiveMode : AncientAspidMode
 
         transform.position = centerModePlatformDest;
 
-        /*if (riseSpeed == CentralRiseSpeed.Instant || riseSpeed == CentralRiseSpeed.Quick)
-        {
-            DefaultArgs[AREA_PROVIDER] = null;
-        }
-        else
-        {
-            DefaultArgs[AREA_PROVIDER] = GameObject.FindObjectOfType<PlatformOffensiveAreaProvider>();
-        }*/
-
-        //Boss.ExtraTargetOffset = default;
-
         Boss.Rbody.velocity = default;
         Boss.Rbody.simulated = true;
 
         Boss.FlightEnabled = true;
         Boss.ApplyFlightVariance = true;
-        //riseFromCenterPlatform = false;
         fullyRisen = true;
-        //Boss.PathingMode = PathfindingMode.FollowPlayer;
-
         if (riseSpeed == CentralRiseSpeed.Instant || riseSpeed == CentralRiseSpeed.Quick)
         {
             yield return new WaitUntil(() => Boss.Orientation != AspidOrientation.Center);
-            //OffensiveAreaProvider = GameObject.FindObjectOfType<PlatformOffensiveAreaProvider>();
-            //DefaultArgs[AREA_PROVIDER] = GameObject.FindObjectOfType<PlatformOffensiveAreaProvider>();
         }
-
-        //Boss.EnableTargetHeightRange = true;
 
         if (retry)
         {
