@@ -10,6 +10,9 @@ public class GodhomeOffensiveAreaProvider : MonoBehaviour, IModeAreaProvider
     [SerializeField]
     private Rect platformArea;
 
+    [SerializeField]
+    float cameraLockAreaHeightOverride = 14.52f;
+
     private void Awake()
     {
         gameObject.layer = LayerMask.NameToLayer("Enemy Detector");
@@ -36,4 +39,9 @@ public class GodhomeOffensiveAreaProvider : MonoBehaviour, IModeAreaProvider
         Gizmos.DrawCube(platformArea.center, new Vector3(platformArea.size.x, platformArea.size.y, 0.1f));
     }
 
+    public Vector2 GetLockAreaOverride(Vector2 oldPos, out bool clampWithinArea)
+    {
+        clampWithinArea = false;
+        return oldPos.With(y: cameraLockAreaHeightOverride);
+    }
 }

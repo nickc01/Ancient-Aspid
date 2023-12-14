@@ -1134,7 +1134,7 @@ public class AncientAspid : Boss
         }
     }
 
-    public void EnableCamLock(Vector3 position, WeaverCameraLock camLock)
+    public void EnableCamLock(Vector3 position, WeaverCameraLock camLock, bool clampWithinArea = true)
     {
         var currentLocks = GameManager.instance.cameraCtrl.lockZoneList;
 
@@ -1175,30 +1175,33 @@ public class AncientAspid : Boss
         camLock.transform.position = position;
         camLock.RefreshCamBounds();
 
-        float xOffset = 0;
-        float yOffset = 0;
-
-        if (camLock.cameraXMax > mainBounds.max.x)
+        if (clampWithinArea)
         {
-            xOffset += -(camLock.cameraXMax - mainBounds.max.x);
-        }
+            float xOffset = 0;
+            float yOffset = 0;
 
-        if (camLock.cameraXMin < mainBounds.min.x)
-        {
-            xOffset += (mainBounds.min.x - camLock.cameraXMin);
-        }
+            if (camLock.cameraXMax > mainBounds.max.x)
+            {
+                xOffset += -(camLock.cameraXMax - mainBounds.max.x);
+            }
 
-        if (camLock.cameraYMax > mainBounds.max.y)
-        {
-            yOffset += -(camLock.cameraYMax - mainBounds.max.y);
-        }
+            if (camLock.cameraXMin < mainBounds.min.x)
+            {
+                xOffset += (mainBounds.min.x - camLock.cameraXMin);
+            }
 
-        if (camLock.cameraYMin < mainBounds.min.y)
-        {
-            yOffset += (mainBounds.min.y - camLock.cameraYMin);
-        }
+            if (camLock.cameraYMax > mainBounds.max.y)
+            {
+                yOffset += -(camLock.cameraYMax - mainBounds.max.y);
+            }
 
-        camLock.transform.position += new Vector3(xOffset, yOffset);
+            if (camLock.cameraYMin < mainBounds.min.y)
+            {
+                yOffset += (mainBounds.min.y - camLock.cameraYMin);
+            }
+
+            camLock.transform.position += new Vector3(xOffset, yOffset);
+        }
 
         camLock.gameObject.SetActive(true);
     }

@@ -35,4 +35,10 @@ public class DefaultOffensiveAreaProvider : IModeAreaProvider
     {
         return Vector3.Distance(boss.transform.position, Player.Player1.transform.position) <= 30f;
     }
+
+    public Vector2 GetLockAreaOverride(Vector2 oldPos, out bool clampWithinArea)
+    {
+        clampWithinArea = true;
+        return oldPos;
+    }
 }

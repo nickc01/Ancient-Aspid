@@ -257,7 +257,7 @@ public class OffensiveMode : AncientAspidMode
                     centered = true;
                     if (autoEnableCamLock)
                     {
-                        Boss.EnableCamLock(newTarget, CenterCamLock);
+                        Boss.EnableCamLock(OffensiveAreaProvider.GetLockAreaOverride(newTarget, out var clampWithinArea), CenterCamLock, clampWithinArea);
                     }
                 }
 
@@ -284,7 +284,7 @@ public class OffensiveMode : AncientAspidMode
         {
             if (autoEnableCamLock)
             {
-                Boss.EnableCamLock(newTarget, CenterCamLock);
+                Boss.EnableCamLock(OffensiveAreaProvider.GetLockAreaOverride(newTarget, out var clampWithinArea), CenterCamLock, clampWithinArea);
             }
         }
 

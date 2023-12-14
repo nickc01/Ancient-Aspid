@@ -29,4 +29,10 @@ public class UpperGroundAreaProvider : MonoBehaviour, IModeAreaProvider
         pos.z = bounds.center.z;
         return bounds.Contains(pos) && Vector3.Distance(boss.transform.position, Player.Player1.transform.position) <= maxDistance;
     }
+
+    public Vector2 GetLockAreaOverride(Vector2 oldPos, out bool clampWithinArea)
+    {
+        clampWithinArea = true;
+        return oldPos;
+    }
 }
