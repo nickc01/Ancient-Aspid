@@ -91,7 +91,7 @@ namespace NavMeshPlus.Components
         Vector3 m_LastPosition = Vector3.zero;
         Quaternion m_LastRotation = Quaternion.identity;
 
-        static readonly List<NavMeshSurface> s_NavMeshSurfaces = new List<NavMeshSurface>();
+        static List<NavMeshSurface> s_NavMeshSurfaces = new List<NavMeshSurface>();
         public INavMeshExtensionsProvider NevMeshExtensions { get; set; } = new NavMeshExtensionsProvider();
 
         public static List<NavMeshSurface> activeSurfaces

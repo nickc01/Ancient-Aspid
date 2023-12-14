@@ -21268,7 +21268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveEnabled: 1
-  postDelay: 0.5
+  postDelay: 0.4
   climbingPostDelay: 0.8
   minDistance: 5
   headSpeed: 1.5
@@ -21288,8 +21288,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveEnabled: 1
-  postDelay: 0.45
-  climbingPostDelay: 0.55
+  postDelay: 0.4
+  climbingPostDelay: 0.5
   headResetSpeed: 2
   emitter: {fileID: 3718199228053294616}
   sweepTime: 1.9
@@ -21406,8 +21406,8 @@ MonoBehaviour:
   timeRange: {x: 0.75, y: 1.25}
   gravityScale: 0.28
   fireSound: {fileID: 8300000, guid: 1c6b7160fd6c3014baaa16be8bebf606, type: 3}
-  postDelay: 0.5
-  climbingPostDelay: 0.5
+  postDelay: 0.45
+  climbingPostDelay: 0.45
 --- !u!114 &3718199229979044248
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21704,7 +21704,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e0ae4cb383a5ef74db04ad069da3b841, type: 3}
   fader: {fileID: 2090731162}
   bombParticles: {fileID: 1503853623}
-  postDelay: 0.5
+  postDelay: 0.45
   angularVelocityRange: {x: -50, y: 50}
 --- !u!114 &6339752278025668268
 MonoBehaviour:
