@@ -132,10 +132,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 253362529}
-  - component: {fileID: 253362528}
   - component: {fileID: 253362527}
   - component: {fileID: 253362525}
   - component: {fileID: 253362530}
+  - component: {fileID: 253362526}
   m_Layer: 0
   m_Name: Dream Nail Object
   m_TagString: Untagged
@@ -169,6 +169,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.7964163, y: 1.4322205}
   m_EdgeRadius: 0
+--- !u!114 &253362526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 253362524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c07d163e2ae2c14694b363ed95b17dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: 53925bd5d3de07c4c99ae7f55fedf179, type: 2}
+  boolField: aspidBossDefeated
 --- !u!114 &253362527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,32 +195,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b252a7af65c96045b2e6bbfdf79ffff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soulAmount: 33
+  cooldownDuration: 0.2
+  recoilWhenHit: 0
+  flashWhenHit: 1
   destinationScene: Ancient Aspid Room
   returnScene: Deepnest_East_13
   transitionGateName: Ancient Aspid Entry
   warpDelay: 1.75
   canUseCharms: 1
---- !u!114 &253362528
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 253362524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8b7b838ff7f34e4aa961a98cbf91b96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  convoAmount: 8
-  convoTitle: GENERIC
-  startSuppressed: 0
-  noSoul: 0
-  dreamImpactPrefab: {fileID: 0}
-  allowUseChildColliders: 0
-  DreamnailEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &253362529
 Transform:
   m_ObjectHideFlags: 0
@@ -2923,9 +2920,8 @@ GameObject:
   - component: {fileID: 797160050}
   - component: {fileID: 797160049}
   - component: {fileID: 797160048}
-  - component: {fileID: 797160051}
   m_Layer: 13
-  m_Name: Aspid Return Door
+  m_Name: door_dreamReturn
   m_TagString: TransitionGate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3007,20 +3003,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &797160051
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 797160047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c07d163e2ae2c14694b363ed95b17dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 53925bd5d3de07c4c99ae7f55fedf179, type: 2}
-  boolField: aspidBossDefeated
 --- !u!1 &976663541
 GameObject:
   m_ObjectHideFlags: 11

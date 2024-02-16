@@ -11,6 +11,8 @@ public class DefaultShotgunController : ShotgunController
     private LaserEmitter centerLaser;
     private Vector3 targetPos;
 
+    bool playerOnRight = false;
+
     public DefaultShotgunController(float prepareLerpSpeed, float attackLerpSpeed, List<float> laserRotations)
     {
         this.prepareLerpSpeed = prepareLerpSpeed;
@@ -22,6 +24,7 @@ public class DefaultShotgunController : ShotgunController
     {
         base.Init(lasers);
         centerLaser = lasers[Mathf.FloorToInt(lasers.Count / 2f)];
+        playerOnRight = Player.Player1.transform.position.x >= lasers[2].transform.position.x;
     }
 
     public override void Update()
@@ -49,6 +52,13 @@ public class DefaultShotgunController : ShotgunController
     {
         float rotation = AimLaserAtTarget(centerLaser, targetPos);
 
-        return Quaternion.Euler(0f, 0f, rotation + laserRotations[laserIndex]);
+        if (playerOnRight)
+        {
+            return Quaternion.Euler(0f, 0f, rotation + laserRotations[4 - laserIndex]);
+        }
+        else
+        {
+            return Quaternion.Euler(0f, 0f, rotation + laserRotations[laserIndex]);
+        }
     }
 }

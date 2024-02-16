@@ -65,6 +65,7 @@ GameObject:
   - component: {fileID: 3848620845849457597}
   - component: {fileID: 9208835106727194412}
   - component: {fileID: 8061142149443338983}
+  - component: {fileID: 8822261517936266374}
   m_Layer: 17
   m_Name: Knight Hatchling Aspid
   m_TagString: Knight Hatchling
@@ -346,30 +347,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f290e560c3c9b14a8ac1c1d6fd0907b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aspidShotDamage: 2
-  minTargetDistanceRange: {x: 1.5, y: 3}
-  maxTargetDistanceRange: {x: 3, y: 4.5}
-  jitterAmountRange: {x: 0.25, y: 1}
-  jitterFrequency: 0.75
-  collisionRadius: 12
-  inRangeObjects: {fileID: 7733909688843688986}
-  acceleration: 30
-  maxVelocity: 65
-  shootFrequencyRange: {x: 2, y: 4}
-  shootTriple: 0
+--- !u!114 &8822261517936266374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3673689842170680624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3519514fef2ad434c927403e01939836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alertRange: 15
+  maxVelocity: 8.5
+  acceleration: 12
+  maxTeleportDistance: 35
+  maxSleepDistance: 2.5
+  sleepTimeRange: {x: 9, y: 11}
+  attackTimeRange: {x: 1.7, y: 2.2}
+  playerTargetRange: 4
+  sleepFallVelocity: -10
+  jitterIntensity: {x: 1, y: 1}
+  fadeInParticles: []
+  jitterRandomizeTime: 0.5
   shootSound: {fileID: 8300000, guid: e0ae4cb383a5ef74db04ad069da3b841, type: 3}
   aspidShotVelocity: 15
   shotAngleSeperation: 35
   aspidShotPrefab: {fileID: 3513862580655549488, guid: 98fc49680cefb014d839d50cfe964a6f, type: 3}
-  attackAnticAnimation: Mini Aspid Attack Antic
-  attackAnimation: Mini Aspid Attack
-  idleLoopAnimation: Mini Aspid Idle
-  turnAnimation: Mini Aspid Turn
-  sleepTimerRange: {x: 4, y: 6.5}
-  targetOffsetRange: {x: 0.5, y: 2}
-  sleepFallVelocity: -10
-  sleepAnticAnimation: Mini Aspid Sleep Antic
-  sleepAnimation: Mini Aspid Sleep
+  aspidShotDamage: 2
+  shootTriple: 1
+  extraOffsetXRange: {x: -2, y: 2}
+  extraOffsetYRange: {x: -2, y: 0}
+  collisionCounter: {fileID: 7733909688843688986}
+  attackAnticAnim: Mini Aspid Attack Antic
+  attackAnim: Mini Aspid Attack
+  idleAnim: Mini Aspid Idle
+  turnAnim: Mini Aspid Turn
+  sleepAnticAnim: Mini Aspid Sleep Antic
+  sleepAnim: Mini Aspid Sleep
+  sleepTimer: 0
+  attackTimer: 0
 --- !u!1 &3674318655074383210
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,4 +448,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f66d6584d71069d46ac4353d9b337c6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collidedObjects: []

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using WeaverCore;
 using WeaverCore.Assets.Components;
 using WeaverCore.Components;
@@ -43,8 +44,8 @@ public class FireLaserMove : AncientAspidMove
     [SerializeField]
     float headResetSpeed = 1f;
 
-    [SerializeField]
-    LaserEmitter emitter;
+    //[SerializeField]
+    //LaserEmitter emitter;
 
     [Header("Sweep Move")]
     [SerializeField]
@@ -87,11 +88,15 @@ public class FireLaserMove : AncientAspidMove
     public AnimationCurve followPlayerCurve;
 
     [Header("Other Settings")]
-    public List<Sprite> head_Sprites;
 
-    public List<bool> head_HorizFlip;
+    [FormerlySerializedAs("head_Sprites")]
+    public List<Sprite> head_SpritesOLD;
 
-    public List<float> head_Degrees;
+    [FormerlySerializedAs("head_HorizFlip")]
+    public List<bool> head_HorizFlipOLD;
+
+    [FormerlySerializedAs("head_Degrees")]
+    public List<float> head_DegreesOLD;
 
     [SerializeField]
     AudioClip LaserBurstSound;
@@ -137,10 +142,10 @@ public class FireLaserMove : AncientAspidMove
         }
     }
 
-    public LaserEmitter Emitter => emitter;
+    //public LaserEmitter Emitter => emitter;
 
     Transform laserRotationOrigin;
-    float maxEmitterAngle;
+    //float maxEmitterAngle;
 
     AudioPlayer loopSound;
 
@@ -150,8 +155,9 @@ public class FireLaserMove : AncientAspidMove
 
     private void Awake()
     {
-        laserRotationOrigin = emitter.transform.GetChild(0);
-        maxEmitterAngle = head_Degrees[head_Degrees.Count - 1];
+        //laserRotationOrigin = emitter.transform.GetChild(0);
+        laserRotationOrigin = Boss.Head.ShotgunLasers.MiddleLaser;
+        //maxEmitterAngle = head_Degrees[head_Degrees.Count - 1];
     }
 
     public float GetPrimaryHeadAngle()
@@ -196,6 +202,8 @@ public class FireLaserMove : AncientAspidMove
 
     Vector2 GetMiddleBeamContact()
     {
+        var emitter = Boss.Head.ShotgunLasers.MiddleEmitter;
+
         var contacts = emitter.Laser.ColliderContactPoints;
 
         var contactPoint = (Vector2)emitter.Laser.transform.TransformPoint(contacts[contacts.Count / 2]);
@@ -233,7 +241,7 @@ public class FireLaserMove : AncientAspidMove
         yield break;
     }
 
-    public (float main, float extra) CalculateLaserRotation(Quaternion rotation, float divisor = 90f)
+    /*public (float main, float extra) CalculateLaserRotation(Quaternion rotation, float divisor = 90f)
     {
         rotation *= Quaternion.Euler(0f, 0f, 90f);
 
@@ -241,9 +249,19 @@ public class FireLaserMove : AncientAspidMove
 
         float main = maxEmitterAngle * (angle / divisor);
         return (main, angle - main);
-    }
+    }*/
 
-    public void UpdateLaserRotation(Quaternion quaternion)
+    /*public (float main, float extra) CalculateLaserRotation(Quaternion rotation, float divisor = 90f)
+    {
+        rotation *= Quaternion.Euler(0f, 0f, 90f);
+
+        var angle = MathUtilities.ClampRotation(rotation.eulerAngles.z);
+
+        float main = maxEmitterAngle * (angle / divisor);
+        return (main, angle - main);
+    }*/
+
+    /*public void UpdateLaserRotation(Quaternion quaternion)
     {
         var angleDegrees = CalculateLaserRotation(quaternion);
         SetLaserRotation(angleDegrees.main, angleDegrees.extra);
@@ -251,11 +269,11 @@ public class FireLaserMove : AncientAspidMove
         var spriteIndex = GetHeadIndexForAngle(angleDegrees.main);
         Boss.Head.MainRenderer.sprite = head_Sprites[spriteIndex];
         Boss.Head.MainRenderer.flipX = head_HorizFlip[spriteIndex];
-    }
+    }*/
 
     public float GetMinLaserDistance(Vector3 target)
     {
-        var main = emitter.transform.GetZLocalRotation();
+        var main = Boss.Head.ShotgunLasers.MiddleEmitter.transform.GetZLocalRotation();
         var extra = laserRotationOrigin.GetZLocalRotation();
 
         var angle = extra + main;
@@ -285,7 +303,7 @@ public class FireLaserMove : AncientAspidMove
 
     public bool LaserOnRightSideOf(Vector3 target)
     {
-        var main = emitter.transform.GetZLocalRotation();
+        var main = Boss.Head.ShotgunLasers.MiddleEmitter.transform.GetZLocalRotation();
         var extra = laserRotationOrigin.GetZLocalRotation();
 
         var angle = extra + main;
@@ -360,7 +378,7 @@ public class FireLaserMove : AncientAspidMove
 
         var startAngle = controller.GetStartAngle(this, new Vector2((float)velocityX, (float)velocityY));
 
-        Boss.Head.MainRenderer.flipX = CalculateLaserRotation(startAngle).main >= 0f;
+        Boss.Head.MainRenderer.flipX = Boss.Head.ShotgunLasers.AngleIsFacingRight(startAngle);
 
         Boss.Head.Animator.PlayAnimation("Fire Laser Antic");
 
@@ -368,6 +386,8 @@ public class FireLaserMove : AncientAspidMove
         {
             yield return null;
         }
+
+        var emitter = Boss.Head.ShotgunLasers.MiddleEmitter;
 
         emitter.ChargeUpLaser_P1();
         emitter.FireLaser_P2();
@@ -380,12 +400,28 @@ public class FireLaserMove : AncientAspidMove
         loopSound = WeaverAudio.PlayAtPointLooped(LaserLoopSound, transform.position);
         loopSound.AudioSource.pitch = loopSoundPitch;
 
-        PlayBloodEffects(3);
-
         int oldIndex = -1;
 
         float bloodTimer = 0f;
         bool firing = true;
+
+        Quaternion laserRot = default;
+
+        Boss.Head.ShotgunLasers.ContinouslyUpdateLasers(index => laserRot);
+
+        void UpdateLaserRotation(Quaternion quaternion)
+        {
+            /*var angleDegrees = CalculateLaserRotation(quaternion);
+            //SetLaserRotation(angleDegrees.main, angleDegrees.extra);
+            Boss.Head.ShotgunLasers.SetLaserRotation(2, quaternion);
+
+            var spriteIndex = Boss.Head.ShotgunLasers.GetHeadIndexForAngle(angleDegrees.main);
+            Boss.Head.MainRenderer.sprite = head_Sprites[spriteIndex];
+            Boss.Head.MainRenderer.flipX = head_HorizFlip[spriteIndex];*/
+            laserRot = quaternion;
+            Boss.Head.ShotgunLasers.SetLaserRotation(2, quaternion);
+            Boss.Head.ShotgunLasers.SetHeadSpriteToRotation(quaternion);
+        }
 
         UpdateLaserRotation(startAngle);
 
@@ -396,6 +432,8 @@ public class FireLaserMove : AncientAspidMove
         }
 
         Boss.StartBoundRoutine(Fire());
+
+        PlayBloodEffects(3);
 
         while (firing)
         {
@@ -413,7 +451,7 @@ public class FireLaserMove : AncientAspidMove
 
 
 
-        emitter.EndLaser_P3();
+        emitter.EndLaser_P3(Boss.Head.ShotgunLasers.StopContinouslyUpdating);
 
         if (loopSound != null)
         {
@@ -428,7 +466,6 @@ public class FireLaserMove : AncientAspidMove
         controller.Uninit(this);
 
         CurrentController = null;
-
     }
 
     public IEnumerator FinishLaserMove()
@@ -436,9 +473,9 @@ public class FireLaserMove : AncientAspidMove
         return FinishLaserMove(headAdjustAmount, Boss.Head.Animator.AnimationData.GetClip("Fire Laser Antic").FPS * headResetSpeed);
     }
 
-    public void UpdateHeadRotation(ref int oldSpriteIndex, float mainRotation)
+    /*public void UpdateHeadRotation(ref int oldSpriteIndex, float mainRotation)
     {
-        var spriteIndex = GetHeadIndexForAngle(mainRotation);
+        var spriteIndex = Boss.Head.ShotgunLasers.GetHeadIndexForAngle(mainRotation);
         if (spriteIndex != oldSpriteIndex)
         {
             oldSpriteIndex = spriteIndex;
@@ -446,13 +483,13 @@ public class FireLaserMove : AncientAspidMove
             Boss.Head.MainRenderer.sprite = head_Sprites[spriteIndex];
             Boss.Head.MainRenderer.flipX = head_HorizFlip[spriteIndex];
         }
-    }
+    }*/
 
     IEnumerator FinishLaserMove(float retractAmount, float fps)
     {
-        var headIndex = GetHeadIndexForSprite(Boss.Head.MainRenderer.sprite,Boss.Head.MainRenderer.flipX);
+        var headIndex = Boss.Head.ShotgunLasers.GetHeadIndexForSprite(Boss.Head.MainRenderer.sprite,Boss.Head.MainRenderer.flipX);
 
-        var headAngle = head_Degrees[headIndex] - 90f;
+        var headAngle = Boss.Head.ShotgunLasers.GetCurrentHeadAngle() - 90f;
 
         var headVector = MathUtilities.PolarToCartesian(headAngle, retractAmount);
 
@@ -460,7 +497,7 @@ public class FireLaserMove : AncientAspidMove
 
         yield return new WaitForSeconds(1f / fps);
 
-        var idleSprite = Boss.Head.GetIdleSprite(Boss.Head.GetIdleIndexForAngle((headAngle + 90f) * (60f / maxEmitterAngle)));
+        var idleSprite = Boss.Head.GetIdleSprite(Boss.Head.GetIdleIndexForAngle((headAngle + 90f) * (60f / Boss.Head.ShotgunLasers.MaxHeadAngle)));
 
         Boss.Head.MainRenderer.sprite = idleSprite.Sprite;
         Boss.Head.MainRenderer.flipX = idleSprite.XFlipped;
@@ -479,7 +516,7 @@ public class FireLaserMove : AncientAspidMove
     public override float GetPostDelay(int prevHealth) => Boss.InClimbingPhase ? climbingPostDelay : postDelay;
 
 
-    public void SetLaserRotation(float main, float extra)
+    /*public void SetLaserRotation(float main, float extra)
     {
         emitter.transform.SetZLocalRotation(main);
         laserRotationOrigin.SetZLocalRotation(extra);
@@ -491,21 +528,22 @@ public class FireLaserMove : AncientAspidMove
         var extra = MathUtilities.ClampRotation(laserRotationOrigin.GetZLocalRotation());
 
         return (main, extra);
-    }
+    }*/
 
     public Vector3 GetFireLocation()
     {
         return laserRotationOrigin.position;
     }
 
-    public Quaternion GetLaserRotation()
+    /*public Quaternion GetLaserRotation()
     {
         return emitter.transform.rotation * laserRotationOrigin.localRotation;
-    }
+    }*/
 
     public override void OnStun()
     {
-        emitter.StopLaser();
+        Boss.Head.ShotgunLasers.StopContinouslyUpdating();
+        Boss.Head.ShotgunLasers.MiddleEmitter.StopLaser();
         if (CurrentController != null)
         {
             CurrentController.OnStun(this);
@@ -529,46 +567,5 @@ public class FireLaserMove : AncientAspidMove
         }
         CameraShaker.Instance.SetRumble(WeaverCore.Enums.RumbleType.None);
         CurrentController = null;
-    }
-
-    public int GetHeadIndexForSprite(Sprite sprite, bool flipped)
-    {
-        for (int i = head_Degrees.Count - 1; i >= 0; i--)
-        {
-            if (head_Sprites[i] == sprite && head_HorizFlip[i] == flipped)
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    public int GetHeadIndexForAngle(float angle)
-    {
-        for (int i = head_Degrees.Count - 1; i >= 0; i--)
-        {
-            if (i == head_Degrees.Count - 1)
-            {
-                if (angle >= Mathf.Lerp(head_Degrees[i - 1], head_Degrees[i], 0.5f))
-                {
-                    return i;
-                }
-            }
-            else if (i == 0)
-            {
-                if (angle < Mathf.Lerp(head_Degrees[i], head_Degrees[i + 1], 0.5f))
-                {
-                    return i;
-                }
-            }
-            else
-            {
-                if (angle < Mathf.Lerp(head_Degrees[i], head_Degrees[i + 1], 0.5f) && angle >= Mathf.Lerp(head_Degrees[i - 1], head_Degrees[i], 0.5f))
-                {
-                    return i;
-                }
-            }
-        }
-        return -1;
     }
 }

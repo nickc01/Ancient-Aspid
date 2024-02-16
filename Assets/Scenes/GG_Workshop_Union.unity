@@ -224,6 +224,51 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &28439162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 28439164}
+  - component: {fileID: 28439163}
+  m_Layer: 0
+  m_Name: Radiance Mode Unsetter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &28439163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28439162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abbfd2c31e24bc64a8e8557d4507c02d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: 53925bd5d3de07c4c99ae7f55fedf179, type: 2}
+  completionFieldName: AncientAspidBossCompletion
+--- !u!4 &28439164
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28439162}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 435.26895, y: 110.74142, z: -743.07776}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &117677302
 GameObject:
   m_ObjectHideFlags: 0
@@ -3272,7 +3317,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3ee50019d0c16547b74cf1bfcf3a6e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateOnAwake: 1
 --- !u!114 &363370400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6033,7 +6077,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &378553998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15002,6 +15046,7 @@ GameObject:
   - component: {fileID: 876361966}
   - component: {fileID: 876361967}
   - component: {fileID: 876361968}
+  - component: {fileID: 876361969}
   m_Layer: 0
   m_Name: Plaque_Trophy_Centre
   m_TagString: Untagged
@@ -15099,6 +15144,23 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &876361969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876361965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1296accbbbb99246a6ac7837ed99f1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  talkSide: 0
+  talkDistance: 2
+  canTalk: 0
+  facePlayerWhenInRange: 0
+  updateLayer: 0
 --- !u!1 &889380725
 GameObject:
   m_ObjectHideFlags: 0
@@ -15460,7 +15522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameValue: Ancient Aspid
   descValue: Ancient God of the Aspids
-  dreamNameValue: s
+  dreamNameValue: 
   dreamDescValue: 
   lockedText: Find me near a bench in Kingdom's Edge
 --- !u!1 &954001014
@@ -32367,7 +32429,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1612859352}
-  - component: {fileID: 1612859351}
   - component: {fileID: 1612859350}
   - component: {fileID: 1612859353}
   - component: {fileID: 1612859354}
@@ -32377,7 +32438,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1612859350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32390,32 +32451,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b252a7af65c96045b2e6bbfdf79ffff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soulAmount: 33
+  cooldownDuration: 0.2
+  recoilWhenHit: 0
+  flashWhenHit: 1
   destinationScene: Ancient Aspid Room
   returnScene: GG_Workshop
-  transitionGateName: Ancient Aspid Entry
+  transitionGateName: Ancient Aspid Entry Trailer
   warpDelay: 1.75
   canUseCharms: 1
---- !u!114 &1612859351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1612859349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8b7b838ff7f34e4aa961a98cbf91b96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  convoAmount: 8
-  convoTitle: GENERIC
-  startSuppressed: 0
-  noSoul: 0
-  dreamImpactPrefab: {fileID: 0}
-  allowUseChildColliders: 0
-  DreamnailEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &1612859352
 Transform:
   m_ObjectHideFlags: 0
@@ -32590,6 +32634,49 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1623776599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1623776601}
+  - component: {fileID: 1623776600}
+  m_Layer: 0
+  m_Name: Plaque Display Message
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1623776600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623776599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de2059f791e9f140b221a9f55372f77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1623776601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623776599}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 435.26895, y: 110.74142, z: -743.07776}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1662110602
 GameObject:
   m_ObjectHideFlags: 0

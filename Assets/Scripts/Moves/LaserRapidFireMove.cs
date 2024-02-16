@@ -288,7 +288,7 @@ public class LaserRapidFireMove : AncientAspidMove
             angleLimits = new Vector2(-angleLimits.x,-angleLimits.y);
         }
 
-        originalOriginDistance = laserMove.Emitter.Laser.transform.GetYLocalPosition();
+        originalOriginDistance = Boss.Head.ShotgunLasers.MiddleEmitter.Laser.transform.GetYLocalPosition();
         uint chargeUpInRoutine = Boss.StartBoundRoutine(ChargeUpLaser());
 
         for (float t = 0; t < chargeUpTime; t += Time.deltaTime)
@@ -498,9 +498,9 @@ public class LaserRapidFireMove : AncientAspidMove
         }
         else
         {
-            laserMove.Emitter.Laser.transform.SetYLocalPosition(originalOriginDistance);
+            Boss.Head.ShotgunLasers.MiddleEmitter.Laser.transform.SetYLocalPosition(originalOriginDistance);
             chargeUpEffects.Stop();
-            laserMove.Emitter.StopLaser();
+            Boss.Head.ShotgunLasers.MiddleEmitter.StopLaser();
             Boss.Head.Animator.PlaybackSpeed = 1f;
         }
     }

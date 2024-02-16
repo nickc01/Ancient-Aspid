@@ -14,7 +14,7 @@ public class AspidAspectCharm : WeaverCharm
     static bool fullyLoaded = false;
 
     [SerializeField]
-    SpitterPet petPrefab;
+    SpitterPetNew petPrefab;
 
     public static event Action<AspidAspectCharm, bool> EquippedEvent;
 
@@ -111,7 +111,7 @@ public class AspidAspectCharm : WeaverCharm
 
     }
 
-    static SpitterPet petInstance;
+    static SpitterPetNew petInstance;
 
     static void OnCharmEquipped(AspidAspectCharm charm, bool equipped)
     {
@@ -121,7 +121,11 @@ public class AspidAspectCharm : WeaverCharm
         }
         else if (!equipped && petInstance != null)
         {
-            GameObject.Destroy(petInstance.gameObject);
+            var petInst = petInstance;
+            petInstance.FadeOut(() =>
+            {
+                GameObject.Destroy(petInst.gameObject);
+            });
             petInstance = null;
         }
 
@@ -129,7 +133,10 @@ public class AspidAspectCharm : WeaverCharm
         {
             foreach (var aspid in GameObject.FindObjectsOfType<MiniAspidPet>())
             {
-                GameObject.Destroy(aspid.gameObject);
+                aspid.GetComponent<SpitterPetNew>().FadeOut(() =>
+                {
+                    GameObject.Destroy(aspid.gameObject);
+                });
             }
         }
 

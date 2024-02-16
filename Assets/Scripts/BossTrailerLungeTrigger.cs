@@ -9,13 +9,17 @@ public class BossTrailerLungeTrigger : MonoBehaviour
     [SerializeField]
     float trailerModeDestY = 0f;
 
+    [SerializeField]
     AncientAspid boss;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<HeroController>() != null)
         {
-            boss = GameObject.FindObjectOfType<AncientAspid>();
+            if (boss == null)
+            {
+                boss = GameObject.FindObjectOfType<AncientAspid>();
+            }
             StartCoroutine(TriggerTrailerLandingRoutine());
         }
     }
@@ -60,24 +64,26 @@ public class BossTrailerLungeTrigger : MonoBehaviour
         boss.WingPlates.DoLunge();
         boss.Head.DoLunge();
 
-        if (boss.GroundMode.lungeSound != null)
+        var groundMode = boss.GetComponent<GroundMode>();
+
+        if (groundMode.lungeSound != null)
         {
-            WeaverAudio.PlayAtPoint(boss.GroundMode.lungeSound, transform.position);
+            WeaverAudio.PlayAtPoint(groundMode.lungeSound, boss.transform.position);
         }
 
-        Vector3 destination = transform.position.With(y: transform.position.y - 100f);
+        Vector3 destination = boss.transform.position.With(y: boss.transform.position.y - 100f);
 
-        var angleToDestination = VectorUtilities.VectorToDegrees((destination - transform.position).normalized);
+        var angleToDestination = VectorUtilities.VectorToDegrees((destination - boss.transform.position).normalized);
 
-        var downwardAngle = Vector3.Dot(Vector3.right, (destination - transform.position).normalized) * 90f;
+        var downwardAngle = Vector3.Dot(Vector3.right, (destination - boss.transform.position).normalized) * 90f;
 
-        boss.GroundMode.lungeDashEffect.SetActive(true);
-        boss.GroundMode.lungeDashRotationOrigin.SetZLocalRotation(angleToDestination);
+        groundMode.lungeDashEffect.SetActive(true);
+        groundMode.lungeDashRotationOrigin.SetZLocalRotation(angleToDestination);
 
 
         bool steepAngle = true;
 
-        boss.Rbody.velocity = (destination - transform.position).normalized * boss.GroundMode.lungeSpeed;
+        boss.Rbody.velocity = (destination - boss.transform.position).normalized * groundMode.lungeSpeed;
 
         yield return null;
 
@@ -85,7 +91,9 @@ public class BossTrailerLungeTrigger : MonoBehaviour
         var xVelocity = boss.Rbody.velocity.x;
         var halfVelocity = Mathf.Abs(boss.Rbody.velocity.y) / 2f;
 
-        yield return new WaitUntil(() => transform.position.y <= trailerModeDestY);
+
+
+        yield return new WaitUntil(() => boss.transform.position.y <= trailerModeDestY);
 
         transform.SetPositionY(trailerModeDestY);
 
@@ -107,11 +115,11 @@ public class BossTrailerLungeTrigger : MonoBehaviour
         uint switchDirectionRoutine = 0;
         AspidOrientation oldOrientation = boss.Orientation;
 
-        boss.GroundMode.lungeRockParticles.Play();
+        groundMode.lungeRockParticles.Play();
 
-        if (boss.GroundMode.lungeLandSoundHeavy != null)
+        if (groundMode.lungeLandSoundHeavy != null)
         {
-            WeaverAudio.PlayAtPoint(boss.GroundMode.lungeLandSoundHeavy, transform.position);
+            WeaverAudio.PlayAtPoint(groundMode.lungeLandSoundHeavy, boss.transform.position);
         }
         CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.EnemyKillShake);
 

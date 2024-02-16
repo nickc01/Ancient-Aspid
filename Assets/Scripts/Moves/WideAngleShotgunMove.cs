@@ -45,6 +45,8 @@ public class WideAngleShotgunMove : AncientAspidMove
         Boss.CurrentRunningMode == Boss.OffensiveMode &&
         Vector3.Distance(Player.Player1.transform.position, transform.position) <= 30f && Player.Player1.transform.position.y <= Boss.transform.position.y - 1.5f;
             return enabled;
+
+            //return Boss.CurrentRunningMode == Boss.OffensiveMode;
         }
     }
 
@@ -131,6 +133,8 @@ public class WideAngleShotgunMove : AncientAspidMove
         {
             Boss.Head.UnlockHead();
         }
+
+        WeaverLog.Log("MOVE DONE");
     }
 
     public override void OnStun()

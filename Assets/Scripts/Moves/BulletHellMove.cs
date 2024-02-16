@@ -121,17 +121,19 @@ public class BulletHellMove : AncientAspidMove
                     audio.AudioSource.pitch = audioPitch + spitSoundPitchVariation.RandomInRange();
                 }
 
-                var targetRotation = Quaternion.Slerp(from, to, t / rowTime);
-                var angle = laserMove.CalculateLaserRotation(targetRotation);
-                laserMove.SetLaserRotation(0f, angle.extra);
-                var spriteIndex = laserMove.GetHeadIndexForAngle(0f);
+                //var targetRotation = Quaternion.Slerp(from, to, t / rowTime);
+                //var angle = laserMove.CalculateLaserRotation(targetRotation);
+                //laserMove.SetLaserRotation(0f, angle.extra);
+                //Boss.Head.ShotgunLasers.SetHeadSpriteToRotation(Quaternion.Euler(0f,0f,-90f));
+                Boss.Head.ShotgunLasers.SetHeadSpriteToRotation(Quaternion.Euler(0f, 0f, -90f));
+                /*var spriteIndex = laserMove.GetHeadIndexForAngle(0f);
                 if (spriteIndex != oldIndex)
                 {
                     oldIndex = spriteIndex;
 
                     Boss.Head.MainRenderer.sprite = laserMove.head_Sprites[spriteIndex];
                     Boss.Head.MainRenderer.flipX = laserMove.head_HorizFlip[spriteIndex];
-                }
+                }*/
 
                 if (fireTimer >= fireRate)
                 {
@@ -205,9 +207,11 @@ public class BulletHellMove : AncientAspidMove
             yield return onSweepDone;
         }
 
+        yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser End Super Quick");
+
         if (Boss.Head.HeadLocked)
         {
-            Boss.Head.UnlockHead(laserMove.GetLaserRotationValues().main);
+            Boss.Head.UnlockHead(Boss.Head.ShotgunLasers.GetCurrentHeadAngle());
         }
         onSweepDone = null;
         onStun = null;
@@ -222,7 +226,7 @@ public class BulletHellMove : AncientAspidMove
         var destAngle = laserPlayerAngle < 0f ? -120f : 120f;
         Quaternion angle1 = Quaternion.Euler(0f, 0f, destAngle - 90f);
 
-        Boss.Head.UnlockHead(laserMove.GetLaserRotationValues().main);
+        Boss.Head.UnlockHead(Boss.Head.ShotgunLasers.GetCurrentHeadAngle());
 
         onStun = laserMove.OnStun;
         yield return laserMove.SweepLaser(new BasicSweepController(

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b43d008f2a79c3c4bb6513965ac1d3da, type: 3}
   m_Name: Ancient Aspid Save Specific Settings
   m_EditorClassIdentifier: 
+  <Enabled>k__BackingField: 1
   BottomAreaRevealed: 0
   charmAcquired: 0
   charmEquipped: 0
@@ -26,3 +27,6 @@ MonoBehaviour:
     completedTier3: 0
     seenTier3Unlock: 0
     usingAltVersion: 0
+  aspidKillCount: 0
+  aspidDiscovered: 0
+  aspidIsNewEntry: 0

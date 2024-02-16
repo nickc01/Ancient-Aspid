@@ -93,10 +93,21 @@ public class WingsController : AspidBodyPart
 
     protected override void Awake()
     {
+        if (!enabled)
+        {
+            return;
+        }
         baseYPos = transform.GetYLocalPosition();
         base.Awake();
         Animator.PlayAnimation("Default");
     }
+
+#if UNITY_EDITOR
+    private void LateUpdate()
+    {
+        
+    }
+#endif
 
     public void PrepareForLunge()
     {

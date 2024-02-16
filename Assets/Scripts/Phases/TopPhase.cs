@@ -28,6 +28,7 @@ public class TopPhase : Phase
 
     protected override IEnumerator OnPhaseStart(AncientAspid boss, Phase prevPhase)
     {
+        boss.GetComponent<LaserRapidFireMove>().EnableMove(true);
         this.boss = boss;
 
         var flightRange = boss.FlightRange;

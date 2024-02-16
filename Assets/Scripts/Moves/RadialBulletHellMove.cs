@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using WeaverCore;
+using WeaverCore.Assets.Components;
 using WeaverCore.Components;
 using WeaverCore.Enums;
 using WeaverCore.Utilities;
@@ -115,10 +116,11 @@ public class RadialBulletHellMove : AncientAspidMove
         yield return Boss.Head.LockHead(Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left);
         yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser Antic");
 
-        var spriteIndex = laserMove.GetHeadIndexForAngle(0f);
+        //var spriteIndex = Boss.Head.ShotgunLasers.GetHeadIndexForAngle(0f);
 
-        Boss.Head.MainRenderer.sprite = laserMove.head_Sprites[spriteIndex];
-        Boss.Head.MainRenderer.flipX = laserMove.head_HorizFlip[spriteIndex];
+        //Boss.Head.MainRenderer.sprite = laserMove.head_Sprites[spriteIndex];
+        //Boss.Head.MainRenderer.flipX = laserMove.head_HorizFlip[spriteIndex];
+        Boss.Head.ShotgunLasers.SetHeadSpriteToRotation(Quaternion.Euler(0f, 0f, -90f));
 
         emitter = RoarEmitter.Spawn(Boss.Head.transform.position);
 
@@ -204,7 +206,7 @@ public class RadialBulletHellMove : AncientAspidMove
             var destAngle = laserPlayerAngle < 0f ? -120f : 120f;
             Quaternion destination = Quaternion.Euler(0f, 0f, destAngle - 90f);
 
-            Boss.Head.UnlockHead(laserMove.GetLaserRotationValues().main);
+            Boss.Head.UnlockHead(Boss.Head.ShotgunLasers.GetCurrentHeadAngle());
             firingLaser = true;
             yield return laserMove.SweepLaser(new BasicSweepController(
                 start,

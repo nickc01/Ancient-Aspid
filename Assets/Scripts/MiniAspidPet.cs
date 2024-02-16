@@ -6,7 +6,7 @@ using WeaverCore;
 using WeaverCore.Components;
 using WeaverCore.Attributes;
 
-public class MiniAspidPet : SpitterPet
+public class MiniAspidPet : MonoBehaviour
 {
     public static bool MiniAspidPetEnabled { get; private set; } = false;
 
@@ -138,6 +138,27 @@ public class MiniAspidPet : SpitterPet
                     }
                 }
             }
+        }
+    }
+
+    private void Awake()
+    {
+        StartCoroutine(CharmCheckRoutine());
+    }
+
+    IEnumerator CharmCheckRoutine()
+    {
+        while (true)
+        {
+            if (PlayerData.instance != null && !PlayerData.instance.GetBool("equippedCharm_22"))
+            {
+                GetComponent<SpitterPetNew>().FadeOut(() =>
+                {
+                    GameObject.Destroy(gameObject);
+                });
+                yield break;
+            }
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }

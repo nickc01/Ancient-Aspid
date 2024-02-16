@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7046876291921767523
 Transform:
   m_ObjectHideFlags: 0
@@ -46,7 +46,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7046876291921766818
 Transform:
   m_ObjectHideFlags: 0
@@ -161,8 +161,9 @@ GameObject:
   - component: {fileID: 7046876291921768126}
   - component: {fileID: 7046876291921772500}
   - component: {fileID: 7046876291921772501}
-  - component: {fileID: 7046876291921772502}
   - component: {fileID: 7046876291921772503}
+  - component: {fileID: 5362450072157559580}
+  - component: {fileID: 5323138427954221391}
   m_Layer: 14
   m_Name: Super Spitter Pet
   m_TagString: Untagged
@@ -350,7 +351,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: bf3ad14f53b2a0b4ab6de33141a01490, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -398,43 +399,6 @@ MonoBehaviour:
   autoPlay: 1
   OnClipFinish: 0
   autoPlayClip: Aspid Idle
---- !u!114 &7046876291921772502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7046876291921772498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c71cd1686bdd424f91d3d953431dd05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aspidShotDamage: 4
-  minTargetDistanceRange: {x: 1.5, y: 3}
-  maxTargetDistanceRange: {x: 3, y: 4.5}
-  jitterAmountRange: {x: 0.25, y: 1}
-  jitterFrequency: 1
-  collisionRadius: 11.72
-  inRangeObjects: {fileID: 7046876291921772078}
-  acceleration: 30
-  maxVelocity: 65
-  shootFrequencyRange: {x: 2, y: 4}
-  shootTriple: 1
-  shootSound: {fileID: 8300000, guid: e0ae4cb383a5ef74db04ad069da3b841, type: 3}
-  aspidShotVelocity: 15
-  shotAngleSeperation: 35
-  aspidShotPrefab: {fileID: 3513862580655549488, guid: 98fc49680cefb014d839d50cfe964a6f, type: 3}
-  attackAnticAnimation: Aspid Attack Antic
-  attackAnimation: Aspid Attack
-  idleLoopAnimation: Aspid Idle
-  turnAnimation: Aspid Turn
-  sleepTimerRange: {x: 4, y: 6.5}
-  targetOffsetRange: {x: 0.5, y: 2}
-  sleepFallVelocity: -10
-  sleepAnticAnimation: Aspid Sleep Antic
-  sleepAnimation: Aspid Sleep
-  dontDestroyOnLoad: 1
 --- !u!114 &7046876291921772503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,6 +414,62 @@ MonoBehaviour:
   channel: 2
   poolComponent: {fileID: 0}
   audioSource: {fileID: 0}
+--- !u!114 &5362450072157559580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7046876291921772498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3519514fef2ad434c927403e01939836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alertRange: 12.5
+  maxVelocity: 12
+  acceleration: 8
+  maxTeleportDistance: 35
+  maxSleepDistance: 2.5
+  sleepTimeRange: {x: 9, y: 11}
+  attackTimeRange: {x: 1.5, y: 2}
+  playerTargetRange: 5
+  sleepFallVelocity: -10
+  jitterIntensity: {x: 1, y: 1}
+  fadeInParticles: []
+  jitterRandomizeTime: 0.5
+  shootSound: {fileID: 8300000, guid: e0ae4cb383a5ef74db04ad069da3b841, type: 3}
+  aspidShotVelocity: 15
+  shotAngleSeperation: 35
+  aspidShotPrefab: {fileID: 3513862580655549488, guid: 98fc49680cefb014d839d50cfe964a6f, type: 3}
+  aspidShotDamage: 4
+  shootTriple: 1
+  extraOffsetXRange: {x: -1, y: 1}
+  extraOffsetYRange: {x: -1, y: 1}
+  collisionCounter: {fileID: 7046876291921772078}
+  attackAnticAnim: Aspid Attack Antic
+  attackAnim: Aspid Attack
+  idleAnim: Aspid Idle
+  turnAnim: Aspid Turn
+  sleepAnticAnim: Aspid Sleep Antic
+  sleepAnim: Aspid Sleep
+  sleepTimer: 0
+  attackTimer: 0
+--- !u!114 &5323138427954221391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7046876291921772498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0aa017e1a562394bae8a1d35dc616b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  flashIntensity: 0
+  CustomFlasherMaterial: {fileID: 0}
 --- !u!1 &7046876291921772499
 GameObject:
   m_ObjectHideFlags: 0

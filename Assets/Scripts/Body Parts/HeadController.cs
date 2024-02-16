@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Serialization;
 using WeaverCore;
@@ -90,8 +91,30 @@ public class HeadController : AspidBodyPart
     private uint lockRoutine = 0;
     private bool doUpdate = false;
 
+    bool changingDirection = false;
+
+    [NonSerialized]
+    ShotgunLaserManager _shotgunLasers;
+
+    public ShotgunLaserManager ShotgunLasers
+    {
+        get
+        {
+            if (_shotgunLasers == null)
+            {
+                _shotgunLasers = GetComponentInChildren<ShotgunLaserManager>();
+            }
+
+            return _shotgunLasers;
+        }
+    }
+
     protected override void Awake()
     {
+        if (!enabled)
+        {
+            return;
+        }
         base.Awake();
          transform.SetLocalPosition(x: 0f, y: 0f);
         MainRenderer.sprite = idle_Sprites[0];
@@ -144,6 +167,9 @@ public class HeadController : AspidBodyPart
         {
             throw new Exception("The head wasn't unlocked when the last move ended");
         }
+
+        changingDirection = true;
+
         if (lookAtPlayer)
         {
             if (CurrentOrientation == AspidOrientation.Center)
@@ -158,9 +184,35 @@ public class HeadController : AspidBodyPart
             }
         }
 
+        //var oldUnlockRoutine = unlockRoutine;
+
+        /*if (unlockRoutine != 0)
+        {
+            turningTowardsPlayer = true;
+            doUpdate = true;
+            Boss.StopBoundRoutine(unlockRoutine);
+            unlockRoutine = 0;
+        }*/
+
         LookingDirection = OrientationToAngle(CurrentOrientation);
 
         yield return base.ChangeDirectionRoutine(speedMultiplier);
+
+        if (PreviousOrientation != AspidOrientation.Center && CurrentOrientation != AspidOrientation.Center)
+        {
+            if (LookingDirection == idle_Degrees[0])
+            {
+                MainRenderer.sprite = idle_Sprites[0];
+                MainRenderer.flipX = idle_Flip[0];
+            }
+            else if (LookingDirection == idle_Degrees[idle_Degrees.Count - 1])
+            {
+                MainRenderer.sprite = idle_Sprites[idle_Degrees.Count - 1];
+                MainRenderer.flipX = idle_Flip[idle_Degrees.Count - 1];
+            }
+        }
+
+        changingDirection = false;
     }
 
     private IEnumerator StartFollowingPlayer(float speedMultiplier)
@@ -402,16 +454,24 @@ public class HeadController : AspidBodyPart
         {
             float angle = Mathf.Lerp(oldHeadDirection, trueNewDirection, i / (float)increments);
             int index = GetIdleIndexForAngle(angle);
-            MainRenderer.sprite = idle_Sprites[index];
-            MainRenderer.flipX = idle_Flip[index];
+            if (!changingDirection)
+            {
+                MainRenderer.sprite = idle_Sprites[index];
+                //WeaverLog.Log("Setting Sprite to = " + idle_Sprites[index]);
+                MainRenderer.flipX = idle_Flip[index];
+            }
             if (i != increments)
             {
                 yield return new WaitForSeconds(1f / DEFAULT_FPS);
             }
         }
 
-        MainRenderer.sprite = idle_Sprites[0];
-        MainRenderer.flipX = orientation == AspidOrientation.Right;
+        if (!changingDirection)
+        {
+            MainRenderer.sprite = idle_Sprites[0];
+            //WeaverLog.Log("Setting Sprite to = " + idle_Sprites[0]);
+            MainRenderer.flipX = orientation == AspidOrientation.Right;
+        }
 
         unlockRoutine = 0;
         doUpdate = true;
@@ -585,6 +645,7 @@ public class HeadController : AspidBodyPart
 
     public override void OnStun()
     {
+        changingDirection = false;
         ToggleLaserBubbles(false);
         transform.localEulerAngles = default;
          transform.SetLocalPosition(x: 0f, y: 0f);

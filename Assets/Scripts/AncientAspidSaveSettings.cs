@@ -13,4 +13,8 @@ public class AncientAspidSaveSettings : SaveSpecificSettings
     public bool aspidBossDefeated = false;
 
     public Completion AncientAspidBossCompletion = Completion.None;
+
+    public int aspidKillCount;
+    public bool aspidDiscovered;
+    public bool aspidIsNewEntry;
 }

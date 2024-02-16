@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using WeaverCore.Components;
@@ -15,15 +16,20 @@ public abstract class AspidBodyPart : MonoBehaviour
     public float StartingLocalX { get; private set; }
 
     private float startingColliderOffsetX;
+
+    [NonSerialized]
     private AncientAspid _boss;
     public AncientAspid Boss => _boss ??= GetComponentInParent<AncientAspid>();
 
+    [NonSerialized]
     private Collider2D _mainCollider;
     public Collider2D MainCollider => _mainCollider ??= GetComponent<Collider2D>();
 
+    [NonSerialized]
     private WeaverAnimationPlayer _animator;
     public WeaverAnimationPlayer Animator => _animator ??= GetComponent<WeaverAnimationPlayer>();
 
+    [NonSerialized]
     private SpriteRenderer _mainRenderer;
     public SpriteRenderer MainRenderer => _mainRenderer ??= GetComponent<SpriteRenderer>();
 

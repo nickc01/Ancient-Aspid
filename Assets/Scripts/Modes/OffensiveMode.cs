@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WeaverCore;
+using WeaverCore.Assets.Components;
 using WeaverCore.Components;
 using WeaverCore.Enums;
 using WeaverCore.Implementations;
@@ -165,6 +166,8 @@ public class OffensiveMode : AncientAspidMode
                 {
                     continue;
                 }
+
+                //move = GetComponent<WideAngleShotgunMove>();
 
                 var oldHealth = Boss.HealthManager.Health;
 

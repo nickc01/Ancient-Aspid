@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WeaverCore.Interfaces;
@@ -7,6 +8,7 @@ public abstract class AncientAspidMove : MonoBehaviour, IBossMove
 {
     public Dictionary<string, object> Arguments { get; set; } = new Dictionary<string, object>();
 
+    [NonSerialized]
     private AncientAspid _boss;
     public AncientAspid Boss => _boss ??= GetComponent<AncientAspid>();
 

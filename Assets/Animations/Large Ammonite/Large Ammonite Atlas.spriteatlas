@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Large Ammonite Atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 8192
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 100
+      m_CrunchedCompression: 1
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 30d429381aa191649af1d9f1da9a3430, type: 3}
+    - {fileID: 2800000, guid: bba23aeee3e6bc541be23df58ff1626a, type: 3}
+    - {fileID: 2800000, guid: da47d2cfa9b59264986f3294c26c10a2, type: 3}
+    - {fileID: 2800000, guid: 1a6152b23c6735946a22b45c2b515c1b, type: 3}
+    - {fileID: 2800000, guid: 98886fc04bc969e458f3234fd06dcb68, type: 3}
+    - {fileID: 2800000, guid: 0311fb2b680c09940a2149731ea0813c, type: 3}
+    - {fileID: 2800000, guid: bced215952101ec4082bc8671f8bd054, type: 3}
+    - {fileID: 2800000, guid: 9dc8769d471a6cb47ab05314fc88e658, type: 3}
+    - {fileID: 2800000, guid: 7b21bd85e6c9fbd488813b1ab68765ab, type: 3}
+    - {fileID: 2800000, guid: 54bbd7e79d382324e9994366328f072c, type: 3}
+    - {fileID: 2800000, guid: bcc18a73759e4dd478d1bac4c569170e, type: 3}
+    - {fileID: 2800000, guid: 5647c55ecf50fa64aaae2387b020ba4c, type: 3}
+    - {fileID: 2800000, guid: bcbe6123f456e0843a5e823817560860, type: 3}
+    - {fileID: 2800000, guid: 0dbdb388ef6f91a47afb8629313f15ce, type: 3}
+    - {fileID: 2800000, guid: cdde06de14402e0459e695a99ae2c8f4, type: 3}
+    - {fileID: 2800000, guid: 89c1da0af4cd0cd44ad99af04b706b94, type: 3}
+    - {fileID: 2800000, guid: 74b4cb0074c2b2945bf2c9c9f623c74b, type: 3}
+    - {fileID: 2800000, guid: 56a435544e8b8da4f9c07217277b5021, type: 3}
+    - {fileID: 2800000, guid: 14252797d0ae211448f7493ce7ced108, type: 3}
+    - {fileID: 2800000, guid: 032361bc510436f4999246440c559e68, type: 3}
+    - {fileID: 2800000, guid: 7c558b25b2496f54f8623879210f3149, type: 3}
+    - {fileID: 2800000, guid: bc5411b6c9dba774cb7fce506cf6419b, type: 3}
+    - {fileID: 2800000, guid: b7e4381cf7cc03846861a67632fcfdbf, type: 3}
+    totalSpriteSurfaceArea: 6259128
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 74b4cb0074c2b2945bf2c9c9f623c74b, type: 3}
+  - {fileID: 21300000, guid: 98886fc04bc969e458f3234fd06dcb68, type: 3}
+  - {fileID: 21300000, guid: 1a6152b23c6735946a22b45c2b515c1b, type: 3}
+  - {fileID: 21300000, guid: bcbe6123f456e0843a5e823817560860, type: 3}
+  - {fileID: 21300000, guid: bcc18a73759e4dd478d1bac4c569170e, type: 3}
+  - {fileID: 21300000, guid: 56a435544e8b8da4f9c07217277b5021, type: 3}
+  - {fileID: 21300000, guid: 7c558b25b2496f54f8623879210f3149, type: 3}
+  - {fileID: 21300000, guid: 7b21bd85e6c9fbd488813b1ab68765ab, type: 3}
+  - {fileID: 21300000, guid: bc5411b6c9dba774cb7fce506cf6419b, type: 3}
+  - {fileID: 21300000, guid: 14252797d0ae211448f7493ce7ced108, type: 3}
+  - {fileID: 21300000, guid: 54bbd7e79d382324e9994366328f072c, type: 3}
+  - {fileID: 21300000, guid: 30d429381aa191649af1d9f1da9a3430, type: 3}
+  - {fileID: 21300000, guid: 0dbdb388ef6f91a47afb8629313f15ce, type: 3}
+  - {fileID: 21300000, guid: bced215952101ec4082bc8671f8bd054, type: 3}
+  - {fileID: 21300000, guid: 89c1da0af4cd0cd44ad99af04b706b94, type: 3}
+  - {fileID: 21300000, guid: 0311fb2b680c09940a2149731ea0813c, type: 3}
+  - {fileID: 21300000, guid: b7e4381cf7cc03846861a67632fcfdbf, type: 3}
+  - {fileID: 21300000, guid: 032361bc510436f4999246440c559e68, type: 3}
+  - {fileID: 21300000, guid: 9dc8769d471a6cb47ab05314fc88e658, type: 3}
+  - {fileID: 21300000, guid: 5647c55ecf50fa64aaae2387b020ba4c, type: 3}
+  - {fileID: 21300000, guid: cdde06de14402e0459e695a99ae2c8f4, type: 3}
+  - {fileID: 21300000, guid: bba23aeee3e6bc541be23df58ff1626a, type: 3}
+  - {fileID: 21300000, guid: da47d2cfa9b59264986f3294c26c10a2, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - AA_BG_AMO_LARGE_0016
+  - AA_BG_AMO_LARGE_0004
+  - AA_BG_AMO_LARGE_0003
+  - AA_BG_AMO_LARGE_0012
+  - AA_BG_AMO_LARGE_0010
+  - AA_BG_AMO_LARGE_0017
+  - AA_BG_AMO_LARGE_0020
+  - AA_BG_AMO_LARGE_0008
+  - AA_BG_AMO_LARGE_0021
+  - AA_BG_AMO_LARGE_0018
+  - AA_BG_AMO_LARGE_0009
+  - AA_BG_AMO_LARGE_0000
+  - AA_BG_AMO_LARGE_0013
+  - AA_BG_AMO_LARGE_0006
+  - AA_BG_AMO_LARGE_0015
+  - AA_BG_AMO_LARGE_0005
+  - AA_BG_AMO_LARGE_0022
+  - AA_BG_AMO_LARGE_0019
+  - AA_BG_AMO_LARGE_0007
+  - AA_BG_AMO_LARGE_0011
+  - AA_BG_AMO_LARGE_0014
+  - AA_BG_AMO_LARGE_0001
+  - AA_BG_AMO_LARGE_0002
+  m_RenderDataMap: {}
+  m_Tag: Large Ammonite Atlas
+  m_IsVariant: 0

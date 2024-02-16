@@ -8,7 +8,7 @@ using WeaverCore.Utilities;
 
 public class LaserShotgunMove : AncientAspidMove
 {
-    public List<LaserEmitter> lasers;
+    //public List<LaserEmitter> lasers;
 
     public List<float> laserTransparencies;
 
@@ -129,13 +129,15 @@ public class LaserShotgunMove : AncientAspidMove
     AudioPlayer PlayFireSound()
     {
         StartCoroutine(PlaySoundsStaggered(fireSound));
-        return WeaverAudio.PlayAtPointLooped(fireLoop, rapidFireMove.GetMiddleBeamContact(lasers[2]));
+        return WeaverAudio.PlayAtPointLooped(fireLoop, rapidFireMove.GetMiddleBeamContact(Boss.Head.ShotgunLasers.LaserEmitters[2]));
     }
 
     Vector2 prevLaserOffset;
 
     public IEnumerator DoShotgunLaser(ShotgunController controller, float prepareTime, float attackTime, bool immediateEnding = false, Sprite fireSprite = null, Vector2 lasersOffset = default)
     {
+        var lasers = Boss.Head.ShotgunLasers.LaserEmitters;
+
         CancelLaserAttack = false;
         lasers[0].transform.parent.localScale = Vector3.one;
 
@@ -185,7 +187,7 @@ public class LaserShotgunMove : AncientAspidMove
         }
         ApplyTransparencies();
 
-        SetAttackMode(false, Boss.Head.LookingDirection >= 0, controller.DoScaleFlip());
+        //SetAttackMode(false, Boss.Head.LookingDirection >= 0, controller.DoScaleFlip());
 
         if (prepareTime > 0f)
         {
@@ -193,6 +195,22 @@ public class LaserShotgunMove : AncientAspidMove
         }
 
         controller.ChangeMode(ShotgunController.LaserMode.Preparing);
+
+        //List<Quaternion> laserAngles = new List<Quaternion>();
+        Quaternion[] laserAngles = new Quaternion[5];
+
+        Boss.Head.ShotgunLasers.ContinouslyUpdateLasers(laserAngles);
+
+        void UpdateLaserRotations(ShotgunController controller)
+        {
+            for (int i = 0; i < lasers.Count; i++)
+            {
+                if (controller.LaserEnabled(i))
+                {
+                    laserAngles[i] = controller.GetLaserRotation(i);
+                }
+            }
+        }
 
         if (prepareTime > 0f)
         {
@@ -222,7 +240,7 @@ public class LaserShotgunMove : AncientAspidMove
         {
             var totalDelay = attackDelay + Boss.Head.Animator.AnimationData.GetClipDuration("Fire Laser Antic Quick") - lasers[0].MinChargeUpDuration;
 
-            FireLasers(totalDelay, controller, attackTime);
+            FireLasers(totalDelay, controller, attackTime, laserAngles);
 
             controller.ChangeMode(ShotgunController.LaserMode.PostPrepare);
 
@@ -284,6 +302,8 @@ public class LaserShotgunMove : AncientAspidMove
         {
             CurrentController = null;
         }
+
+        Boss.Head.ShotgunLasers.StopContinouslyUpdating();
     }
 
     public IEnumerator DoShotgunLaser()
@@ -310,7 +330,7 @@ public class LaserShotgunMove : AncientAspidMove
             Boss.Head.UnlockHead();
         }
         Boss.Head.Animator.StopCurrentAnimation();
-        SetAttackMode(false, Boss.Head.LookingDirection >= 0, false);
+        //SetAttackMode(false, Boss.Head.LookingDirection >= 0, false);
         if (target != null)
         {
             Boss.RemoveTargetOverride(target);
@@ -333,11 +353,11 @@ public class LaserShotgunMove : AncientAspidMove
 
         shotgunMouthParticles.Stop();
 
-        lasers[0].transform.parent.localScale = Vector3.one;
+        //lasers[0].transform.parent.localScale = Vector3.one;
         shotgunLaserOrigin.transform.localPosition = prevLaserOffset;
     }
 
-    void UpdateLaserRotations(ShotgunController controller)
+    /*void UpdateLaserRotations(ShotgunController controller)
     {
         var ninety = Quaternion.Euler(0, 0, 90f);
         for (int i = 0; i < lasers.Count; i++)
@@ -368,7 +388,7 @@ public class LaserShotgunMove : AncientAspidMove
     public Vector3 GetFarAwayLaserTarget(int laserIndex)
     {
         return GetOrigin(lasers[laserIndex]).position + (Vector3)MathUtilities.PolarToCartesian(GetLaserAngle(laserIndex).eulerAngles.z, 1000f);
-    }
+    }*/
 
     
 
@@ -381,21 +401,34 @@ public class LaserShotgunMove : AncientAspidMove
             if (timer >= spawnRate)
             {
                 timer -= spawnRate;
-                rapidFireMove.PlayBloodEffects(laserBloodAmounts[laserIndex], lasers[laserIndex]);
+                rapidFireMove.PlayBloodEffects(laserBloodAmounts[laserIndex], Boss.Head.ShotgunLasers.LaserEmitters[laserIndex]);
             }
             yield return null;
         }
     }
 
-    void FireLasers(float delay, ShotgunController controller, float attackTime)
+    void FireLasers(float delay, ShotgunController controller, float attackTime, Quaternion[] laserAngles)
     {
+        var lasers = Boss.Head.ShotgunLasers.LaserEmitters;
+
+        void UpdateLaserRotations(ShotgunController controller)
+        {
+            for (int i = 0; i < lasers.Count; i++)
+            {
+                if (controller.LaserEnabled(i))
+                {
+                    laserAngles[i] = controller.GetLaserRotation(i);
+                }
+            }
+        }
+
         IEnumerator FireRoutine()
         {
             yield return new WaitForSeconds(delay);
 
             float duration = 0;
 
-            SetAttackMode(true, Boss.Head.LookingDirection >= 0, controller.DoScaleFlip());
+            //SetAttackMode(true, Boss.Head.LookingDirection >= 0, controller.DoScaleFlip());
 
             for (int i = 0; i < lasers.Count; i++)
             {
@@ -469,7 +502,7 @@ public class LaserShotgunMove : AncientAspidMove
         {
             fireLaserRoutine = null;
             StopCoroutine(fireLaserRoutine);
-            foreach (var laser in lasers)
+            foreach (var laser in Boss.Head.ShotgunLasers.LaserEmitters)
             {
                 laser.StopLaser();
             }
@@ -477,13 +510,14 @@ public class LaserShotgunMove : AncientAspidMove
     }
 
 
-    Transform GetOrigin(LaserEmitter emitter)
+    /*Transform GetOrigin(LaserEmitter emitter)
     {
         return emitter.Laser.transform.parent;
-    }
+    }*/
 
     public void ApplyTransparencies()
     {
+        var lasers = Boss.Head.ShotgunLasers.LaserEmitters;
         for (int i = 0; i < lasers.Count; i++)
         {
             var color = lasers[i].Laser.Color;
@@ -494,6 +528,7 @@ public class LaserShotgunMove : AncientAspidMove
 
     public void RemoveTransparencies()
     {
+        var lasers = Boss.Head.ShotgunLasers.LaserEmitters;
         for (int i = 0; i < lasers.Count; i++)
         {
             var color = lasers[i].Laser.Color;
@@ -502,7 +537,7 @@ public class LaserShotgunMove : AncientAspidMove
         }
     }
 
-    public void SetAttackMode(bool attackMode, bool facingRight, bool doScaleFlip)
+    /*public void SetAttackMode(bool attackMode, bool facingRight, bool doScaleFlip)
     {
         var parent = lasers[0].transform.parent;
         if (attackMode)
@@ -520,9 +555,9 @@ public class LaserShotgunMove : AncientAspidMove
         {
             parent.localScale = new Vector3(facingRight ? -1 : 1, 1f, 1f);
         }
-    }
+    }*/
 
-    Vector3 FlipXIfOnRight(Vector3 position, bool facingRight)
+    /*Vector3 FlipXIfOnRight(Vector3 position, bool facingRight)
     {
         if (facingRight)
         {
@@ -538,5 +573,5 @@ public class LaserShotgunMove : AncientAspidMove
             rotation.z = -rotation.z;
         }
         return rotation;
-    }
+    }*/
 }

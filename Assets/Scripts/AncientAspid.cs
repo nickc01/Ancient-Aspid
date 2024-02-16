@@ -14,6 +14,7 @@ using UnityEngine.AI;
 using WeaverCore.Settings;
 using WeaverCore.Implementations;
 using UnityEngine.Serialization;
+using WeaverCore.Attributes;
 
 public class AncientAspid : Boss
 {
@@ -30,6 +31,12 @@ public class AncientAspid : Boss
 
     [SerializeField]
     bool godhomeMode = false;
+
+    [SerializeField]
+    MusicCue preAwakeCue;
+
+    [SerializeField]
+    MusicCue musicOff;
 
     [SerializeField]
     MusicCue bossMusic;
@@ -157,6 +164,10 @@ public class AncientAspid : Boss
     WeaverCameraLock deathCamLock;
 
     [SerializeField]
+    [Tooltip("The journal entry to unlock upon death")]
+    HunterJournalEntry journalEntry;
+
+    [SerializeField]
     Vector2 deathDropItemXRange = new Vector2(180.02f, 259.7f);
 
     [SerializeField]
@@ -184,6 +195,7 @@ public class AncientAspid : Boss
     SaveSpecificSettings settings;
 
     [SerializeField]
+    [SaveSpecificFieldName(typeof(bool), nameof(settings))]
     string bossDefeatedField;
 
     public AspidOrientation Orientation { get; set; } = AspidOrientation.Left;
@@ -278,19 +290,52 @@ public class AncientAspid : Boss
         return rect.Contains(pos);
     }
 
-    public Rigidbody2D Rbody { get; private set; }
+    [NonSerialized]
+    Rigidbody2D _rbody;
+    public Rigidbody2D Rbody => _rbody ??= GetComponent<Rigidbody2D>();
 
-    public BodyController Body { get; private set; }
-    public WingPlateController WingPlates { get; private set; }
-    public HeadController Head { get; private set; }
-    public WingsController Wings { get; private set; }
-    public ClawController Claws { get; private set; }
+    [NonSerialized]
+    BodyController _body;
+    public BodyController Body => _body ??= GetComponentInChildren<BodyController>();
 
-    public Recoiler Recoil { get; private set; }
+    [NonSerialized]
+    WingPlateController _wingPlates;
+    public WingPlateController WingPlates => _wingPlates ??= GetComponentInChildren<WingPlateController>();
+
+    [NonSerialized]
+    HeadController _head;
+    public HeadController Head => _head ??= GetComponentInChildren<HeadController>();
+
+    [NonSerialized]
+    WingsController _wings;
+    public WingsController Wings => _wings ??= GetComponentInChildren<WingsController>();
+
+    [NonSerialized]
+    ClawController _claws;
+    public ClawController Claws => _claws ??= GetComponentInChildren<ClawController>();
+
+    [NonSerialized]
+    Recoiler _recoiler;
+    public Recoiler Recoil => _recoiler ??= GetComponent<Recoiler>();
+
+    [NonSerialized]
+    GroundMode _groundMode;
+    public GroundMode GroundMode => _groundMode ??= GetComponent<GroundMode>();
+
+    [NonSerialized]
+    TacticalMode _tacticalMode;
+    public TacticalMode TacticalMode => _tacticalMode ??= GetComponent<TacticalMode>();
+
+    [NonSerialized]
+    OffensiveMode _offensiveMode;
+    public OffensiveMode OffensiveMode => _offensiveMode ??= GetComponent<OffensiveMode>();
 
     public List<AncientAspidMove> Moves { get; private set; }
 
-    public AncientAspidHealth HealthManager { get; private set; }
+
+    [NonSerialized]
+    AncientAspidHealth _healthManager;
+    public AncientAspidHealth HealthManager => _healthManager ??= GetComponent<AncientAspidHealth>();
 
     public bool PlayerRightOfBoss => Player.Player1.transform.position.x >= transform.position.x;
 
@@ -315,9 +360,6 @@ public class AncientAspid : Boss
     Vector3 lastPathPos = default;
     RaycastHit2D[] singleHitCache = new RaycastHit2D[1];
     List<IPathfindingOverride> pathfindingOverrides = new List<IPathfindingOverride>();
-    public GroundMode GroundMode { get; private set; }
-    public TacticalMode TacticalMode { get; private set; }
-    public OffensiveMode OffensiveMode { get; private set; }
 
     Bounds stuckBox;
     int stuckCounter = 0;
@@ -550,31 +592,39 @@ public class AncientAspid : Boss
 
     protected override void Awake()
     {
+        if (!enabled)
+        {
+            return;
+        }
+
         CurrentPhase = defaultPhase;
 
-        GroundMode = GetComponent<GroundMode>();
-        TacticalMode = GetComponent<TacticalMode>();
-        OffensiveMode = GetComponent<OffensiveMode>();
+        //GroundMode = GetComponent<GroundMode>();
+        //TacticalMode = GetComponent<TacticalMode>();
+        //OffensiveMode = GetComponent<OffensiveMode>();
 
         navigator = GameObject.FindObjectOfType<NavMeshSurface>();
         base.Awake();
         AncientAspidPrefabs.Instance = prefabs;
         Moves = GetComponents<AncientAspidMove>().ToList();
-        HealthManager = GetComponent<AncientAspidHealth>();
-        Rbody = GetComponent<Rigidbody2D>();
-        Body = GetComponentInChildren<BodyController>();
-        WingPlates = GetComponentInChildren<WingPlateController>();
-        Wings = GetComponentInChildren<WingsController>();
-        Head = GetComponentInChildren<HeadController>();
-        Claws = GetComponentInChildren<ClawController>();
-        Recoil = GetComponent<Recoiler>();
+        //HealthManager = GetComponent<AncientAspidHealth>();
+        //Rbody = GetComponent<Rigidbody2D>();
+        //Body = GetComponentInChildren<BodyController>();
+        //WingPlates = GetComponentInChildren<WingPlateController>();
+        //Wings = GetComponentInChildren<WingsController>();
+        //Head = GetComponentInChildren<HeadController>();
+        //Claws = GetComponentInChildren<ClawController>();
+        //Recoil = GetComponent<Recoiler>();
 
         Recoil.OriginalRecoilSpeed = Recoil.GetRecoilSpeed();
 
         if (!StartAsleep)
         {
             FullyAwake = true;
-            sleepSprite.gameObject.SetActive(false);
+            if (sleepSprite != null)
+            {
+                sleepSprite.gameObject.SetActive(false);
+            }
             foreach (var obj in enableOnWakeUp)
             {
                 if (obj != null)
@@ -776,6 +826,8 @@ public class AncientAspid : Boss
         RemoveTargetOverride(target);
     }
 
+
+
     private IEnumerator PreBossRoutine()
     {
         using var recoilOverride = Recoil.AddRecoilOverride(0);
@@ -801,10 +853,20 @@ public class AncientAspid : Boss
         ApplyFlightVariance = false;
         FlightEnabled = false;
         Wings.PlayDefaultAnimation = false;
+        sleepSprite.gameObject.SetActive(true);
 
         var health = HealthComponent.Health;
 
+        //Initialization.PerformanceLog("WAKEUP START");
+
         yield return new WaitUntil(() => health != HealthComponent.Health);
+
+        double timeStart = Time.timeAsDouble;
+
+        if (preAwakeCue != null)
+        {
+            Music.PlayMusicCue(preAwakeCue, 1f, 1f, true);
+        }
 
         health = HealthComponent.Health;
 
@@ -836,22 +898,27 @@ public class AncientAspid : Boss
 
         if (playerOnRight)
         {
+            //Initialization.PerformanceLog("CHANGE DIRCTION");
             awaiter = RoutineAwaiter.AwaitRoutine(ChangeDirection(AspidOrientation.Right, 1000));
             yield return awaiter.WaitTillDone();
         }
-         
 
+        //Initialization.PerformanceLog("STARTING JUMP");
         awaiter = RoutineAwaiter.AwaitBoundRoutines(this, headRoutine, bodyRoutine);
 
         GroundMode.lungeDashEffect.SetActive(true);
         GroundMode.lungeDashRotationOrigin.SetZLocalRotation(90);
 
-        float stompingRate = 0.3f;
+        //float stompingRate = 0.3f;
 
         var sleepAnimator = sleepSprite.GetComponent<WeaverAnimationPlayer>();
+        //Initialization.PerformanceLog("STARTING TURN AROUND PRE");
         yield return sleepAnimator.PlayAnimationTillDone("Turn Around Pre");
+        //Initialization.PerformanceLog("STOPPING TURN AROUND PRE");
         sleepSprite.flipX = Player.Player1.transform.position.x >= transform.position.x;
+        //Initialization.PerformanceLog("STARTING TURN AROUND POST");
         yield return sleepAnimator.PlayAnimationTillDone("Turn Around Post");
+        //Initialization.PerformanceLog("STOPPING TURN AROUND POST");
 
         foreach (var claw in Claws.claws)
         {
@@ -860,11 +927,16 @@ public class AncientAspid : Boss
             claw.LandImmediately();
         }
 
+        //Initialization.PerformanceLog("CLAWS LOCKED");
+
         yield return awaiter.WaitTillDone();
+
+        //Initialization.PerformanceLog("AWAITER DONE");
 
         var time = Time.time;
 
         yield return new WaitUntil(() => Rbody.velocity.y <= 0f || Time.time > time + 3f);
+        //Initialization.PerformanceLog("BEGINNING FALL");
         var prevVelocity = Rbody.velocity.y;
 
         for (float t = 0; t < 3f; t += 0f)
@@ -899,7 +971,9 @@ public class AncientAspid : Boss
 
         var landingAwaiter = RoutineAwaiter.AwaitBoundRoutines(this, landingRoutines, headLandRoutine, bodyLandRoutine, wingPlateLandRoutine, wingsLandRoutine, clawsLandRoutine, shiftPartsRoutine);
 
+        //Initialization.PerformanceLog("BEGINNING LANDING AWAITE");
         yield return landingAwaiter.WaitTillDone();
+        //Initialization.PerformanceLog("ENDING LANDING AWAITE");
 
         var headFinishRoutine = Head.FinishLanding(false);
         var bodyFinishRoutine = Body.FinishLanding(false);
@@ -908,31 +982,42 @@ public class AncientAspid : Boss
         var clawsFinishRoutine = Claws.FinishLanding(false);
 
         var finishAwaiter = RoutineAwaiter.AwaitBoundRoutines(this, headFinishRoutine, bodyFinishRoutine, wingPlateFinishRoutine, wingsFinishRoutine, clawsFinishRoutine);
-
+        //Initialization.PerformanceLog("BEGINNING FINISHE AWAITE");
         yield return finishAwaiter.WaitTillDone();
+        //Initialization.PerformanceLog("ENDING FINISHE AWAITE");
+
+        //WeaverLog.Log("TURN AROUND FULL TIME = " + (Time.timeAsDouble - timeStart));
 
         if (health == HealthManager.Health)
         {
             yield return new WaitForSeconds(sleepPreJumpDelay);
+            //Initialization.PerformanceLog("PRE JUMP DELAY");
         }
 
         Rbody.gravityScale = GroundMode.onGroundGravity;
         if (health == HealthManager.Health)
         {
+            //Initialization.PerformanceLog("BEGIN - EXITING GROUND MODE SLOW");
             yield return GroundMode.ExitGroundMode();
+            //Initialization.PerformanceLog("END - EXITING GROUND MODE SLOW");
         }
         else
         {
             StartBoundRoutine(GroundMode.ExitGroundMode());
+            //Initialization.PerformanceLog("BEGIN - EXITING GROUND MODE FAST");
             yield return new WaitUntil(() => Claws.OnGround == false);
+            //Initialization.PerformanceLog("END - EXITING GROUND MODE FAST");
         }
 
         if (!Head.HeadLocked)
         {
+            //Initialization.PerformanceLog("BEGIN - LOCK HEAD");
             yield return Head.LockHead(Orientation == AspidOrientation.Right ? 60f : -60f);
+            //Initialization.PerformanceLog("END - LOCK HEAD");
         }
 
         yield return Head.Animator.PlayAnimationTillDone("Fire - 2 - Prepare");
+        //Initialization.PerformanceLog("Fire - 2 - Prepare DONE");
 
         var attackStartFrame = Head.Animator.AnimationData.GetFrameFromClip("Fire - 1 - Attack",0);
 
@@ -957,14 +1042,20 @@ public class AncientAspid : Boss
             }
         }
 
+        //Initialization.PerformanceLog("BEGIN - ROAR");
         yield return Roar(sleepRoarDuration,Head.transform.position, true);
+        //Initialization.PerformanceLog("END - ROAR");
 
         StopCoroutine(shakeRoutine);
 
         FlightEnabled = true;
+        //Initialization.PerformanceLog("BEGIN - SWING ATTACK ENABLE");
         yield return Claws.EnableSwingAttack(true);
+        //Initialization.PerformanceLog("END - SWING ATTACK ENABLE");
 
+        //Initialization.PerformanceLog("BEGIN - Fire - 1 - Attack");
         yield return Head.Animator.PlayAnimationTillDone("Fire - 1 - Attack");
+        //Initialization.PerformanceLog("END - Fire - 1 - Attack");
 
         if (Head.HeadLocked)
         {
@@ -977,8 +1068,12 @@ public class AncientAspid : Boss
         {
             obj.SetActive(true);
         }
-
-        Music.PlayMusicCue(bossMusic);
+        if (preAwakeCue == null)
+        {
+            Music.PlayMusicCue(musicOff);
+        }
+        yield return null;
+        Music.PlayMusicCue(bossMusic, 0f, 0f, true);
 
         StartBoundRoutine(VarianceResetter());
 
@@ -1559,15 +1654,21 @@ public class AncientAspid : Boss
 
     protected override void OnDeath()
     {
-        if (settings.HasField<bool>(bossDefeatedField))
+        /*if (settings.HasField<bool>(bossDefeatedField))
         {
             settings.SetFieldValue(bossDefeatedField, true);
-        }
+        }*/
+        settings.TrySetFieldValue(bossDefeatedField, true);
 
         if (CurrentRunningMode != null)
         {
             CurrentRunningMode.OnDeath();
             CurrentRunningMode = null;
+        }
+
+        if (journalEntry != null)
+        {
+            HunterJournal.RecordKillFor(journalEntry.EntryName);
         }
 
         Debug.Log("ON DEATH START");
@@ -1684,7 +1785,7 @@ public class AncientAspid : Boss
 
         if (!godhomeMode)
         {
-            Player.Player1.EnterCutsceneLock(true, 2);
+            Player.Player1.EnterCutsceneLock(true);
         }
 
         if (godhomeMode)
@@ -1729,6 +1830,7 @@ public class AncientAspid : Boss
 
             Blood.SpawnDirectionalBlood(Head.transform.position, Head.CurrentOrientation == AspidOrientation.Right ? CardinalDirection.Right : CardinalDirection.Left);
 
+            settings.TrySetFieldValue(bossDefeatedField, true);
             var spawnedItem = GameObject.Instantiate(itemPrefab, Head.transform.position, Quaternion.identity);
             spawnedItem.RB.velocity = velocity;
 

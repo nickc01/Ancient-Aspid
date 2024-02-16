@@ -45,11 +45,21 @@ public class BodyController : AspidBodyPart
         }
     }
 
+#if UNITY_EDITOR
+    private void LateUpdate()
+    {
+
+    }
+#endif
+
     protected override void Awake()
     {
-        base.Awake();
-        animator = GetComponent<WeaverAnimationPlayer>();
-        defaultAnimationRoutine = StartCoroutine(DefaultAnimationRoutine(CurrentOrientation));
+        if (enabled)
+        {
+            base.Awake();
+            animator = GetComponent<WeaverAnimationPlayer>();
+            defaultAnimationRoutine = StartCoroutine(DefaultAnimationRoutine(CurrentOrientation));
+        }
     }
 
     public override void OnStun()
@@ -122,7 +132,7 @@ public class BodyController : AspidBodyPart
         VerifyState();
         ChangingDirection = true;
         StopDefaultAnimation();
-        float fps = DEFAULT_FPS;
+        float fps = DEFAULT_FPS * 2f;
         if (PulsingUp)
         {
             float timer = 0;
@@ -168,25 +178,32 @@ public class BodyController : AspidBodyPart
 
         string tailState = TailRaised ? "Raised" : "Lowered";
 
+        float multiplier = 1f;
+
+        if (!TailRaised)
+        {
+            multiplier *= 2f;
+        }
+
         if (PreviousOrientation == AspidOrientation.Center)
         {
             if (CurrentOrientation != AspidOrientation.Center)
             {
                 Animator.SpriteRenderer.flipX = CurrentOrientation == AspidOrientation.Right;
-                yield return PlayChangeDirectionClip(tailState + " - Decenterize", DEFAULT_FPS * speedMultiplier, DEFAULT_CENTERIZE_FRAMES);
+                yield return PlayChangeDirectionClip(tailState + " - Decenterize", DEFAULT_FPS * speedMultiplier * multiplier, DEFAULT_CENTERIZE_FRAMES);
             }
         }
         else
         {
             if (CurrentOrientation == AspidOrientation.Center)
             {
-                yield return PlayChangeDirectionClip(tailState + " - Centerize", DEFAULT_FPS * speedMultiplier, DEFAULT_CENTERIZE_FRAMES);
+                yield return PlayChangeDirectionClip(tailState + " - Centerize", DEFAULT_FPS * speedMultiplier * multiplier, DEFAULT_CENTERIZE_FRAMES);
             }
             else
             {
                 Sprite initialFrame = Animator.SpriteRenderer.sprite;
 
-                yield return PlayChangeDirectionClip(tailState + " - Change Direction", DEFAULT_FPS * speedMultiplier, DEFAULT_CHANGE_DIR_FRAMES);
+                yield return PlayChangeDirectionClip(tailState + " - Change Direction", DEFAULT_FPS * speedMultiplier * multiplier, DEFAULT_CHANGE_DIR_FRAMES);
 
                 Animator.SpriteRenderer.flipX = CurrentOrientation == AspidOrientation.Right;
                 Animator.SpriteRenderer.sprite = initialFrame;

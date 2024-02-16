@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 274f0c1c67bfe4b478ecd13de4898061, type: 3}
   m_Name: Aspid Aspect Charm
   m_EditorClassIdentifier: 
-  <AcquiredByDefault>k__BackingField: 1
+  <AcquiredByDefault>k__BackingField: 0
   settingsStorage: {fileID: 11400000, guid: 53925bd5d3de07c4c99ae7f55fedf179, type: 2}
   acquired_settingsField: charmAcquired
   equipped_settingsField: charmEquipped
   newlyCollected_settingsField: charmNewlyCollected
   <CharmSprite>k__BackingField: {fileID: 21300000, guid: 11df4d7e1a163984094154468e678e1d, type: 3}
-  petPrefab: {fileID: 7046876291921772502, guid: 15ad3e46ecbf8c347a542a62e762468d, type: 3}
+  petPrefab: {fileID: 5362450072157559580, guid: 15ad3e46ecbf8c347a542a62e762468d, type: 3}

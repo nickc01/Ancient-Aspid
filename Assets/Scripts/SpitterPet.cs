@@ -8,8 +8,7 @@ using WeaverCore.Assets.Components;
 using WeaverCore.Components;
 using WeaverCore.Utilities;
 
-
-public class SpitterPet : MonoBehaviour
+/*public class SpitterPet : MonoBehaviour
 {
     [SerializeField]
     int aspidShotDamage = 4;
@@ -607,4 +606,4 @@ public class SpitterPet : MonoBehaviour
         flyingRoutine = StartCoroutine(FlyingOutRoutine());
         flyingOut = true;
     }
-}
+}*/

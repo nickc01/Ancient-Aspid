@@ -59,11 +59,22 @@ public class ClawController : AspidBodyPart
 
     protected override void Awake()
     {
+        if (!enabled)
+        {
+            return;
+        }
         leftClawOriginBase = leftClawsOrigin.localPosition;
         rightClawOriginBase = rightClawsOrigin.localPosition;
         base.Awake();
         attackRoutine = StartCoroutine(AttackRoutine());
     }
+
+#if UNITY_EDITOR
+    private void LateUpdate()
+    {
+
+    }
+#endif
 
     public IEnumerator EnableSwingAttack(bool enabled)
     {
