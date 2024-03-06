@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eef8d824ea7b63742966aaa0e94ac383, type: 3}
+  m_Name: FMODStudioSettings
+  m_EditorClassIdentifier: 
+  switchSettingsMigration: 1
+  HasSourceProject: 0
+  HasPlatforms: 0
+  sourceProjectPath: 
+  sourceBankPath: Assets/Banks
+  sourceBankPathUnformatted: 
+  BankRefreshCooldown: 5
+  ShowBankRefreshWindow: 1
+  AutomaticEventLoading: 1
+  BankLoadType: 0
+  AutomaticSampleLoading: 0
+  EncryptionKey: 
+  ImportType: 1
+  TargetAssetPath: BuiltBanks
+  TargetBankFolder: 
+  EventLinkage: 1
+  LoggingLevel: 1
+  SpeakerModeSettings: []
+  SampleRateSettings: []
+  LiveUpdateSettings: []
+  OverlaySettings: []
+  BankDirectorySettings: []
+  VirtualChannelSettings: []
+  RealChannelSettings: []
+  Plugins: []
+  MasterBanks:
+  - Master
+  Banks:
+  - Dialogue_CN
+  - Dialogue_EN
+  - Dialogue_JP
+  - Music
+  - SFX
+  - Vehicles
+  - VO
+  BanksToLoad: []
+  LiveUpdatePort: 9264
+  EnableMemoryTracking: 0
+  AndroidUseOBB: 0
+  AndroidPatchBuild: 0
+  MeterChannelOrdering: 0
+  StopEventsOutsideMaxDistance: 0
+  BoltUnitOptionsBuildPending: 0
+  EnableErrorCallback: 1
+  SharedLibraryUpdateStage: 0
+  SharedLibraryTimeSinceStart: 0
+  CurrentVersion: 131609
+  HideSetupWizard: 1
+  LastEventReferenceScanVersion: 131609
+  _platforms:
+  - {fileID: 11400000, guid: 7d006992e834ad946b019c7f0cedd2f9, type: 2}
+  - {fileID: 11400000, guid: 8549f846fdecf434baac25a7d845fd4d, type: 2}
+  - {fileID: 11400000, guid: 26982fb194eb68c40929f480b803cc90, type: 2}
+  - {fileID: 11400000, guid: 9424b7f38a0076544a1fc516eb1133d4, type: 2}
+  - {fileID: 11400000, guid: a9c061fe3912c0b48af0941bed8622e4, type: 2}
+  MigratedPlatforms: 0a00000009000000080000000200000001000000
+  data_json: 'IDs: [-188076, -188142, -188120, -187608, -188098], Data: {"SpeakerModeSettings":[],"SampleRateSettings":[],"LiveUpdateSettings":[],"OverlaySettings":[],"BankDirectorySettings":[],"VirtualChannelSettings":[],"RealChannelSettings":[],"Platforms":["-188076","-188142","-188120","-187608","-188098"]}'
+  data_objects:
+  - {fileID: 11400000, guid: 7d006992e834ad946b019c7f0cedd2f9, type: 2}
+  - {fileID: 11400000, guid: 8549f846fdecf434baac25a7d845fd4d, type: 2}
+  - {fileID: 11400000, guid: 26982fb194eb68c40929f480b803cc90, type: 2}
+  - {fileID: 11400000, guid: 9424b7f38a0076544a1fc516eb1133d4, type: 2}
+  - {fileID: 11400000, guid: a9c061fe3912c0b48af0941bed8622e4, type: 2}

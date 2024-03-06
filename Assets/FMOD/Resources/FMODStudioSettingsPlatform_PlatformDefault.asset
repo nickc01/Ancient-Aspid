@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9587379c972e4a54da1949613f11e1c6, type: 3}
+  m_Name: FMODStudioSettingsPlatform_PlatformDefault
+  m_EditorClassIdentifier: 
+  EXTRACT: 0
+  identifier: default
+  parentIdentifier: 
+  active: 1
+  Properties:
+    LiveUpdate:
+      Value: 0
+      HasValue: 0
+    LiveUpdatePort:
+      Value: 9264
+      HasValue: 1
+    Overlay:
+      Value: 0
+      HasValue: 0
+    Logging:
+      Value: 0
+      HasValue: 0
+    SampleRate:
+      Value: 0
+      HasValue: 0
+    BuildDirectory:
+      Value: 
+      HasValue: 0
+    SpeakerMode:
+      Value: 0
+      HasValue: 0
+    VirtualChannelCount:
+      Value: 0
+      HasValue: 0
+    RealChannelCount:
+      Value: 0
+      HasValue: 0
+    DSPBufferLength:
+      Value: 0
+      HasValue: 0
+    DSPBufferCount:
+      Value: 0
+      HasValue: 0
+    Plugins:
+      Value: []
+      HasValue: 1
+    StaticPlugins:
+      Value: []
+      HasValue: 1
+    CallbackHandler:
+      Value: {fileID: 0}
+      HasValue: 0
+  OutputTypeName: 
+  threadAffinities:
+    Value: []
+    HasValue: 0
+  displaySortOrder: 0
+  childIdentifiers:
+  - 2c5177b11d81d824dbb064f9ac8527da
+  - 52eb9df5db46521439908db3a29a1bbb
+  - b7716510a1f36934c87976f3a81dbf3d
+  properties_json_data: 'IDs: [], Data: {"LiveUpdate":{"Value":0,"HasValue":false},"LiveUpdatePort":{"Value":9264,"HasValue":true},"Overlay":{"Value":0,"HasValue":false},"Logging":{"Value":0,"HasValue":false},"SampleRate":{"Value":0,"HasValue":false},"BuildDirectory":{"Value":"","HasValue":false},"SpeakerMode":{"Value":0,"HasValue":false},"VirtualChannelCount":{"Value":0,"HasValue":false},"RealChannelCount":{"Value":0,"HasValue":false},"DSPBufferLength":{"Value":0,"HasValue":false},"DSPBufferCount":{"Value":0,"HasValue":false},"Plugins":{"Value":[],"HasValue":true},"StaticPlugins":{"Value":[],"HasValue":true},"CallbackHandler":{"Value":null,"HasValue":false}}'
+  properties_object_data: []
+  threadAffinities_json_data: 'IDs: [], Data: {"Value":[],"HasValue":false}'
+  threadAffinities_object_data: []
+  codecChannels:
+    Value: []
+    HasValue: 0

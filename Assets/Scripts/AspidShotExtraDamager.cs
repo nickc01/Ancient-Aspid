@@ -72,7 +72,6 @@ public class AspidShotExtraDamager : EnemyExtraDamager
 
     protected override void OnDamageBackup(Transform obj)
     {
-        WeaverLog.Log("DAMAGE BACKUP = " + obj);
         if (obj.TryGetComponent<SpitterPetNew>(out var _) || obj == transform || obj.GetComponent<AspidShotExtraDamager>() != null)
         {
             return;

@@ -75,8 +75,17 @@ public class MultiLaserRapidFireMove : AncientAspidMove
         }
     }
 
+    float oldlaserWidth;
+    float oldLaserSpread;
+
     protected override IEnumerator OnExecute()
     {
+        oldlaserWidth = Boss.Head.ShotgunLasers.LaserEmitters[2].DefaultWidth;
+        oldLaserSpread = Boss.Head.ShotgunLasers.LaserEmitters[2].DefaultSpread;
+
+        Boss.Head.ShotgunLasers.LaserEmitters[2].DefaultWidth = Boss.Head.ShotgunLasers.LaserEmitters[0].DefaultWidth;
+        Boss.Head.ShotgunLasers.LaserEmitters[2].DefaultSpread = Boss.Head.ShotgunLasers.LaserEmitters[0].DefaultSpread;
+
         yield return Boss.Head.LockHead();
 
         yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser Antic Quick");
@@ -154,6 +163,9 @@ public class MultiLaserRapidFireMove : AncientAspidMove
         Boss.Head.ShotgunLasers.StopContinouslyUpdating();
 
         Boss.Head.UnlockHead(Boss.Head.ShotgunLasers.GetCurrentHeadAngle());
+
+        Boss.Head.ShotgunLasers.LaserEmitters[2].DefaultWidth = oldlaserWidth;
+        Boss.Head.ShotgunLasers.LaserEmitters[2].DefaultSpread = oldLaserSpread;
 
         yield break;
     }
@@ -319,6 +331,8 @@ public class MultiLaserRapidFireMove : AncientAspidMove
 
     public override void OnStun()
     {
+        Boss.Head.ShotgunLasers.LaserEmitters[2].DefaultWidth = oldlaserWidth;
+        Boss.Head.ShotgunLasers.LaserEmitters[2].DefaultSpread = oldLaserSpread;
         Boss.Head.ShotgunLasers.StopContinouslyUpdating();
         if (Boss.Head.HeadLocked)
         {

@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d92d0baf34dae0e4ea032a42bd6107c0, type: 3}
+  m_Name: FMODStudioSettingsPlatform_PlatformMac
+  m_EditorClassIdentifier: 
+  EXTRACT: 0
+  identifier: 52eb9df5db46521439908db3a29a1bbb
+  parentIdentifier: default
+  active: 0
+  Properties:
+    LiveUpdate:
+      Value: 0
+      HasValue: 0
+    LiveUpdatePort:
+      Value: 0
+      HasValue: 0
+    Overlay:
+      Value: 0
+      HasValue: 0
+    Logging:
+      Value: 0
+      HasValue: 0
+    SampleRate:
+      Value: 0
+      HasValue: 0
+    BuildDirectory:
+      Value: 
+      HasValue: 0
+    SpeakerMode:
+      Value: 0
+      HasValue: 0
+    VirtualChannelCount:
+      Value: 0
+      HasValue: 0
+    RealChannelCount:
+      Value: 0
+      HasValue: 0
+    DSPBufferLength:
+      Value: 0
+      HasValue: 0
+    DSPBufferCount:
+      Value: 0
+      HasValue: 0
+    Plugins:
+      Value: []
+      HasValue: 0
+    StaticPlugins:
+      Value: []
+      HasValue: 0
+    CallbackHandler:
+      Value: {fileID: 0}
+      HasValue: 0
+  OutputTypeName: 
+  threadAffinities:
+    Value: []
+    HasValue: 0
+  displaySortOrder: 0
+  childIdentifiers: []
+  properties_json_data: 'IDs: [], Data: {"LiveUpdate":{"Value":0,"HasValue":false},"LiveUpdatePort":{"Value":0,"HasValue":false},"Overlay":{"Value":0,"HasValue":false},"Logging":{"Value":0,"HasValue":false},"SampleRate":{"Value":0,"HasValue":false},"BuildDirectory":{"Value":"","HasValue":false},"SpeakerMode":{"Value":0,"HasValue":false},"VirtualChannelCount":{"Value":0,"HasValue":false},"RealChannelCount":{"Value":0,"HasValue":false},"DSPBufferLength":{"Value":0,"HasValue":false},"DSPBufferCount":{"Value":0,"HasValue":false},"Plugins":{"Value":[],"HasValue":false},"StaticPlugins":{"Value":[],"HasValue":false},"CallbackHandler":{"Value":null,"HasValue":false}}'
+  properties_object_data: []
+  threadAffinities_json_data: 'IDs: [], Data: {"Value":[],"HasValue":false}'
+  threadAffinities_object_data: []
+  codecChannels:
+    Value: []
+    HasValue: 0
