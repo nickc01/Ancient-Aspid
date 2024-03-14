@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 1235928596345843280}
   - component: {fileID: 1235928596345843228}
   - component: {fileID: 1235928596345842494}
-  - component: {fileID: 1235928596345842495}
+  - component: {fileID: 5830560644134774461}
   m_Layer: 18
   m_Name: Charm Reward item
   m_TagString: Untagged
@@ -359,7 +359,7 @@ MonoBehaviour:
   animationName: 
   animPause: 0.5
   sendFSMEvent: 0
---- !u!114 &1235928596345842495
+--- !u!114 &5830560644134774461
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -368,7 +368,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1235928596345842489}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed6745d5f8d3ca44b89c1b235e44a1e2, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d1e24606eea9d2418313820370bb7eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <SettingsStorage>k__BackingField: {fileID: 11400000, guid: 53925bd5d3de07c4c99ae7f55fedf179, type: 2}
@@ -378,6 +378,7 @@ MonoBehaviour:
   FlingSpeedMinMax: {x: 20, y: 20}
   FlingAngleMinMax: {x: 82, y: 86}
   charm: {fileID: 11400000, guid: 364475caf727b704da69c13362ef9e9d, type: 2}
+  spriteScale: {x: 3, y: 3}
 --- !u!1 &1235928596345842490
 GameObject:
   m_ObjectHideFlags: 0

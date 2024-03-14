@@ -9,6 +9,8 @@ public class GroundModeExplosiveVariation : GroundModeVariationBase
     private MegaBombsController bombController;
     private BombMove bombMove;
 
+    public override bool VariationEnabled => Vector2.Distance(Boss.transform.position, Player.Player1.transform.position) <= 20f;
+
     public GroundModeExplosiveVariation(GroundMode mode) : base(mode) { }
 
     private IEnumerator ShootExplosives(BombMove move, IBombController controller, float preDelay = 0.25f)

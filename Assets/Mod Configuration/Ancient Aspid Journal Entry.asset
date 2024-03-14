@@ -14,14 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entryName: Ancient_Aspid
   title: Ancient Aspid
-  description: Giant, ominous aspid with razor-sharp claws and scales that shimmer
-    with an ancient glow
+  description: Perhaps the primordial form of all the Aspids, the Ancient Aspid embodies
+    unmatched power and lethality. Yet, its most remarkable legacy persists through
+    its unbroken lineage to this very age.
   huntersNotesThreshold: 0
-  huntersNotes: This colossal serpent, a relic from an era long past, commands the
-    skies with a deadly grace. Its size and power harken back to a time when such
-    creatures ruled the skies of Hallownest, a time even the most skilled of Hunters
-    feared. It's scales, weathered but still radiant, suggest a connection to a bygone
-    age of strength and ferocity
+  huntersNotes: The sheer strength and power of this creature makes me question the
+    very essence of existence. In a world where survival reigns supreme, compromise
+    becomes a luxury none can afford. It's a grim reality we're all born into.
   sprite: {fileID: 21300000, guid: 96f9e948cafac8a4bbffcc810c8ea603, type: 3}
   icon: {fileID: 21300000, guid: 4eb6f3e24ad117d4d93d2ed96abbd378, type: 3}
   saveSettings: {fileID: 11400000, guid: 53925bd5d3de07c4c99ae7f55fedf179, type: 2}

@@ -32,16 +32,51 @@ public class WideAngleShotgunMove : AncientAspidMove
     float bombHeadLockSpeed = 2f;
 
     [SerializeField]
+    float destinationAngleOffset = 15f;
+
+    [SerializeField]
     Sprite fireSprite;
 
     [SerializeField]
     Vector2 laserOffset = new Vector2(0f,-0.66f);
+
+    [SerializeField]
+    float destinationAngle = 55f;
 
     public override bool MoveEnabled
     {
         get
         {
             var enabled = Boss.CanSeeTarget &&
+                Boss.CurrentRunningMode == Boss.OffensiveMode &&
+                Player.Player1.transform.position.y <= Boss.Head.transform.position.y - 1f &&
+                Vector3.Distance(Player.Player1.transform.position, transform.position) <= 25f;
+
+
+            var leftSide = -90f - destinationAngle + 10f;
+            var rightSide = -90f + destinationAngle - 10f;
+
+            var playerAngle = MathUtilities.CartesianToPolar(Player.Player1.transform.position - Boss.Head.transform.position).x;
+
+            if (playerAngle > 90f)
+            {
+                playerAngle -= 360f;
+            }
+
+            WeaverLog.Log("Left Side = " + leftSide);
+            WeaverLog.Log("Right Side = " + rightSide);
+            WeaverLog.Log("PlayerAngle = " + playerAngle);
+
+            enabled = enabled && (playerAngle >= leftSide && playerAngle <= rightSide);
+            //WeaverLog.Log("Wide Angle 1 = " + (Boss.CanSeeTarget));
+            //WeaverLog.Log("Wide Angle 2 = " + (Boss.CurrentRunningMode == Boss.OffensiveMode));
+            //WeaverLog.Log("Wide Angle 3 = " + (Player.Player1.transform.position.y <= Boss.Head.transform.position.y - 4f));
+            //WeaverLog.Log("Wide Angle 4 = " + (Player.Player1.transform.position.x >= Boss.Head.transform.position.x + 2f));
+            //WeaverLog.Log("Wide Angle 5 = " + (Player.Player1.transform.position.x <= Boss.Head.transform.position.x - 2f));
+
+            //WeaverLog.Log("WIDE ANGLE ENABLED = " + enabled);
+            return enabled;
+            enabled = Boss.CanSeeTarget &&
         Boss.CurrentRunningMode == Boss.OffensiveMode &&
         Vector3.Distance(Player.Player1.transform.position, transform.position) <= 30f && Player.Player1.transform.position.y <= Boss.transform.position.y - 1.5f;
             return enabled;
@@ -63,7 +98,6 @@ public class WideAngleShotgunMove : AncientAspidMove
 
     protected override IEnumerator OnExecute()
     {
-
         Vector2 destPos;
 
         if (Player.Player1.transform.position.x < Boss.transform.position.x)
@@ -75,19 +109,17 @@ public class WideAngleShotgunMove : AncientAspidMove
             destPos = leftSidePos;
         }
 
-        var angleToDest = MathUtilities.CartesianToPolar(destPos - (Vector2)Boss.Head.transform.position).x;
+        /*var angleToDest = MathUtilities.CartesianToPolar(destPos - (Vector2)Boss.Head.transform.position).x;
 
         if (angleToDest > 180f)
         {
             angleToDest -= 360f;
-        }
+        }*/
 
         firingLaser = true;
 
         bool shotgunFinished = false;
-
-        var controller = new WideAngleShotgunController(Boss, Player.Player1.transform.position, angleToDest, laserTime, angleSeparation, angleFromPlayer);
-
+        var controller = new WideAngleShotgunController(Boss, Player.Player1.transform.position, destinationAngle, destinationAngleOffset, laserTime, angleSeparation, angleFromPlayer);
         IEnumerator LaserRoutine()
         {
             if (controller.PlayerWithinLasers)
@@ -133,8 +165,6 @@ public class WideAngleShotgunMove : AncientAspidMove
         {
             Boss.Head.UnlockHead();
         }
-
-        WeaverLog.Log("MOVE DONE");
     }
 
     public override void OnStun()

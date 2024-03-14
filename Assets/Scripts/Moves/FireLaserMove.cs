@@ -7,6 +7,7 @@ using WeaverCore.Assets.Components;
 using WeaverCore.Components;
 using WeaverCore.Features;
 using WeaverCore.Utilities;
+using static HeadController;
 
 public class FireLaserMove : AncientAspidMove
 {
@@ -380,12 +381,19 @@ public class FireLaserMove : AncientAspidMove
 
         Boss.Head.MainRenderer.flipX = Boss.Head.ShotgunLasers.AngleIsFacingRight(startAngle);
 
-        Boss.Head.Animator.PlayAnimation("Fire Laser Antic");
+        //Boss.Head.Animator.PlayAnimation("Fire Laser Antic");
 
-        while (Boss.Head.Animator.PlayingClip == "Fire Laser Antic")
+        yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser Antic");
+
+        //WeaverLog.Log("ANGLE TO PLAYER = " + MathUtilities.CartesianToPolar(headToPlayer).x);
+
+        //Boss.Head.ShotgunLasers.SetHeadSpriteToRotation(MathUtilities.CartesianToPolar(headToPlayer).x);
+
+
+        /*while (Boss.Head.Animator.PlayingClip == "Fire Laser Antic")
         {
             yield return null;
-        }
+        }*/
 
         var emitter = Boss.Head.ShotgunLasers.MiddleEmitter;
 
@@ -485,7 +493,17 @@ public class FireLaserMove : AncientAspidMove
         }
     }*/
 
+
     IEnumerator FinishLaserMove(float retractAmount, float fps)
+    {
+        var direction = Boss.Head.ShotgunLasers.GetCurrentHeadAngle();
+
+        yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser End");
+
+        Boss.Head.UnlockHead(direction < 0f ? AspidOrientation.Left : AspidOrientation.Right);
+    }
+
+    IEnumerator FinishLaserMoveOld(float retractAmount, float fps)
     {
         var headIndex = Boss.Head.ShotgunLasers.GetHeadIndexForSprite(Boss.Head.MainRenderer.sprite,Boss.Head.MainRenderer.flipX);
 

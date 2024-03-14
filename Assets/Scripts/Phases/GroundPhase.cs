@@ -9,6 +9,10 @@ public class GroundPhase : Phase
 
     protected override IEnumerator OnPhaseStart(AncientAspid boss, Phase prevPhase)
     {
+        if (boss.GodhomeMode && boss.MusicPlayer != null)
+        {
+            boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.AR2);
+        }
         boss.FlightRange = PhaseBoundaries;
         boss.FlightRange.yMax = 9999f;
         boss.FlightRange.yMin = groundMinFlightHeight;
@@ -17,6 +21,10 @@ public class GroundPhase : Phase
 
     protected override IEnumerator OnPhaseEnd(AncientAspid boss, Phase nextPhase)
     {
+        if (boss.GodhomeMode && boss.MusicPlayer != null)
+        {
+            boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.AR1);
+        }
         yield break;
     }
 }

@@ -35,7 +35,7 @@ public class BossTrailerLungeTrigger : MonoBehaviour
 
         boss.ApplyFlightVariance = false;
 
-        var headRoutine = boss.Head.LockHead(boss.Head.LookingDirection >= 0f ? 60f : -60f);
+        var headRoutine = boss.Head.LockHead(boss.Head.LookingDirection >= 0f ? 60f : -60f, 1f);
         var bodyRoutine = boss.Body.RaiseTail();
         var minWaitTimeRoutine = Wait(0.5f);
 

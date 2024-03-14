@@ -54,6 +54,10 @@ public class FinalClimbPhase : Phase
 
     protected override IEnumerator OnPhaseStart(AncientAspid boss, Phase prevPhase)
     {
+        if (boss.MusicPlayer != null)
+        {
+            boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.AR2);
+        }
         var foundTarget = SelectTarget(boss.transform.position);
         if (foundTarget != null)
         {

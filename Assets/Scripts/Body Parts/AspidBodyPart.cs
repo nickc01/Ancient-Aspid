@@ -114,6 +114,7 @@ public abstract class AspidBodyPart : MonoBehaviour
             }
             else
             {
+                Animator.SpriteRenderer.flipX = CurrentOrientation != AspidOrientation.Right;
                 Sprite initialFrame = Animator.SpriteRenderer.sprite;
 
                 yield return PlayChangeDirectionClip("Change Direction", DEFAULT_FPS * speedMultiplier, DEFAULT_CHANGE_DIR_FRAMES);

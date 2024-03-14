@@ -88,7 +88,7 @@ public class AspidShotMove : AncientAspidMove
             yield return Boss.Head.QuickFlipDirection(Boss.PlayerRightOfBoss);
         }
 
-        Boss.Head.UnlockHead(startOrientation);
+        Boss.Head.UnlockHead();
     }
 
     void Fire(float baseAngle, float angleOffset, int shots, float speed, float angleSeparation, float scale)    

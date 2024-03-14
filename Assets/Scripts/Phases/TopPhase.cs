@@ -28,6 +28,10 @@ public class TopPhase : Phase
 
     protected override IEnumerator OnPhaseStart(AncientAspid boss, Phase prevPhase)
     {
+        if (boss.MusicPlayer != null)
+        {
+            boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.AR3);
+        }
         boss.GetComponent<LaserRapidFireMove>().EnableMove(true);
         this.boss = boss;
 
@@ -85,6 +89,11 @@ public class TopPhase : Phase
         }
 
         Music.ApplyMusicSnapshot(Music.SnapshotType.Silent, 0f, 0.5f);
+
+        if (boss.MusicPlayer != null)
+        {
+            boss.MusicPlayer.Stop();
+        }
 
         while (true)
         {

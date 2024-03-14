@@ -40,13 +40,7 @@ MonoBehaviour:
   MasterBanks:
   - Master
   Banks:
-  - Dialogue_CN
-  - Dialogue_EN
-  - Dialogue_JP
-  - Music
-  - SFX
-  - Vehicles
-  - VO
+  - Musique
   BanksToLoad: []
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0
@@ -68,7 +62,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9424b7f38a0076544a1fc516eb1133d4, type: 2}
   - {fileID: 11400000, guid: a9c061fe3912c0b48af0941bed8622e4, type: 2}
   MigratedPlatforms: 0a00000009000000080000000200000001000000
-  data_json: 'IDs: [-188076, -188142, -188120, -187608, -188098], Data: {"SpeakerModeSettings":[],"SampleRateSettings":[],"LiveUpdateSettings":[],"OverlaySettings":[],"BankDirectorySettings":[],"VirtualChannelSettings":[],"RealChannelSettings":[],"Platforms":["-188076","-188142","-188120","-187608","-188098"]}'
+  data_json: 'IDs: [62380, 62382, 62384, 62386, 62388], Data: {"SpeakerModeSettings":[],"SampleRateSettings":[],"LiveUpdateSettings":[],"OverlaySettings":[],"BankDirectorySettings":[],"VirtualChannelSettings":[],"RealChannelSettings":[],"Platforms":["62380","62382","62384","62386","62388"]}'
   data_objects:
   - {fileID: 11400000, guid: 7d006992e834ad946b019c7f0cedd2f9, type: 2}
   - {fileID: 11400000, guid: 8549f846fdecf434baac25a7d845fd4d, type: 2}

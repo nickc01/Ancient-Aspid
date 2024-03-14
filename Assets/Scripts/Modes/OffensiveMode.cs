@@ -100,6 +100,10 @@ public class OffensiveMode : AncientAspidMode
 
     protected override IEnumerator OnExecute(Dictionary<string, object> args)
     {
+        if (Boss.GodhomeMode && Boss.MusicPlayer != null)
+        {
+            Boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.UPWARDING);
+        }
         using (var recoilOverride = Boss.Recoil.AddRecoilOverride(0))
         {
             RanAtLeastOnce = true;

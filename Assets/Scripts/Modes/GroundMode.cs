@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using WeaverCore;
 using WeaverCore.Assets.Components;
 using WeaverCore.Components;
+using WeaverCore.Features;
 using WeaverCore.Utilities;
 
 public class GroundMode : AncientAspidMode
@@ -176,11 +178,15 @@ public class GroundMode : AncientAspidMode
 
     protected override bool ModeEnabled(Dictionary<string, object> args)
     {
-        return GroundAreaProvider != null && GroundAreaProvider.IsTargetActive(Boss);
+        return GroundAreaProvider != null && GroundAreaProvider.IsTargetActive(Boss) && ((Boss.Orientation == AspidOrientation.Right && Player.Player1.transform.position.x > Boss.transform.position.x) || (Boss.Orientation == AspidOrientation.Left && Player.Player1.transform.position.x < Boss.transform.position.x));
     }
 
     protected override IEnumerator OnExecute(Dictionary<string, object> customArgs)
     {
+        if (Boss.GodhomeMode && Boss.MusicPlayer != null)
+        {
+            Boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.AR1);
+        }
         using Recoiler.RecoilOverride recoilOverride = Boss.Recoil.AddRecoilOverride(0);
         stop = false;
         yield return EnterGroundNew(customArgs);
@@ -313,7 +319,7 @@ public class GroundMode : AncientAspidMode
                     new GroundModeVomitVariation(this)
                 };
             }
-            variation = variations.GetRandomElement();
+            variation = variations.Where(v => v.VariationEnabled).ToList().GetRandomElement();
         }
 
         runningVariation = variation;

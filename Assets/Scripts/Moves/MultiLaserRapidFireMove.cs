@@ -4,6 +4,7 @@ using WeaverCore.Utilities;
 using WeaverCore;
 using System;
 using System.Collections.Generic;
+using WeaverCore.Features;
 
 public class MultiLaserRapidFireMove : AncientAspidMove
 {
@@ -139,12 +140,19 @@ public class MultiLaserRapidFireMove : AncientAspidMove
 
             laserFireRoutines.Add(routineID);
 
+            if (Cancelled)
+            {
+                break;
+            }
+
             yield return new WaitForSeconds(betweenDelay);
         }
 
-        yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser End Super Quick");
-
         yield return new WaitUntil(() => laserFireRoutines.Count == 0);
+
+        Boss.Head.MainRenderer.flipX = Player.Player1.transform.position.x >= Boss.Head.transform.position.x;
+
+        yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser End Super Quick");
 
         /*var times = amountOfTimesRange.RandomInRange();
 
@@ -186,19 +194,49 @@ public class MultiLaserRapidFireMove : AncientAspidMove
 
         laser.ChargeUpLaser_P1();
 
-        yield return new WaitForSeconds(preFireDelay);
-
-        if (fireLaserSound != null)
+        for (float t = 0; t < preFireDelay; t += Time.deltaTime)
         {
-            var instance = WeaverAudio.PlayAtPoint(fireLaserSound, transform.position);
-            instance.AudioSource.pitch = firePitchRange.RandomInRange();
+            if (Cancelled)
+            {
+                break;
+            }
+            yield return null;
         }
 
-        laser.FireLaser_P2();
+        //yield return new WaitForSeconds(preFireDelay);
 
-        yield return new WaitForSeconds(fireDuration);
+        if (!Cancelled)
+        {
+            if (fireLaserSound != null)
+            {
+                var instance = WeaverAudio.PlayAtPoint(fireLaserSound, transform.position);
+                instance.AudioSource.pitch = firePitchRange.RandomInRange();
+            }
 
-        yield return new WaitForSeconds(laser.EndLaser_P3());
+            laser.FireLaser_P2();
+
+            for (float t = 0; t < fireDuration; t += Time.deltaTime)
+            {
+                if (Cancelled)
+                {
+                    break;
+                }
+                yield return null;
+            }
+        }
+        //yield return new WaitForSeconds(fireDuration);
+
+
+        var endDuration = laser.EndLaser_P3();
+        for (float t = 0; t < endDuration; t += Time.deltaTime)
+        {
+            if (Cancelled)
+            {
+                break;
+            }
+            yield return null;
+        }
+        //yield return new WaitForSeconds(laser.EndLaser_P3());
 
         onDone?.Invoke();
     }

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Linq;
+using UnityEngine;
 using WeaverCore;
 using WeaverCore.Utilities;
 
@@ -11,7 +13,8 @@ public class WideAngleShotgunController : ShotgunController
     private float laserTime;
     private float laserTimer = 0f;
 
-    bool startingOnRight = false;
+    bool rightToLeft = false;
+    bool flipped = false;
     //private LaserShotgunMove shotgunMove;
 
     private static float ClampAngle(float angle)
@@ -27,7 +30,51 @@ public class WideAngleShotgunController : ShotgunController
     {
         get
         {
-            float angleToPlayer = ClampAngle(Boss.GetAngleToPlayer());
+            var centerLaser = Boss.Head.ShotgunLasers.MiddleLaser;
+
+            var toPlayer = (Vector2)(Player.Player1.transform.position - centerLaser.transform.position);
+
+            var toPlayerAngle = MathUtilities.CartesianToPolar(toPlayer).x;
+            if (toPlayerAngle > 90f)
+            {
+                toPlayerAngle -= 360f;
+            }
+
+            float leftSideAngle = 0f;
+            float rightSideAngle = 0f;
+
+            leftSideAngle = currentLaserAngles[0].eulerAngles.z;
+            rightSideAngle = currentLaserAngles[4].eulerAngles.z;
+
+            if (flipped)
+            {
+                var temp = leftSideAngle;
+                leftSideAngle = rightSideAngle;
+                rightSideAngle = temp;
+
+                //currentLaserAngles[i] = Quaternion.Lerp(startLaserAngles[i], endLaserAngles[i], laserTimer / laserTime);
+            }
+
+            if (leftSideAngle > 90f)
+            {
+                leftSideAngle -= 360f;
+            }
+
+            if (rightSideAngle > 90f)
+            {
+                rightSideAngle -= 360f;
+            }
+
+
+            //WeaverLog.Log("Left Angle = " + leftSideAngle);
+            //WeaverLog.Log("Player Angle = " + toPlayerAngle);
+            //WeaverLog.Log("Right Angle = " + rightSideAngle);
+            //WeaverLog.Log("Within = " + (toPlayerAngle > leftSideAngle - 15f && toPlayerAngle < rightSideAngle + 15f));
+
+            return toPlayerAngle > leftSideAngle && toPlayerAngle < rightSideAngle;
+
+
+            /*float angleToPlayer = ClampAngle(Boss.GetAngleToPlayer());
 
             float leftSideAngle, rightSideAngle;
 
@@ -46,11 +93,86 @@ public class WideAngleShotgunController : ShotgunController
             //WeaverLog.Log("LeftSide = " + (leftSideAngle - 15f));
             //WeaverLog.Log("RightSide = " + (rightSideAngle + 15f));
 
-            return angleToPlayer > leftSideAngle - 15f && angleToPlayer < rightSideAngle + 15f;
+            return angleToPlayer > leftSideAngle - 15f && angleToPlayer < rightSideAngle + 15f;*/
         }
     }
 
-    public WideAngleShotgunController(AncientAspid boss, Vector3 playerTarget, float destAngle = float.NaN, float laserTime = 1.5f, float angleSeparation = 10f, float angleFromPlayer = 10f)
+    public WideAngleShotgunController(AncientAspid boss, Vector3 playerTarget, float destAmount, float destinationAngleOffset, float laserTime, float angleSeparation, float angleFromPlayer)
+    {
+        Boss = boss;
+        var centerLaser = Boss.Head.ShotgunLasers.MiddleLaser;
+        this.laserTime = laserTime;
+
+        var toPlayer = (Vector2)(playerTarget - centerLaser.transform.position);
+
+        var toPlayerAngle = MathUtilities.CartesianToPolar(toPlayer).x;
+        if (toPlayerAngle > 90f)
+        {
+            toPlayerAngle -= 360f;
+        }
+        var dirToPlayer = Quaternion.Euler(0f, 0f, toPlayerAngle);
+
+
+        Quaternion destinationAngle;
+
+        rightToLeft = playerTarget.x >= Boss.Head.transform.position.x;
+
+        WeaverLog.Log("RIGHT TO LEFT MODE = " + rightToLeft);
+
+        if (rightToLeft)
+        {
+            destinationAngle = Quaternion.Euler(0f, 0f, -90f - destAmount);
+            startLaserAngles[0] = destinationAngle * Quaternion.Euler(0f, 0f, -(angleSeparation * 2f) + destinationAngleOffset);
+            startLaserAngles[1] = destinationAngle * Quaternion.Euler(0f, 0f, -(angleSeparation * 1f) + destinationAngleOffset);
+            //Player on right Side
+            startLaserAngles[2] = dirToPlayer * Quaternion.Euler(0f, 0f, angleFromPlayer + (angleSeparation * 1f));
+            startLaserAngles[3] = dirToPlayer * Quaternion.Euler(0f, 0f, angleFromPlayer + (angleSeparation * 2f));
+            startLaserAngles[4] = dirToPlayer * Quaternion.Euler(0f, 0f, angleFromPlayer + (angleSeparation * 3f));
+
+            endLaserAngles[0] = startLaserAngles[0];
+            endLaserAngles[1] = startLaserAngles[1];
+
+            endLaserAngles[2] = destinationAngle * Quaternion.Euler(0f, 0f, angleFromPlayer + (angleSeparation * 1f) - destinationAngleOffset);
+            endLaserAngles[3] = destinationAngle * Quaternion.Euler(0f, 0f, angleFromPlayer + (angleSeparation * 2f) - destinationAngleOffset);
+            endLaserAngles[4] = destinationAngle * Quaternion.Euler(0f, 0f, angleFromPlayer + (angleSeparation * 3f) - destinationAngleOffset);
+        }
+        else
+        {
+            destinationAngle = Quaternion.Euler(0f, 0f, -90f + destAmount);
+
+            startLaserAngles[0] = dirToPlayer * Quaternion.Euler(0f, 0f, -angleFromPlayer - (angleSeparation * 3f));
+            startLaserAngles[1] = dirToPlayer * Quaternion.Euler(0f, 0f, -angleFromPlayer - (angleSeparation * 2f));
+            startLaserAngles[2] = dirToPlayer * Quaternion.Euler(0f, 0f, -angleFromPlayer - (angleSeparation * 1f));
+            //Player on left Side
+            startLaserAngles[3] = destinationAngle * Quaternion.Euler(0f, 0f, (angleSeparation * 1f) - destinationAngleOffset);
+            startLaserAngles[4] = destinationAngle * Quaternion.Euler(0f, 0f, (angleSeparation * 2f) - destinationAngleOffset);
+
+            endLaserAngles[0] = destinationAngle * Quaternion.Euler(0f, 0f, -angleFromPlayer - (angleSeparation * 3f) + destinationAngleOffset);
+            endLaserAngles[1] = destinationAngle * Quaternion.Euler(0f, 0f, -angleFromPlayer - (angleSeparation * 2f) + destinationAngleOffset);
+            endLaserAngles[2] = destinationAngle * Quaternion.Euler(0f, 0f, -angleFromPlayer - (angleSeparation * 1f) + destinationAngleOffset);
+
+            endLaserAngles[3] = startLaserAngles[3];
+            endLaserAngles[4] = startLaserAngles[4];
+        }
+
+
+        flipped = rightToLeft;
+
+
+        if (flipped)
+        {
+            Array.Reverse(startLaserAngles);
+            Array.Reverse(endLaserAngles);
+        }
+
+
+        for (int i = 0; i < currentLaserAngles.Length; i++)
+        {
+            currentLaserAngles[i] = startLaserAngles[i];
+        }
+    }
+    /*
+    public void OLDCONSTRUCTOR(AncientAspid boss, Vector3 playerTarget, float destAngle = float.NaN, float laserTime = 1.5f, float angleSeparation = 10f, float angleFromPlayer = 10f)
     {
         //shotgunMove = boss.GetComponent<LaserShotgunMove>();
 
@@ -74,7 +196,7 @@ public class WideAngleShotgunController : ShotgunController
 
         const float angleAfterDest = 10f;
 
-        startingOnRight = Player.Player1.transform.position.x >= Boss.transform.position.x;
+        rightToLeft = Player.Player1.transform.position.x >= Boss.transform.position.x;
 
         if (Player.Player1.transform.position.x < Boss.transform.position.x)
         {
@@ -116,22 +238,8 @@ public class WideAngleShotgunController : ShotgunController
             endLaserAngles[4] = angleToDest * Quaternion.Euler(0f, 0f, angleSeparation * 3f);
         }
 
-
-
-        for (int i = 0; i < currentLaserAngles.Length; i++)
-        {
-            if (startingOnRight)
-            {
-                currentLaserAngles[i] = startLaserAngles[currentLaserAngles.Length - 1 - i];
-            }
-            else
-            {
-                currentLaserAngles[i] = startLaserAngles[i];
-            }
-        }
-
     }
-
+    */
     public override bool DoScaleFlip()
     {
         return false;
@@ -148,14 +256,17 @@ public class WideAngleShotgunController : ShotgunController
         {
             for (int i = 0; i < currentLaserAngles.Length; i++)
             {
-                if (startingOnRight)
+                var result = Quaternion.Slerp(startLaserAngles[i], endLaserAngles[i], laserTimer / laserTime);
+
+                currentLaserAngles[i] = result;
+                /*if (rightToLeft)
                 {
                     currentLaserAngles[currentLaserAngles.Length - 1 - i] = Quaternion.Lerp(startLaserAngles[i], endLaserAngles[i], laserTimer / laserTime);
                 }
                 else
                 {
-                    currentLaserAngles[i] = Quaternion.Lerp(startLaserAngles[i], endLaserAngles[i], laserTimer / laserTime);
-                }
+                    
+                }*/
             }
 
             laserTimer += Time.deltaTime;

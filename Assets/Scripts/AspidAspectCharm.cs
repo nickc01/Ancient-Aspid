@@ -20,7 +20,7 @@ public class AspidAspectCharm : WeaverCharm
 
     public override string Name => "Aspid Aspect";
 
-    public override string Description => "Summons an aspid to fight for you";
+    public override string Description => "Bestows upon the wearer the ability to summon primal aspids as allies in battle.";
 
     public override int NotchCost => 1;
 

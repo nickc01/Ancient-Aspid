@@ -75,7 +75,9 @@ public class MultiLaserBurstMove : AncientAspidMove
             }
         }
 
-        Boss.Head.UnlockHead();
+        var direction = Boss.Head.ShotgunLasers.GetCurrentHeadAngle();
+        Boss.Head.UnlockHead(direction < 0f ? AspidOrientation.Left : AspidOrientation.Right);
+        //Boss.Head.UnlockHead();
 
         yield break;
     }
@@ -160,57 +162,73 @@ public class MultiLaserBurstMove : AncientAspidMove
             if (Cancelled)
             {
                 Boss.Head.ShotgunLasers.StopContinouslyUpdating();
-                yield break;
-            }
-            yield return null;
-        }
-
-        yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser Antic Quick");
-
-        //WeaverLog.Log("ANGLE TO PLAYER = " + MathUtilities.CartesianToPolar(headToPlayer).x);
-
-        Boss.Head.ShotgunLasers.SetHeadSpriteToRotation(MathUtilities.CartesianToPolar(headToPlayer).x);
-
-        /*for (float t = 0; t < fireDuration; t += Time.deltaTime)
-        {
-            //UpdateLaserRotations(controller);
-            yield return null;
-        }*/
-
-        //RemoveTransparencies();
-
-        for (int i = 0; i < lasers.Count; i++)
-        {
-            lasers[i].FireLaser_P2();
-        }
-
-        //Boss.Head.Animator.SpriteRenderer.sprite = fireSprite;
-
-        if (fireLaserSound != null)
-        {
-            var instance = WeaverAudio.PlayAtPoint(fireLaserSound, transform.position);
-            instance.AudioSource.pitch = fireLaserSoundPitchRange.RandomInRange();
-        }
-        //controller.ChangeMode(ShotgunController.LaserMode.Firing);
-
-        /*for (float t = 0; t < attackTime; t += Time.deltaTime)
-        {
-            UpdateLaserRotations(controller);
-
-            if (Cancelled || CancelLaserAttack)
-            {
                 break;
             }
             yield return null;
-        }*/
+        }
 
-        for (float t = 0; t < fireDuration; t += Time.deltaTime)
+        if (!Cancelled)
         {
-            if (Cancelled)
+            yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser Antic Quick");
+
+            //WeaverLog.Log("ANGLE TO PLAYER = " + MathUtilities.CartesianToPolar(headToPlayer).x);
+
+            var oldFlipX = Boss.Head.MainRenderer.flipX;
+            Boss.Head.ShotgunLasers.SetHeadSpriteToRotation(MathUtilities.CartesianToPolar(headToPlayer).x);
+            var newFlipX = Boss.Head.MainRenderer.flipX;
+
+            if (oldFlipX != newFlipX)
             {
-                break;
+                var temp = laserTargets[0];
+                laserTargets[0] = laserTargets[4];
+                laserTargets[4] = temp;
+
+                temp = laserTargets[1];
+                laserTargets[1] = laserTargets[3];
+                laserTargets[3] = temp;
             }
-            yield return null;
+            /*for (float t = 0; t < fireDuration; t += Time.deltaTime)
+            {
+                //UpdateLaserRotations(controller);
+                yield return null;
+            }*/
+
+            //RemoveTransparencies();
+
+            for (int i = 0; i < lasers.Count; i++)
+            {
+                lasers[i].FireLaser_P2();
+            }
+
+            //Boss.Head.Animator.SpriteRenderer.sprite = fireSprite;
+
+            if (fireLaserSound != null)
+            {
+                var instance = WeaverAudio.PlayAtPoint(fireLaserSound, transform.position);
+                instance.AudioSource.pitch = fireLaserSoundPitchRange.RandomInRange();
+            }
+            //controller.ChangeMode(ShotgunController.LaserMode.Firing);
+
+            /*for (float t = 0; t < attackTime; t += Time.deltaTime)
+            {
+                UpdateLaserRotations(controller);
+
+                if (Cancelled || CancelLaserAttack)
+                {
+                    break;
+                }
+                yield return null;
+            }*/
+
+            for (float t = 0; t < fireDuration; t += Time.deltaTime)
+            {
+                if (Cancelled)
+                {
+                    break;
+                }
+                yield return null;
+            }
+
         }
 
         float endTime = 0;
@@ -227,6 +245,10 @@ public class MultiLaserBurstMove : AncientAspidMove
         }
 
         Boss.Head.ShotgunLasers.StopContinouslyUpdating();
+
+
+        //Boss.Head.UnlockHead(direction < 0f ? AspidOrientation.Left : AspidOrientation.Right);
+        //Boss.Head.UnlockHead(Boss.Head.MainRenderer.flipX ? 60f : -60f);
 
         yield break;
     }

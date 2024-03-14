@@ -13,6 +13,10 @@ public class TacticalMode : AncientAspidMode
 
     protected override IEnumerator OnExecute(Dictionary<string, object> args)
     {
+        if (Boss.GodhomeMode && Boss.MusicPlayer != null)
+        {
+            Boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.AR1);
+        }
         Debug.Log("TACTICAL START");
         stop = false;
 

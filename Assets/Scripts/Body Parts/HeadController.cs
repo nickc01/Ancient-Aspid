@@ -170,15 +170,28 @@ public class HeadController : AspidBodyPart
 
         changingDirection = true;
 
+        void StopUnlocker()
+        {
+            if (unlockRoutine != 0)
+            {
+                Boss.StopBoundRoutine(unlockRoutine);
+                unlockRoutine = 0;
+                HeadLocked = false;
+                doUpdate = true;
+            }
+        }
+
         if (lookAtPlayer)
         {
             if (CurrentOrientation == AspidOrientation.Center)
             {
+                StopUnlocker();
                 yield return StartFollowingPlayer(speedMultiplier);
                 yield break;
             }
             else if (CurrentOrientation != AspidOrientation.Center && PreviousOrientation == AspidOrientation.Center)
             {
+                StopUnlocker();
                 yield return StopFollowingPlayer(speedMultiplier);
                 yield break;
             }
@@ -194,18 +207,22 @@ public class HeadController : AspidBodyPart
             unlockRoutine = 0;
         }*/
 
-        LookingDirection = OrientationToAngle(CurrentOrientation);
+        StopUnlocker();
 
-        yield return base.ChangeDirectionRoutine(speedMultiplier);
+        //LookingDirection = OrientationToAngle(CurrentOrientation);
 
-        if (PreviousOrientation != AspidOrientation.Center && CurrentOrientation != AspidOrientation.Center)
+        //yield return base.ChangeDirectionRoutine(speedMultiplier);
+        yield return Internal_ChangeDirectionHead(speedMultiplier);
+
+        //if (PreviousOrientation != AspidOrientation.Center && CurrentOrientation != AspidOrientation.Center)
+        if (CurrentOrientation != AspidOrientation.Center)
         {
-            if (LookingDirection == idle_Degrees[0])
+            if (CurrentOrientation == AspidOrientation.Left)
             {
                 MainRenderer.sprite = idle_Sprites[0];
                 MainRenderer.flipX = idle_Flip[0];
             }
-            else if (LookingDirection == idle_Degrees[idle_Degrees.Count - 1])
+            else if (CurrentOrientation == AspidOrientation.Right)
             {
                 MainRenderer.sprite = idle_Sprites[idle_Degrees.Count - 1];
                 MainRenderer.flipX = idle_Flip[idle_Degrees.Count - 1];
@@ -213,6 +230,47 @@ public class HeadController : AspidBodyPart
         }
 
         changingDirection = false;
+    }
+
+    float GetClipDuration(string name)
+    {
+        return Boss.Head.Animator.AnimationData.GetClipDuration(name);
+    }
+
+    IEnumerator Internal_ChangeDirectionHead(float speedMultiplier)
+    {
+        if (PreviousOrientation == AspidOrientation.Center)
+        {
+            if (CurrentOrientation != AspidOrientation.Center)
+            {
+                Animator.SpriteRenderer.flipX = CurrentOrientation == AspidOrientation.Right;
+
+                var newAngle = CurrentOrientation == AspidOrientation.Right ? 60f : -60f;
+                //yield return PlayChangeDirectionClip("Decenterize", DEFAULT_FPS * speedMultiplier, DEFAULT_CENTERIZE_FRAMES);
+                yield return InterpolateToNewAngleSmooth(LookingDirection, () => newAngle, GetClipDuration("Decenterize") / speedMultiplier);
+            }
+        }
+        else
+        {
+            if (CurrentOrientation == AspidOrientation.Center)
+            {
+                yield return InterpolateToNewAngleSmooth(LookingDirection, () => 0f, GetClipDuration("Centerize") / speedMultiplier);
+                //yield return PlayChangeDirectionClip("Centerize", DEFAULT_FPS * speedMultiplier, DEFAULT_CENTERIZE_FRAMES);
+            }
+            else
+            {
+                Animator.SpriteRenderer.flipX = CurrentOrientation != AspidOrientation.Right;
+                Sprite initialFrame = Animator.SpriteRenderer.sprite;
+
+                var newAngle = CurrentOrientation == AspidOrientation.Right ? 60f : -60f;
+
+                yield return InterpolateToNewAngleSmooth(LookingDirection, () => newAngle, GetClipDuration("Change Direction") / speedMultiplier);
+                //yield return PlayChangeDirectionClip("Change Direction", DEFAULT_FPS * speedMultiplier, DEFAULT_CHANGE_DIR_FRAMES);
+
+                Animator.SpriteRenderer.flipX = CurrentOrientation == AspidOrientation.Right;
+                Animator.SpriteRenderer.sprite = initialFrame;
+            }
+        }
     }
 
     private IEnumerator StartFollowingPlayer(float speedMultiplier)
@@ -240,12 +298,32 @@ public class HeadController : AspidBodyPart
         return InterpolateToNewAngle(OrientationToAngle(CurrentOrientation), GetDownwardAngleToPlayer, increments, incrementsPerSecond);
     }
 
+    private IEnumerator InterpolateToNewAngleSmooth(float oldAngle, Func<float> destAngle, float duration)
+    {
+        int index;
+        //for (int i = 1; i <= increments; i++)
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            LookingDirection = Mathf.Lerp(oldAngle, destAngle(), t / duration);
+            index = GetIdleIndexForAngle(LookingDirection);
+            MainRenderer.sprite = idle_Sprites[index];
+            MainRenderer.flipX = idle_Flip[index];
+            yield return null;
+        }
+
+        LookingDirection = destAngle();
+        index = GetIdleIndexForAngle(LookingDirection);
+        MainRenderer.sprite = idle_Sprites[index];
+        MainRenderer.flipX = idle_Flip[index];
+    }
+
     private IEnumerator InterpolateToNewAngle(float oldAngle, Func<float> destAngle, float increments, float incrementsPerSecond)
     {
+        int index;
         for (int i = 1; i <= increments; i++)
         {
             LookingDirection = Mathf.Lerp(oldAngle, destAngle(), i / (float)increments);
-            int index = GetIdleIndexForAngle(LookingDirection);
+            index = GetIdleIndexForAngle(LookingDirection);
             MainRenderer.sprite = idle_Sprites[index];
             MainRenderer.flipX = idle_Flip[index];
             if (i != increments)
@@ -253,11 +331,23 @@ public class HeadController : AspidBodyPart
                 yield return new WaitForSeconds(1f / incrementsPerSecond);
             }
         }
+
+        LookingDirection = destAngle();
+        index = GetIdleIndexForAngle(LookingDirection);
+        MainRenderer.sprite = idle_Sprites[index];
+        MainRenderer.flipX = idle_Flip[index];
     }
 
     public IEnumerator LockHead(float lockSpeed = 1f)
     {
-        return Boss.Head.LockHead(Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left, lockSpeed);
+        if (Boss.CurrentRunningMode == Boss.OffensiveMode)
+        {
+            return LockHead(Boss.PlayerRightOfBoss ? AspidOrientation.Right : AspidOrientation.Left, lockSpeed);
+        }
+        else
+        {
+            return LockHead(Boss.Head.CurrentOrientation, lockSpeed);
+        }
     }
 
     private bool switchingDirections = false;
@@ -341,11 +431,15 @@ public class HeadController : AspidBodyPart
 
             LookingDirection = OrientationToAngle(faceRight ? AspidOrientation.Right : AspidOrientation.Left);
 
+            var index = GetIdleIndexForAngle(LookingDirection);
+            MainRenderer.sprite = idle_Sprites[index];
+            MainRenderer.flipX = idle_Flip[index];
+
             yield return new WaitForSeconds(flipTime);
         }
     }
 
-    public IEnumerator LockHead(float intendedDirection, float lockSpeed = 1f)
+    public IEnumerator LockHead(float intendedDirection, float lockSpeed)
     {
         if (HeadLocked)
         {
@@ -373,6 +467,22 @@ public class HeadController : AspidBodyPart
 
             lockRoutine = Boss.StartBoundRoutine(Lock());
             yield return new WaitUntil(() => lockRoutine == 0);
+        }
+        else
+        {
+            var oldIndex = GetIdleIndexForAngle(LookingDirection);
+            var newIndex = GetIdleIndexForAngle(intendedDirection);
+            IEnumerator Lock()
+            {
+                yield return InterpolateToNewAngle(LookingDirection, () => intendedDirection, Mathf.Abs(newIndex - oldIndex), DEFAULT_FPS * lockSpeed * GlobalLockSpeedMultiplier);
+                lockRoutine = 0;
+            }
+
+            if (Mathf.Abs(newIndex - oldIndex) != 0)
+            {
+                lockRoutine = Boss.StartBoundRoutine(Lock());
+                yield return new WaitUntil(() => lockRoutine == 0);
+            }
         }
     }
 
@@ -423,6 +533,8 @@ public class HeadController : AspidBodyPart
 
         HeadLocked = false;
         doUpdate = true;
+        LookingDirection = OrientationToAngle(orientation);
+
         if (CurrentOrientation == AspidOrientation.Center && lookAtPlayer)
         {
             turningTowardsPlayer = true;
@@ -448,7 +560,7 @@ public class HeadController : AspidBodyPart
 
         int increments = Math.Abs(newIndex - oldIndex) + 1;
 
-        LookingDirection = trueNewDirection;
+        //LookingDirection = trueNewDirection;
 
         for (int i = 1; i <= increments; i++)
         {
@@ -456,9 +568,12 @@ public class HeadController : AspidBodyPart
             int index = GetIdleIndexForAngle(angle);
             if (!changingDirection)
             {
+                LookingDirection = angle;
                 MainRenderer.sprite = idle_Sprites[index];
                 //WeaverLog.Log("Setting Sprite to = " + idle_Sprites[index]);
                 MainRenderer.flipX = idle_Flip[index];
+
+                //WeaverLog.Log("Unlock Setting Sprite To = " + MainRenderer.sprite);
             }
             if (i != increments)
             {
@@ -468,6 +583,8 @@ public class HeadController : AspidBodyPart
 
         if (!changingDirection)
         {
+            LookingDirection = trueNewDirection;
+            //WeaverLog.Log("Unlock Setting Sprite To = " + idle_Sprites[0]);
             MainRenderer.sprite = idle_Sprites[0];
             //WeaverLog.Log("Setting Sprite to = " + idle_Sprites[0]);
             MainRenderer.flipX = orientation == AspidOrientation.Right;

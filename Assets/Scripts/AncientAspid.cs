@@ -32,6 +32,8 @@ public class AncientAspid : Boss
     [SerializeField]
     bool godhomeMode = false;
 
+    public bool GodhomeMode => godhomeMode;
+
     [SerializeField]
     MusicCue preAwakeCue;
 
@@ -61,6 +63,13 @@ public class AncientAspid : Boss
 
     [SerializeField]
     TailCollider tailCollider;
+
+    [SerializeField]
+    [FormerlySerializedAs("musicPlayer")]
+    public AncientAspidMusicController MusicPlayer;
+
+    [SerializeField]
+    MusicCue blankCue;
 
     [field: SerializeField]
     public VomitGlob GlobPrefab { get; private set; }
@@ -861,6 +870,13 @@ public class AncientAspid : Boss
 
         yield return new WaitUntil(() => health != HealthComponent.Health);
 
+        if (MusicPlayer != null)
+        {
+            Music.PlayMusicCue(blankCue, Mathf.Epsilon, Mathf.Epsilon, true);
+            Music.ApplyMusicSnapshot(Music.SnapshotType.Normal, 0f, 0f);
+            MusicPlayer.Play(AncientAspidMusicController.MusicPhase.AR1);
+        }
+
         double timeStart = Time.timeAsDouble;
 
         if (preAwakeCue != null)
@@ -886,7 +902,7 @@ public class AncientAspid : Boss
             awakeSound.AudioSource.pitch = sleepAwakeSoundPitch;
         }
 
-        var headRoutine = Head.LockHead(Head.LookingDirection >= 0f ? 60f : -60f);
+        var headRoutine = Head.LockHead(Head.LookingDirection >= 0f ? 60f : -60f, 1f);
         var bodyRoutine = Body.RaiseTail(1000);
 
 
@@ -1012,7 +1028,7 @@ public class AncientAspid : Boss
         if (!Head.HeadLocked)
         {
             //Initialization.PerformanceLog("BEGIN - LOCK HEAD");
-            yield return Head.LockHead(Orientation == AspidOrientation.Right ? 60f : -60f);
+            yield return Head.LockHead(Orientation == AspidOrientation.Right ? 60f : -60f, 1f);
             //Initialization.PerformanceLog("END - LOCK HEAD");
         }
 
@@ -1043,6 +1059,9 @@ public class AncientAspid : Boss
         }
 
         //Initialization.PerformanceLog("BEGIN - ROAR");
+
+        //Music.PlayMusicCue(bossMusic, 0f, 0f, true);
+
         yield return Roar(sleepRoarDuration,Head.transform.position, true);
         //Initialization.PerformanceLog("END - ROAR");
 
@@ -1073,7 +1092,12 @@ public class AncientAspid : Boss
             Music.PlayMusicCue(musicOff);
         }
         yield return null;
-        Music.PlayMusicCue(bossMusic, 0f, 0f, true);
+
+        if (MusicPlayer == null)
+        {
+            Music.PlayMusicCue(bossMusic, 0f, 0f, true);
+        }
+        //Music.PlayMusicCue(bossMusic, 0f, 0f, true);
 
         StartBoundRoutine(VarianceResetter());
 
@@ -1137,6 +1161,10 @@ public class AncientAspid : Boss
 
     public IEnumerator MainBossRoutine()
     {
+        if (godhomeMode && MusicPlayer != null)
+        {
+            MusicPlayer.Play(AncientAspidMusicController.MusicPhase.AR1);
+        }
         SetTarget(PlayerTarget);
         EnableQuickEscapes = true;
         HealthManager.OnHitEvent += HealthManager_OnHitEvent;
@@ -1715,26 +1743,35 @@ public class AncientAspid : Boss
 
         FlightEnabled = false;
 
+        var targetOrientation = Player.Player1.transform.position.x >= transform.position.x ? AspidOrientation.Right : AspidOrientation.Left;
+
         if (Head.HeadLocked)
         {
-            Head.UnlockHeadImmediate(Player.Player1.transform.position.x >= transform.position.x ? AspidOrientation.Right : AspidOrientation.Left);
+            Head.UnlockHeadImmediate(targetOrientation);
         }
 
         foreach (var laser in GetComponentsInChildren<LaserEmitter>())
         {
             laser.gameObject.SetActive(false);
         }
-        Music.ApplyMusicSnapshot(Music.SnapshotType.Silent, 0f, 0.5f);
+        if (MusicPlayer != null)
+        {
+            MusicPlayer.Stop();
+        }
+        else
+        {
+            Music.ApplyMusicSnapshot(Music.SnapshotType.Silent, 0f, 0.5f);
+        }
 
         if (deathSound != null)
         {
             WeaverAudio.PlayAtPoint(deathSound,transform.position);
         }
 
-        StartCoroutine(DeathRoutine());
+        StartCoroutine(DeathRoutine(targetOrientation));
     }
 
-    IEnumerator DeathRoutine()
+    IEnumerator DeathRoutine(AspidOrientation targetOrientation)
     {
         var targetPos = transform.position;
 
@@ -1748,7 +1785,7 @@ public class AncientAspid : Boss
             EnableCamLock(targetPos, deathCamLock);
         }
 
-        var targetOrientation = Player.Player1.transform.position.x >= transform.position.x ? AspidOrientation.Right : AspidOrientation.Left;
+        //var targetOrientation = Player.Player1.transform.position.x >= transform.position.x ? AspidOrientation.Right : AspidOrientation.Left;
 
         IEnumerator[] routines = new IEnumerator[]
         {
@@ -1766,7 +1803,7 @@ public class AncientAspid : Boss
             flasher.flashInfectedLong();
         }
 
-        yield return Head.LockHead(Player.Player1.transform.position.x >= transform.position.x ? AspidOrientation.Right : AspidOrientation.Left, 1000);
+        yield return Head.LockHead(targetOrientation, 1000);
 
         foreach (var claw in Claws.claws)
         {
@@ -1827,6 +1864,11 @@ public class AncientAspid : Boss
 
 
             var velocity = MathUtilities.CalculateVelocityToReachPoint(Head.transform.position, target, 0.75f);
+
+            if (velocity.y > 0f)
+            {
+                velocity.y = 0f;
+            }
 
             Blood.SpawnDirectionalBlood(Head.transform.position, Head.CurrentOrientation == AspidOrientation.Right ? CardinalDirection.Right : CardinalDirection.Left);
 
