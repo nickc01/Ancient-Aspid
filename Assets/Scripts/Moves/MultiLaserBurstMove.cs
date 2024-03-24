@@ -98,6 +98,50 @@ public class MultiLaserBurstMove : AncientAspidMove
         GetOrigin(emitter).SetRotationZ(angle);
     }*/
 
+    List<Coroutine> bloodRoutines = new List<Coroutine>();
+
+    void PlayLaserBlood()
+    {
+        if (bloodRoutines.Count > 0)
+        {
+            return;
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            bloodRoutines.Add(StartCoroutine(EmitParticlesRoutine(0.2f, i)));
+        }
+    }
+
+    void StopLaserBlood()
+    {
+        if (bloodRoutines.Count == 0)
+        {
+            return;
+        }
+
+        foreach (var routine in bloodRoutines)
+        {
+            StopCoroutine(routine);
+        }
+        bloodRoutines.Clear();
+    }
+
+    IEnumerator EmitParticlesRoutine(float spawnRate, int laserIndex)
+    {
+        var rapidFireMove = GetComponent<LaserRapidFireMove>();
+        float timer = UnityEngine.Random.Range(0, spawnRate);
+        while (true)
+        {
+            timer += Time.deltaTime;
+            if (timer >= spawnRate)
+            {
+                timer -= spawnRate;
+                rapidFireMove.PlayBloodEffects(1, Boss.Head.ShotgunLasers.LaserEmitters[laserIndex]);
+            }
+            yield return null;
+        }
+    }
+
     IEnumerator DoLaserBurst(float delay)
     {
         var lasers = Boss.Head.ShotgunLasers.LaserEmitters;
@@ -200,6 +244,8 @@ public class MultiLaserBurstMove : AncientAspidMove
                 lasers[i].FireLaser_P2();
             }
 
+            PlayLaserBlood();
+
             //Boss.Head.Animator.SpriteRenderer.sprite = fireSprite;
 
             if (fireLaserSound != null)
@@ -236,6 +282,7 @@ public class MultiLaserBurstMove : AncientAspidMove
         {
             endTime = lasers[i].EndLaser_P3();
         }
+        StopLaserBlood();
 
         Boss.Head.Animator.PlayAnimation("Fire Laser End Super Quick");
 
@@ -255,6 +302,7 @@ public class MultiLaserBurstMove : AncientAspidMove
 
     public override void OnStun()
     {
+        StopLaserBlood();
         Boss.Head.ShotgunLasers.StopContinouslyUpdating();
         if (Boss.Head.HeadLocked)
         {

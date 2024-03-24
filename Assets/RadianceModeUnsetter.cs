@@ -16,7 +16,7 @@ public class RadianceModeUnsetter : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (settings.TryGetFieldValue(completionFieldName, out Completion completion) && completion.completedTier2 || completion.completedTier3)
+        if (enabled && (settings.TryGetFieldValue(completionFieldName, out Completion completion) && (completion.completedTier2 || completion.completedTier3)))
         {
             completion.completedTier2 = false;
             completion.completedTier3 = false;

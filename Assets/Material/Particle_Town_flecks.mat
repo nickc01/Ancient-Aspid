@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Particle_Town_flecks
-  m_Shader: {fileID: 4800000, guid: 53bb296470af58341aaec954466393c1, type: 3}
-  m_ShaderKeywords: 
+  m_Shader: {fileID: 4800000, guid: df9db69903c789a4681790fa20f9c599, type: 3}
+  m_ShaderKeywords:
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0

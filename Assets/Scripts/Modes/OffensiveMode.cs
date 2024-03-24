@@ -48,6 +48,9 @@ public class OffensiveMode : AncientAspidMode
     public float FinalOrbitReduction { get; set; } = 50;
 
     [SerializeField]
+    bool doCameraLock = true;
+
+    [SerializeField]
     AudioClip centerModeRiseSound;
 
     [SerializeField]
@@ -100,7 +103,7 @@ public class OffensiveMode : AncientAspidMode
 
     protected override IEnumerator OnExecute(Dictionary<string, object> args)
     {
-        if (Boss.GodhomeMode && Boss.MusicPlayer != null)
+        if (Boss.GodhomeMode && Boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
         {
             Boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.UPWARDING);
         }
@@ -262,7 +265,7 @@ public class OffensiveMode : AncientAspidMode
                 if (Vector3.Distance(transform.position, newTarget) <= 2f && !centered)
                 {
                     centered = true;
-                    if (autoEnableCamLock)
+                    if (autoEnableCamLock && doCameraLock)
                     {
                         Boss.EnableCamLock(OffensiveAreaProvider.GetLockAreaOverride(newTarget, out var clampWithinArea), CenterCamLock, clampWithinArea);
                     }
@@ -289,7 +292,7 @@ public class OffensiveMode : AncientAspidMode
         }
         else
         {
-            if (autoEnableCamLock)
+            if (autoEnableCamLock && doCameraLock)
             {
                 Boss.EnableCamLock(OffensiveAreaProvider.GetLockAreaOverride(newTarget, out var clampWithinArea), CenterCamLock, clampWithinArea);
             }
@@ -317,7 +320,10 @@ public class OffensiveMode : AncientAspidMode
             Boss.RemoveTargetOverride(offensiveTarget);
             offensiveTarget = null;
         }
-        Boss.DisableCamLock(CenterCamLock);
+        if (doCameraLock)
+        {
+            Boss.DisableCamLock(CenterCamLock);
+        }
         Boss.DisableHomeInOnTarget();
         yield return Boss.ChangeDirection(orientation);
 
@@ -335,7 +341,10 @@ public class OffensiveMode : AncientAspidMode
             Boss.RemoveTargetOverride(offensiveTarget);
             offensiveTarget = null;
         }
-        Boss.DisableCamLock(CenterCamLock);
+        if (doCameraLock)
+        {
+            Boss.DisableCamLock(CenterCamLock);
+        }
         Boss.DisableHomeInOnTarget();
 
         CenterCamLock.GetComponent<Collider2D>().enabled = true;
@@ -598,7 +607,10 @@ public class OffensiveMode : AncientAspidMode
 
         if (riseSpeed == CentralRiseSpeed.Default)
         {
-            Boss.EnableCamLock(centerModePlatformDest, CenterCamLock);
+            if (doCameraLock)
+            {
+                Boss.EnableCamLock(centerModePlatformDest, CenterCamLock);
+            }
         }
 
         if (riseSpeed == CentralRiseSpeed.Default)

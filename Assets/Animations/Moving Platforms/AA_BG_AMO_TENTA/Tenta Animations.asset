@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467cfd72665795c4f89e874c3c17252a, type: 3}
+  m_Name: Tenta Animations
+  m_EditorClassIdentifier: 
+  clipNames:
+  - Default
+  clipFrameStartIndexes: 00000000
+  clipFrameCounts: 0c000000
+  frames:
+  - {fileID: 21300000, guid: 93750c62a4065d2468e3cf519e3f645d, type: 3}
+  - {fileID: 21300000, guid: 9a3160e35ff46304cb7d689e70c3572c, type: 3}
+  - {fileID: 21300000, guid: bfcd92e5df015c44999d42d35f7e3b29, type: 3}
+  - {fileID: 21300000, guid: 71dc56e4bb7210b41833c99dcf27777b, type: 3}
+  - {fileID: 21300000, guid: b92e491a3e674c74a8bd0f3b87c69452, type: 3}
+  - {fileID: 21300000, guid: 62b292babdad1124880755bb11018522, type: 3}
+  - {fileID: 21300000, guid: 5984ee6762f7feb41b584631bb50a02f, type: 3}
+  - {fileID: 21300000, guid: d7d37dcbc0e1cdb44a64b0d218d9b9a9, type: 3}
+  - {fileID: 21300000, guid: 3b995281b2155ea4ea109de90a591836, type: 3}
+  - {fileID: 21300000, guid: c9628690c770df141a501b83257fc72a, type: 3}
+  - {fileID: 21300000, guid: 20a7b41e47d8b804395be94f3633d5d0, type: 3}
+  - {fileID: 21300000, guid: 0f4170aed1998e9408f23e832ab61fa2, type: 3}
+  clipFPSs:
+  - 12
+  clipWrapModes: 05000000
+  clipLoopStarts: 00000000

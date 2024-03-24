@@ -60,6 +60,10 @@ public class LaserRapidFireMove : AncientAspidMove
     List<int> possibleShotAmounts = new List<int>
     {
         4,
+        4,
+        4,
+        4,
+        4,
         2
     };
 

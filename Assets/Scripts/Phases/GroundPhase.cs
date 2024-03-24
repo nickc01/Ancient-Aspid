@@ -9,7 +9,7 @@ public class GroundPhase : Phase
 
     protected override IEnumerator OnPhaseStart(AncientAspid boss, Phase prevPhase)
     {
-        if (boss.GodhomeMode && boss.MusicPlayer != null)
+        if (boss.GodhomeMode && boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
         {
             boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.AR2);
         }
@@ -21,7 +21,7 @@ public class GroundPhase : Phase
 
     protected override IEnumerator OnPhaseEnd(AncientAspid boss, Phase nextPhase)
     {
-        if (boss.GodhomeMode && boss.MusicPlayer != null)
+        if (boss.GodhomeMode && boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
         {
             boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.AR1);
         }

@@ -43,6 +43,9 @@ public class WideAngleShotgunMove : AncientAspidMove
     [SerializeField]
     float destinationAngle = 55f;
 
+    [SerializeField]
+    bool enableLasers = true;
+
     public override bool MoveEnabled
     {
         get
@@ -63,9 +66,9 @@ public class WideAngleShotgunMove : AncientAspidMove
                 playerAngle -= 360f;
             }
 
-            WeaverLog.Log("Left Side = " + leftSide);
-            WeaverLog.Log("Right Side = " + rightSide);
-            WeaverLog.Log("PlayerAngle = " + playerAngle);
+            //WeaverLog.Log("Left Side = " + leftSide);
+            //WeaverLog.Log("Right Side = " + rightSide);
+            //WeaverLog.Log("PlayerAngle = " + playerAngle);
 
             enabled = enabled && (playerAngle >= leftSide && playerAngle <= rightSide);
             //WeaverLog.Log("Wide Angle 1 = " + (Boss.CanSeeTarget));
@@ -118,47 +121,62 @@ public class WideAngleShotgunMove : AncientAspidMove
 
         firingLaser = true;
 
-        bool shotgunFinished = false;
-        var controller = new WideAngleShotgunController(Boss, Player.Player1.transform.position, destinationAngle, destinationAngleOffset, laserTime, angleSeparation, angleFromPlayer);
-        IEnumerator LaserRoutine()
+
+        float endTime = 9999f;
+        float startTime = 0;
+        if (enableLasers)
         {
-            if (controller.PlayerWithinLasers)
+            bool shotgunFinished = false;
+            var controller = new WideAngleShotgunController(Boss, Player.Player1.transform.position, destinationAngle, destinationAngleOffset, laserTime, angleSeparation, angleFromPlayer);
+            IEnumerator LaserRoutine()
             {
-                yield return shotgunMove.DoShotgunLaser(controller, 0f, laserTime, true, fireSprite, laserOffset);
+                if (controller.PlayerWithinLasers)
+                {
+                    yield return shotgunMove.DoShotgunLaser(controller, 0f, laserTime, true, fireSprite, laserOffset);
+                }
+                shotgunFinished = true;
             }
-            shotgunFinished = true;
-        }
 
-        var startTime = Time.time;
+            startTime = Time.time;
 
-        Boss.StartBoundRoutine(LaserRoutine());
+            Boss.StartBoundRoutine(LaserRoutine());
 
-        while (!shotgunFinished)
-        {
-            if (!controller.PlayerWithinLasers && Time.time > startTime + 1.1f)
+            while (!shotgunFinished)
             {
-                shotgunMove.CancelLaserAttack = true;
+                if (!controller.PlayerWithinLasers && Time.time > startTime + 1.1f)
+                {
+                    shotgunMove.CancelLaserAttack = true;
+                }
+                yield return null;
             }
-            yield return null;
+
+            endTime = Time.time;
+            var onRightSide = Player.Player1.transform.position.x >= Boss.transform.position.x;
+
+            Boss.Head.MainRenderer.flipX = onRightSide;
+
+            if (Boss.Head.HeadLocked)
+            {
+                Boss.Head.UnlockHead(0f);
+            }
+
         }
-
-        var endTime = Time.time;
-        var onRightSide = Player.Player1.transform.position.x >= Boss.transform.position.x;
-
-        Boss.Head.MainRenderer.flipX = onRightSide;
-
-        if (Boss.Head.HeadLocked)
-        {
-            Boss.Head.UnlockHead(0f);
-        }
+        firingLaser = false;
 
         yield return Boss.Head.LockHead(Player.Player1.transform.position.x >= Boss.transform.position.x ? AspidOrientation.Right : AspidOrientation.Left, bombHeadLockSpeed);
 
-        firingLaser = false;
-
-        if (!Cancelled && endTime - startTime >= 0.5f)
+        if (!enableLasers)
         {
-            yield return bombMove.FireBombs(new DirectBombController(bombAirTime, bombMove.BombGravityScale, bombSize), false);
+            bool onRightSide = Player.Player1.transform.position.x >= Boss.Head.transform.position.x;
+
+            yield return bombMove.FireBombs(new TargetBombController(bombAirTime, bombMove.BombGravityScale, bombSize, (onRightSide ? new Vector3(8.06f, -9.7035f) : new Vector3(-8.06f, -9.7035f)) + transform.position), false);
+        }
+        else
+        {
+            if (!Cancelled && endTime - startTime >= 0.5f)
+            {
+                yield return bombMove.FireBombs(new DirectBombController(bombAirTime, bombMove.BombGravityScale, bombSize), false);
+            }
         }
 
         if (Boss.Head.HeadLocked)

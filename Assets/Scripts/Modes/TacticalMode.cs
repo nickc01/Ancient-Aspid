@@ -13,7 +13,7 @@ public class TacticalMode : AncientAspidMode
 
     protected override IEnumerator OnExecute(Dictionary<string, object> args)
     {
-        if (Boss.GodhomeMode && Boss.MusicPlayer != null)
+        if (Boss.GodhomeMode && Boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
         {
             Boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.AR1);
         }

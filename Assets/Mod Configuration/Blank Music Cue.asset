@@ -17,17 +17,17 @@ MonoBehaviour:
   snapshot: {fileID: 0}
   channelInfos:
   - clip: {fileID: 0}
-    sync: 2
+    sync: 1
   - clip: {fileID: 0}
-    sync: 2
+    sync: 1
   - clip: {fileID: 0}
-    sync: 2
+    sync: 1
   - clip: {fileID: 0}
-    sync: 2
+    sync: 1
   - clip: {fileID: 0}
-    sync: 2
+    sync: 1
   - clip: {fileID: 0}
-    sync: 2
+    sync: 1
   alternatives: []
   useSnapshot: 1
   m_snapshot: 0
@@ -38,6 +38,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  channelInfos_sync: 020000000200000002000000020000000200000002000000
+  channelInfos_sync: 010000000100000001000000010000000100000001000000
   alternatives_PlayerDataBoolKey: []
   alternatives_Cue: []

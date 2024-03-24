@@ -13,6 +13,9 @@ public class GodhomeOffensiveAreaProvider : MonoBehaviour, IModeAreaProvider
     [SerializeField]
     float cameraLockAreaHeightOverride = 14.52f;
 
+    [SerializeField]
+    Vector2 playerTargetOffset = new Vector2(0f, 0f);
+
     private void Awake()
     {
         gameObject.layer = LayerMask.NameToLayer("Enemy Detector");
@@ -20,12 +23,12 @@ public class GodhomeOffensiveAreaProvider : MonoBehaviour, IModeAreaProvider
 
     private void Start()
     {
-        GameObject.FindObjectOfType<AncientAspid>().OffensiveMode.OffensiveAreaProvider = this;
+        GameObject.FindObjectOfType<AncientAspid>(true).OffensiveMode.OffensiveAreaProvider = this;
     }
 
     public Vector2 GetModeTarget(AncientAspid boss)
     {
-        return platformArea.ClampWithin(Player.Player1.transform.position);
+        return platformArea.ClampWithin(Player.Player1.transform.position + (Vector3)playerTargetOffset);
     }
 
     public bool IsTargetActive(AncientAspid boss)

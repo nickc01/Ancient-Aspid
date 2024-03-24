@@ -102,7 +102,7 @@ public class HeadController : AspidBodyPart
         {
             if (_shotgunLasers == null)
             {
-                _shotgunLasers = GetComponentInChildren<ShotgunLaserManager>();
+                _shotgunLasers = GetComponentInChildren<ShotgunLaserManager>(true);
             }
 
             return _shotgunLasers;

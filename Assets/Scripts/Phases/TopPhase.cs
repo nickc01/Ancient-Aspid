@@ -28,7 +28,7 @@ public class TopPhase : Phase
 
     protected override IEnumerator OnPhaseStart(AncientAspid boss, Phase prevPhase)
     {
-        if (boss.MusicPlayer != null)
+        if (boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
         {
             boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.AR3);
         }
@@ -90,7 +90,7 @@ public class TopPhase : Phase
 
         Music.ApplyMusicSnapshot(Music.SnapshotType.Silent, 0f, 0.5f);
 
-        if (boss.MusicPlayer != null)
+        if (boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
         {
             boss.MusicPlayer.Stop();
         }

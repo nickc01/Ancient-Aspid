@@ -31,11 +31,19 @@ public class AncientAspidMusicController : MonoBehaviour
 
     Transform playerTransform;
 
+    public bool Playing { get; private set; } = false;
+
+    bool hooked = false;
+
     private void Start()
     {
-        bus = FMODUnity.RuntimeManager.GetBus("bus:/");
-        FModMusicManager.OnLevelsUpdated += FModMusicManager_OnLevelsUpdated;
-        playerTransform = Player.Player1.transform;
+        if (!hooked)
+        {
+            hooked = true;
+            bus = FMODUnity.RuntimeManager.GetBus("bus:/");
+            FModMusicManager.OnLevelsUpdated += FModMusicManager_OnLevelsUpdated;
+            playerTransform = Player.Player1.transform;
+        }
     }
 
     private void LateUpdate()
@@ -50,7 +58,13 @@ public class AncientAspidMusicController : MonoBehaviour
 
     private void OnDestroy()
     {
-        FModMusicManager.OnLevelsUpdated -= FModMusicManager_OnLevelsUpdated;
+        if (hooked)
+        {
+            hooked = false;
+            FModMusicManager.OnLevelsUpdated -= FModMusicManager_OnLevelsUpdated;
+        }
+
+        //FModMusicManager.OnLevelsUpdated -= FModMusicManager_OnLevelsUpdated;
         /*foreach (var emitter in musicEmitters)
         {
             if (emitter.IsPlaying())
@@ -63,6 +77,21 @@ public class AncientAspidMusicController : MonoBehaviour
 
     public void Play(MusicPhase startPhase)
     {
+        if (Playing)
+        {
+            return;
+        }
+
+        if (!hooked)
+        {
+            hooked = true;
+            bus = FMODUnity.RuntimeManager.GetBus("bus:/");
+            FModMusicManager.OnLevelsUpdated += FModMusicManager_OnLevelsUpdated;
+            playerTransform = Player.Player1.transform;
+        }
+
+        Playing = true;
+
         CurrentlyPlayingPhase = startPhase;
 
         //var enabledEmitter = musicEmitters[emitterPhases.IndexOf(startPhase)];
@@ -75,6 +104,8 @@ public class AncientAspidMusicController : MonoBehaviour
             emitter.EventInstance.setVolume(emitterPhases[i] == startPhase ? 1f : 0f);
         }*/
         emitter.Play();
+
+        bus.setVolume(FModMusicManager.Levels.Main);
     }
 
     public void TransitionToPhase(MusicPhase phase)
@@ -146,6 +177,13 @@ public class AncientAspidMusicController : MonoBehaviour
 
     public void Stop(float duration = 0.5f)
     {
+        if (!Playing)
+        {
+            return;
+        }
+
+        Playing = false;
+
         StopAllCoroutines();
         //previousPhase = null;
         StartCoroutine(StopRoutine(duration));

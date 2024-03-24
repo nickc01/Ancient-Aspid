@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467cfd72665795c4f89e874c3c17252a, type: 3}
+  m_Name: AA_BG_AMO_SPIKE_ANIMATOR
+  m_EditorClassIdentifier: 
+  clipNames:
+  - Default
+  clipFrameStartIndexes: 00000000
+  clipFrameCounts: 0c000000
+  frames:
+  - {fileID: 21300000, guid: 5d0b1fff744197e428c10e9695acc372, type: 3}
+  - {fileID: 21300000, guid: 16c15a70f1da44f4b88ca9cc8b4d1477, type: 3}
+  - {fileID: 21300000, guid: 0b97b9ebab8197543a6217b1cd2cc552, type: 3}
+  - {fileID: 21300000, guid: 1a34d27c61ccf064996086d8b4c476bc, type: 3}
+  - {fileID: 21300000, guid: b27177f4a09bbd44baeef6d06a575a05, type: 3}
+  - {fileID: 21300000, guid: 962ca88f66278064ea001097ebc399f8, type: 3}
+  - {fileID: 21300000, guid: 39ec7672c49d5d949a08b832b425f2e2, type: 3}
+  - {fileID: 21300000, guid: 27747804b3727e1498edfbfdfc2adaf6, type: 3}
+  - {fileID: 21300000, guid: 9583e462ed238174b9073620f09db6fc, type: 3}
+  - {fileID: 21300000, guid: 4705a493e1f1be64b828a17e2fb7b42b, type: 3}
+  - {fileID: 21300000, guid: 6332af72ce732eb4380da459d33f25a6, type: 3}
+  - {fileID: 21300000, guid: a3fef7dd9580a784f9d267552f2c263e, type: 3}
+  clipFPSs:
+  - 12
+  clipWrapModes: 05000000
+  clipLoopStarts: 00000000

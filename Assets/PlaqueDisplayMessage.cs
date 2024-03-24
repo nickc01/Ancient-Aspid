@@ -24,7 +24,7 @@ public class PlaqueDisplayMessage : Conversation
     {
         var displayMessage = GameObject.FindObjectOfType<PlaqueDisplayMessage>();
 
-        if (displayMessage != null)
+        if (displayMessage != null && displayMessage.enabled)
         {
             displayMessage.OnAward(type);
         }
@@ -64,5 +64,10 @@ public class PlaqueDisplayMessage : Conversation
     protected override IEnumerator DoConversation()
     {
         yield return SpeakImmediate("Congrats on beating the boss on Ascended mode. Radiant difficulty is currently not avaiable yet, but should be in an update soon");
+    }
+
+    private void OnEnable()
+    {
+        
     }
 }

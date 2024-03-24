@@ -45,37 +45,52 @@ public class AncientAspidMeteor : MonoBehaviour
 
     Vector3 currentCamPos = default;
 
+    [SerializeField]
+    bool updateCamera = true;
+
+    [SerializeField]
+    bool updatePlayer = true;
+
+    [SerializeField]
+    float preWaitTime = 6f;
+
     private void Start()
     {
         currentCamPos = cameraStartPos;
-        if (camController == null)
+        /*if (camController == null)
         {
             camController = GameManager.instance.cameraCtrl;
-        }
+        }*/
         StartCoroutine(MainRoutine());
     }
 
     IEnumerator MainRoutine()
     {
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(preWaitTime);
         Vector2 sourcePos = transform.position;
         var hero = HeroController.instance;
 
-        hero.RelinquishControl();
-        hero.StopAnimationControl();
+        if (updatePlayer)
+        {
+            hero.RelinquishControl();
+            hero.StopAnimationControl();
 
-        hero.transform.position = playerPos;
-        hero.transform.localScale = playerScale;
+            hero.transform.position = playerPos;
+            hero.transform.localScale = playerScale;
+        }
 
         HeroUtilities.PlayPlayerClip("Challenge Start");
 
         void Interp(float t)
         {
             transform.position = Vector3.Lerp(sourcePos, travelDestination, t);
-            UpdateShaking(camController.transform, Vector2.Lerp(cameraShakeIntensityStart, cameraShakeIntensityEnd, t));
-            currentCamPos = Vector3.Lerp(cameraStartPos, cameraEndPos, cameraMovementCurve.Evaluate(t));
-            camController.SetMode(CameraController.CameraMode.FROZEN);
-            camController.transform.position = currentCamPos + shakeVector;
+            if (camController != null && updateCamera)
+            {
+                UpdateShaking(camController.transform, Vector2.Lerp(cameraShakeIntensityStart, cameraShakeIntensityEnd, t));
+                currentCamPos = Vector3.Lerp(cameraStartPos, cameraEndPos, cameraMovementCurve.Evaluate(t));
+                camController.SetMode(CameraController.CameraMode.FROZEN);
+                camController.transform.position = currentCamPos + shakeVector;
+            }
 
             var newScale = Vector3.Lerp(startScale, new Vector3(1f, 1f, 1f), t);
 
@@ -95,7 +110,11 @@ public class AncientAspidMeteor : MonoBehaviour
             yield return null;
         }
 
-        Interp(1f);
+        while (true)
+        {
+            Interp(1f);
+            yield return null;
+        }
     }
 
     const float FpsLimit = 60f;

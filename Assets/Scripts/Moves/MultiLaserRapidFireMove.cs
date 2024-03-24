@@ -79,6 +79,46 @@ public class MultiLaserRapidFireMove : AncientAspidMove
     float oldlaserWidth;
     float oldLaserSpread;
 
+    //List<Coroutine> bloodRoutines = new List<Coroutine>();
+    Coroutine[] bloodRoutines = new Coroutine[5];
+
+    void PlayLaserBlood(int index)
+    {
+        if (bloodRoutines[index] != null)
+        {
+            return;
+        }
+        bloodRoutines[index] = StartCoroutine(EmitParticlesRoutine(0.2f, index));
+    }
+
+    void StopLaserBlood(int index)
+    {
+        if (bloodRoutines[index] == null)
+        {
+            return;
+        }
+
+        StopCoroutine(bloodRoutines[index]);
+
+        bloodRoutines[index] = null;
+    }
+
+    IEnumerator EmitParticlesRoutine(float spawnRate, int laserIndex)
+    {
+        var rapidFireMove = GetComponent<LaserRapidFireMove>();
+        float timer = UnityEngine.Random.Range(0, spawnRate);
+        while (true)
+        {
+            timer += Time.deltaTime;
+            if (timer >= spawnRate)
+            {
+                timer -= spawnRate;
+                rapidFireMove.PlayBloodEffects(1, Boss.Head.ShotgunLasers.LaserEmitters[laserIndex]);
+            }
+            yield return null;
+        }
+    }
+
     protected override IEnumerator OnExecute()
     {
         oldlaserWidth = Boss.Head.ShotgunLasers.LaserEmitters[2].DefaultWidth;
@@ -214,6 +254,7 @@ public class MultiLaserRapidFireMove : AncientAspidMove
             }
 
             laser.FireLaser_P2();
+            PlayLaserBlood(laserIndex);
 
             for (float t = 0; t < fireDuration; t += Time.deltaTime)
             {
@@ -228,6 +269,7 @@ public class MultiLaserRapidFireMove : AncientAspidMove
 
 
         var endDuration = laser.EndLaser_P3();
+        StopLaserBlood(laserIndex);
         for (float t = 0; t < endDuration; t += Time.deltaTime)
         {
             if (Cancelled)
@@ -369,6 +411,10 @@ public class MultiLaserRapidFireMove : AncientAspidMove
 
     public override void OnStun()
     {
+        for (int i = 0; i < 5; i++)
+        {
+            StopLaserBlood(i);
+        }
         Boss.Head.ShotgunLasers.LaserEmitters[2].DefaultWidth = oldlaserWidth;
         Boss.Head.ShotgunLasers.LaserEmitters[2].DefaultSpread = oldLaserSpread;
         Boss.Head.ShotgunLasers.StopContinouslyUpdating();

@@ -17,6 +17,8 @@ public class GroundMode : AncientAspidMode
 
     public IModeAreaProvider GroundAreaProvider { get; set; }
 
+    [SerializeField]
+    bool modeEnabled = true;
 
     [Header("Lunge")]
 
@@ -142,7 +144,7 @@ public class GroundMode : AncientAspidMode
     [field: SerializeField]
     public float groundJumpLandDelay { get; private set; } = 0.2f;
 
-    public bool GroundModeEnabled => GroundAreaProvider != null;
+    //public bool GroundModeEnabled => GroundAreaProvider != null;
 
     [field: Space]
     [field: Header("Glob Stomp")]
@@ -178,12 +180,12 @@ public class GroundMode : AncientAspidMode
 
     protected override bool ModeEnabled(Dictionary<string, object> args)
     {
-        return GroundAreaProvider != null && GroundAreaProvider.IsTargetActive(Boss) && ((Boss.Orientation == AspidOrientation.Right && Player.Player1.transform.position.x > Boss.transform.position.x) || (Boss.Orientation == AspidOrientation.Left && Player.Player1.transform.position.x < Boss.transform.position.x));
+        return modeEnabled && GroundAreaProvider != null && GroundAreaProvider.IsTargetActive(Boss) && ((Boss.Orientation == AspidOrientation.Right && Player.Player1.transform.position.x > Boss.transform.position.x) || (Boss.Orientation == AspidOrientation.Left && Player.Player1.transform.position.x < Boss.transform.position.x));
     }
 
     protected override IEnumerator OnExecute(Dictionary<string, object> customArgs)
     {
-        if (Boss.GodhomeMode && Boss.MusicPlayer != null)
+        if (Boss.GodhomeMode && Boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
         {
             Boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.AR1);
         }

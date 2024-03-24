@@ -1,0 +1,1032 @@
+fileFormatVersion: 2
+guid: 498b122e33c5eac4990e8530fb4b5c56
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -131517086443988704
+    second: Dreamer_plat_01_animated005
+  - first:
+      213: -4503697146086480735
+    second: dreamer_plat_02_animated002
+  - first:
+      213: 4063131370740990300
+    second: dreamer_plat_02_animated003
+  - first:
+      213: -5362845546151282463
+    second: dreamer_plat_02_animated008
+  - first:
+      213: 8339468979181706413
+    second: Dreamer_plat_01_animated004
+  - first:
+      213: 3292170942324423448
+    second: dreamer_plat_02_animated000
+  - first:
+      213: -5820006235354049181
+    second: Dreamer_plat_01_animated007
+  - first:
+      213: -2252771305294359473
+    second: dreamer_plat_02_animated007
+  - first:
+      213: -2441187614866810688
+    second: Dreamer_plat_01_animated006
+  - first:
+      213: 1245763859827910856
+    second: dreamer_plat_02_animated006
+  - first:
+      213: -362959923833350938
+    second: dreamer_plat_02_animated004
+  - first:
+      213: 9986227569034556
+    second: dreamer_plat_02_animated001
+  - first:
+      213: -4498854644399884938
+    second: Dreamer_plat_01_animated000
+  - first:
+      213: 4710893126818255456
+    second: Dreamer_plat_01_animated003
+  - first:
+      213: 8269355536890897669
+    second: Dreamer_plat_01_animated010
+  - first:
+      213: 6973459250078396063
+    second: Dreamer_plat_01_animated001
+  - first:
+      213: -5258900776384041683
+    second: Dreamer_plat_01_animated009
+  - first:
+      213: -4819576640903161411
+    second: dreamer_plat_02_animated009
+  - first:
+      213: -1188033190518646194
+    second: Dreamer_plat_01_animated008
+  - first:
+      213: 4516068266348794087
+    second: dreamer_plat_02_animated005
+  - first:
+      213: 4354129067313072485
+    second: Dreamer_plat_01_animated002
+  - first:
+      213: -707192027424166800
+    second: dreamer_plat_wide0004
+  - first:
+      213: -8917261867393495853
+    second: dreamer_plat_wide0008
+  - first:
+      213: -897215365396313575
+    second: dreamer_plat_wide0001
+  - first:
+      213: 551212633413768867
+    second: dreamer_plat_wide0007
+  - first:
+      213: -4327346518406419100
+    second: dreamer_plat_wide0003
+  - first:
+      213: -7155330492641914963
+    second: dreamer_plat_wide0006
+  - first:
+      213: -1533318816089666757
+    second: dreamer_plat_wide0002
+  - first:
+      213: -3350389097627669997
+    second: gg_radiance_plat_tall0000
+  - first:
+      213: 29253707941223385
+    second: dreamer_plat_wide0005
+  - first:
+      213: 5956609934287013519
+    second: gg_radiance_plat_wide0002
+  - first:
+      213: 7910655760214229040
+    second: gg_radiance_plat_small0002
+  - first:
+      213: -8212169845977834011
+    second: gg_radiance_plat_wide0000
+  - first:
+      213: -6344122733903924297
+    second: gg_radiance_plat_small0001
+  - first:
+      213: 120170942100204852
+    second: gg_radiance_plat_tall0001
+  - first:
+      213: -301255661367702918
+    second: gg_radiance_plat_small0000
+  - first:
+      213: -948240538049491700
+    second: gg_radiance_plat_wide0001
+  - first:
+      213: -1235416488085464357
+    second: gg_radiance_plat_tall0002
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 100
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 100
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 100
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Dreamer_plat_01_animated005
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 759
+        width: 197
+        height: 191
+      alignment: 9
+      pivot: {x: 0.5177665, y: 0.513089}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0299c9c18e1cc2ef0800000000000000
+      internalID: -131517086443988704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_02_animated002
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 559
+        width: 164
+        height: 95
+      alignment: 9
+      pivot: {x: 0.4817073, y: 0.56842107}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a42397ae47af71c0800000000000000
+      internalID: -4503697146086480735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_02_animated003
+      rect:
+        serializedVersion: 2
+        x: 1134
+        y: 355
+        width: 179
+        height: 110
+      alignment: 9
+      pivot: {x: 0.49162012, y: 0.5454545}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5143cc4474236830800000000000000
+      internalID: 4063131370740990300
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_02_animated008
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 510
+        width: 3
+        height: 3
+      alignment: 9
+      pivot: {x: -0.000000029802317, y: 0.9999998}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e8fd5ca3685395b0800000000000000
+      internalID: -5362845546151282463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dreamer_plat_01_animated004
+      rect:
+        serializedVersion: 2
+        x: 939
+        y: 120
+        width: 195
+        height: 187
+      alignment: 9
+      pivot: {x: 0.51794875, y: 0.51336896}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dacd3872adebbb370800000000000000
+      internalID: 8339468979181706413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_02_animated000
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 510
+        width: 3
+        height: 3
+      alignment: 9
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81b3c15870420bd20800000000000000
+      internalID: 3292170942324423448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dreamer_plat_01_animated007
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 256
+        height: 257
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5097276}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 365d9272a2f2b3fa0800000000000000
+      internalID: -5820006235354049181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_02_animated007
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 130
+        width: 241
+        height: 166
+      alignment: 9
+      pivot: {x: 0.5062241, y: 0.48192772}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f449cbbfe6c8cb0e0800000000000000
+      internalID: -2252771305294359473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dreamer_plat_01_animated006
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 771
+        width: 216
+        height: 211
+      alignment: 9
+      pivot: {x: 0.5138889, y: 0.549763}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c8d7c95cc82f1ed0800000000000000
+      internalID: -2441187614866810688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_02_animated006
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 794
+        width: 249
+        height: 174
+      alignment: 9
+      pivot: {x: 0.51004016, y: 0.50574714}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c8ef0351a7d94110800000000000000
+      internalID: 1245763859827910856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_02_animated004
+      rect:
+        serializedVersion: 2
+        x: 1835
+        y: 0
+        width: 187
+        height: 116
+      alignment: 9
+      pivot: {x: 0.4973262, y: 0.5258621}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e4d5305fd186faf0800000000000000
+      internalID: -362959923833350938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_02_animated001
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 470
+        width: 135
+        height: 76
+      alignment: 9
+      pivot: {x: 0.44444445, y: 0.6052632}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3506eacb6a732000800000000000000
+      internalID: 9986227569034556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dreamer_plat_01_animated000
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 654
+        width: 63
+        height: 63
+      alignment: 9
+      pivot: {x: 0.47619048, y: 0.5238095}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 675bd60798bd091c0800000000000000
+      internalID: -4498854644399884938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dreamer_plat_01_animated003
+      rect:
+        serializedVersion: 2
+        x: 939
+        y: 307
+        width: 186
+        height: 178
+      alignment: 9
+      pivot: {x: 0.5107527, y: 0.5224719}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 062d4d6e654706140800000000000000
+      internalID: 4710893126818255456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dreamer_plat_01_animated010
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 562
+        width: 195
+        height: 197
+      alignment: 9
+      pivot: {x: 0.50256413, y: 0.5431472}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 505aac14c07a2c270800000000000000
+      internalID: 8269355536890897669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dreamer_plat_01_animated001
+      rect:
+        serializedVersion: 2
+        x: 442
+        y: 324
+        width: 139
+        height: 146
+      alignment: 9
+      pivot: {x: 0.46043167, y: 0.5479452}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9ea590bd34b6c060800000000000000
+      internalID: 6973459250078396063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dreamer_plat_01_animated009
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 510
+        width: 3
+        height: 3
+      alignment: 9
+      pivot: {x: 0, y: 1.000004}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2d6a925b91a407b0800000000000000
+      internalID: -5258900776384041683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_02_animated009
+      rect:
+        serializedVersion: 2
+        x: 1858
+        y: 120
+        width: 186
+        height: 115
+      alignment: 9
+      pivot: {x: 0.50537634, y: 0.54782605}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db9523f849c6d1db0800000000000000
+      internalID: -4819576640903161411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dreamer_plat_01_animated008
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 257
+        width: 254
+        height: 253
+      alignment: 9
+      pivot: {x: 0.496063, y: 0.51778656}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4a13c19b12438fe0800000000000000
+      internalID: -1188033190518646194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_02_animated005
+      rect:
+        serializedVersion: 2
+        x: 1644
+        y: 120
+        width: 214
+        height: 129
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5348837}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e0522d392c4cae30800000000000000
+      internalID: 4516068266348794087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dreamer_plat_01_animated002
+      rect:
+        serializedVersion: 2
+        x: 939
+        y: 485
+        width: 170
+        height: 166
+      alignment: 9
+      pivot: {x: 0.5, y: 0.5361446}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 569066b4159fc6c30800000000000000
+      internalID: 4354129067313072485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_wide0004
+      rect:
+        serializedVersion: 2
+        x: 939
+        y: 0
+        width: 304
+        height: 120
+      alignment: 9
+      pivot: {x: 0.5131579, y: 0.5166667}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07ce461199c8f26f0800000000000000
+      internalID: -707192027424166800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_wide0008
+      rect:
+        serializedVersion: 2
+        x: 1243
+        y: 0
+        width: 294
+        height: 115
+      alignment: 9
+      pivot: {x: 0.4761905, y: 0.5217391}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dccfd8c3958f3480800000000000000
+      internalID: -8917261867393495853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_wide0001
+      rect:
+        serializedVersion: 2
+        x: 1134
+        y: 273
+        width: 266
+        height: 82
+      alignment: 9
+      pivot: {x: 0.5150376, y: 0.5243902}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91ac78af0637c83f0800000000000000
+      internalID: -897215365396313575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_wide0007
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 510
+        width: 3
+        height: 3
+      alignment: 9
+      pivot: {x: -0.00000002980232, y: 0.99999994}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a6d55a38fc46a700800000000000000
+      internalID: 551212633413768867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_wide0003
+      rect:
+        serializedVersion: 2
+        x: 1537
+        y: 0
+        width: 298
+        height: 110
+      alignment: 9
+      pivot: {x: 0.51342285, y: 0.5181818}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46dac5ec44d22f3c0800000000000000
+      internalID: -4327346518406419100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_wide0006
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 353
+        height: 179
+      alignment: 9
+      pivot: {x: 0.48725212, y: 0.50837994}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dafce87d3d823bc90800000000000000
+      internalID: -7155330492641914963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_wide0002
+      rect:
+        serializedVersion: 2
+        x: 1358
+        y: 120
+        width: 286
+        height: 98
+      alignment: 9
+      pivot: {x: 0.513986, y: 0.52040815}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3b8d8f19ae88bae0800000000000000
+      internalID: -1533318816089666757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gg_radiance_plat_tall0000
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 510
+        width: 223
+        height: 261
+      alignment: 9
+      pivot: {x: 0.49775785, y: 0.5019157}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31aaf88edd60181d0800000000000000
+      internalID: -3350389097627669997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dreamer_plat_wide0005
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 0
+        width: 330
+        height: 130
+      alignment: 9
+      pivot: {x: 0.5121212, y: 0.5153846}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9db1336a71ee76000800000000000000
+      internalID: 29253707941223385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gg_radiance_plat_wide0002
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 429
+        width: 290
+        height: 133
+      alignment: 9
+      pivot: {x: 0.46896553, y: 0.35338348}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f868dbefc212aa250800000000000000
+      internalID: 5956609934287013519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gg_radiance_plat_small0002
+      rect:
+        serializedVersion: 2
+        x: 939
+        y: 651
+        width: 186
+        height: 132
+      alignment: 9
+      pivot: {x: 0.5, y: 0.36363637}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03087ff508b48cd60800000000000000
+      internalID: 7910655760214229040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gg_radiance_plat_wide0000
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 179
+        width: 330
+        height: 145
+      alignment: 9
+      pivot: {x: 0.47272727, y: 0.37241378}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ed1157f803880e80800000000000000
+      internalID: -8212169845977834011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gg_radiance_plat_small0001
+      rect:
+        serializedVersion: 2
+        x: 939
+        y: 783
+        width: 186
+        height: 132
+      alignment: 9
+      pivot: {x: 0.5, y: 0.36363637}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b33d227cf525f7a0800000000000000
+      internalID: -6344122733903924297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gg_radiance_plat_tall0001
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 559
+        width: 186
+        height: 235
+      alignment: 9
+      pivot: {x: 0.5, y: 0.50212765}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43de43cc5deeaa100800000000000000
+      internalID: 120170942100204852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gg_radiance_plat_small0000
+      rect:
+        serializedVersion: 2
+        x: 1134
+        y: 120
+        width: 224
+        height: 153
+      alignment: 9
+      pivot: {x: 0.5, y: 0.38562092}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7a4a957299b1dbf0800000000000000
+      internalID: -301255661367702918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gg_radiance_plat_wide0001
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 296
+        width: 290
+        height: 133
+      alignment: 9
+      pivot: {x: 0.46896553, y: 0.35338348}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0d4fef214c27d2f0800000000000000
+      internalID: -948240538049491700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: gg_radiance_plat_tall0002
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 324
+        width: 186
+        height: 235
+      alignment: 9
+      pivot: {x: 0.5, y: 0.50212765}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bda5106ef3beadee0800000000000000
+      internalID: -1235416488085464357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

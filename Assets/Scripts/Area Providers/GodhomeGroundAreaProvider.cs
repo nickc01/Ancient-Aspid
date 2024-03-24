@@ -13,7 +13,7 @@ public class GodhomeGroundAreaProvider : MonoBehaviour, IModeAreaProvider
 
     private void Start()
     {
-        GameObject.FindObjectOfType<AncientAspid>().GroundMode.GroundAreaProvider = this;
+        GameObject.FindObjectOfType<AncientAspid>(true).GroundMode.GroundAreaProvider = this;
     }
 
     public Vector2 GetModeTarget(AncientAspid boss)

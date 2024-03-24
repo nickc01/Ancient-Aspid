@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 467cfd72665795c4f89e874c3c17252a, type: 3}
+  m_Name: AA_BG_AMO_DOWNWARDSPIKE Animations
+  m_EditorClassIdentifier: 
+  clipNames:
+  - Default
+  clipFrameStartIndexes: 00000000
+  clipFrameCounts: 17000000
+  frames:
+  - {fileID: 21300000, guid: b4a1d79c53f3c9e47bc3aa5d5251efe4, type: 3}
+  - {fileID: 21300000, guid: 631b9850179478744abf61e4486b237f, type: 3}
+  - {fileID: 21300000, guid: 10c5e85c0741bca49a60759bbc8b53de, type: 3}
+  - {fileID: 21300000, guid: a5993bca2f387ac47a7cd566dfa7eb28, type: 3}
+  - {fileID: 21300000, guid: 09fc66f00b3c64649b8def22b933e45d, type: 3}
+  - {fileID: 21300000, guid: 99caa0edd4e69eb43a3cf5ea23c1663b, type: 3}
+  - {fileID: 21300000, guid: 4e3688b50a51c3f408b47241113cf8e2, type: 3}
+  - {fileID: 21300000, guid: 8922985a18eaffe419b422fedd9208f6, type: 3}
+  - {fileID: 21300000, guid: f94dc46a01d92c04699c930128b6cafb, type: 3}
+  - {fileID: 21300000, guid: 675e5b9478c2d28429f70842a943248b, type: 3}
+  - {fileID: 21300000, guid: eab42ba91290d7643a863caf9b00a64a, type: 3}
+  - {fileID: 21300000, guid: 20d2c297fb4010a4da862bef95097366, type: 3}
+  - {fileID: 21300000, guid: 289ee0aba05919d4b82b31123a337753, type: 3}
+  - {fileID: 21300000, guid: 6165e9020a86bf043b2a6e1cf5b6dd5e, type: 3}
+  - {fileID: 21300000, guid: 6b2833ce0afe3704b8810b1f4a0d8c46, type: 3}
+  - {fileID: 21300000, guid: 5aa3508bd329ea142a4046a44810bb2f, type: 3}
+  - {fileID: 21300000, guid: c608240b170b1de4fab031a3f093babf, type: 3}
+  - {fileID: 21300000, guid: 72dcd50fb8481f74da83b8d97df12aa0, type: 3}
+  - {fileID: 21300000, guid: 73fe4ae10f6b2394c90db8289e6d1e79, type: 3}
+  - {fileID: 21300000, guid: a8ee0cac820a24c4ea0f290550ae484f, type: 3}
+  - {fileID: 21300000, guid: 5148b26ad4bdfdf4fb29498de430747e, type: 3}
+  - {fileID: 21300000, guid: bbfd459fd63d7394aba1b9d1da9171ee, type: 3}
+  - {fileID: 21300000, guid: bdf143f8052d3b14986d9d97698a742d, type: 3}
+  clipFPSs:
+  - 12
+  clipWrapModes: 05000000
+  clipLoopStarts: 00000000

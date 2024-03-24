@@ -15,6 +15,7 @@ using WeaverCore.Settings;
 using WeaverCore.Implementations;
 using UnityEngine.Serialization;
 using WeaverCore.Attributes;
+using static SceneLoad;
 
 public class AncientAspid : Boss
 {
@@ -25,7 +26,27 @@ public class AncientAspid : Boss
     [SerializeField]
     Phase defaultPhase;
 
-    public Phase CurrentPhase { get; private set; } = null;
+    bool phaseSet = false;
+    Phase _currentPhase;
+    public Phase CurrentPhase
+    {
+        get
+        {
+            if (_currentPhase == null && !phaseSet)
+            {
+                phaseSet = true;
+                _currentPhase = defaultPhase;
+            }
+
+            return _currentPhase;
+        }
+
+        set
+        {
+            phaseSet = true;
+            _currentPhase = value;
+        }
+    }
 
     Queue<Phase> phaseQueue = new Queue<Phase>();
 
@@ -870,7 +891,7 @@ public class AncientAspid : Boss
 
         yield return new WaitUntil(() => health != HealthComponent.Health);
 
-        if (MusicPlayer != null)
+        if (MusicPlayer != null && !InPantheon)
         {
             Music.PlayMusicCue(blankCue, Mathf.Epsilon, Mathf.Epsilon, true);
             Music.ApplyMusicSnapshot(Music.SnapshotType.Normal, 0f, 0f);
@@ -879,7 +900,7 @@ public class AncientAspid : Boss
 
         double timeStart = Time.timeAsDouble;
 
-        if (preAwakeCue != null)
+        if (preAwakeCue != null && !WeaverCore.Features.Boss.InPantheon)
         {
             Music.PlayMusicCue(preAwakeCue, 1f, 1f, true);
         }
@@ -1087,13 +1108,13 @@ public class AncientAspid : Boss
         {
             obj.SetActive(true);
         }
-        if (preAwakeCue == null)
+        if (preAwakeCue == null && !WeaverCore.Features.Boss.InPantheon)
         {
             Music.PlayMusicCue(musicOff);
         }
         yield return null;
 
-        if (MusicPlayer == null)
+        if (MusicPlayer == null && !InPantheon)
         {
             Music.PlayMusicCue(bossMusic, 0f, 0f, true);
         }
@@ -1161,7 +1182,7 @@ public class AncientAspid : Boss
 
     public IEnumerator MainBossRoutine()
     {
-        if (godhomeMode && MusicPlayer != null)
+        if (godhomeMode && MusicPlayer != null && !InPantheon)
         {
             MusicPlayer.Play(AncientAspidMusicController.MusicPhase.AR1);
         }
@@ -1754,13 +1775,16 @@ public class AncientAspid : Boss
         {
             laser.gameObject.SetActive(false);
         }
-        if (MusicPlayer != null)
+        if (!InPantheon)
         {
-            MusicPlayer.Stop();
-        }
-        else
-        {
-            Music.ApplyMusicSnapshot(Music.SnapshotType.Silent, 0f, 0.5f);
+            if (MusicPlayer != null)
+            {
+                MusicPlayer.Stop();
+            }
+            else
+            {
+                Music.ApplyMusicSnapshot(Music.SnapshotType.Silent, 0f, 0.5f);
+            }
         }
 
         if (deathSound != null)
@@ -1897,21 +1921,27 @@ public class AncientAspid : Boss
             yield return null;
         }
 
-        if (flyAwayThunkSound != null)
+        /*if (flyAwayThunkSound != null)
         {
             WeaverAudio.PlayAtPoint(flyAwayThunkSound, transform.position);
-        }
+        }*/
 
-        CameraShaker.Instance.Shake(ShakeType.EnemyKillShake);
+        //CameraShaker.Instance.Shake(ShakeType.EnemyKillShake);
 
-        foreach (var renderer in GetComponentsInChildren<Renderer>())
+        if (!godhomeMode)
         {
-            renderer.enabled = false;
+            foreach (var renderer in GetComponentsInChildren<Renderer>())
+            {
+                renderer.enabled = false;
+            }
         }
 
         yield return new WaitForSeconds(1f);
 
-        Rbody.velocity = default;
+        if (!godhomeMode)
+        {
+            Rbody.velocity = default;
+        }
 
         if (!godhomeMode)
         {
