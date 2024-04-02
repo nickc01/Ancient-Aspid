@@ -9,11 +9,12 @@ public class TacticalMode : AncientAspidMode
     public const string DO_FLY_AWAY = nameof(DO_FLY_AWAY);
     private bool stop = false;
 
-
+    [SerializeField]
+    bool doMusicChange = true;
 
     protected override IEnumerator OnExecute(Dictionary<string, object> args)
     {
-        if (Boss.GodhomeMode && Boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
+        if (doMusicChange && Boss.GodhomeMode && Boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
         {
             Boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.AR1);
         }
@@ -66,6 +67,7 @@ public class TacticalMode : AncientAspidMode
             yield return RunAspidMove(move, args);
             lastMoveTime = Time.time;
             lastMoveDelay = move.GetPostDelay(oldHealth);
+            lastMoveDelay /= 1.5f;
         }
 
         yield break;

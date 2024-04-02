@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using WeaverCore;
 using WeaverCore.Assets.Components;
 using WeaverCore.Utilities;
 
@@ -36,6 +37,9 @@ public class MantisShotMove : AncientAspidMove
 
     [SerializeField]
     float moveChance = 0.65f;
+
+    [SerializeField]
+    MantisShot prefab;
 
     float currentChance = -1f;
 
@@ -79,7 +83,8 @@ public class MantisShotMove : AncientAspidMove
 
             var currentAngle = Mathf.Lerp(fireAngleRange.x, fireAngleRange.y,i / (shotAmount - 1f));
 
-            var shot = MantisShot.Spawn(Boss.Claws.transform.position, MathUtilities.PolarToCartesian(currentAngle, velocityRange.RandomInRange()));
+            WeaverLog.Log("PREFAB = " + prefab);
+            var shot = MantisShot.Spawn(Boss.Claws.transform.position, MathUtilities.PolarToCartesian(currentAngle, velocityRange.RandomInRange()),true, prefab);
 
             shot.Audio.AudioSource.volume = 1f / shotAmount;
         }

@@ -66,10 +66,16 @@ public class LaserShotgunMove : AncientAspidMove
     Sprite attackSprite;
 
     [SerializeField]
-    AudioClip chargeUpSound;
+    List<AudioClip> chargeUpSounds;
 
     [SerializeField]
-    AudioClip fireSound;
+    Vector2 chargeUpSoundPitchRange = new Vector2(0.95f, 1.05f);
+
+    [SerializeField]
+    List<AudioClip> fireSounds;
+
+    [SerializeField]
+    Vector2 fireSoundPitchRange = new Vector2(0.95f, 1.05f);
 
     [SerializeField]
     AudioClip fireLoop;
@@ -114,21 +120,23 @@ public class LaserShotgunMove : AncientAspidMove
         }
     }
 
-    IEnumerator PlaySoundsStaggered(AudioClip clip, float volume = 1f)
+    IEnumerator PlaySoundsStaggered(AudioClip clip, float volume = 1f, float pitch = 1f)
     {
-        WeaverAudio.PlayAtPoint(clip, Boss.Head.transform.position, volume);
+        var instance = WeaverAudio.PlayAtPoint(clip, Boss.Head.transform.position, volume);
+        instance.AudioSource.pitch = pitch;
 
         if (fireSoundStaggerTime > 0)
         {
             yield return new WaitForSeconds(fireSoundStaggerTime);
         }
 
-        WeaverAudio.PlayAtPoint(clip, Boss.Head.transform.position, volume);
+        instance = WeaverAudio.PlayAtPoint(clip, Boss.Head.transform.position, volume);
+        instance.AudioSource.pitch = pitch;
     }
 
     AudioPlayer PlayFireSound()
     {
-        StartCoroutine(PlaySoundsStaggered(fireSound));
+        StartCoroutine(PlaySoundsStaggered(fireSounds.GetRandomElement(),1f, fireSoundPitchRange.RandomInRange()));
         return WeaverAudio.PlayAtPointLooped(fireLoop, rapidFireMove.GetMiddleBeamContact(Boss.Head.ShotgunLasers.LaserEmitters[2]));
     }
 
@@ -191,7 +199,7 @@ public class LaserShotgunMove : AncientAspidMove
 
         if (prepareTime > 0f)
         {
-            StartCoroutine(PlaySoundsStaggered(chargeUpSound));
+            StartCoroutine(PlaySoundsStaggered(chargeUpSounds.GetRandomElement(), 1f, chargeUpSoundPitchRange.RandomInRange()));
         }
 
         controller.ChangeMode(ShotgunController.LaserMode.Preparing);

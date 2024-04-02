@@ -60,7 +60,8 @@ public class ArenaSweepController : ILaserController
 
     public bool CanFire(FireLaserMove laserMove)
     {
-        return laserMove.IsLaserOriginVisible();
+        return true;
+        //return laserMove.IsLaserOriginVisible();
     }
 
     public IEnumerator Fire(FireLaserMove laserMove, Func<bool> moveCancelled, Action<Quaternion> setLaserAngle, Quaternion startAngle)

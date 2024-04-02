@@ -114,7 +114,7 @@ public class GodhomeRespawnManager : MonoBehaviour
 
     bool TryGoToPlatform(MovingPlatform platform, Vector2 offset)
     {
-        if (platform.transform.position.x >= validPositionRange.x && platform.transform.position.x <= validPositionRange.y)
+        if (platform != null && platform.transform.position.x >= validPositionRange.x && platform.transform.position.x <= validPositionRange.y)
         {
             transform.SetParent(platform.transform);
             transform.localPosition = offset;

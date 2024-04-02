@@ -89,6 +89,9 @@ public class OffensiveMode : AncientAspidMode
     [SerializeField]
     List<GroupSpawner> platformGroupSpawners = new List<GroupSpawner>();
 
+    [SerializeField]
+    bool doMusicChange = true;
+
 
     bool stop = false;
     TargetOverride offensiveTarget;
@@ -103,7 +106,7 @@ public class OffensiveMode : AncientAspidMode
 
     protected override IEnumerator OnExecute(Dictionary<string, object> args)
     {
-        if (Boss.GodhomeMode && Boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
+        if (doMusicChange && Boss.GodhomeMode && Boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
         {
             Boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.UPWARDING);
         }
@@ -193,6 +196,7 @@ public class OffensiveMode : AncientAspidMode
 
                 lastMoveTime = Time.time;
                 lastMoveDelay = move.GetPostDelay(oldHealth);
+                lastMoveDelay /= 2f;
             }
 
             if (offensiveCheckRoutine != 0)

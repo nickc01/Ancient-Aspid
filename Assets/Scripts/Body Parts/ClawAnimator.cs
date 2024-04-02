@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using WeaverCore;
@@ -62,7 +63,13 @@ public class ClawAnimator : MonoBehaviour
     private AudioClip anticSoundEffect;
 
     [SerializeField]
-    private AudioClip anticSwingSound;
+    private List<AudioClip> anticSwingSounds;
+
+    [SerializeField]
+    private List<float> anticSwingSoundVolumes;
+
+    [SerializeField]
+    private Vector2 anticSwingSoundPitchRange = new Vector2(0.95f, 1.05f);
 
     [SerializeField]
     private GameObject slashObject;
@@ -224,9 +231,13 @@ public class ClawAnimator : MonoBehaviour
             if (i == maxRotationFrameRange.x)
             {
                 yield return new WaitForSeconds(anticTime);
-                if (playSwingSound && anticSwingSound != null)
+                if (playSwingSound && anticSwingSounds != null)
                 {
-                     WeaverAudio.PlayAtPoint(anticSwingSound, transform.position);
+                    for (int cIndex = 0; cIndex < anticSwingSounds.Count; cIndex++)
+                    {
+                        var instance = WeaverAudio.PlayAtPoint(anticSwingSounds[cIndex], transform.position, anticSwingSoundVolumes[cIndex]);
+                        instance.AudioSource.pitch = anticSwingSoundPitchRange.RandomInRange();
+                    }
                 }
                 if (doAttack)
                 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using WeaverCore;
 using WeaverCore.Components;
@@ -37,16 +38,21 @@ public class FarAwayLaser : AncientAspidMove
     int fireTimeCounter;
 
     [SerializeField]
-    AudioClip preFireSound;
+    List<AudioClip> preFireSound;
 
     [SerializeField]
-    AudioClip fireSound;
+    Vector2 preFireSoundPitchRange = new Vector2(0.95f, 1.05f);
 
+    [SerializeField]
+    List<AudioClip> fireSound;
+
+    [SerializeField]
+    Vector2 fireSoundPitchRange = new Vector2(0.95f, 1.05f);
     [field: SerializeField]
     public bool moveEnabled { get; set; } = true;
 
 
-    public override bool MoveEnabled => moveEnabled && Vector3.Distance(Player.Player1.transform.position, transform.position) > minDistance && Boss.FlightEnabled;
+    public override bool MoveEnabled => moveEnabled && Vector3.Distance(Player.Player1.transform.position, transform.position) > minDistance && Boss.FlightEnabled && farLaserEmitter != null && farLaserEmitter.Laser != null;
 
     private void Awake()
     {
@@ -137,7 +143,8 @@ public class FarAwayLaser : AncientAspidMove
 
         if (preFireSound != null)
         {
-            WeaverAudio.PlayAtPoint(preFireSound, Player.Player1.transform.position);
+            var instance = WeaverAudio.PlayAtPoint(preFireSound.GetRandomElement(), Player.Player1.transform.position);
+            instance.AudioSource.pitch = preFireSoundPitchRange.RandomInRange();
         }
 
         farLaserEmitter.ChargeUpLaser_P1();
@@ -168,7 +175,8 @@ public class FarAwayLaser : AncientAspidMove
 
             if (fireSound != null)
             {
-                WeaverAudio.PlayAtPoint(fireSound, Player.Player1.transform.position);
+                var instance = WeaverAudio.PlayAtPoint(fireSound.GetRandomElement(), Player.Player1.transform.position);
+                instance.AudioSource.pitch = fireSoundPitchRange.RandomInRange();
             }
 
             farLaserEmitter.FireLaser_P2();

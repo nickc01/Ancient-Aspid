@@ -168,18 +168,23 @@ public class SpitterPetNew : MonoBehaviour
                 sourcePos.y = Player.Player1.transform.position.y + 2f;
             }
 
+            if (sourcePos.y >= Player.Player1.transform.position.y + 5.5f)
+            {
+                sourcePos.y = Player.Player1.transform.position.y + 5.5f;
+            }
+
             var target = ((sourcePos - Player.Player1.transform.position).normalized * maxSleepDistance) + Player.Player1.transform.position;
 
             if (colliderFound)
             {
-                if (target.x < playerColliderBounds.min.x + 1f)
+                if (target.x < playerColliderBounds.min.x + 1.75f)
                 {
-                    target.x = playerColliderBounds.min.x + 1f;
+                    target.x = playerColliderBounds.min.x + 1.75f;
                 }
 
-                if (target.x > playerColliderBounds.max.x - 1f)
+                if (target.x > playerColliderBounds.max.x - 1.75f)
                 {
-                    target.x = playerColliderBounds.max.x - 1f;
+                    target.x = playerColliderBounds.max.x - 1.75f;
                 }
             }
 
@@ -568,13 +573,21 @@ public class SpitterPetNew : MonoBehaviour
 
         while (true)
         {
-            if (AimingAtPlayer)
+            if (ShouldGoToSleep)
             {
-                DoFlyTick(PlayerTarget + extraOffset, PlayerTarget + extraOffset, jitterIntensity);
+                var target = SleepTarget;
+                DoFlyTick(transform.position.With(x: target.x), transform.position.With(x: target.x), jitterIntensity);
             }
             else
             {
-                DoFlyTick(NearestTarget, PlayerTarget, jitterIntensity);
+                if (AimingAtPlayer)
+                {
+                    DoFlyTick(PlayerTarget + extraOffset, PlayerTarget + extraOffset, jitterIntensity);
+                }
+                else
+                {
+                    DoFlyTick(NearestTarget, PlayerTarget, jitterIntensity);
+                }
             }
 
             if (Vector2.Distance(Player.Player1.transform.position, transform.position) >= maxTeleportDistance)
@@ -593,20 +606,26 @@ public class SpitterPetNew : MonoBehaviour
 
             if (ShouldGoToSleep)
             {
-                WeaverLog.Log("GOING TO SLEEP");
+                //WeaverLog.Log("GOING TO SLEEP");
                 StopTurning();
                 colliderFound = Physics2D.RaycastNonAlloc(Player.Player1.transform.position + new Vector3(0f, 0.25f), Vector2.down, hitCache, 3f, terrainCollisionMask) > 0;
 
-                WeaverLog.Log("Collider Found = " + colliderFound);
+                //WeaverLog.Log("Collider Found = " + colliderFound);
                 if (colliderFound)
                 {
                     playerColliderBounds = hitCache[0].collider.bounds;
-                    WeaverLog.Log("XMin = " + playerColliderBounds.min.x);
-                    WeaverLog.Log("XMax = " + playerColliderBounds.max.x);
+                    //WeaverLog.Log("XMin = " + playerColliderBounds.min.x);
+                    //WeaverLog.Log("XMax = " + playerColliderBounds.max.x);
                 }
 
-                while (Vector2.Distance(Player.Player1.transform.position, transform.position) >= maxSleepDistance && Vector2.Distance(SleepTarget, transform.position) >= 0.2f && !WithinColliderBounds())
+                var target = SleepTarget;
+
+                var heightDiff = transform.position.y - Player.Player1.transform.position.y;
+
+                while (!(heightDiff < 6f && heightDiff > 0f && transform.position.x <= playerColliderBounds.max.x - 0.75f && transform.position.x >= playerColliderBounds.min.x + 0.75f))
+                //while (Vector2.Distance(Player.Player1.transform.position, transform.position) >= maxSleepDistance && Vector2.Distance(SleepTarget, transform.position) >= 0.2f && !WithinColliderBounds() && (transform.position.x > playerColliderBounds.max.x - 2f || transform.position.x < playerColliderBounds.min.x + 2f))
                 {
+                    heightDiff = transform.position.y - Player.Player1.transform.position.y;
                     DoFlyTick(SleepTarget, SleepTarget, jitterIntensity);
                     if (!ShouldGoToSleep)
                     {

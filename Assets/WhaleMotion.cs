@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using WeaverCore.Utilities;
 
 public class WhaleMotion : MonoBehaviour
@@ -28,6 +29,9 @@ public class WhaleMotion : MonoBehaviour
 
     float timer = -1f;
 
+    [SerializeField]
+    UnityEvent onDone;
+
     private void Awake()
     {
         timer = startT;
@@ -40,6 +44,7 @@ public class WhaleMotion : MonoBehaviour
         if (timer >= endT)
         {
             timer = startT;
+            onDone?.Invoke();
         }
 
 

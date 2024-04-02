@@ -30,6 +30,9 @@ public class Tentacle : MonoBehaviour
     AnimationCurve bottomCurve;
 
     [SerializeField]
+    float uvMultiplier = 0.5f;
+
+    [SerializeField]
     Color _color;
 
     [NonSerialized]
@@ -237,8 +240,8 @@ public class Tentacle : MonoBehaviour
             verticies[i] = (new Vector3(-0.5f + x, waveOffset + topCurveSample, 0f));
             verticies[i + 1] = (new Vector3(-0.5f + x, waveOffset - bottomCurveSample, 0f));
 
-            uvs[i] = new Vector3(x, topCurveSample + bottomCurveSample, 0f);
-            uvs[i + 1] = new Vector3(x, 0f, 0f);
+            uvs[i] = new Vector3((uvMultiplier * x), topCurveSample + bottomCurveSample, 0f);
+            uvs[i + 1] = new Vector3((uvMultiplier * x), 0f, 0f);
         }
 
         //Set the mesh's vertex data

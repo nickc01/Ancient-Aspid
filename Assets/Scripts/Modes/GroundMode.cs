@@ -89,6 +89,9 @@ public class GroundMode : AncientAspidMode
     [SerializeField]
     public Transform lungeDashRotationOrigin;
 
+    [SerializeField]
+    AudioClip finalJumpSound;
+
     [field: SerializeField]
     public float lungeDownwardsLandDelay { get; private set; } = 0.5f;
 
@@ -172,6 +175,9 @@ public class GroundMode : AncientAspidMode
     private VomitShotMove vomitShotMove;
     private GroundJumpMove groundJumpMove;
 
+    [SerializeField]
+    bool doMusicChange = true;
+
     private void Awake()
     {
         vomitShotMove = GetComponent<VomitShotMove>();
@@ -185,7 +191,7 @@ public class GroundMode : AncientAspidMode
 
     protected override IEnumerator OnExecute(Dictionary<string, object> customArgs)
     {
-        if (Boss.GodhomeMode && Boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
+        if (doMusicChange && Boss.GodhomeMode && Boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
         {
             Boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.AR1);
         }
@@ -218,7 +224,7 @@ public class GroundMode : AncientAspidMode
 
         if (!stop)
         {
-            yield return ExitGroundMode();
+            yield return ExitGroundMode(Enumerable.Repeat(finalJumpSound, 1));
         }
 
         yield break;
@@ -651,12 +657,12 @@ public class GroundMode : AncientAspidMode
 
     }
 
-    public IEnumerator ExitGroundMode()
+    public IEnumerator ExitGroundMode(IEnumerable<AudioClip> customSounds = null)
     {
         yield return JumpPrepare();
         yield return JumpLaunch();
 
-        foreach (AudioClip sound in groundJumpMove.jumpSounds)
+        foreach (AudioClip sound in customSounds ?? groundJumpMove.jumpSounds)
         {
              WeaverAudio.PlayAtPoint(sound, transform.position);
         }

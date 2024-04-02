@@ -86,6 +86,9 @@ public class AncientAspid : Boss
     TailCollider tailCollider;
 
     [SerializeField]
+    AudioClip jumpSound;
+
+    [SerializeField]
     [FormerlySerializedAs("musicPlayer")]
     public AncientAspidMusicController MusicPlayer;
 
@@ -94,6 +97,9 @@ public class AncientAspid : Boss
 
     [field: SerializeField]
     public VomitGlob GlobPrefab { get; private set; }
+
+    [SerializeField]
+    bool displayTitle = true;
 
 
     [field: Header("Sleep Mode")]
@@ -128,6 +134,12 @@ public class AncientAspid : Boss
 
     [SerializeField]
     float sleepRoarSoundPitch = 1f;
+
+    [SerializeField]
+    float sleepRoarSoundVolume = 0.65f;
+
+    [SerializeField]
+    float sleepRoarDelay = 0.5f;
 
     [SerializeField]
     List<GroupSpawner> awakenGroupSpawners = new List<GroupSpawner>();
@@ -202,6 +214,9 @@ public class AncientAspid : Boss
 
     [SerializeField]
     AudioClip deathSound;
+
+    [SerializeField]
+    AudioClip deathSoundWithoutSpit;
 
     [SerializeField]
     float deathSpitDelay = 2f;
@@ -721,15 +736,6 @@ public class AncientAspid : Boss
         }
 
         StartingHealth = HealthManager.Health;
-
-        if (godhomeMode)
-        {
-            HealthManager.AddHealthMilestone(Mathf.RoundToInt(StartingHealth * 0.7f), () => 
-            {
-                GetComponent<LaserRapidFireMove>().EnableMove(true);
-            });
-
-        }
     }
 
     private void HealthManager_OnHitEvent(HitInfo obj)
@@ -893,7 +899,7 @@ public class AncientAspid : Boss
 
         if (MusicPlayer != null && !InPantheon)
         {
-            Music.PlayMusicCue(blankCue, Mathf.Epsilon, Mathf.Epsilon, true);
+            Music.PlayMusicCue(blankCue, 0f, 0f, true);
             Music.ApplyMusicSnapshot(Music.SnapshotType.Normal, 0f, 0f);
             MusicPlayer.Play(AncientAspidMusicController.MusicPhase.AR1);
         }
@@ -1035,12 +1041,12 @@ public class AncientAspid : Boss
         if (health == HealthManager.Health)
         {
             //Initialization.PerformanceLog("BEGIN - EXITING GROUND MODE SLOW");
-            yield return GroundMode.ExitGroundMode();
+            yield return GroundMode.ExitGroundMode(Enumerable.Repeat(jumpSound, 1));
             //Initialization.PerformanceLog("END - EXITING GROUND MODE SLOW");
         }
         else
         {
-            StartBoundRoutine(GroundMode.ExitGroundMode());
+            StartBoundRoutine(GroundMode.ExitGroundMode(Enumerable.Repeat(jumpSound, 1)));
             //Initialization.PerformanceLog("BEGIN - EXITING GROUND MODE FAST");
             yield return new WaitUntil(() => Claws.OnGround == false);
             //Initialization.PerformanceLog("END - EXITING GROUND MODE FAST");
@@ -1064,12 +1070,14 @@ public class AncientAspid : Boss
 
         if (sleepRoarSound != null)
         {
-            var roar = WeaverAudio.PlayAtPoint(sleepRoarSound, transform.position);
+            var roar = WeaverAudio.PlayAtPointDelayed(sleepRoarDelay, sleepRoarSound, transform.position, sleepRoarSoundVolume);
             roar.AudioSource.pitch = sleepRoarSoundPitch;
         }
 
-
-        WeaverBossTitle.Spawn("Ancient", "Aspid");
+        if (displayTitle)
+        {
+            WeaverBossTitle.Spawn("Ancient", "Aspid");
+        }
 
         foreach (var spawner in awakenGroupSpawners)
         {
@@ -1182,10 +1190,12 @@ public class AncientAspid : Boss
 
     public IEnumerator MainBossRoutine()
     {
-        if (godhomeMode && MusicPlayer != null && !InPantheon)
+        if (MusicPlayer != null && !InPantheon)
         {
+            Music.PlayMusicCue(blankCue, 0f, 0f, true);
             MusicPlayer.Play(AncientAspidMusicController.MusicPhase.AR1);
         }
+
         SetTarget(PlayerTarget);
         EnableQuickEscapes = true;
         HealthManager.OnHitEvent += HealthManager_OnHitEvent;
@@ -1789,7 +1799,14 @@ public class AncientAspid : Boss
 
         if (deathSound != null)
         {
-            WeaverAudio.PlayAtPoint(deathSound,transform.position);
+            if (godhomeMode)
+            {
+                WeaverAudio.PlayAtPoint(deathSoundWithoutSpit, transform.position);
+            }
+            else
+            {
+                WeaverAudio.PlayAtPoint(deathSound, transform.position);
+            }
         }
 
         StartCoroutine(DeathRoutine(targetOrientation));

@@ -80,6 +80,9 @@ public class GodHomeIntroController : MonoBehaviour
     [SerializeField]
     CameraLockArea arenaArea;
 
+    [SerializeField]
+    MusicCue blankMusicCue;
+
 
     Bounds ceilingBounds;
 
@@ -91,6 +94,10 @@ public class GodHomeIntroController : MonoBehaviour
 
     private void Awake()
     {
+        if (blankMusicCue != null)
+        {
+            Music.PlayMusicCue(blankMusicCue, 0f, 1f, false);
+        }
         vignette = GameObject.Find("Vignette");
         ceilingBounds = ceilingCollider.bounds;
         ceilingCollider.enabled = false;
@@ -213,6 +220,7 @@ public class GodHomeIntroController : MonoBehaviour
         yield return new WaitForSeconds(lockDelay);
 
         musicPlayer.Play(AncientAspidMusicController.MusicPhase.AR1);
+
 
         Player.Player1.EnterCutsceneLock(true);
 

@@ -93,19 +93,19 @@ public class HeadController : AspidBodyPart
 
     bool changingDirection = false;
 
-    [NonSerialized]
-    ShotgunLaserManager _shotgunLasers;
+    [SerializeField]
+    ShotgunLaserManager shotgunLaserManager;
 
     public ShotgunLaserManager ShotgunLasers
     {
         get
         {
-            if (_shotgunLasers == null)
+            if (shotgunLaserManager == null)
             {
-                _shotgunLasers = GetComponentInChildren<ShotgunLaserManager>(true);
+                shotgunLaserManager = GetComponentInChildren<ShotgunLaserManager>(true);
             }
 
-            return _shotgunLasers;
+            return shotgunLaserManager;
         }
     }
 

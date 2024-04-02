@@ -91,19 +91,22 @@ public class FireLaserMove : AncientAspidMove
     [Header("Other Settings")]
 
     [FormerlySerializedAs("head_Sprites")]
+    [HideInInspector]
     public List<Sprite> head_SpritesOLD;
 
     [FormerlySerializedAs("head_HorizFlip")]
+    [HideInInspector]
     public List<bool> head_HorizFlipOLD;
 
     [FormerlySerializedAs("head_Degrees")]
+    [HideInInspector]
     public List<float> head_DegreesOLD;
 
     [SerializeField]
-    AudioClip LaserBurstSound;
+    List<AudioClip> LaserBurstSounds;
 
     [SerializeField]
-    float burstSoundPitch = 1f;
+    Vector2 burstSoundPitchRange = new Vector2(0.95f, 1.05f);
 
     [SerializeField]
     AudioClip LaserLoopSound;
@@ -156,8 +159,11 @@ public class FireLaserMove : AncientAspidMove
 
     private void Awake()
     {
+        if (moveEnabled)
+        {
+            laserRotationOrigin = Boss.Head.ShotgunLasers.MiddleLaser;
+        }
         //laserRotationOrigin = emitter.transform.GetChild(0);
-        laserRotationOrigin = Boss.Head.ShotgunLasers.MiddleLaser;
         //maxEmitterAngle = head_Degrees[head_Degrees.Count - 1];
     }
 
@@ -403,8 +409,8 @@ public class FireLaserMove : AncientAspidMove
         CameraShaker.Instance.SetRumble(WeaverCore.Enums.RumbleType.RumblingSmall);
         CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.EnemyKillShake);
 
-        var burstSound = WeaverAudio.PlayAtPoint(LaserBurstSound, transform.position);
-        burstSound.AudioSource.pitch = burstSoundPitch;
+        var burstSound = WeaverAudio.PlayAtPoint(LaserBurstSounds.GetRandomElement(), transform.position);
+        burstSound.AudioSource.pitch = burstSoundPitchRange.RandomInRange();
         loopSound = WeaverAudio.PlayAtPointLooped(LaserLoopSound, transform.position);
         loopSound.AudioSource.pitch = loopSoundPitch;
 

@@ -27,6 +27,9 @@ public class RadialBulletHellMove : AncientAspidMove
     float roarEmitterDuration = 1f;
 
     [SerializeField]
+    float roarSoundVolume = 0.65f;
+
+    [SerializeField]
     float shootDelay;
 
     [SerializeField]
@@ -128,7 +131,7 @@ public class RadialBulletHellMove : AncientAspidMove
 
         if (roarSound != null)
         {
-            WeaverAudio.PlayAtPoint(roarSound, Boss.Head.transform.position);
+            WeaverAudio.PlayAtPoint(roarSound, Boss.Head.transform.position, roarSoundVolume);
         }
 
         if (rumbleLoopSound != null)

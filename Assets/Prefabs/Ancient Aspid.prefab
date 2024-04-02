@@ -3846,7 +3846,9 @@ MonoBehaviour:
   attackFullAnimation: 
   anticTime: 0.5
   anticSoundEffect: {fileID: 0}
-  anticSwingSound: {fileID: 0}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 0, y: 0}
   groundPositionRight: {x: 0, y: 0}
@@ -4074,7 +4076,9 @@ MonoBehaviour:
   attackFullAnimation: Attack Left Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 3718199228214700521}
   groundPositionLeft: {x: 0, y: 0}
   groundPositionRight: {x: 0, y: 0}
@@ -6965,7 +6969,9 @@ MonoBehaviour:
   attackFullAnimation: Attack Right Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 0.2, y: 0.93}
   groundPositionRight: {x: 0, y: 0}
@@ -7108,7 +7114,13 @@ MonoBehaviour:
   attackFullAnimation: Attack Right Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds:
+  - {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  - {fileID: 8300000, guid: f8f12e2c1d7162641944a9ef007f560b, type: 3}
+  anticSwingSoundVolumes:
+  - 1
+  - 0.3
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 0.3090018, y: 1.222}
   groundPositionRight: {x: 0.3090018, y: 1.222}
@@ -7934,7 +7946,9 @@ MonoBehaviour:
   attackFullAnimation: Attack Left Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 0.2, y: 0.9}
   groundPositionRight: {x: 0, y: 0}
@@ -11077,17 +11091,17 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -0.07}
       - {x: 0, y: 0.07}
-      - {x: 3.4543483, y: 0.187819}
-      - {x: 3.4965086, y: 0.15140343}
-      - {x: 3.5393047, y: 0.11443901}
-      - {x: 3.582781, y: 0.076886654}
-      - {x: 3.6269395, y: 0.03874564}
-      - {x: 3.6718018, y: -0.0000038146973}
-      - {x: 3.7173574, y: -0.0393517}
-      - {x: 3.763663, y: -0.07934785}
-      - {x: 3.81072, y: -0.11999273}
-      - {x: 3.8585498, y: -0.16130519}
-      - {x: 3.9071305, y: -0.20326614}
+      - {x: 39.97675, y: 1.4336325}
+      - {x: 39.985115, y: 1.1471342}
+      - {x: 39.991623, y: 0.8604839}
+      - {x: 39.996277, y: 0.5737194}
+      - {x: 39.99907, y: 0.28687873}
+      - {x: 40, y: 0}
+      - {x: 39.99907, y: -0.2868788}
+      - {x: 39.996277, y: -0.5737194}
+      - {x: 39.991623, y: -0.8604839}
+      - {x: 39.985115, y: -1.1471342}
+      - {x: 39.97675, y: -1.4336325}
 --- !u!114 &3718199228378612896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11420,17 +11434,17 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -0.31}
       - {x: 0, y: 0.31}
-      - {x: 1.2795615, y: 0.43133563}
-      - {x: 1.2795616, y: 0.34506238}
-      - {x: 1.2795616, y: 0.25880444}
-      - {x: 1.2795616, y: 0.17251599}
-      - {x: 1.2795616, y: 0.08627331}
-      - {x: 1.2795616, y: 0.00000011920929}
-      - {x: 1.2795616, y: -0.08624256}
-      - {x: 1.2795616, y: -0.17253101}
-      - {x: 1.2795616, y: -0.2588042}
-      - {x: 1.2795616, y: -0.34506214}
-      - {x: 1.2795618, y: -0.43132007}
+      - {x: 39.82139, y: 4.0858507}
+      - {x: 39.885414, y: 3.2735374}
+      - {x: 39.935425, y: 2.4579983}
+      - {x: 39.97126, y: 1.6400244}
+      - {x: 39.99281, y: 0.82042086}
+      - {x: 40, y: 0}
+      - {x: 39.99281, y: -0.82042116}
+      - {x: 39.97126, y: -1.6400244}
+      - {x: 39.935425, y: -2.4579985}
+      - {x: 39.885414, y: -3.273537}
+      - {x: 39.82139, y: -4.0858507}
 --- !u!114 &3718199228427007950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12261,17 +12275,17 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -0.07}
       - {x: 0, y: 0.07}
-      - {x: 4.671482, y: 0.2293458}
-      - {x: 4.6002016, y: 0.18153381}
-      - {x: 4.5304036, y: 0.13471603}
-      - {x: 4.4620757, y: 0.08888435}
-      - {x: 4.3951297, y: 0.04397869}
-      - {x: 4.329564, y: 0}
-      - {x: 4.2653165, y: -0.043094635}
-      - {x: 4.202337, y: -0.085339546}
-      - {x: 4.140598, y: -0.12675142}
-      - {x: 4.0801015, y: -0.16733027}
-      - {x: 4.0207458, y: -0.20714426}
+      - {x: 39.97675, y: 1.4336325}
+      - {x: 39.985115, y: 1.1471342}
+      - {x: 39.991623, y: 0.8604839}
+      - {x: 39.996277, y: 0.5737194}
+      - {x: 39.99907, y: 0.28687873}
+      - {x: 40, y: 0}
+      - {x: 39.99907, y: -0.2868788}
+      - {x: 39.996277, y: -0.5737194}
+      - {x: 39.991623, y: -0.8604839}
+      - {x: 39.985115, y: -1.1471342}
+      - {x: 39.97675, y: -1.4336325}
 --- !u!114 &3718199228499386966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12424,17 +12438,17 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -0.31}
       - {x: 0, y: 0.31}
-      - {x: 2.0463367, y: 0.50402725}
-      - {x: 2.046329, y: 0.4032277}
-      - {x: 2.046337, y: 0.30241287}
-      - {x: 2.046337, y: 0.20162857}
-      - {x: 2.0463371, y: 0.10078323}
-      - {x: 2.0463371, y: -0.0000009536743}
-      - {x: 2.0463371, y: -0.100800514}
-      - {x: 2.0463374, y: -0.20161533}
-      - {x: 2.0463297, y: -0.30243015}
-      - {x: 2.0463376, y: -0.4032297}
-      - {x: 2.0463376, y: -0.5040293}
+      - {x: 39.82139, y: 4.0858507}
+      - {x: 39.885414, y: 3.2735374}
+      - {x: 39.935425, y: 2.4579983}
+      - {x: 39.97126, y: 1.6400244}
+      - {x: 39.99281, y: 0.82042086}
+      - {x: 40, y: 0}
+      - {x: 39.99281, y: -0.82042116}
+      - {x: 39.97126, y: -1.6400244}
+      - {x: 39.935425, y: -2.4579985}
+      - {x: 39.885414, y: -3.273537}
+      - {x: 39.82139, y: -4.0858507}
 --- !u!114 &3718199228550122308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12582,7 +12596,9 @@ MonoBehaviour:
   attackFullAnimation: 
   anticTime: 0.5
   anticSoundEffect: {fileID: 0}
-  anticSwingSound: {fileID: 0}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 0, y: 0}
   groundPositionRight: {x: 0, y: 0}
@@ -13211,7 +13227,9 @@ MonoBehaviour:
   attackFullAnimation: Attack Right Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 0.22, y: 0.93}
   groundPositionRight: {x: 0, y: 0}
@@ -14023,17 +14041,17 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -0.07}
       - {x: 0, y: 0.07}
-      - {x: 2.6178503, y: 0.15929699}
-      - {x: 2.6357994, y: 0.12792015}
-      - {x: 2.6538846, y: 0.09630442}
-      - {x: 2.672106, y: 0.0644505}
-      - {x: 2.6904716, y: 0.032345057}
-      - {x: 2.7089736, y: 0.0000009536743}
-      - {x: 2.7276268, y: -0.032608032}
-      - {x: 2.7464242, y: -0.06546855}
-      - {x: 2.7653806, y: -0.0986073}
-      - {x: 2.7844734, y: -0.13198447}
-      - {x: 2.8037183, y: -0.16562629}
+      - {x: 39.97675, y: 1.4336325}
+      - {x: 39.985115, y: 1.1471342}
+      - {x: 39.991623, y: 0.8604839}
+      - {x: 39.996277, y: 0.5737194}
+      - {x: 39.99907, y: 0.28687873}
+      - {x: 40, y: 0}
+      - {x: 39.99907, y: -0.2868788}
+      - {x: 39.996277, y: -0.5737194}
+      - {x: 39.991623, y: -0.8604839}
+      - {x: 39.985115, y: -1.1471342}
+      - {x: 39.97675, y: -1.4336325}
 --- !u!114 &3718199228821575009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14212,7 +14230,9 @@ MonoBehaviour:
   attackFullAnimation: 
   anticTime: 0.5
   anticSoundEffect: {fileID: 0}
-  anticSwingSound: {fileID: 0}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 0, y: 0}
   groundPositionRight: {x: 0, y: 0}
@@ -14451,7 +14471,13 @@ MonoBehaviour:
   attackFullAnimation: Attack Right Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds:
+  - {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  - {fileID: 8300000, guid: f8f12e2c1d7162641944a9ef007f560b, type: 3}
+  anticSwingSoundVolumes:
+  - 1
+  - 0.3
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 3718199229238161337}
   groundPositionLeft: {x: 0.2790031, y: 1.202}
   groundPositionRight: {x: 0.2790031, y: 1.202}
@@ -15110,39 +15136,39 @@ MonoBehaviour:
     Right2Transform:
       Position: {x: 1.192, y: 0.078, z: 0.0001}
       Rotation: {x: -0, y: 0, z: 56.147785}
-  laserLocations_data: 'IDs: [57448, 57468, 58400, 58402, 58404, 58406, 58408, 57376,
-    57378, 57380, 57382, 57384, 57386, 58410, 58412, 58414, 57458, 57460, 57464,
-    57450, 57452, 57454, 57456, 58392, 58394, 57364, 58396, 58398, 57462, 60270,
-    60272], Data: [{"Name":"Default","correlatedHeadSprites":["57448","57468","58400"],"Left2Transform":{"Position":{"x":-1.079,"y":0.12,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":302.989471}},"Left1Transform":{"Position":{"x":-0.902,"y":-0.098,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":322.4}},"CenterTransform":{"Position":{"x":-0.08,"y":-0.77,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":0.0}},"Right1Transform":{"Position":{"x":0.87,"y":-0.19,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":1.18,"y":0.06,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":56.1477852}}},{"Name":"Attack
-    V2 - 01","correlatedHeadSprites":["58402"],"Left2Transform":{"Position":{"x":-1.039,"y":0.019,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":315.51825}},"Left1Transform":{"Position":{"x":-0.835,"y":-0.306,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":337.4169}},"CenterTransform":{"Position":{"x":0.125,"y":-0.659,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":7.828704}},"Right1Transform":{"Position":{"x":0.92,"y":-0.14,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":29.4259987}},"Right2Transform":{"Position":{"x":1.155,"y":0.169,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":63.97699}}},{"Name":"Attack
-    V2 - 02","correlatedHeadSprites":["58404"],"Left2Transform":{"Position":{"x":-1.008,"y":-0.182,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":327.468}},"Left1Transform":{"Position":{"x":-0.768,"y":-0.462,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":349.367}},"CenterTransform":{"Position":{"x":0.212,"y":-0.669,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":19.7789955}},"Right1Transform":{"Position":{"x":1.017,"y":-0.237,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":41.37599}},"Right2Transform":{"Position":{"x":1.145,"y":0.14,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":75.9269943}}},{"Name":"Attack
-    V2 - 03","correlatedHeadSprites":["58406"],"Left2Transform":{"Position":{"x":-1.88,"y":0.18,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":278.959}},"Left1Transform":{"Position":{"x":-2.13,"y":-0.06,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":300.858}},"CenterTransform":{"Position":{"x":-1.44,"y":-0.99,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":331.27002}},"Right1Transform":{"Position":{"x":-0.062,"y":-0.956,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":2.20000148}},"Right2Transform":{"Position":{"x":0.325,"y":-0.638,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":27.418}}},{"Name":"Attack
-    V2 - 04","correlatedHeadSprites":["58408"],"Left2Transform":{"Position":{"x":-1.22,"y":0.13,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-1.1,"y":-0.13,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":337.4169}},"CenterTransform":{"Position":{"x":-0.26,"y":-0.66,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":4.478378}},"Right1Transform":{"Position":{"x":0.78,"y":-0.33,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":0.98,"y":0.02,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.0733147}}},{"Name":"Head
-    Turn 3","correlatedHeadSprites":["57376"],"Left2Transform":{"Position":{"x":-2.043,"y":0.16,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":276.012}},"Left1Transform":{"Position":{"x":-2.223,"y":-0.093,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":304.10498}},"CenterTransform":{"Position":{"x":-1.511,"y":-1.049,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":336.55368}},"Right1Transform":{"Position":{"x":-0.139,"y":-1.067,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":358.899078}},"Right2Transform":{"Position":{"x":0.317,"y":-0.725,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.5378265}}},{"Name":"Head
-    Turn 4","correlatedHeadSprites":["57378"],"Left2Transform":{"Position":{"x":-1.871,"y":-0.074,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":285.421021}},"Left1Transform":{"Position":{"x":-1.896,"y":-0.309,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":313.514}},"CenterTransform":{"Position":{"x":-1.07,"y":-1.25,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":345.962982}},"Right1Transform":{"Position":{"x":0.257,"y":-0.987,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":8.308002}},"Right2Transform":{"Position":{"x":0.673,"y":-0.64,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":30.9469929}}},{"Name":"Head
-    Turn 5","correlatedHeadSprites":["57380"],"Left2Transform":{"Position":{"x":-1.715,"y":-0.128,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":294.485}},"Left1Transform":{"Position":{"x":-1.746,"y":-0.412,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":322.578}},"CenterTransform":{"Position":{"x":-0.851,"y":-1.315,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":355.027069}},"Right1Transform":{"Position":{"x":0.419,"y":-0.995,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":17.3720036}},"Right2Transform":{"Position":{"x":0.795,"y":-0.567,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":40.0109978}}},{"Name":"Head
-    Turn 6","correlatedHeadSprites":["57382"],"Left2Transform":{"Position":{"x":-1.53,"y":-0.247,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":294.485}},"Left1Transform":{"Position":{"x":-1.58,"y":-0.58,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":322.578}},"CenterTransform":{"Position":{"x":-0.58,"y":-1.35,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":355.027069}},"Right1Transform":{"Position":{"x":0.552,"y":-1.048,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":17.3720036}},"Right2Transform":{"Position":{"x":0.894,"y":-0.573,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":40.0109978}}},{"Name":"Head
-    Turn 7","correlatedHeadSprites":["57384"],"Left2Transform":{"Position":{"x":-1.42,"y":-0.41,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":296.098}},"Left1Transform":{"Position":{"x":-1.33,"y":-0.68,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":324.191}},"CenterTransform":{"Position":{"x":-0.32,"y":-1.38,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":356.64}},"Right1Transform":{"Position":{"x":0.74,"y":-1.01,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":18.9849949}},"Right2Transform":{"Position":{"x":1.04,"y":-0.56,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":41.6240044}}},{"Name":"Head
-    Turn 8","correlatedHeadSprites":["57386"],"Left2Transform":{"Position":{"x":-1.26,"y":-0.52,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":299.458}},"Left1Transform":{"Position":{"x":-1.05,"y":-0.84,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":327.551}},"CenterTransform":{"Position":{"x":0.04,"y":-1.4,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":0.0}},"Right1Transform":{"Position":{"x":0.96,"y":-1.07,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":22.3450031}},"Right2Transform":{"Position":{"x":1.2,"y":-0.63,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":44.9839973}}},{"Name":"Head
-    Turn 14 Retract","correlatedHeadSprites":["58410"],"Left2Transform":{"Position":{"x":-1.88,"y":0.18,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":278.959}},"Left1Transform":{"Position":{"x":-2.13,"y":-0.06,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":300.858}},"CenterTransform":{"Position":{"x":-1.44,"y":-0.99,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":331.27002}},"Right1Transform":{"Position":{"x":-0.062,"y":-0.956,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":2.20000148}},"Right2Transform":{"Position":{"x":0.325,"y":-0.638,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":27.418}}},{"Name":"Head
-    Turn 15 Retract","correlatedHeadSprites":["58412"],"Left2Transform":{"Position":{"x":-1.22,"y":0.13,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-1.1,"y":-0.13,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":337.4169}},"CenterTransform":{"Position":{"x":-0.26,"y":-0.66,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":4.478378}},"Right1Transform":{"Position":{"x":0.78,"y":-0.33,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":0.98,"y":0.02,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.0733147}}},{"Name":"Head
-    Turn 16 Retract","correlatedHeadSprites":["58414"],"Left2Transform":{"Position":{"x":-1.07,"y":0.13,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-0.95,"y":-0.17,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":337.4169}},"CenterTransform":{"Position":{"x":-0.1,"y":-0.69,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":4.478378}},"Right1Transform":{"Position":{"x":0.92,"y":-0.36,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":1.09,"y":0.12,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.0733147}}},{"Name":"Head
-    Mod Head Turn 01","correlatedHeadSprites":["57458"],"Left2Transform":{"Position":{"x":-0.979,"y":-0.068,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-0.87,"y":-0.344,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":320.0381}},"CenterTransform":{"Position":{"x":-0.049,"y":-0.925,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":3.208053}},"Right1Transform":{"Position":{"x":0.905,"y":-0.375,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":23.9661465}},"Right2Transform":{"Position":{"x":1.149,"y":-0.049,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":35.10105}}},{"Name":"Head
-    Mod Head Turn 02","correlatedHeadSprites":["57460"],"Left2Transform":{"Position":{"x":-0.999,"y":0.053,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":304.289154}},"Left1Transform":{"Position":{"x":-0.912,"y":-0.272,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":314.421326}},"CenterTransform":{"Position":{"x":0.039,"y":-0.808,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":9.242735}},"Right1Transform":{"Position":{"x":1.008,"y":-0.294,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":33.7434731}},"Right2Transform":{"Position":{"x":1.171,"y":0.134,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":46.859993}}},{"Name":"Head
-    Mod Head Turn 03","correlatedHeadSprites":["57464"],"Left2Transform":{"Position":{"x":-0.723,"y":0.14,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":299.286957}},"Left1Transform":{"Position":{"x":-0.856,"y":-0.023,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":314.421326}},"CenterTransform":{"Position":{"x":-0.223,"y":-0.582,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":331.655975}},"Right1Transform":{"Position":{"x":1.008,"y":-0.294,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":12.3311443}},"Right2Transform":{"Position":{"x":1.397,"y":-0.004,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":26.9840374}}},{"Name":"Head
-    Idle 00","correlatedHeadSprites":["57448"],"Left2Transform":{"Position":{"x":-1.07,"y":0.13,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-0.95,"y":-0.17,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":337.4169}},"CenterTransform":{"Position":{"x":-0.1,"y":-0.69,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":4.478378}},"Right1Transform":{"Position":{"x":0.92,"y":-0.36,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":1.09,"y":0.12,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.0733147}}},{"Name":"Head
-    Idle 01","correlatedHeadSprites":["57450"],"Left2Transform":{"Position":{"x":-1.07,"y":0.13,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-0.95,"y":-0.17,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":337.4169}},"CenterTransform":{"Position":{"x":-0.1,"y":-0.69,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":4.478378}},"Right1Transform":{"Position":{"x":0.92,"y":-0.36,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":1.09,"y":0.12,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.0733147}}},{"Name":"Head
-    Idle 02","correlatedHeadSprites":["57452"],"Left2Transform":{"Position":{"x":-1.095,"y":0.163,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-0.95,"y":-0.17,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":323.1382}},"CenterTransform":{"Position":{"x":0.002,"y":-0.734,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":0.0}},"Right1Transform":{"Position":{"x":0.92,"y":-0.36,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":30.2295361}},"Right2Transform":{"Position":{"x":1.134,"y":0.113,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.0733147}}},{"Name":"Head
-    Idle 03","correlatedHeadSprites":["57454"],"Left2Transform":{"Position":{"x":-1.095,"y":0.163,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-0.95,"y":-0.17,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":323.1382}},"CenterTransform":{"Position":{"x":0.082,"y":-0.741,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":7.662567}},"Right1Transform":{"Position":{"x":0.92,"y":-0.36,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":30.2295361}},"Right2Transform":{"Position":{"x":1.134,"y":0.113,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.0733147}}},{"Name":"Head
-    Idle 04","correlatedHeadSprites":["57456"],"Left2Transform":{"Position":{"x":-1.095,"y":0.163,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-0.95,"y":-0.17,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":323.1382}},"CenterTransform":{"Position":{"x":0.116,"y":-0.727,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":7.662567}},"Right1Transform":{"Position":{"x":0.92,"y":-0.36,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":30.2295361}},"Right2Transform":{"Position":{"x":1.134,"y":0.113,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.0733147}}},{"Name":"Attack
-    V1 - 01","correlatedHeadSprites":["58392"],"Left2Transform":{"Position":{"x":-1.305,"y":0.346,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":302.989471}},"Left1Transform":{"Position":{"x":-1.185,"y":0.159,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":318.0}},"CenterTransform":{"Position":{"x":-0.514,"y":-0.49,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":0.0}},"Right1Transform":{"Position":{"x":0.735,"y":-0.112,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":14.9999952}},"Right2Transform":{"Position":{"x":1.032,"y":0.247,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.5}}},{"Name":"Attack
-    V1 - 02","correlatedHeadSprites":["58394"],"Left2Transform":{"Position":{"x":-1.332,"y":0.416,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":291.800018}},"Left1Transform":{"Position":{"x":-1.272,"y":0.274,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":313.6}},"CenterTransform":{"Position":{"x":-0.694,"y":-0.432,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":352.0679}},"Right1Transform":{"Position":{"x":0.709,"y":-0.106,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":14.9999952}},"Right2Transform":{"Position":{"x":1.019,"y":0.241,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.5}}},{"Name":"Attack
-    V1 - 03","correlatedHeadSprites":["57364"],"Left2Transform":{"Position":{"x":-2.056,"y":0.183,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":291.800018}},"Left1Transform":{"Position":{"x":-2.125,"y":-0.014,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":299.97}},"CenterTransform":{"Position":{"x":-1.52,"y":-1.109,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":329.8}},"Right1Transform":{"Position":{"x":-0.169,"y":-1.063,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":351.7}},"Right2Transform":{"Position":{"x":0.286,"y":-0.698,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":24.7}}},{"Name":"Attack
-    V1 - 04","correlatedHeadSprites":["58396"],"Left2Transform":{"Position":{"x":-1.986,"y":0.21,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":287.5}},"Left1Transform":{"Position":{"x":-2.023,"y":0.026,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":299.97}},"CenterTransform":{"Position":{"x":-1.46,"y":-1.133,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":337.7}},"Right1Transform":{"Position":{"x":-0.073,"y":-0.92,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":351.7}},"Right2Transform":{"Position":{"x":0.336,"y":-0.654,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":24.7}}},{"Name":"Attack
-    V1 - 05","correlatedHeadSprites":["58398"],"Left2Transform":{"Position":{"x":-1.232,"y":0.148,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":302.989471}},"Left1Transform":{"Position":{"x":-1.123,"y":-0.074,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":317.4}},"CenterTransform":{"Position":{"x":-0.248,"y":-0.79,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":0.0}},"Right1Transform":{"Position":{"x":0.796,"y":-0.338,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":1.05,"y":-0.034,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":49.89999}}},{"Name":"Attack
-    V1 - 06","correlatedHeadSprites":["57462"],"Left2Transform":{"Position":{"x":-1.079,"y":0.12,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":302.989471}},"Left1Transform":{"Position":{"x":-0.902,"y":-0.098,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":322.4}},"CenterTransform":{"Position":{"x":-0.08,"y":-0.77,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":0.0}},"Right1Transform":{"Position":{"x":0.906,"y":-0.208,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":1.192,"y":0.078,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":56.1477852}}},{"Name":"Attack
-    V1 - 07","correlatedHeadSprites":["60270"],"Left2Transform":{"Position":{"x":-1.134,"y":0.158,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":302.989471}},"Left1Transform":{"Position":{"x":-0.922,"y":-0.065,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":322.4}},"CenterTransform":{"Position":{"x":-0.08,"y":-0.77,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":0.0}},"Right1Transform":{"Position":{"x":0.906,"y":-0.208,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":1.192,"y":0.078,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":56.1477852}}},{"Name":"Attack
-    V1 - 08","correlatedHeadSprites":["60272"],"Left2Transform":{"Position":{"x":-1.134,"y":0.158,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":302.989471}},"Left1Transform":{"Position":{"x":-0.922,"y":-0.065,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":322.4}},"CenterTransform":{"Position":{"x":0.0,"y":-0.746,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":0.0}},"Right1Transform":{"Position":{"x":0.906,"y":-0.208,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":1.192,"y":0.078,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":56.1477852}}}]'
+  laserLocations_data: 'IDs: [35158, 35778, 35788, 35790, 35792, 35794, 35796, 35260,
+    35262, 35264, 35266, 35268, 35242, 35798, 35800, 35802, 35164, 35166, 35170,
+    35160, 35162, 35776, 35804, 35780, 35782, 35254, 35784, 35786, 35168, 38006,
+    38008], Data: [{"Name":"Default","correlatedHeadSprites":["35158","35778","35788"],"Left2Transform":{"Position":{"x":-1.079,"y":0.12,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":302.989471}},"Left1Transform":{"Position":{"x":-0.902,"y":-0.098,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":322.4}},"CenterTransform":{"Position":{"x":-0.08,"y":-0.77,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":0.0}},"Right1Transform":{"Position":{"x":0.87,"y":-0.19,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":1.18,"y":0.06,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":56.1477852}}},{"Name":"Attack
+    V2 - 01","correlatedHeadSprites":["35790"],"Left2Transform":{"Position":{"x":-1.039,"y":0.019,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":315.51825}},"Left1Transform":{"Position":{"x":-0.835,"y":-0.306,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":337.4169}},"CenterTransform":{"Position":{"x":0.125,"y":-0.659,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":7.828704}},"Right1Transform":{"Position":{"x":0.92,"y":-0.14,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":29.4259987}},"Right2Transform":{"Position":{"x":1.155,"y":0.169,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":63.97699}}},{"Name":"Attack
+    V2 - 02","correlatedHeadSprites":["35792"],"Left2Transform":{"Position":{"x":-1.008,"y":-0.182,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":327.468}},"Left1Transform":{"Position":{"x":-0.768,"y":-0.462,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":349.367}},"CenterTransform":{"Position":{"x":0.212,"y":-0.669,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":19.7789955}},"Right1Transform":{"Position":{"x":1.017,"y":-0.237,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":41.37599}},"Right2Transform":{"Position":{"x":1.145,"y":0.14,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":75.9269943}}},{"Name":"Attack
+    V2 - 03","correlatedHeadSprites":["35794"],"Left2Transform":{"Position":{"x":-1.88,"y":0.18,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":278.959}},"Left1Transform":{"Position":{"x":-2.13,"y":-0.06,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":300.858}},"CenterTransform":{"Position":{"x":-1.44,"y":-0.99,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":331.27002}},"Right1Transform":{"Position":{"x":-0.062,"y":-0.956,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":2.20000148}},"Right2Transform":{"Position":{"x":0.325,"y":-0.638,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":27.418}}},{"Name":"Attack
+    V2 - 04","correlatedHeadSprites":["35796"],"Left2Transform":{"Position":{"x":-1.22,"y":0.13,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-1.1,"y":-0.13,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":337.4169}},"CenterTransform":{"Position":{"x":-0.26,"y":-0.66,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":4.478378}},"Right1Transform":{"Position":{"x":0.78,"y":-0.33,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":0.98,"y":0.02,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.0733147}}},{"Name":"Head
+    Turn 3","correlatedHeadSprites":["35260"],"Left2Transform":{"Position":{"x":-2.043,"y":0.16,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":276.012}},"Left1Transform":{"Position":{"x":-2.223,"y":-0.093,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":304.10498}},"CenterTransform":{"Position":{"x":-1.511,"y":-1.049,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":336.55368}},"Right1Transform":{"Position":{"x":-0.139,"y":-1.067,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":358.899078}},"Right2Transform":{"Position":{"x":0.317,"y":-0.725,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.5378265}}},{"Name":"Head
+    Turn 4","correlatedHeadSprites":["35262"],"Left2Transform":{"Position":{"x":-1.871,"y":-0.074,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":285.421021}},"Left1Transform":{"Position":{"x":-1.896,"y":-0.309,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":313.514}},"CenterTransform":{"Position":{"x":-1.07,"y":-1.25,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":345.962982}},"Right1Transform":{"Position":{"x":0.257,"y":-0.987,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":8.308002}},"Right2Transform":{"Position":{"x":0.673,"y":-0.64,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":30.9469929}}},{"Name":"Head
+    Turn 5","correlatedHeadSprites":["35264"],"Left2Transform":{"Position":{"x":-1.715,"y":-0.128,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":294.485}},"Left1Transform":{"Position":{"x":-1.746,"y":-0.412,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":322.578}},"CenterTransform":{"Position":{"x":-0.851,"y":-1.315,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":355.027069}},"Right1Transform":{"Position":{"x":0.419,"y":-0.995,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":17.3720036}},"Right2Transform":{"Position":{"x":0.795,"y":-0.567,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":40.0109978}}},{"Name":"Head
+    Turn 6","correlatedHeadSprites":["35266"],"Left2Transform":{"Position":{"x":-1.53,"y":-0.247,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":294.485}},"Left1Transform":{"Position":{"x":-1.58,"y":-0.58,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":322.578}},"CenterTransform":{"Position":{"x":-0.58,"y":-1.35,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":355.027069}},"Right1Transform":{"Position":{"x":0.552,"y":-1.048,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":17.3720036}},"Right2Transform":{"Position":{"x":0.894,"y":-0.573,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":40.0109978}}},{"Name":"Head
+    Turn 7","correlatedHeadSprites":["35268"],"Left2Transform":{"Position":{"x":-1.42,"y":-0.41,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":296.098}},"Left1Transform":{"Position":{"x":-1.33,"y":-0.68,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":324.191}},"CenterTransform":{"Position":{"x":-0.32,"y":-1.38,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":356.64}},"Right1Transform":{"Position":{"x":0.74,"y":-1.01,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":18.9849949}},"Right2Transform":{"Position":{"x":1.04,"y":-0.56,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":41.6240044}}},{"Name":"Head
+    Turn 8","correlatedHeadSprites":["35242"],"Left2Transform":{"Position":{"x":-1.26,"y":-0.52,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":299.458}},"Left1Transform":{"Position":{"x":-1.05,"y":-0.84,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":327.551}},"CenterTransform":{"Position":{"x":0.04,"y":-1.4,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":0.0}},"Right1Transform":{"Position":{"x":0.96,"y":-1.07,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":22.3450031}},"Right2Transform":{"Position":{"x":1.2,"y":-0.63,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":44.9839973}}},{"Name":"Head
+    Turn 14 Retract","correlatedHeadSprites":["35798"],"Left2Transform":{"Position":{"x":-1.88,"y":0.18,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":278.959}},"Left1Transform":{"Position":{"x":-2.13,"y":-0.06,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":300.858}},"CenterTransform":{"Position":{"x":-1.44,"y":-0.99,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":331.27002}},"Right1Transform":{"Position":{"x":-0.062,"y":-0.956,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":2.20000148}},"Right2Transform":{"Position":{"x":0.325,"y":-0.638,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":27.418}}},{"Name":"Head
+    Turn 15 Retract","correlatedHeadSprites":["35800"],"Left2Transform":{"Position":{"x":-1.22,"y":0.13,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-1.1,"y":-0.13,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":337.4169}},"CenterTransform":{"Position":{"x":-0.26,"y":-0.66,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":4.478378}},"Right1Transform":{"Position":{"x":0.78,"y":-0.33,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":0.98,"y":0.02,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.0733147}}},{"Name":"Head
+    Turn 16 Retract","correlatedHeadSprites":["35802"],"Left2Transform":{"Position":{"x":-1.07,"y":0.13,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-0.95,"y":-0.17,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":337.4169}},"CenterTransform":{"Position":{"x":-0.1,"y":-0.69,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":4.478378}},"Right1Transform":{"Position":{"x":0.92,"y":-0.36,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":1.09,"y":0.12,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.0733147}}},{"Name":"Head
+    Mod Head Turn 01","correlatedHeadSprites":["35164"],"Left2Transform":{"Position":{"x":-0.979,"y":-0.068,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-0.87,"y":-0.344,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":320.0381}},"CenterTransform":{"Position":{"x":-0.049,"y":-0.925,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":3.208053}},"Right1Transform":{"Position":{"x":0.905,"y":-0.375,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":23.9661465}},"Right2Transform":{"Position":{"x":1.149,"y":-0.049,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":35.10105}}},{"Name":"Head
+    Mod Head Turn 02","correlatedHeadSprites":["35166"],"Left2Transform":{"Position":{"x":-0.999,"y":0.053,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":304.289154}},"Left1Transform":{"Position":{"x":-0.912,"y":-0.272,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":314.421326}},"CenterTransform":{"Position":{"x":0.039,"y":-0.808,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":9.242735}},"Right1Transform":{"Position":{"x":1.008,"y":-0.294,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":33.7434731}},"Right2Transform":{"Position":{"x":1.171,"y":0.134,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":46.859993}}},{"Name":"Head
+    Mod Head Turn 03","correlatedHeadSprites":["35170"],"Left2Transform":{"Position":{"x":-0.723,"y":0.14,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":299.286957}},"Left1Transform":{"Position":{"x":-0.856,"y":-0.023,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":314.421326}},"CenterTransform":{"Position":{"x":-0.223,"y":-0.582,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":331.655975}},"Right1Transform":{"Position":{"x":1.008,"y":-0.294,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":12.3311443}},"Right2Transform":{"Position":{"x":1.397,"y":-0.004,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":26.9840374}}},{"Name":"Head
+    Idle 00","correlatedHeadSprites":["35158"],"Left2Transform":{"Position":{"x":-1.07,"y":0.13,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-0.95,"y":-0.17,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":337.4169}},"CenterTransform":{"Position":{"x":-0.1,"y":-0.69,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":4.478378}},"Right1Transform":{"Position":{"x":0.92,"y":-0.36,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":1.09,"y":0.12,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.0733147}}},{"Name":"Head
+    Idle 01","correlatedHeadSprites":["35160"],"Left2Transform":{"Position":{"x":-1.07,"y":0.13,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-0.95,"y":-0.17,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":337.4169}},"CenterTransform":{"Position":{"x":-0.1,"y":-0.69,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":4.478378}},"Right1Transform":{"Position":{"x":0.92,"y":-0.36,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":1.09,"y":0.12,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.0733147}}},{"Name":"Head
+    Idle 02","correlatedHeadSprites":["35162"],"Left2Transform":{"Position":{"x":-1.095,"y":0.163,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-0.95,"y":-0.17,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":323.1382}},"CenterTransform":{"Position":{"x":0.002,"y":-0.734,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":0.0}},"Right1Transform":{"Position":{"x":0.92,"y":-0.36,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":30.2295361}},"Right2Transform":{"Position":{"x":1.134,"y":0.113,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.0733147}}},{"Name":"Head
+    Idle 03","correlatedHeadSprites":["35776"],"Left2Transform":{"Position":{"x":-1.095,"y":0.163,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-0.95,"y":-0.17,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":323.1382}},"CenterTransform":{"Position":{"x":0.082,"y":-0.741,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":7.662567}},"Right1Transform":{"Position":{"x":0.92,"y":-0.36,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":30.2295361}},"Right2Transform":{"Position":{"x":1.134,"y":0.113,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.0733147}}},{"Name":"Head
+    Idle 04","correlatedHeadSprites":["35804"],"Left2Transform":{"Position":{"x":-1.095,"y":0.163,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":309.3244}},"Left1Transform":{"Position":{"x":-0.95,"y":-0.17,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":323.1382}},"CenterTransform":{"Position":{"x":0.116,"y":-0.727,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":7.662567}},"Right1Transform":{"Position":{"x":0.92,"y":-0.36,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":30.2295361}},"Right2Transform":{"Position":{"x":1.134,"y":0.113,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.0733147}}},{"Name":"Attack
+    V1 - 01","correlatedHeadSprites":["35780"],"Left2Transform":{"Position":{"x":-1.305,"y":0.346,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":302.989471}},"Left1Transform":{"Position":{"x":-1.185,"y":0.159,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":318.0}},"CenterTransform":{"Position":{"x":-0.514,"y":-0.49,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":0.0}},"Right1Transform":{"Position":{"x":0.735,"y":-0.112,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":14.9999952}},"Right2Transform":{"Position":{"x":1.032,"y":0.247,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.5}}},{"Name":"Attack
+    V1 - 02","correlatedHeadSprites":["35782"],"Left2Transform":{"Position":{"x":-1.332,"y":0.416,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":291.800018}},"Left1Transform":{"Position":{"x":-1.272,"y":0.274,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":313.6}},"CenterTransform":{"Position":{"x":-0.694,"y":-0.432,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":352.0679}},"Right1Transform":{"Position":{"x":0.709,"y":-0.106,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":14.9999952}},"Right2Transform":{"Position":{"x":1.019,"y":0.241,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":45.5}}},{"Name":"Attack
+    V1 - 03","correlatedHeadSprites":["35254"],"Left2Transform":{"Position":{"x":-2.056,"y":0.183,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":291.800018}},"Left1Transform":{"Position":{"x":-2.125,"y":-0.014,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":299.97}},"CenterTransform":{"Position":{"x":-1.52,"y":-1.109,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":329.8}},"Right1Transform":{"Position":{"x":-0.169,"y":-1.063,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":351.7}},"Right2Transform":{"Position":{"x":0.286,"y":-0.698,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":24.7}}},{"Name":"Attack
+    V1 - 04","correlatedHeadSprites":["35784"],"Left2Transform":{"Position":{"x":-1.986,"y":0.21,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":287.5}},"Left1Transform":{"Position":{"x":-2.023,"y":0.026,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":299.97}},"CenterTransform":{"Position":{"x":-1.46,"y":-1.133,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":337.7}},"Right1Transform":{"Position":{"x":-0.073,"y":-0.92,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":351.7}},"Right2Transform":{"Position":{"x":0.336,"y":-0.654,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":24.7}}},{"Name":"Attack
+    V1 - 05","correlatedHeadSprites":["35786"],"Left2Transform":{"Position":{"x":-1.232,"y":0.148,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":302.989471}},"Left1Transform":{"Position":{"x":-1.123,"y":-0.074,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":317.4}},"CenterTransform":{"Position":{"x":-0.248,"y":-0.79,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":0.0}},"Right1Transform":{"Position":{"x":0.796,"y":-0.338,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":1.05,"y":-0.034,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":49.89999}}},{"Name":"Attack
+    V1 - 06","correlatedHeadSprites":["35168"],"Left2Transform":{"Position":{"x":-1.079,"y":0.12,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":302.989471}},"Left1Transform":{"Position":{"x":-0.902,"y":-0.098,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":322.4}},"CenterTransform":{"Position":{"x":-0.08,"y":-0.77,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":0.0}},"Right1Transform":{"Position":{"x":0.906,"y":-0.208,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":1.192,"y":0.078,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":56.1477852}}},{"Name":"Attack
+    V1 - 07","correlatedHeadSprites":["38006"],"Left2Transform":{"Position":{"x":-1.134,"y":0.158,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":302.989471}},"Left1Transform":{"Position":{"x":-0.922,"y":-0.065,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":322.4}},"CenterTransform":{"Position":{"x":-0.08,"y":-0.77,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":0.0}},"Right1Transform":{"Position":{"x":0.906,"y":-0.208,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":1.192,"y":0.078,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":56.1477852}}},{"Name":"Attack
+    V1 - 08","correlatedHeadSprites":["38008"],"Left2Transform":{"Position":{"x":-1.134,"y":0.158,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":302.989471}},"Left1Transform":{"Position":{"x":-0.922,"y":-0.065,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":322.4}},"CenterTransform":{"Position":{"x":0.0,"y":-0.746,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":0.0}},"Right1Transform":{"Position":{"x":0.906,"y":-0.208,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":21.59689}},"Right2Transform":{"Position":{"x":1.192,"y":0.078,"z":0.0001},"Rotation":{"x":0.0,"y":0.0,"z":56.1477852}}}]'
   laserLocations_objects:
   - {fileID: 21300000, guid: 0ae3c4cbc1544544fa45fb9c1a986d19, type: 3}
   - {fileID: 21300000, guid: 84501fc7762668240b67ff9d5c7cc3a4, type: 3}
@@ -15284,7 +15310,13 @@ MonoBehaviour:
   attackFullAnimation: Attack Left Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds:
+  - {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  - {fileID: 8300000, guid: f8f12e2c1d7162641944a9ef007f560b, type: 3}
+  anticSwingSoundVolumes:
+  - 1
+  - 0.3
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 0.1499976, y: 1.29}
   groundPositionRight: {x: 0.1499976, y: 1.29}
@@ -15427,7 +15459,9 @@ MonoBehaviour:
   attackFullAnimation: Attack Left Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 0, y: 0}
   groundPositionRight: {x: 0, y: 0}
@@ -15571,7 +15605,9 @@ MonoBehaviour:
   attackFullAnimation: Attack Left Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 3718199228452226214}
   groundPositionLeft: {x: 0.19, y: 0.91}
   groundPositionRight: {x: 0, y: 0}
@@ -16429,7 +16465,9 @@ MonoBehaviour:
   attackFullAnimation: Attack Left Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: -1.4, y: 0.8}
   groundPositionRight: {x: 0, y: 0}
@@ -16577,17 +16615,17 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -0.31}
       - {x: 0, y: 0.31}
-      - {x: 1.9923368, y: 0.49890947}
-      - {x: 1.9923369, y: 0.39913225}
-      - {x: 1.9923294, y: 0.29935503}
-      - {x: 1.992337, y: 0.19956255}
-      - {x: 1.9923371, y: 0.09978533}
-      - {x: 1.9923372, y: 0.000008106232}
-      - {x: 1.9923373, y: -0.099784374}
-      - {x: 1.9923375, y: -0.19957685}
-      - {x: 1.9923298, y: -0.29933882}
-      - {x: 1.9923376, y: -0.3991313}
-      - {x: 1.9923377, y: -0.49892378}
+      - {x: 39.82139, y: 4.0858507}
+      - {x: 39.885414, y: 3.2735374}
+      - {x: 39.935425, y: 2.4579983}
+      - {x: 39.97126, y: 1.6400244}
+      - {x: 39.99281, y: 0.82042086}
+      - {x: 40, y: 0}
+      - {x: 39.99281, y: -0.82042116}
+      - {x: 39.97126, y: -1.6400244}
+      - {x: 39.935425, y: -2.4579985}
+      - {x: 39.885414, y: -3.273537}
+      - {x: 39.82139, y: -4.0858507}
 --- !u!114 &3718199229280042639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16740,17 +16778,17 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -0.31}
       - {x: 0, y: 0.31}
-      - {x: 1.6173368, y: 0.46337283}
-      - {x: 1.6173369, y: 0.37067568}
-      - {x: 1.617337, y: 0.27802432}
-      - {x: 1.617337, y: 0.18534243}
-      - {x: 1.6173371, y: 0.09266055}
-      - {x: 1.6173372, y: 0.000009179115}
-      - {x: 1.6173373, y: -0.092672706}
-      - {x: 1.6173375, y: -0.18532407}
-      - {x: 1.6173375, y: -0.27800596}
-      - {x: 1.6173376, y: -0.37067258}
-      - {x: 1.6173377, y: -0.46335447}
+      - {x: 39.82139, y: 4.0858507}
+      - {x: 39.885414, y: 3.2735374}
+      - {x: 39.935425, y: 2.4579983}
+      - {x: 39.97126, y: 1.6400244}
+      - {x: 39.99281, y: 0.82042086}
+      - {x: 40, y: 0}
+      - {x: 39.99281, y: -0.82042116}
+      - {x: 39.97126, y: -1.6400244}
+      - {x: 39.935425, y: -2.4579985}
+      - {x: 39.885414, y: -3.273537}
+      - {x: 39.82139, y: -4.0858507}
 --- !u!114 &3718199229369823859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16899,7 +16937,13 @@ MonoBehaviour:
   attackFullAnimation: Attack Left Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds:
+  - {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  - {fileID: 8300000, guid: f8f12e2c1d7162641944a9ef007f560b, type: 3}
+  anticSwingSoundVolumes:
+  - 1
+  - 0.3
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 3718199228584334077}
   groundPositionLeft: {x: 1.640003, y: 1.4}
   groundPositionRight: {x: 1.640003, y: 1.4}
@@ -17208,7 +17252,9 @@ MonoBehaviour:
   attackFullAnimation: 
   anticTime: 0.5
   anticSoundEffect: {fileID: 0}
-  anticSwingSound: {fileID: 0}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 0, y: 0}
   groundPositionRight: {x: 0, y: 0}
@@ -17351,7 +17397,9 @@ MonoBehaviour:
   attackFullAnimation: Attack Left Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 0, y: 0}
   groundPositionRight: {x: 0, y: 0}
@@ -17802,7 +17850,9 @@ MonoBehaviour:
   attackFullAnimation: 
   anticTime: 0.5
   anticSoundEffect: {fileID: 0}
-  anticSwingSound: {fileID: 0}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 0, y: 0}
   groundPositionRight: {x: 0, y: 0}
@@ -17945,7 +17995,9 @@ MonoBehaviour:
   attackFullAnimation: Attack Right Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 0, y: 0}
   groundPositionRight: {x: 0, y: 0}
@@ -18089,7 +18141,9 @@ MonoBehaviour:
   attackFullAnimation: Attack Right Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 3718199228821053696}
   groundPositionLeft: {x: 0, y: 0}
   groundPositionRight: {x: 0, y: 0}
@@ -18232,7 +18286,13 @@ MonoBehaviour:
   attackFullAnimation: Attack Right Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds:
+  - {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  - {fileID: 8300000, guid: f8f12e2c1d7162641944a9ef007f560b, type: 3}
+  anticSwingSoundVolumes:
+  - 1
+  - 0.3
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 0.2889976, y: 1.222}
   groundPositionRight: {x: 0.2889976, y: 1.222}
@@ -21338,7 +21398,9 @@ MonoBehaviour:
   attackFullAnimation: Attack Right Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 0, y: 0}
   groundPositionRight: {x: 0, y: 0}
@@ -21481,7 +21543,9 @@ MonoBehaviour:
   attackFullAnimation: 
   anticTime: 0.5
   anticSoundEffect: {fileID: 0}
-  anticSwingSound: {fileID: 0}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 0, y: 0}
   groundPositionRight: {x: 0, y: 0}
@@ -21726,6 +21790,7 @@ MonoBehaviour:
   spitSourceLeft: {fileID: 3718199228159796579}
   spitSourceRight: {fileID: 3718199229162254212}
   groundLaserBloodSpawnRate: 0.15
+  shotgunLaserManager: {fileID: 291105277}
 --- !u!114 &3718199229977973021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21925,7 +21990,7 @@ MonoBehaviour:
   godhomeMode: 0
   preAwakeCue: {fileID: 11400000, guid: 87a3014c216ac5e4295d9cbda6c040f2, type: 2}
   musicOff: {fileID: 11400000, guid: 2d612caf32b711943aced6b179ef9d8e, type: 2}
-  bossMusic: {fileID: 11400000, guid: f24b2904e1b7c924785e5d4a5218b4d3, type: 2}
+  bossMusic: {fileID: 11400000, guid: 87a3014c216ac5e4295d9cbda6c040f2, type: 2}
   attunedHealth: 2900
   ascendedHealth: 3000
   radiantHealth: 3100
@@ -21933,9 +21998,11 @@ MonoBehaviour:
   camBoxHeight: 15.6
   prefabs: {fileID: 11400000, guid: 84ae0980edb43bc40b0dd26f6f8f96eb, type: 2}
   tailCollider: {fileID: 3718199228944484916}
+  jumpSound: {fileID: 8300000, guid: 55a9b68a6f7bc114cb73538c8aa13d0c, type: 3}
   MusicPlayer: {fileID: 1850371173}
   blankCue: {fileID: 11400000, guid: 87a3014c216ac5e4295d9cbda6c040f2, type: 2}
   <GlobPrefab>k__BackingField: {fileID: 7446022173067174804, guid: a4af869b900b45a4ca2017f67e52640a, type: 3}
+  displayTitle: 1
   <StartAsleep>k__BackingField: 1
   enableOnWakeUp:
   - {fileID: 0}
@@ -21945,8 +22012,10 @@ MonoBehaviour:
   sleepPreJumpDelay: 0.5
   sleepShakeIntensity: 0.1
   sleepRoarDuration: 2.4
-  sleepRoarSound: {fileID: 8300000, guid: 724aaa9603b3cc14f92d66a647ba2139, type: 3}
-  sleepRoarSoundPitch: 0.9
+  sleepRoarSound: {fileID: 8300000, guid: 5ffdd22bff4588d48a7eff6a4a4f4590, type: 3}
+  sleepRoarSoundPitch: 1
+  sleepRoarSoundVolume: 0.65
+  sleepRoarDelay: 0
   awakenGroupSpawners:
   - {fileID: 0}
   - {fileID: 0}
@@ -21975,7 +22044,8 @@ MonoBehaviour:
   deathCamLock: {fileID: 3718199230121202258}
   journalEntry: {fileID: 11400000, guid: fad717bdb4432f443b28f8c73ace0138, type: 2}
   deathDropItemXRange: {x: 180.02, y: 259.7}
-  deathSound: {fileID: 8300000, guid: 0624befbf6fb976419c83b4ea887114f, type: 3}
+  deathSound: {fileID: 8300000, guid: d37c824d019adae489e1382f6d3abb42, type: 3}
+  deathSoundWithoutSpit: {fileID: 8300000, guid: c3bbfc18f2255b6409b32c060a85b3a8, type: 3}
   deathSpitDelay: 2
   flyAwayDelay: 0.5
   flyAwayAcceleration: 35
@@ -22338,8 +22408,9 @@ MonoBehaviour:
   - 12.949
   - 17.139
   - 25.73
-  LaserBurstSound: {fileID: 8300000, guid: 32b1f57d3c32acf41af904badea7fc1a, type: 3}
-  burstSoundPitch: 0.9
+  LaserBurstSounds:
+  - {fileID: 8300000, guid: 32b1f57d3c32acf41af904badea7fc1a, type: 3}
+  burstSoundPitchRange: {x: 0.95, y: 1.05}
   LaserLoopSound: {fileID: 8300000, guid: aedc6c07b676845468f3127986ec36f7, type: 3}
   loopSoundPitch: 1
   bloodSpawnRate: 0.1
@@ -22391,6 +22462,7 @@ MonoBehaviour:
   scaleRange: {x: 0.7, y: 1}
   angleOffset: 0
   moveChance: 0.65
+  prefab: {fileID: 2091158503517522815, guid: e64160b4b21b57e4caee909e9fc71f04, type: 3}
 --- !u!114 &3718199229979044249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22435,7 +22507,9 @@ MonoBehaviour:
   prepareLaserOrigin: {fileID: 3718199228735288397}
   chargeUpEffects: {fileID: 3026620320609132132}
   chargeUpTime: 0.7
-  chargeUpSound: {fileID: 8300000, guid: 5fbfd6e43b7839240b067e75c21041a9, type: 3}
+  chargeUpSounds:
+  - {fileID: 8300000, guid: 5fbfd6e43b7839240b067e75c21041a9, type: 3}
+  chargeUpSoundPitchRange: {x: 0.95, y: 1.05}
   initialFireDelay: 0.3
   subsequentFireDelay: 0.1
   rapidFireEmitter: {fileID: 3718199229875874223}
@@ -22445,10 +22519,11 @@ MonoBehaviour:
   possibleShotAmounts: 0400000002000000
   fireDuration: 0.15
   cameraShake: 5
-  fireSound: {fileID: 8300000, guid: 32b1f57d3c32acf41af904badea7fc1a, type: 3}
+  fireSounds:
+  - {fileID: 8300000, guid: 32b1f57d3c32acf41af904badea7fc1a, type: 3}
+  fireSoundPitchRange: {x: 0.95, y: 1.05}
   volumeDecreaseDelay: 0.15
   volumeDecreaseTime: 0.5
-  firePitch: {x: 1, y: 1}
   angleRange: {x: 0, y: 100}
   bloodSpawnAmount: 5
   playerPredictionAmount: -0.2
@@ -22494,8 +22569,16 @@ MonoBehaviour:
   attackTime: 1.2
   attackRotationSpeed: 6.5
   attackSprite: {fileID: 21300000, guid: 9995d76273f3c2446a08aeea540cc1c5, type: 3}
-  chargeUpSound: {fileID: 8300000, guid: 5fbfd6e43b7839240b067e75c21041a9, type: 3}
-  fireSound: {fileID: 8300000, guid: 32b1f57d3c32acf41af904badea7fc1a, type: 3}
+  chargeUpSounds:
+  - {fileID: 8300000, guid: f19cd8c5e01780e48b02386b0f1770d5, type: 3}
+  - {fileID: 8300000, guid: b09ebc3145767684d892dead26e3c210, type: 3}
+  - {fileID: 8300000, guid: 5fbfd6e43b7839240b067e75c21041a9, type: 3}
+  chargeUpSoundPitchRange: {x: 0.95, y: 1.05}
+  fireSounds:
+  - {fileID: 8300000, guid: 1e74dad54f9af8d4aac0ecd083fcb94a, type: 3}
+  - {fileID: 8300000, guid: 58250ae5cf002944daa19c3de5767b4e, type: 3}
+  - {fileID: 8300000, guid: 32b1f57d3c32acf41af904badea7fc1a, type: 3}
+  fireSoundPitchRange: {x: 0.95, y: 1.05}
   fireLoop: {fileID: 8300000, guid: aedc6c07b676845468f3127986ec36f7, type: 3}
   shotgunMouthParticles: {fileID: 3718199228111115331}
   fireSoundStaggerTime: 0.05
@@ -22598,8 +22681,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0df6f37ab45e82848a92be5caddf9ec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roarSound: {fileID: 8300000, guid: 0624befbf6fb976419c83b4ea887114f, type: 3}
+  roarSound: {fileID: 8300000, guid: 5ffdd22bff4588d48a7eff6a4a4f4590, type: 3}
   roarEmitterDuration: 1
+  roarSoundVolume: 0.65
   shootDelay: 0.25
   cameraRumbleType: 4
   shakeIntensity: 0.1
@@ -22751,8 +22835,14 @@ MonoBehaviour:
   predictionAmount: -0.275
   fireDuration: 0.9
   fireTimesRange: {x: 3, y: 6}
-  preFireSound: {fileID: 8300000, guid: 5fbfd6e43b7839240b067e75c21041a9, type: 3}
-  fireSound: {fileID: 8300000, guid: 32b1f57d3c32acf41af904badea7fc1a, type: 3}
+  preFireSound:
+  - {fileID: 8300000, guid: f19cd8c5e01780e48b02386b0f1770d5, type: 3}
+  - {fileID: 8300000, guid: b09ebc3145767684d892dead26e3c210, type: 3}
+  preFireSoundPitchRange: {x: 0.95, y: 1.05}
+  fireSound:
+  - {fileID: 8300000, guid: 1e74dad54f9af8d4aac0ecd083fcb94a, type: 3}
+  - {fileID: 8300000, guid: 58250ae5cf002944daa19c3de5767b4e, type: 3}
+  fireSoundPitchRange: {x: 0.95, y: 1.05}
   <moveEnabled>k__BackingField: 1
 --- !u!114 &951185217796302362
 MonoBehaviour:
@@ -22796,6 +22886,7 @@ MonoBehaviour:
   lungeDashEffect: {fileID: 3718199228184773708}
   lungeRockParticles: {fileID: 3718199229837390374}
   lungeDashRotationOrigin: {fileID: 3718199228726244710}
+  finalJumpSound: {fileID: 8300000, guid: 55a9b68a6f7bc114cb73538c8aa13d0c, type: 3}
   <lungeDownwardsLandDelay>k__BackingField: 0.5
   <megaExplosionSound>k__BackingField: {fileID: 0}
   <megaExplosionSize>k__BackingField: 3
@@ -22818,6 +22909,7 @@ MonoBehaviour:
   <groundSplashBlobCount>k__BackingField: {x: 10, y: 17}
   <groundSplashAngleRange>k__BackingField: {x: 45, y: 135}
   <groundSplashVelocityRange>k__BackingField: {x: 15, y: 40}
+  doMusicChange: 1
 --- !u!114 &1904823558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22837,7 +22929,7 @@ MonoBehaviour:
   <FinalOrbitReduction>k__BackingField: 50
   doCameraLock: 1
   centerModeRiseSound: {fileID: 0}
-  centerModeRoarSound: {fileID: 8300000, guid: 0624befbf6fb976419c83b4ea887114f, type: 3}
+  centerModeRoarSound: {fileID: 8300000, guid: 5ffdd22bff4588d48a7eff6a4a4f4590, type: 3}
   centerModeRoarSoundPitch: 1
   centerModeRoarDuration: 0.75
   centerPlatformLockArea: {fileID: 0}
@@ -22873,6 +22965,7 @@ MonoBehaviour:
   <OffensiveHeight>k__BackingField: 9
   platformGroupSpawners:
   - {fileID: 0}
+  doMusicChange: 1
 --- !u!114 &1904823559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22885,6 +22978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab2233ea72ff5544aa1c1f64b27a4c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doMusicChange: 1
 --- !u!114 &1904823560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22901,6 +22995,7 @@ MonoBehaviour:
   jumpGravity: 6
   jumpSounds:
   - {fileID: 8300000, guid: 55a9b68a6f7bc114cb73538c8aa13d0c, type: 3}
+  - {fileID: 8300000, guid: e90e12a0bd62d7e4aae93c741e9402c1, type: 3}
   jumpLandSound: {fileID: 8300000, guid: efe95eb6b7e445542a15b7814bf80504, type: 3}
   jumpLandShakeType: 5
   jumpLaunchEffectPrefab: {fileID: 3718199228184773708}
@@ -22941,8 +23036,15 @@ MonoBehaviour:
   preFireDelay: 0.2
   fireDuration: 0.2
   angleSpread: 30
-  prepareLaserSound: {fileID: 8300000, guid: 5fbfd6e43b7839240b067e75c21041a9, type: 3}
-  fireLaserSound: {fileID: 8300000, guid: 510809a69fe1c5941ab25a65ef8c2962, type: 3}
+  prepareLaserSound:
+  - {fileID: 8300000, guid: f19cd8c5e01780e48b02386b0f1770d5, type: 3}
+  - {fileID: 8300000, guid: b09ebc3145767684d892dead26e3c210, type: 3}
+  - {fileID: 8300000, guid: 5fbfd6e43b7839240b067e75c21041a9, type: 3}
+  prepareLaserSoundPitchRange: {x: 0.95, y: 1.05}
+  fireLaserSound:
+  - {fileID: 8300000, guid: 1e74dad54f9af8d4aac0ecd083fcb94a, type: 3}
+  - {fileID: 8300000, guid: 58250ae5cf002944daa19c3de5767b4e, type: 3}
+  - {fileID: 8300000, guid: 32b1f57d3c32acf41af904badea7fc1a, type: 3}
   fireLaserSoundPitchRange: {x: 0.95, y: 1.05}
   angleOffsetRandomizationRange: {x: -20, y: 20}
   centerLaserRandomness: 0
@@ -22965,8 +23067,12 @@ MonoBehaviour:
   preFireDelay: 0.5
   fireDuration: 0.5
   firePitchRange: {x: 0.95, y: 1.05}
-  prepareLaserSound: {fileID: 8300000, guid: 5fbfd6e43b7839240b067e75c21041a9, type: 3}
-  fireLaserSound: {fileID: 8300000, guid: 510809a69fe1c5941ab25a65ef8c2962, type: 3}
+  prepareLaserSound:
+  - {fileID: 8300000, guid: f19cd8c5e01780e48b02386b0f1770d5, type: 3}
+  - {fileID: 8300000, guid: b09ebc3145767684d892dead26e3c210, type: 3}
+  fireLaserSound:
+  - {fileID: 8300000, guid: 1e74dad54f9af8d4aac0ecd083fcb94a, type: 3}
+  - {fileID: 8300000, guid: 58250ae5cf002944daa19c3de5767b4e, type: 3}
 --- !u!1 &3718199230014458644
 GameObject:
   m_ObjectHideFlags: 0
@@ -23210,7 +23316,9 @@ MonoBehaviour:
   attackFullAnimation: Attack Right Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds: []
+  anticSwingSoundVolumes: []
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 3718199230068749800}
   groundPositionLeft: {x: 0.19, y: 0.91}
   groundPositionRight: {x: 0, y: 0}
@@ -23980,7 +24088,13 @@ MonoBehaviour:
   attackFullAnimation: Attack Left Full
   anticTime: 0.2
   anticSoundEffect: {fileID: 8300000, guid: b72c91ed8903a6245986ceb933fa7544, type: 3}
-  anticSwingSound: {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  anticSwingSounds:
+  - {fileID: 8300000, guid: e155821e237be594ba2043e9d597316b, type: 3}
+  - {fileID: 8300000, guid: f8f12e2c1d7162641944a9ef007f560b, type: 3}
+  anticSwingSoundVolumes:
+  - 1
+  - 0.3
+  anticSwingSoundPitchRange: {x: 0.95, y: 1.05}
   slashObject: {fileID: 0}
   groundPositionLeft: {x: 1.649998, y: 1.39}
   groundPositionRight: {x: 1.649998, y: 1.39}
@@ -24372,17 +24486,17 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 0, y: -0.07}
       - {x: 0, y: 0.07}
-      - {x: 2.7987657, y: 0.16547775}
-      - {x: 2.7855167, y: 0.1320095}
-      - {x: 2.7723463, y: 0.098739624}
-      - {x: 2.7592432, y: 0.06563997}
-      - {x: 2.746219, y: 0.032738924}
-      - {x: 2.7332623, y: 0.000008106232}
-      - {x: 2.7203724, y: -0.032552242}
-      - {x: 2.7075446, y: -0.064956665}
-      - {x: 2.6947958, y: -0.097162485}
-      - {x: 2.6821141, y: -0.12919807}
-      - {x: 2.6694999, y: -0.1610632}
+      - {x: 39.97675, y: 1.4336325}
+      - {x: 39.985115, y: 1.1471342}
+      - {x: 39.991623, y: 0.8604839}
+      - {x: 39.996277, y: 0.5737194}
+      - {x: 39.99907, y: 0.28687873}
+      - {x: 40, y: 0}
+      - {x: 39.99907, y: -0.2868788}
+      - {x: 39.996277, y: -0.5737194}
+      - {x: 39.991623, y: -0.8604839}
+      - {x: 39.985115, y: -1.1471342}
+      - {x: 39.97675, y: -1.4336325}
 --- !u!114 &3718199230153357417
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -25,10 +25,13 @@ public class MultiLaserBurstMove : AncientAspidMove
     float angleSpread = 15f;
 
     [SerializeField]
-    AudioClip prepareLaserSound;
+    List<AudioClip> prepareLaserSound;
 
     [SerializeField]
-    AudioClip fireLaserSound;
+    Vector2 prepareLaserSoundPitchRange = new Vector2(0.95f, 1.05f);
+
+    [SerializeField]
+    List<AudioClip> fireLaserSound;
 
     [SerializeField]
     Vector2 fireLaserSoundPitchRange = new Vector2(0.95f, 1.05f);
@@ -198,7 +201,8 @@ public class MultiLaserBurstMove : AncientAspidMove
 
         if (prepareLaserSound != null)
         {
-            WeaverAudio.PlayAtPoint(prepareLaserSound, transform.position);
+            var instance = WeaverAudio.PlayAtPoint(prepareLaserSound.GetRandomElement(), transform.position);
+            instance.AudioSource.pitch = prepareLaserSoundPitchRange.RandomInRange();
         }
 
         for (float t = 0; t < delay; t += Time.deltaTime)
@@ -250,7 +254,8 @@ public class MultiLaserBurstMove : AncientAspidMove
 
             if (fireLaserSound != null)
             {
-                var instance = WeaverAudio.PlayAtPoint(fireLaserSound, transform.position);
+                var instance = WeaverAudio.PlayAtPoint(fireLaserSound.GetRandomElement(), transform.position);
+                instance.AudioSource.pitch = fireLaserSoundPitchRange.RandomInRange();
                 instance.AudioSource.pitch = fireLaserSoundPitchRange.RandomInRange();
             }
             //controller.ChangeMode(ShotgunController.LaserMode.Firing);

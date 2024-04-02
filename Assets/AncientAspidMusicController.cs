@@ -110,6 +110,7 @@ public class AncientAspidMusicController : MonoBehaviour
 
     public void TransitionToPhase(MusicPhase phase)
     {
+        WeaverLog.Log("Transitioning To = " + phase);
         CurrentlyPlayingPhase = phase;
         StopAllCoroutines();
         /*if (previousPhase != null)

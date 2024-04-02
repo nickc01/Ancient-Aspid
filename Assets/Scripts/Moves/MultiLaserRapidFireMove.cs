@@ -47,10 +47,14 @@ public class MultiLaserRapidFireMove : AncientAspidMove
     float angleSpread = 15f;*/
 
     [SerializeField]
-    AudioClip prepareLaserSound;
+    List<AudioClip> prepareLaserSound;
 
     [SerializeField]
-    AudioClip fireLaserSound;
+    List<AudioClip> fireLaserSound;
+
+    Vector2 prepareLaserSoundPitchRange = new Vector2(0.95f, 1.05f);
+
+    Vector2 fireLaserSoundPitchRange = new Vector2(0.95f, 1.05f);
 
     //[SerializeField]
     //Vector2 angleOffsetRandomizationRange = new Vector2(-5f, 5f);
@@ -229,7 +233,8 @@ public class MultiLaserRapidFireMove : AncientAspidMove
 
         if (prepareLaserSound != null)
         {
-            WeaverAudio.PlayAtPoint(prepareLaserSound, transform.position);
+            var instance = WeaverAudio.PlayAtPoint(prepareLaserSound.GetRandomElement(), transform.position);
+            instance.AudioSource.pitch = prepareLaserSoundPitchRange.RandomInRange();
         }
 
         laser.ChargeUpLaser_P1();
@@ -249,7 +254,7 @@ public class MultiLaserRapidFireMove : AncientAspidMove
         {
             if (fireLaserSound != null)
             {
-                var instance = WeaverAudio.PlayAtPoint(fireLaserSound, transform.position);
+                var instance = WeaverAudio.PlayAtPoint(fireLaserSound.GetRandomElement(), transform.position);
                 instance.AudioSource.pitch = firePitchRange.RandomInRange();
             }
 

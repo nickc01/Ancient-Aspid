@@ -34,7 +34,10 @@ public class LaserRapidFireMove : AncientAspidMove
     float chargeUpTime = 1f;
 
     [SerializeField]
-    AudioClip chargeUpSound;
+    List<AudioClip> chargeUpSounds;
+
+    [SerializeField]
+    Vector2 chargeUpSoundPitchRange = new Vector2(0.95f, 1.05f);
 
     [Space]
     [Header("Main Firing")]
@@ -74,16 +77,16 @@ public class LaserRapidFireMove : AncientAspidMove
     ShakeType cameraShake = ShakeType.AverageShake;
 
     [SerializeField]
-    AudioClip fireSound;
+    List<AudioClip> fireSounds;
+
+    [SerializeField]
+    Vector2 fireSoundPitchRange = new Vector2(0.95f, 1.05f);
 
     [SerializeField]
     float volumeDecreaseDelay = 0.1f;
 
     [SerializeField]
     float volumeDecreaseTime = 0.5f;
-
-    [SerializeField]
-    Vector2 firePitch = new Vector2(1f,1f);
 
     [SerializeField]
     Vector2 angleRange = new Vector2(0,100f);
@@ -272,9 +275,10 @@ public class LaserRapidFireMove : AncientAspidMove
 
         chargeUpEffects.Play();
 
-        if (chargeUpSound != null)
+        if (chargeUpSounds != null)
         {
-            var audio = WeaverAudio.PlayAtPoint(chargeUpSound, transform.position);
+            var audio = WeaverAudio.PlayAtPoint(chargeUpSounds.GetRandomElement(), transform.position);
+            audio.AudioSource.pitch = chargeUpSoundPitchRange.RandomInRange();
             audio.transform.SetParent(transform, true);
         }
 
@@ -349,9 +353,9 @@ public class LaserRapidFireMove : AncientAspidMove
             Boss.Head.MainRenderer.sprite = fireSprite;
             rapidFireEmitter.FireLaser_P2();
 
-            if (fireSound != null)
+            if (fireSounds != null)
             {
-                StartCoroutine(PlayFireSound(fireSound,rapidFireRotationOrigin.position));
+                StartCoroutine(PlayFireSound(fireSounds.GetRandomElement(),rapidFireRotationOrigin.position, fireSoundPitchRange.RandomInRange()));
 
                 PlayBloodEffects(bloodSpawnAmount, rapidFireEmitter);
             }
@@ -443,10 +447,10 @@ public class LaserRapidFireMove : AncientAspidMove
         rapidFireRotationOrigin.transform.SetZLocalRotation(fireRotation);
     }
 
-    IEnumerator PlayFireSound(AudioClip clip, Vector3 position)
+    IEnumerator PlayFireSound(AudioClip clip, Vector3 position, float pitch = 1f)
     {
         var audio = WeaverAudio.PlayAtPoint(clip, position);
-        audio.AudioSource.pitch = firePitch.RandomInRange();
+        audio.AudioSource.pitch = pitch;
         yield return new WaitForSeconds(volumeDecreaseDelay);
         for (float t = 0; t < volumeDecreaseTime; t += Time.deltaTime)
         {

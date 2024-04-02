@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using WeaverCore.Implementations;
 
 public class GodhomePhase : Phase
 {
@@ -9,6 +10,16 @@ public class GodhomePhase : Phase
         var rect = new Rect(bounds.center, bounds.size);
         rect.center = bounds.center;
         boss.FlightRange = rect;
+
+        if (boss.GodhomeMode)
+        {
+            boss.HealthManager.AddHealthMilestone(Mathf.RoundToInt(boss.StartingHealth * 0.7f), () =>
+            {
+                boss.GetComponent<LaserRapidFireMove>().EnableMove(true);
+            });
+
+        }
+
         yield break;
     }
 

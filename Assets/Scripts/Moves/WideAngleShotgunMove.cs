@@ -169,7 +169,8 @@ public class WideAngleShotgunMove : AncientAspidMove
         {
             bool onRightSide = Player.Player1.transform.position.x >= Boss.Head.transform.position.x;
 
-            yield return bombMove.FireBombs(new TargetBombController(bombAirTime, bombMove.BombGravityScale, bombSize, (onRightSide ? new Vector3(8.06f, -9.7035f) : new Vector3(-8.06f, -9.7035f)) + transform.position), false);
+            yield return bombMove.FireBombs(new DirectBombController(bombAirTime, bombMove.BombGravityScale, bombSize), false);
+            //yield return bombMove.FireBombs(new TargetBombController(bombAirTime, bombMove.BombGravityScale, bombSize, (onRightSide ? new Vector3(8.06f, -9.7035f) : new Vector3(-8.06f, -9.7035f)) + transform.position), false);
         }
         else
         {
