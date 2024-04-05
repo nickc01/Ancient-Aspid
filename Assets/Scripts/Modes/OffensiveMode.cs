@@ -92,6 +92,9 @@ public class OffensiveMode : AncientAspidMode
     [SerializeField]
     bool doMusicChange = true;
 
+    [SerializeField]
+    bool ascendedArenaMode = false;
+
 
     bool stop = false;
     TargetOverride offensiveTarget;
@@ -101,7 +104,18 @@ public class OffensiveMode : AncientAspidMode
 
     bool DefaultCenterCheck()
     {
-        return Boss.CanSeeTarget && Vector3.Distance(transform.position, Player.Player1.transform.position) <= OffensiveAttackDistance && Player.Player1.transform.position.y < transform.position.y + 1;
+        bool result;
+        if (ascendedArenaMode)
+        {
+            result = Vector3.Distance(transform.position, Player.Player1.transform.position) <= OffensiveAttackDistance && Player.Player1.transform.position.y < transform.position.y + 1;
+        }
+        else
+        {
+            result = Boss.CanSeeTarget && Vector3.Distance(transform.position, Player.Player1.transform.position) <= OffensiveAttackDistance && Player.Player1.transform.position.y < transform.position.y + 1;
+        }
+
+        WeaverLog.Log("DEFAULT CENTER CHECK = " + result);
+        return result;
     }
 
     protected override IEnumerator OnExecute(Dictionary<string, object> args)
@@ -120,9 +134,15 @@ public class OffensiveMode : AncientAspidMode
 
             args.TryGetValueOfType(OFFENSIVE_TIME, out var offensiveModeDuration, DefaultModeDuration);
 
-            if (!forceCenterMode && args.TryGetValueOfType(CHECK_TOO_FAR_AWAY_PRE, out bool doFarAwayCheck, true) && doFarAwayCheck && Vector3.Distance(Player.Player1.transform.position, transform.position) >= OffensiveMaxDistance)
+            args.TryGetValueOfType(CHECK_TOO_FAR_AWAY_PRE, out bool doFarAwayCheck, true);
+
+            if (doFarAwayCheck)
             {
-                yield break;
+                if (!forceCenterMode && Vector3.Distance(Player.Player1.transform.position, transform.position) >= OffensiveMaxDistance)
+                {
+                    WeaverLog.Log("EXITING OFFENSIVE MODE EARLY");
+                    yield break;
+                }
             }
 
             yield return EnterCenterMode(args);
@@ -356,6 +376,7 @@ public class OffensiveMode : AncientAspidMode
 
     protected override bool ModeEnabled(Dictionary<string, object> args)
     {
+        WeaverLog.Log("Offensive Area Provided = " + (OffensiveAreaProvider != null));
         return OffensiveAreaProvider != null && OffensiveAreaProvider.IsTargetActive(Boss);
     }
 
