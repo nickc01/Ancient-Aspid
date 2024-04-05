@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using WeaverCore;
+using WeaverCore.Features;
 
 public class GodhomeGroundAreaProvider : MonoBehaviour, IModeAreaProvider
 {
     [SerializeField]
     private float healthThreshold = 0.45f;
+
+    [SerializeField]
+    AncientAspid boss;
 
     private void Awake()
     {
@@ -13,7 +17,13 @@ public class GodhomeGroundAreaProvider : MonoBehaviour, IModeAreaProvider
 
     private void Start()
     {
-        GameObject.FindObjectOfType<AncientAspid>(true).GroundMode.GroundAreaProvider = this;
+        if (boss == null)
+        {
+            boss = GameObject.FindObjectOfType<AncientAspid>(true);
+        }
+
+        boss.GroundMode.GroundAreaProvider = this;
+        //GameObject.FindObjectOfType<AncientAspid>(true).GroundMode.GroundAreaProvider = this;
     }
 
     public Vector2 GetModeTarget(AncientAspid boss)

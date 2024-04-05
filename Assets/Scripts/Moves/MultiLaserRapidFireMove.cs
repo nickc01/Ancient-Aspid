@@ -192,7 +192,9 @@ public class MultiLaserRapidFireMove : AncientAspidMove
             yield return new WaitForSeconds(betweenDelay);
         }
 
-        yield return new WaitUntil(() => laserFireRoutines.Count == 0);
+        var maxWaitTime = Time.time + preFireDelay + fireDuration;
+
+        yield return new WaitUntil(() => laserFireRoutines.Count == 0 || Time.time >= maxWaitTime || Cancelled);
 
         Boss.Head.MainRenderer.flipX = Player.Player1.transform.position.x >= Boss.Head.transform.position.x;
 

@@ -8,6 +8,7 @@ using WeaverCore.Components;
 using WeaverCore;
 using System.Linq;
 using Modding;
+using WeaverCore.Utilities;
 
 public class GodhomeRespawnManager : MonoBehaviour
 {
@@ -74,6 +75,7 @@ public class GodhomeRespawnManager : MonoBehaviour
 
     private void Awake()
     {
+        alternativePlatforms.ShuffleInPlace();
         if (enabled)
         {
             hookedObjects.Add(this);

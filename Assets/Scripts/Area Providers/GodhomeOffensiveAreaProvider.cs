@@ -16,6 +16,9 @@ public class GodhomeOffensiveAreaProvider : MonoBehaviour, IModeAreaProvider
     [SerializeField]
     Vector2 playerTargetOffset = new Vector2(0f, 0f);
 
+    [SerializeField]
+    AncientAspid boss;
+
     private void Awake()
     {
         gameObject.layer = LayerMask.NameToLayer("Enemy Detector");
@@ -23,7 +26,12 @@ public class GodhomeOffensiveAreaProvider : MonoBehaviour, IModeAreaProvider
 
     private void Start()
     {
-        GameObject.FindObjectOfType<AncientAspid>(true).OffensiveMode.OffensiveAreaProvider = this;
+        if (boss == null)
+        {
+            boss = GameObject.FindObjectOfType<AncientAspid>(true);
+        }
+
+        boss.OffensiveMode.OffensiveAreaProvider = this;
     }
 
     public Vector2 GetModeTarget(AncientAspid boss)
