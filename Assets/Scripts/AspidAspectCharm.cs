@@ -20,8 +20,9 @@ public class AspidAspectCharm : WeaverCharm
 
     public override string Name => "Aspid Aspect";
 
-    public override string Description => @"Charm bears the likeness of an Primal Aspid with a intense stare. 
-""Look Into My Eyes ,We're Not So Different,You and I.""
+    public override string Description => @"Charm bears the likeness of an Primal Aspid with a intense stare.
+
+""Look Into My Eyes, We're Not So Different, You and I.""
 
 Bestows upon the bearer an arbitrary ally.";
 

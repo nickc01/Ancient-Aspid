@@ -8,7 +8,6 @@ public sealed class AncientAspidGlobalSettings : GlobalSettings
 {
     public override string TabName => "Ancient Aspid";
 
-
     [HideInInspector]
     public bool forcedTitle = false;
 
@@ -22,6 +21,7 @@ public sealed class AncientAspidGlobalSettings : GlobalSettings
     protected override void OnRegister()
     {
         base.OnRegister();
+#if !UNITY_EDITOR
         if (!forcedTitle)
         {
             forcedTitle = true;
@@ -29,5 +29,6 @@ public sealed class AncientAspidGlobalSettings : GlobalSettings
             var tmpStyle = MenuStyles.Instance.styles.First(x => x.styleObject.name.Contains("ancient_aspid_menu_style"));
             MenuStyles.Instance.SetStyle(MenuStyles.Instance.styles.ToList().IndexOf(tmpStyle), false);
         }
+#endif
     }
 }

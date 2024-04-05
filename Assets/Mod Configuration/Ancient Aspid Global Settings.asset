@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4d51e4bbfac2e746838107f513d8261, type: 3}
   m_Name: Ancient Aspid Global Settings
   m_EditorClassIdentifier: Assembly-CSharp::AncientAspidGlobalSettings
+  forcedTitle: 0
