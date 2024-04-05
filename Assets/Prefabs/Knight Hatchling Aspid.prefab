@@ -366,6 +366,7 @@ MonoBehaviour:
   maxSleepDistance: 2.5
   sleepTimeRange: {x: 9, y: 11}
   attackTimeRange: {x: 1.7, y: 2.2}
+  preAttackDelayRange: {x: 0, y: 0.25}
   playerTargetRange: 4
   sleepFallVelocity: -10
   jitterIntensity: {x: 1, y: 1}

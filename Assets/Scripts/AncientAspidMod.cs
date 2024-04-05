@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using WeaverCore;
 using WeaverCore.Attributes;
+using WeaverCore.Settings;
 using WeaverCore.Utilities;
 
 public class AncientAspidMod : WeaverMod
@@ -21,6 +22,6 @@ public class AncientAspidMod : WeaverMod
 
     public override void Initialize()
     {
-        
+
     }
 }

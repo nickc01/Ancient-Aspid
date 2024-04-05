@@ -310,6 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageType: 0
   <AdditionalDamage>k__BackingField: 4
+  disableWhenPlayerLocked: 1
 --- !u!1 &3553540743974049220
 GameObject:
   m_ObjectHideFlags: 0

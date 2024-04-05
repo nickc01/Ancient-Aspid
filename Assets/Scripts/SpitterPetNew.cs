@@ -36,6 +36,9 @@ public class SpitterPetNew : MonoBehaviour
     Vector2 attackTimeRange = new Vector2(1.25f, 1.75f);
 
     [SerializeField]
+    Vector2 preAttackDelayRange = new Vector2(0f, 0.25f);
+
+    [SerializeField]
     float playerTargetRange = 5f;
 
     [SerializeField]
@@ -115,6 +118,7 @@ public class SpitterPetNew : MonoBehaviour
     float jitterTimer = 0f;
     float currentSleepTime;
     float currentAttackTime;
+    float currentDelayTime;
     Vector2 jitterVector = default;
 
     [SerializeField]
@@ -194,6 +198,8 @@ public class SpitterPetNew : MonoBehaviour
 
     private void Awake()
     {
+        collisionCounter.CollisionPredicates += CollisionCounter_CollisionPredicates;
+
         DontDestroyOnLoad(gameObject);
         attackLayerMask = LayerMask.GetMask("Enemies");
         terrainCollisionMask = LayerMask.GetMask("Terrain");
@@ -207,6 +213,18 @@ public class SpitterPetNew : MonoBehaviour
         StartCoroutine(PathfindingTargetSelector());
 
         TeleportToPlayer();
+    }
+
+    private bool CollisionCounter_CollisionPredicates(Collider2D obj)
+    {
+        var healthComponent = HealthUtilities.GetHealthComponent(obj.gameObject);
+
+        if (healthComponent == null || (healthComponent != null && HealthUtilities.TryGetHealth(healthComponent, out var healthValue) && healthValue > 0))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     bool hooked = false;
@@ -245,6 +263,8 @@ public class SpitterPetNew : MonoBehaviour
                 HeroController.instance.heroInPosition -= Instance_heroInPosition;
             }
         }
+
+        collisionCounter.CollisionPredicates -= CollisionCounter_CollisionPredicates;
     }
 
     private void Instance_heroInPosition(bool forceDirect)
@@ -597,9 +617,10 @@ public class SpitterPetNew : MonoBehaviour
 
             var enemyTarget = collisionCounter.GetNearestTarget(transform.position);
 
-            if (!Attacking && enemyTarget != null && attackTimer > currentAttackTime)
+            if (!Attacking && enemyTarget != null && attackTimer > currentAttackTime - currentDelayTime - 0.01f)
             {
                 currentAttackTime = attackTimeRange.RandomInRange();
+                currentDelayTime = preAttackDelayRange.RandomInRange();
                 attackTimer = 0;
                 attackRoutine = StartCoroutine(AttackRoutine(enemyTarget.transform, enemyTarget.transform.position));
             }
@@ -739,7 +760,6 @@ public class SpitterPetNew : MonoBehaviour
                 foundEnemyCount = Physics2D.BoxCastNonAlloc(transform.position, new Vector2(alertRange, alertRange), 0, Vector2.down, foundEnemies, alertRange, attackLayerMask,);*/
                 //foundEnemyCount = Physics2D.CircleCastNonAlloc(transform.position, alertRange, Vector2.down, foundEnemies, alertRange, attackLayerMask);
                 foundEnemyCount = collisionCounter.CollidedObjectCount;
-                WeaverLog.Log($"Found Enemy Count {gameObject.name} = " + foundEnemyCount);
             }
             finally
             {
@@ -752,7 +772,6 @@ public class SpitterPetNew : MonoBehaviour
 
     void TeleportToPlayer()
     {
-        WeaverLog.Log("TELEPORTING TO PLAYER");
         WeaverLog.Log(new System.Diagnostics.StackTrace());
         AimingAtPlayer = true;
         NearestTarget = Player.Player1.transform.position;
@@ -767,14 +786,30 @@ public class SpitterPetNew : MonoBehaviour
     IEnumerator AttackTimeRange()
     {
         currentAttackTime = attackTimeRange.RandomInRange();
+        currentDelayTime = preAttackDelayRange.RandomInRange();
         while (true)
         {
             attackTimer += Time.deltaTime;
+
+            if (attackTimer >= currentAttackTime)
+            {
+                attackTimer = currentAttackTime;
+            }
+
             if (foundEnemyCount == 0)
+            {
+                //currentDelayTime = preAttackDelayRange.RandomInRange();
+                if (attackTimer >= currentAttackTime - currentDelayTime)
+                {
+                    attackTimer = currentAttackTime - currentDelayTime;
+                }
+            }
+
+            /*if (foundEnemyCount == 0)
             {
                 attackTimer = 0f;
                 currentAttackTime = attackTimeRange.RandomInRange();
-            }
+            }*/
             /*if (Vector3.Distance(Player.Player1.transform.position, oldPlayerPos) >= 0.1f)
             {
                 oldPlayerPos = Player.Player1.transform.position;
@@ -820,4 +855,6 @@ public class SpitterPetNew : MonoBehaviour
         Gizmos.color = new Color(1f, 0f, 0f, 0.3f);
         Gizmos.DrawSphere(transform.position, alertRange);
     }
+
+    
 }

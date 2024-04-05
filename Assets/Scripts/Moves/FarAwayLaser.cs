@@ -47,6 +47,15 @@ public class FarAwayLaser : AncientAspidMove
     List<AudioClip> fireSound;
 
     [SerializeField]
+    float turnDuration = 1.5f;
+
+    [SerializeField]
+    float turnIntensity = 8.5f;
+
+    [SerializeField]
+    AnimationCurve turnCurve;
+
+    [SerializeField]
     Vector2 fireSoundPitchRange = new Vector2(0.95f, 1.05f);
     [field: SerializeField]
     public bool moveEnabled { get; set; } = true;
@@ -165,11 +174,31 @@ public class FarAwayLaser : AncientAspidMove
 
             var playerNew = Player.Player1.transform.position;
 
+
+            var vectorToPlayer = Player.Player1.transform.position - farLaserEmitter.transform.position;
+
+            var angleToPlayer = MathUtilities.CartesianToPolar(vectorToPlayer).x;
+
+            var vectorToStart = MathUtilities.PolarToCartesian(angleToPlayer + 90f, 1);
+
             var playerVelocity = (playerNew - playerOld) / (1f / 30f);
 
             var lastPlayerPos = Player.Player1.transform.position + new Vector3(0f, 0.5f) + (playerVelocity * predictionAmount);
 
-            aimTargetGetter = () => lastPlayerPos;
+            float startTime = Time.time;
+
+            float endTime = Time.time + turnDuration;
+
+            Vector3 startPoint = Player.Player1.transform.position + (Vector3)(vectorToStart * turnIntensity);
+            Vector3 endPoint = Player.Player1.transform.position + (Vector3)(-vectorToStart * turnIntensity);
+
+            //aimTargetGetter = () => lastPlayerPos;
+            aimTargetGetter = () =>
+            {
+                var t = Mathf.InverseLerp(startTime, endTime, Time.time);
+
+                return Vector3.Lerp(startPoint, endPoint, turnCurve.Evaluate(t));
+            };
 
             yield return new WaitForSeconds(farLaserEmitter.ChargeUpLaser_P1());
 
@@ -181,7 +210,17 @@ public class FarAwayLaser : AncientAspidMove
 
             farLaserEmitter.FireLaser_P2();
 
-            yield return WaitIfNotCancelled(fireDuration);
+            //yield return WaitIfNotCancelled(fireDuration);
+
+            while (Time.time < endTime)
+            {
+                yield return null;
+
+                if (Cancelled)
+                {
+                    break;
+                }
+            }
 
 
             yield return WaitIfNotCancelled(farLaserEmitter.EndLaser_P3());

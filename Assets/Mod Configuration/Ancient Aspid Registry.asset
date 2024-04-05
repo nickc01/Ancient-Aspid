@@ -19,12 +19,21 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 53925bd5d3de07c4c99ae7f55fedf179, type: 2}
   - {fileID: 11400000, guid: 364475caf727b704da69c13362ef9e9d, type: 2}
   - {fileID: 11400000, guid: fad717bdb4432f443b28f8c73ace0138, type: 2}
+  - {fileID: 11400000, guid: dedec9dbf5024e9428298f4b14497fff, type: 2}
+  - {fileID: 11400000, guid: d2d11f54d166cf84083ce943bc8bdd46, type: 2}
+  - {fileID: 11400000, guid: bfc4d82a56ac3a740afdf9ad775fd0cd, type: 2}
   featureTypeNames:
   - WeaverCore.SceneRecord
   - WeaverCore.Settings.SaveSpecificSettings
   - WeaverCore.Features.WeaverCharm
   - WeaverCore.Features.HunterJournalEntry
+  - WeaverCore.Features.CustomMenuStyle
+  - WeaverCore.Features.CustomMenuIcon
+  - WeaverCore.Settings.GlobalSettings
   featureAssemblyNames:
+  - WeaverCore
+  - WeaverCore
+  - WeaverCore
   - WeaverCore
   - WeaverCore
   - WeaverCore
