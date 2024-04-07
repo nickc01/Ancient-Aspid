@@ -29,6 +29,9 @@ public class GroupSpawner : MonoBehaviour
     [field: SerializeField]
     public bool StartSpawningOnStart { get; private set; } = false;
 
+    [field: SerializeField]
+    public Transform ParentObject { get; private set; }
+
     public bool Spawning { get; private set; } = false;
 
 
@@ -60,6 +63,10 @@ public class GroupSpawner : MonoBehaviour
             BackgroundFlier instance = Pooling.Instantiate(Prefab, pos, rot);
 
             instance.VelocityRange = GeneralSpawnVelocity;
+            if (ParentObject != null)
+            {
+                instance.transform.SetParent(ParentObject, true);
+            }
             yield return new WaitForSeconds(spawnDelay);
         }
         Spawning = false;
