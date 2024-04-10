@@ -22,7 +22,7 @@ MonoBehaviour:
   requireUnlock: 0
   tier1Scene: {fileID: 0}
   tier2Scene: {fileID: 11400000, guid: 958d88e37c28e3a46a20e1f3cf35e222, type: 2}
-  tier3Scene: {fileID: 11400000, guid: 958d88e37c28e3a46a20e1f3cf35e222, type: 2}
+  tier3Scene: {fileID: 11400000, guid: 6cf5951c83c76a84fbe5238d0ee95521, type: 2}
   weaverBossTests:
     boolTests:
     - settingsStorageForBool: {fileID: 11400000, guid: 53925bd5d3de07c4c99ae7f55fedf179, type: 2}

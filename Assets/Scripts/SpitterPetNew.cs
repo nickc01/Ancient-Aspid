@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Modding;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -133,6 +134,9 @@ public class SpitterPetNew : MonoBehaviour
     Coroutine attackRoutine;
     Vector2 extraOffset;
 
+    [SerializeField]
+    bool temporarilyDisabled = false;
+
     int terrainCollisionMask;
 
     public bool ShouldGoToSleep => sleepTimer >= currentSleepTime && foundEnemyCount == 0;
@@ -234,8 +238,7 @@ public class SpitterPetNew : MonoBehaviour
         if (!hooked)
         {
             hooked = true;
-            UnityEngine.SceneManagement.SceneManager.sceneLoaded += SceneManager_sceneLoaded;
-            HeroController.instance.heroInPosition += Instance_heroInPosition;
+            OnHook();
         }
     }
 
@@ -244,11 +247,7 @@ public class SpitterPetNew : MonoBehaviour
         if (hooked)
         {
             hooked = false;
-            UnityEngine.SceneManagement.SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
-            if (HeroController.instance != null)
-            {
-                HeroController.instance.heroInPosition -= Instance_heroInPosition;
-            }
+            OnUnHook();
         }
     }
 
@@ -257,14 +256,49 @@ public class SpitterPetNew : MonoBehaviour
         if (hooked)
         {
             hooked = false;
-            UnityEngine.SceneManagement.SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
-            if (HeroController.instance != null)
-            {
-                HeroController.instance.heroInPosition -= Instance_heroInPosition;
-            }
+            OnUnHook();
         }
 
         collisionCounter.CollisionPredicates -= CollisionCounter_CollisionPredicates;
+    }
+
+    void OnHook()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+        HeroController.instance.heroInPosition += Instance_heroInPosition;
+        ModHooks.GetPlayerBoolHook += ModHooks_GetPlayerBoolHook;
+        EventManager.OnEventTriggered += EventManager_OnEventTriggered;
+    }
+
+    void OnUnHook()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
+        if (HeroController.instance != null)
+        {
+            HeroController.instance.heroInPosition -= Instance_heroInPosition;
+        }
+        ModHooks.GetPlayerBoolHook -= ModHooks_GetPlayerBoolHook;
+        EventManager.OnEventTriggered -= EventManager_OnEventTriggered;
+    }
+
+    private void EventManager_OnEventTriggered(string eventName, GameObject source, GameObject destination, EventManager.EventType eventType)
+    {
+        if (eventName == "FINAL HIT")
+        {
+            //WeaverLog.Log("ALL CHARMS ENDING");
+            TemporarilyDisable(true);
+        }
+    }
+
+    private bool ModHooks_GetPlayerBoolHook(string name, bool orig)
+    {
+        /*WeaverLog.Log("BOOL NAME = " + name + ", val = " + orig);
+        if (name == "killedFinalBoss" && orig)
+        {
+            TemporarilyDisable(true);
+        }*/
+
+        return orig;
     }
 
     private void Instance_heroInPosition(bool forceDirect)
@@ -274,8 +308,14 @@ public class SpitterPetNew : MonoBehaviour
 
     private void SceneManager_sceneLoaded(UnityEngine.SceneManagement.Scene arg0, UnityEngine.SceneManagement.LoadSceneMode arg1)
     {
+        if (temporarilyDisabled)
+        {
+            TemporarilyDisable(false);
+        }
+
         UpdateFlyingState();
     }
+
 
     void UpdateFlyingState()
     {
@@ -469,7 +509,7 @@ public class SpitterPetNew : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(0.5f);
-            if (PlayerTracker.Instance != null)
+            if (PlayerTracker.Instance != null && !temporarilyDisabled)
             {
                 bool TestTarget(Vector3 target)
                 {
@@ -519,7 +559,7 @@ public class SpitterPetNew : MonoBehaviour
                             }
                         }
 
-                        if (!foundTarget)
+                        if (!foundTarget && !temporarilyDisabled)
                         {
                             TeleportToPlayer();
                         }
@@ -593,116 +633,119 @@ public class SpitterPetNew : MonoBehaviour
 
         while (true)
         {
-            if (ShouldGoToSleep)
+            if (!temporarilyDisabled)
             {
-                var target = SleepTarget;
-                DoFlyTick(transform.position.With(x: target.x), transform.position.With(x: target.x), jitterIntensity);
-            }
-            else
-            {
-                if (AimingAtPlayer)
+                if (ShouldGoToSleep)
                 {
-                    DoFlyTick(PlayerTarget + extraOffset, PlayerTarget + extraOffset, jitterIntensity);
+                    var target = SleepTarget;
+                    DoFlyTick(transform.position.With(x: target.x), transform.position.With(x: target.x), jitterIntensity);
                 }
                 else
                 {
-                    DoFlyTick(NearestTarget, PlayerTarget, jitterIntensity);
-                }
-            }
-
-            if (Vector2.Distance(Player.Player1.transform.position, transform.position) >= maxTeleportDistance)
-            {
-                TeleportToPlayer();
-            }
-
-            var enemyTarget = collisionCounter.GetNearestTarget(transform.position);
-
-            if (!Attacking && enemyTarget != null && attackTimer > currentAttackTime - currentDelayTime - 0.01f)
-            {
-                currentAttackTime = attackTimeRange.RandomInRange();
-                currentDelayTime = preAttackDelayRange.RandomInRange();
-                attackTimer = 0;
-                attackRoutine = StartCoroutine(AttackRoutine(enemyTarget.transform, enemyTarget.transform.position));
-            }
-
-            if (ShouldGoToSleep)
-            {
-                //WeaverLog.Log("GOING TO SLEEP");
-                StopTurning();
-                colliderFound = Physics2D.RaycastNonAlloc(Player.Player1.transform.position + new Vector3(0f, 0.25f), Vector2.down, hitCache, 3f, terrainCollisionMask) > 0;
-
-                //WeaverLog.Log("Collider Found = " + colliderFound);
-                if (colliderFound)
-                {
-                    playerColliderBounds = hitCache[0].collider.bounds;
-                    //WeaverLog.Log("XMin = " + playerColliderBounds.min.x);
-                    //WeaverLog.Log("XMax = " + playerColliderBounds.max.x);
-                }
-
-                var target = SleepTarget;
-
-                var heightDiff = transform.position.y - Player.Player1.transform.position.y;
-
-                while (!(heightDiff < 6f && heightDiff > 0f && transform.position.x <= playerColliderBounds.max.x - 0.75f && transform.position.x >= playerColliderBounds.min.x + 0.75f))
-                //while (Vector2.Distance(Player.Player1.transform.position, transform.position) >= maxSleepDistance && Vector2.Distance(SleepTarget, transform.position) >= 0.2f && !WithinColliderBounds() && (transform.position.x > playerColliderBounds.max.x - 2f || transform.position.x < playerColliderBounds.min.x + 2f))
-                {
-                    heightDiff = transform.position.y - Player.Player1.transform.position.y;
-                    DoFlyTick(SleepTarget, SleepTarget, jitterIntensity);
-                    if (!ShouldGoToSleep)
+                    if (AimingAtPlayer)
                     {
-                        break;
+                        DoFlyTick(PlayerTarget + extraOffset, PlayerTarget + extraOffset, jitterIntensity);
                     }
-                    yield return null;
+                    else
+                    {
+                        DoFlyTick(NearestTarget, PlayerTarget, jitterIntensity);
+                    }
+                }
+
+                if (Vector2.Distance(Player.Player1.transform.position, transform.position) >= maxTeleportDistance)
+                {
+                    TeleportToPlayer();
+                }
+
+                var enemyTarget = collisionCounter.GetNearestTarget(transform.position);
+
+                if (!Attacking && enemyTarget != null && attackTimer > currentAttackTime - currentDelayTime - 0.01f)
+                {
+                    currentAttackTime = attackTimeRange.RandomInRange();
+                    currentDelayTime = preAttackDelayRange.RandomInRange();
+                    attackTimer = 0;
+                    attackRoutine = StartCoroutine(AttackRoutine(enemyTarget.transform, enemyTarget.transform.position));
                 }
 
                 if (ShouldGoToSleep)
                 {
-                    var audio = GetComponent<AudioSource>();
-                    audio.Stop();
-                    Animator.PlayAnimation(sleepAnticAnim);
+                    //WeaverLog.Log("GOING TO SLEEP");
+                    StopTurning();
+                    colliderFound = Physics2D.RaycastNonAlloc(Player.Player1.transform.position + new Vector3(0f, 0.25f), Vector2.down, hitCache, 3f, terrainCollisionMask) > 0;
 
-                    Rigidbody.velocity = Vector2.up * sleepFallVelocity;
-
-                    while (Rigidbody.velocity.y < 0f)
+                    //WeaverLog.Log("Collider Found = " + colliderFound);
+                    if (colliderFound)
                     {
+                        playerColliderBounds = hitCache[0].collider.bounds;
+                        //WeaverLog.Log("XMin = " + playerColliderBounds.min.x);
+                        //WeaverLog.Log("XMax = " + playerColliderBounds.max.x);
+                    }
+
+                    var target = SleepTarget;
+
+                    var heightDiff = transform.position.y - Player.Player1.transform.position.y;
+
+                    while (!(heightDiff < 6f && heightDiff > 0f && transform.position.x <= playerColliderBounds.max.x - 0.75f && transform.position.x >= playerColliderBounds.min.x + 0.75f))
+                    //while (Vector2.Distance(Player.Player1.transform.position, transform.position) >= maxSleepDistance && Vector2.Distance(SleepTarget, transform.position) >= 0.2f && !WithinColliderBounds() && (transform.position.x > playerColliderBounds.max.x - 2f || transform.position.x < playerColliderBounds.min.x + 2f))
+                    {
+                        heightDiff = transform.position.y - Player.Player1.transform.position.y;
+                        DoFlyTick(SleepTarget, SleepTarget, jitterIntensity);
                         if (!ShouldGoToSleep)
                         {
-                            Animator.PlayAnimation(idleAnim);
                             break;
                         }
                         yield return null;
                     }
-                    //yield return new WaitUntil(() => Rigidbody.velocity.y >= 0f);
-                    Rigidbody.velocity = default;
 
                     if (ShouldGoToSleep)
                     {
-                        Rigidbody.isKinematic = true;
-                        yield return Animator.PlayAnimationTillDone(sleepAnim);
+                        var audio = GetComponent<AudioSource>();
+                        audio.Stop();
+                        Animator.PlayAnimation(sleepAnticAnim);
 
-                        yield return new WaitForSeconds(0.25f);
+                        Rigidbody.velocity = Vector2.up * sleepFallVelocity;
 
-                        var playerPos = Player.Player1.transform.position;
+                        while (Rigidbody.velocity.y < 0f)
+                        {
+                            if (!ShouldGoToSleep)
+                            {
+                                Animator.PlayAnimation(idleAnim);
+                                break;
+                            }
+                            yield return null;
+                        }
+                        //yield return new WaitUntil(() => Rigidbody.velocity.y >= 0f);
+                        Rigidbody.velocity = default;
 
-                        yield return new WaitUntil(() => !ShouldGoToSleep);
+                        if (ShouldGoToSleep)
+                        {
+                            Rigidbody.isKinematic = true;
+                            yield return Animator.PlayAnimationTillDone(sleepAnim);
 
-                        Rigidbody.isKinematic = false;
+                            yield return new WaitForSeconds(0.25f);
 
-                        Animator.PlayAnimation(idleAnim);
+                            var playerPos = Player.Player1.transform.position;
+
+                            yield return new WaitUntil(() => !ShouldGoToSleep);
+
+                            Rigidbody.isKinematic = false;
+
+                            Animator.PlayAnimation(idleAnim);
+                        }
                     }
                 }
-            }
-            else
-            {
-                if (!Attacking)
+                else
                 {
-                    if (enemyTarget != null)
+                    if (!Attacking)
                     {
-                        TurnTowards(enemyTarget.transform.position);
-                    }
-                    else
-                    {
-                        TurnTowards(Player.Player1.transform.position);
+                        if (enemyTarget != null)
+                        {
+                            TurnTowards(enemyTarget.transform.position);
+                        }
+                        else
+                        {
+                            TurnTowards(Player.Player1.transform.position);
+                        }
                     }
                 }
             }
@@ -712,6 +755,32 @@ public class SpitterPetNew : MonoBehaviour
 
 
         yield break;
+    }
+
+    void TemporarilyDisable(bool value)
+    {
+        if (temporarilyDisabled != value)
+        {
+            temporarilyDisabled = value;
+            if (value)
+            {
+                if (attackRoutine != null)
+                {
+                    StopCoroutine(attackRoutine);
+                    attackRoutine = null;
+                    Animator.PlayAnimation(idleAnim);
+                }
+
+                FadeOut(() =>
+                {
+                    transform.position = new Vector3(9999f, 9999f, 0f);
+                });
+            }
+            else
+            {
+                TeleportToPlayer();
+            }
+        }
     }
 
     void StopTurning()
@@ -772,7 +841,6 @@ public class SpitterPetNew : MonoBehaviour
 
     void TeleportToPlayer()
     {
-        WeaverLog.Log(new System.Diagnostics.StackTrace());
         AimingAtPlayer = true;
         NearestTarget = Player.Player1.transform.position;
         MainRenderer.color = MainRenderer.color.With(a: 0f);
@@ -855,6 +923,4 @@ public class SpitterPetNew : MonoBehaviour
         Gizmos.color = new Color(1f, 0f, 0f, 0.3f);
         Gizmos.DrawSphere(transform.position, alertRange);
     }
-
-    
 }

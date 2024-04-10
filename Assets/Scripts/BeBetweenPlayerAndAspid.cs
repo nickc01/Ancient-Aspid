@@ -26,6 +26,8 @@ public class BeBetweenPlayerAndAspid : MonoBehaviour
 
     public Vector2 angleRange = new Vector2(5f, 180f - 5f);
 
+    public float ObstacleAvoidanceAmount = 3f;
+
     public AncientAspid Aspid;
 
     float floorLevel = 0;
@@ -98,6 +100,25 @@ public class BeBetweenPlayerAndAspid : MonoBehaviour
         angleToAspid = Mathf.Clamp(angleToAspid, angleRange.x, angleRange.y);
 
         transform.position = playerPos + (Vector3)MathUtilities.PolarToCartesian(angleToAspid, magnitude);
+
+        if (!Aspid.CanRaycastToPlayer)
+        {
+            //var vectFromPlayer = transform.position - Player.Player1.transform.position;
+            var vecToPlayer = (Player.Player1.transform.position - Aspid.Head.transform.position);
+
+            var right = MathUtilities.PolarToCartesian(MathUtilities.CartesianToPolar(vecToPlayer).x + 90f, ObstacleAvoidanceAmount);
+
+            //transform.position = Player.Player1.transform.position - vectFromPlayer + (Vector3)right;
+            /*var vecToPlayer = (Player.Player1.transform.position - Aspid.Head.transform.position);
+
+            var right = MathUtilities.PolarToCartesian(MathUtilities.CartesianToPolar(vecToPlayer).x + 90f, 5f);
+
+            right.y = Mathf.Abs(right.y);
+
+            transform.position += (Vector3)right;*/
+
+            transform.position += (Vector3)right;
+        }
 
         var roomBoundaries = Aspid.CurrentRoomRect;
 

@@ -42,6 +42,9 @@ public class MultiLaserBurstMove : AncientAspidMove
     [SerializeField]
     float centerLaserRandomness = 0f;
 
+    [SerializeField]
+    ShakeType shakeType = ShakeType.AverageShake;
+
     //[SerializeField]
     //List<LaserEmitter> lasers;
 
@@ -247,6 +250,8 @@ public class MultiLaserBurstMove : AncientAspidMove
             {
                 lasers[i].FireLaser_P2();
             }
+
+            CameraShaker.Instance.Shake(shakeType);
 
             PlayLaserBlood();
 

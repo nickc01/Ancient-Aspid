@@ -10,14 +10,17 @@ public class TacticalMode : AncientAspidMode
     private bool stop = false;
 
     [SerializeField]
+    float delayDivider = 1.5f;
+
+    [SerializeField]
     bool doMusicChange = true;
 
     protected override IEnumerator OnExecute(Dictionary<string, object> args)
     {
-        if (doMusicChange && Boss.GodhomeMode && Boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
+        /*if (doMusicChange && Boss.GodhomeMode && Boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
         {
             Boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.AR1);
-        }
+        }*/
         Debug.Log("TACTICAL START");
         stop = false;
 
@@ -67,7 +70,7 @@ public class TacticalMode : AncientAspidMode
             yield return RunAspidMove(move, args);
             lastMoveTime = Time.time;
             lastMoveDelay = move.GetPostDelay(oldHealth);
-            lastMoveDelay /= 1.5f;
+            lastMoveDelay /= delayDivider;
         }
 
         yield break;

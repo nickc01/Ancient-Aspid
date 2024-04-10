@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneAdditions:
   - {fileID: 102900000, guid: b40d8462b894bb641b32a6f88b48466e, type: 3}
-  - {fileID: 102900000, guid: af2b7688ca0f75447bc4da4ef21d40db, type: 3}
   - {fileID: 102900000, guid: 8a4f2617f33a055449606be248fdba07, type: 3}
+  - {fileID: 102900000, guid: 089403193b463e14bbccd786fa9c398d, type: 3}
+  - {fileID: 102900000, guid: b74f1f593b0ae924db18ef1d791c989f, type: 3}
   sceneReplacements: []
   sceneUnions:
   - SceneToUniteWith: GG_Workshop
@@ -25,8 +26,9 @@ MonoBehaviour:
   transitionRedirects: []
   sceneAdditionPaths:
   - Assets/Scenes/Ancient Aspid Room.unity
-  - Assets/Scenes/GG_Ancient_Aspid.unity
   - Assets/Scenes/GG_Ancient_Aspid_V.unity
+  - Assets/Scenes/GG_Ancient_Aspid.unity
+  - Assets/Scenes/GG_Ancient_Aspid_RAD.unity
   sceneToReplacePaths: []
   sceneReplacementPaths: []
   sceneToUnionizePaths:

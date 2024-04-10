@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteDirection: 15
   VelocityRange: {x: 10, y: 15}
-  maxLifetimeRange: {x: 50, y: 50}
+  maxLifetimeRange: {x: 200, y: 200}
   maxTravelDistanceRange: {x: 50, y: 50}
   directionalVariance: {x: -5, y: 5}
   <DoneBehaviour>k__BackingField: 3

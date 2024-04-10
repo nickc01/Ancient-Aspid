@@ -114,16 +114,16 @@ public class OffensiveMode : AncientAspidMode
             result = Boss.CanSeeTarget && Vector3.Distance(transform.position, Player.Player1.transform.position) <= OffensiveAttackDistance && Player.Player1.transform.position.y < transform.position.y + 1;
         }
 
-        WeaverLog.Log("DEFAULT CENTER CHECK = " + result);
+        //WeaverLog.Log("DEFAULT CENTER CHECK = " + result);
         return result;
     }
 
     protected override IEnumerator OnExecute(Dictionary<string, object> args)
     {
-        if (doMusicChange && Boss.GodhomeMode && Boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
+        /*if (doMusicChange && Boss.GodhomeMode && Boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
         {
             Boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.UPWARDING);
-        }
+        }*/
         using (var recoilOverride = Boss.Recoil.AddRecoilOverride(0))
         {
             RanAtLeastOnce = true;
@@ -140,7 +140,7 @@ public class OffensiveMode : AncientAspidMode
             {
                 if (!forceCenterMode && Vector3.Distance(Player.Player1.transform.position, transform.position) >= OffensiveMaxDistance)
                 {
-                    WeaverLog.Log("EXITING OFFENSIVE MODE EARLY");
+                    //WeaverLog.Log("EXITING OFFENSIVE MODE EARLY");
                     yield break;
                 }
             }
@@ -376,7 +376,7 @@ public class OffensiveMode : AncientAspidMode
 
     protected override bool ModeEnabled(Dictionary<string, object> args)
     {
-        WeaverLog.Log("Offensive Area Provided = " + (OffensiveAreaProvider != null));
+        //WeaverLog.Log("Offensive Area Provided = " + (OffensiveAreaProvider != null));
         return OffensiveAreaProvider != null && OffensiveAreaProvider.IsTargetActive(Boss);
     }
 
@@ -404,7 +404,7 @@ public class OffensiveMode : AncientAspidMode
                 if (Player.Player1.transform.position.x >= 197.62f)
                 {
                     enterBottomTarget.SetTarget(new Vector3(167.4f, 216.7f));
-                    WeaverLog.LogWarning("FOLLOW LEFT TARGET");
+                    //WeaverLog.LogWarning("FOLLOW LEFT TARGET");
                     if (transform.position.x <= 179.7f || transform.position.x <= Player.Player1.transform.position.x - 20f)
                     {
                         yield return CentralRiseRoutine();
@@ -414,7 +414,7 @@ public class OffensiveMode : AncientAspidMode
                 else
                 {
                     enterBottomTarget.SetTarget(new Vector3(262.5f, 216.7f));
-                    WeaverLog.LogWarning("FOLLOW RIGHT TARGET");
+                    //WeaverLog.LogWarning("FOLLOW RIGHT TARGET");
                     if (transform.position.x >= 251.1f || transform.position.x >= Player.Player1.transform.position.x + 20f)
                     {
                         yield return CentralRiseRoutine();
@@ -425,7 +425,7 @@ public class OffensiveMode : AncientAspidMode
             else if (playerAboveArena && !bossAboveArena)
             {
                 Boss.FlightRange.yMin = 0f;
-                WeaverLog.LogWarning("FOLLOW BOTTOM TARGET");
+                //WeaverLog.LogWarning("FOLLOW BOTTOM TARGET");
                 enterBottomTarget.SetTarget(new Vector3(220.8f, 85.29f));
                 if (transform.position.y <= Player.Player1.transform.position.y - 15f)
                 {
@@ -515,12 +515,15 @@ public class OffensiveMode : AncientAspidMode
             }
             else
             {
-                return DefaultCenterCheck();
+                return true;
+                //return Boss.CanSeeTarget && Vector3.Distance(transform.position, Player.Player1.transform.position) <= OffensiveAttackDistance && Player.Player1.transform.position.y < transform.position.y + 1;
+                //return DefaultCenterCheck();
             }
         }
 
         OffensiveAreaProvider = platformProvider;
 
+        //WeaverLog.Log("BEGINNING FORCE MODE SWITCH");
         yield return Boss.SwitchToNewMode(this, new Dictionary<string, object>
         {
             {OFFENSIVE_TIME, float.PositiveInfinity},
@@ -529,6 +532,8 @@ public class OffensiveMode : AncientAspidMode
             {READY_OVERRIDE, new Func<IEnumerator>(ReadyToDoMovesRoutine)},
             {OVERRIDE_CENTER_CHECK, new Func<bool>(CenterCheck)}
         });
+
+        //WeaverLog.Log("END BEGINNING FORCE MODE SWITCH");
 
         if (centerPlatformLockArea != null)
         {
@@ -672,7 +677,9 @@ public class OffensiveMode : AncientAspidMode
         fullyRisen = true;
         if (riseSpeed == CentralRiseSpeed.Instant || riseSpeed == CentralRiseSpeed.Quick)
         {
-            yield return new WaitUntil(() => Boss.Orientation != AspidOrientation.Center);
+            //WeaverLog.Log("END BEGINNING FORCE WAITING FOR CENTER");
+            //yield return new WaitUntil(() => Boss.Orientation != AspidOrientation.Center);
+            //WeaverLog.Log("END BEGINNING FORCE END WAITING FOR CENTER");
         }
 
         if (retry)

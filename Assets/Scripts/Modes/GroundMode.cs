@@ -11,6 +11,12 @@ using WeaverCore.Utilities;
 
 public class GroundMode : AncientAspidMode
 {
+    [field: SerializeField]
+    public bool ForceTargetDirectlyToPlayer { get; private set; } = false;
+
+    [SerializeField]
+    bool forceDefaultVariation = false;
+
     [NonSerialized]
     private List<GroundModeVariationBase> variations = null;
     public const string GROUND_MODE_VARIATION = nameof(GROUND_MODE_VARIATION);
@@ -186,15 +192,15 @@ public class GroundMode : AncientAspidMode
 
     protected override bool ModeEnabled(Dictionary<string, object> args)
     {
-        return modeEnabled && GroundAreaProvider != null && GroundAreaProvider.IsTargetActive(Boss) && ((Boss.Orientation == AspidOrientation.Right && Player.Player1.transform.position.x > Boss.transform.position.x) || (Boss.Orientation == AspidOrientation.Left && Player.Player1.transform.position.x < Boss.transform.position.x));
+        return modeEnabled && GroundAreaProvider != null && GroundAreaProvider.IsTargetActive(Boss) && ((Boss.Orientation == AspidOrientation.Right && Player.Player1.transform.position.x > Boss.transform.position.x - 5f) || (Boss.Orientation == AspidOrientation.Left && Player.Player1.transform.position.x < Boss.transform.position.x + 5f));
     }
 
     protected override IEnumerator OnExecute(Dictionary<string, object> customArgs)
     {
-        if (doMusicChange && Boss.GodhomeMode && Boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
+        /*if (doMusicChange && Boss.GodhomeMode && Boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)
         {
             Boss.MusicPlayer.TransitionToPhase(AncientAspidMusicController.MusicPhase.AR1);
-        }
+        }*/
         using Recoiler.RecoilOverride recoilOverride = Boss.Recoil.AddRecoilOverride(0);
         stop = false;
         yield return EnterGroundNew(customArgs);
@@ -327,7 +333,14 @@ public class GroundMode : AncientAspidMode
                     new GroundModeVomitVariation(this)
                 };
             }
-            variation = variations.Where(v => v.VariationEnabled).ToList().GetRandomElement();
+            if (forceDefaultVariation)
+            {
+                variation = variations.FirstOrDefault(v => v is GroundModeBasicVariation);
+            }
+            else
+            {
+                variation = variations.Where(v => v.VariationEnabled).ToList().GetRandomElement();
+            }
         }
 
         runningVariation = variation;

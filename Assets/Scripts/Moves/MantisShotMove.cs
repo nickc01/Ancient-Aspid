@@ -83,7 +83,7 @@ public class MantisShotMove : AncientAspidMove
 
             var currentAngle = Mathf.Lerp(fireAngleRange.x, fireAngleRange.y,i / (shotAmount - 1f));
 
-            WeaverLog.Log("PREFAB = " + prefab);
+            //WeaverLog.Log("PREFAB = " + prefab);
             var shot = MantisShot.Spawn(Boss.Claws.transform.position, MathUtilities.PolarToCartesian(currentAngle, velocityRange.RandomInRange()),true, prefab);
 
             shot.Audio.AudioSource.volume = 1f / shotAmount;

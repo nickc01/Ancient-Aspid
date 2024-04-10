@@ -389,6 +389,7 @@ MonoBehaviour:
   sleepAnim: Mini Aspid Sleep
   sleepTimer: 0
   attackTimer: 0
+  temporarilyDisabled: 0
 --- !u!1 &3674318655074383210
 GameObject:
   m_ObjectHideFlags: 0

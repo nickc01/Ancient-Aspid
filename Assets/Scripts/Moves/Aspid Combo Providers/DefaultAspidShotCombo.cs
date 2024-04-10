@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using WeaverCore.Utilities;
 using static IAspidComboProvider;
 
 public class DefaultAspidShotCombo : MonoBehaviour, IAspidComboProvider
@@ -20,6 +21,9 @@ public class DefaultAspidShotCombo : MonoBehaviour, IAspidComboProvider
     float comboShotSpeed = 12.5f;
 
     [SerializeField]
+    Vector2 angleRandomRange = new Vector2(-7.5f, 7.5f);
+
+    [SerializeField]
     int shotAmount = 3;
 
     List<float> shotAngleOffsets = new List<float>
@@ -33,6 +37,7 @@ public class DefaultAspidShotCombo : MonoBehaviour, IAspidComboProvider
 
     public IEnumerator<ShotInfo> DoShots(int comboIndex)
     {
+
         yield return new ShotInfo(shotAmount, doingCombo ? comboShotSpeed : shotSpeed, shotScale, shotAngleSeparation, shotAngleOffsets[comboIndex % 3]);
 
         if (!doingCombo)

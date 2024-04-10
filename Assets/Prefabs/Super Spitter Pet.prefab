@@ -456,6 +456,7 @@ MonoBehaviour:
   sleepAnim: Aspid Sleep
   sleepTimer: 0
   attackTimer: 0
+  temporarilyDisabled: 0
 --- !u!114 &5323138427954221391
 MonoBehaviour:
   m_ObjectHideFlags: 0

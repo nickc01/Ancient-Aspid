@@ -15,7 +15,8 @@ GameObject:
   - component: {fileID: 8240321237301172332}
   - component: {fileID: 2617433445583703512}
   - component: {fileID: 3786700922349821576}
-  m_Layer: 22
+  - component: {fileID: 8357622414195764276}
+  m_Layer: 17
   m_Name: Spikey Mover
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,6 +114,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingVelocity: {x: 2, y: 0}
+  horizontalVariance: {x: 0, y: 0}
+  verticalVariance: {x: 0, y: 0}
 --- !u!114 &8240321237301172332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,9 +158,23 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 1.6160889, y: 0.18535852}
   serializedVersion: 2
   m_Radius: 1.5323462
+--- !u!114 &8357622414195764276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432630299345704832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8516679943671fa4aa63aff309cf2138, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <deflectTimer>k__BackingField: 0
+  <repeatDelay>k__BackingField: 0.25

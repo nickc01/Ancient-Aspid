@@ -507,6 +507,8 @@ public class HeadController : AspidBodyPart
         HeadLocked = false;
         LookingDirection = newHeadDirection;
 
+        Boss.Head.Animator.StopCurrentAnimation();
+
         if (CurrentOrientation == AspidOrientation.Center && lookAtPlayer)
         {
             turningTowardsPlayer = true;

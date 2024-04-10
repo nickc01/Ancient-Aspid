@@ -82,10 +82,10 @@ public class ArenaSweepController : ILaserController
             Quaternion angle = Flipped ? Quaternion.Slerp(To, From, Curve.Evaluate(t / FireTime)) : Quaternion.Slerp(From, To, Curve.Evaluate(t / FireTime));
             setLaserAngle(angle);
 
-            if (t > 0.25f && laserMove.LaserOnRightSideOf(Player.Player1.transform.position, angle) != startingOnRightSide)
+            /*if (t > 0.25f && laserMove.LaserOnRightSideOf(Player.Player1.transform.position, angle) != startingOnRightSide)
             {
                 break;
-            }
+            }*/
 
             yield return null;
         }

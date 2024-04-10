@@ -43,14 +43,32 @@ public class GroupSpawner : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        StartSpawning();
+    }
+
+    private void OnDisable()
+    {
+        StopSpawning();
+    }
+
     public virtual void StartSpawning()
     {
+        if (Spawning)
+        {
+            return;
+        }
         Spawning = true;
          StartCoroutine(SpawnRoutine(UnityEngine.Random.Range(SpawnAmount.x, SpawnAmount.y + 1), SpawnDelay.RandomInRange()));
     }
 
     public virtual void StopSpawning()
     {
+        if (!Spawning)
+        {
+            return;
+        }
         Spawning = false;
         StopAllCoroutines();
     }

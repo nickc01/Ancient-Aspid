@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using WeaverCore;
 
 public class FinalClimbPhase : Phase
 {
@@ -49,7 +50,8 @@ public class FinalClimbPhase : Phase
 
     public override bool CanGoToNextPhase(AncientAspid boss)
     {
-        return base.CanGoToNextPhase(boss) && boss.transform.position.y >= minBossHeight;
+        var result = base.CanGoToNextPhase(boss) && boss.transform.position.y >= minBossHeight && boss.transform.position.y >= PhaseBoundaries.min.y;
+        return result;
     }
 
     protected override IEnumerator OnPhaseStart(AncientAspid boss, Phase prevPhase)

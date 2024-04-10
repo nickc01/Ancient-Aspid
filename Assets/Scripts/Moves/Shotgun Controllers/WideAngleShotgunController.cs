@@ -117,7 +117,7 @@ public class WideAngleShotgunController : ShotgunController
 
         rightToLeft = playerTarget.x >= Boss.Head.transform.position.x;
 
-        WeaverLog.Log("RIGHT TO LEFT MODE = " + rightToLeft);
+        //WeaverLog.Log("RIGHT TO LEFT MODE = " + rightToLeft);
 
         if (rightToLeft)
         {

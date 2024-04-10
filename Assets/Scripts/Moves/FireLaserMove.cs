@@ -195,6 +195,34 @@ public class FireLaserMove : AncientAspidMove
         return rect.Contains(laserRotationOrigin.transform.position);
     }
 
+    public Vector2 GetNearestLaserPoint(Vector2 target)
+    {
+        var laser = Boss.Head.ShotgunLasers.LaserEmitters[2];
+
+        var maxLength = laser.Laser.MaximumLength;
+
+        Debug.Log("ROT ANGLE = " + laserRotationOrigin.rotation.eulerAngles.z);
+        Debug.DrawRay(laserRotationOrigin.position, MathUtilities.PolarToCartesian(laserRotationOrigin.rotation.eulerAngles.z, maxLength), Color.magenta, 5f);
+
+        Vector2 nearestPoint = laserRotationOrigin.position;
+        float nearestDistance = Vector2.Distance(laserRotationOrigin.position, target);
+
+        for (int i = 0; i < 16; i++)
+        {
+            var pointAlongLaser = laserRotationOrigin.position + (Vector3)MathUtilities.PolarToCartesian(laserRotationOrigin.rotation.eulerAngles.z, i / (float)16 * maxLength);
+
+            var pointDistance = Vector2.Distance(pointAlongLaser, target);
+
+            if (pointDistance < nearestDistance)
+            {
+                nearestPoint = pointAlongLaser;
+                nearestDistance = pointDistance;
+            }
+        }
+
+        return nearestPoint;
+    }
+
     protected override IEnumerator OnExecute()
     {
         if (Boss.Orientation == AspidOrientation.Center)

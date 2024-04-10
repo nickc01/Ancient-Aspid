@@ -30,6 +30,7 @@ public class DefaultBombController : IBombController
 
     public bool DoBombs(AncientAspid Boss)
     {
-        return (Vector3.Distance(Boss.Head.transform.position, Player.Player1.transform.position) / ShotSpeed) < 1.5f;
+        return Boss.IsMouthVisible();
+        //return (Vector3.Distance(Boss.Head.transform.position, Player.Player1.transform.position) / ShotSpeed) < 1.5f;
     }
 }

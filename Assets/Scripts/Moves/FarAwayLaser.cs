@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using WeaverCore;
 using WeaverCore.Components;
+using WeaverCore.Enums;
 using WeaverCore.Utilities;
 
 public class FarAwayLaser : AncientAspidMove
@@ -54,6 +55,9 @@ public class FarAwayLaser : AncientAspidMove
 
     [SerializeField]
     AnimationCurve turnCurve;
+
+    [SerializeField]
+    ShakeType cameraShakeType = ShakeType.AverageShake;
 
     [SerializeField]
     Vector2 fireSoundPitchRange = new Vector2(0.95f, 1.05f);
@@ -161,11 +165,23 @@ public class FarAwayLaser : AncientAspidMove
         aimTargetGetter = () => Player.Player1.transform.position + new Vector3(0f, 0.5f);
         aimRoutine = Boss.StartBoundRoutine(AimTowardsPlayerRoutine());
 
+        var anticDuration = Boss.Head.Animator.AnimationData.GetClipDuration("Fire Laser Antic");
+
+
+
+        //yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser Antic");
+
         yield return new WaitForSeconds(prepareDuration);
 
         yield return WaitIfNotCancelled(farLaserEmitter.EndLaser_P3());
 
+        Boss.Head.Animator.PlaybackSpeed = anticDuration / fireDelay;
+
+        Boss.Head.Animator.PlayAnimation("Fire Laser Antic");
         yield return WaitIfNotCancelled(fireDelay);
+
+        Boss.Head.Animator.PlaybackSpeed = 1f;
+        bool angleSet = false;
         if (!Cancelled)
         {
             var playerOld = Player.Player1.transform.position;
@@ -180,6 +196,11 @@ public class FarAwayLaser : AncientAspidMove
             var angleToPlayer = MathUtilities.CartesianToPolar(vectorToPlayer).x;
 
             var vectorToStart = MathUtilities.PolarToCartesian(angleToPlayer + 90f, 1);
+
+            if (UnityEngine.Random.Range(0f, 1f) > 0.5f)
+            {
+                vectorToStart = -vectorToStart;
+            }
 
             var playerVelocity = (playerNew - playerOld) / (1f / 30f);
 
@@ -200,6 +221,7 @@ public class FarAwayLaser : AncientAspidMove
                 return Vector3.Lerp(startPoint, endPoint, turnCurve.Evaluate(t));
             };
 
+
             yield return new WaitForSeconds(farLaserEmitter.ChargeUpLaser_P1());
 
             if (fireSound != null)
@@ -210,10 +232,16 @@ public class FarAwayLaser : AncientAspidMove
 
             farLaserEmitter.FireLaser_P2();
 
+            CameraShaker.Instance.Shake(cameraShakeType);
+
             //yield return WaitIfNotCancelled(fireDuration);
 
             while (Time.time < endTime)
             {
+                var target = aimTargetGetter();
+                var angleToTarget = MathUtilities.CartesianToPolar(target - Boss.Head.transform.position).x;
+                Boss.Head.ShotgunLasers.SetHeadSpriteToRotation(Quaternion.Euler(0,0,angleToTarget));
+                angleSet = true;
                 yield return null;
 
                 if (Cancelled)
@@ -222,14 +250,25 @@ public class FarAwayLaser : AncientAspidMove
                 }
             }
 
-
+            //yield return Boss.Head.Animator.PlayAnimationTillDone("Fire Laser End");
+            Boss.Head.Animator.PlayAnimation("Fire Laser End");
             yield return WaitIfNotCancelled(farLaserEmitter.EndLaser_P3());
+            yield return new WaitUntil(() => Boss.Head.Animator.PlayingClip == null);
         }
 
         Boss.StopBoundRoutine(aimRoutine);
         aimRoutine = 0;
 
-        Boss.Head.UnlockHead();
+        var direction = Boss.Head.ShotgunLasers.GetCurrentHeadAngle();
+
+        if (angleSet)
+        {
+            Boss.Head.UnlockHead(direction < 0f ? AspidOrientation.Left : AspidOrientation.Right);
+        }
+        else
+        {
+            Boss.Head.UnlockHead();
+        }
 
         Boss.RemoveTargetOverride(targetter);
         targetter = null;
@@ -240,11 +279,15 @@ public class FarAwayLaser : AncientAspidMove
             rangeCheckerCoroutine = 0;
         }
 
+        Boss.Head.Animator.PlaybackSpeed = 1f;
+
         yield break;
     }
 
     public override void OnStun()
     {
+        Boss.Head.Animator.PlaybackSpeed = 1f;
+
         if (rangeCheckerCoroutine != 0)
         {
             Boss.StopBoundRoutine(rangeCheckerCoroutine);

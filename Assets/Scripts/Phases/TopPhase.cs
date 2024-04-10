@@ -26,6 +26,11 @@ public class TopPhase : Phase
     [SerializeField]
     Vector2 flightRangeX;
 
+    /*public override bool CanGoToNextPhase(AncientAspid boss)
+    {
+        return base.CanGoToNextPhase(boss);
+    }*/
+
     protected override IEnumerator OnPhaseStart(AncientAspid boss, Phase prevPhase)
     {
         if (boss.MusicPlayer != null && !WeaverCore.Features.Boss.InPantheon)

@@ -299,7 +299,9 @@ public class AncientAspid : Boss
 
     public Rect CamRect => new Rect { size = new Vector2(camBoxWidth, camBoxHeight), center = Player.Player1.transform.position };
 
-    public bool CanSeeTarget => !followingPath && TargetWithinYRange && Vector3.Distance(transform.position,Player.Player1.transform.position) <= 25f;
+    public bool CanSeeTarget => !followingPath && TargetWithinYRange && Vector3.Distance(transform.position,Player.Player1.transform.position) <= 29f;
+
+    public bool CanRaycastToPlayer { get; private set; }
 
     public bool EnableQuickEscapes { get; set; } = false;
 
@@ -720,7 +722,8 @@ public class AncientAspid : Boss
                 StartBoundRoutine(PathFindingRoutine());
             }
         }
-        
+
+        StartBoundRoutine(RaytracingRoutine());
 
         switch (Difficulty)
         {
@@ -1135,6 +1138,8 @@ public class AncientAspid : Boss
             StartBoundRoutine(PathFindingRoutine());
         }
 
+        StartBoundRoutine(RaytracingRoutine());
+
         StartBoundRoutine(MainBossRoutine());
 
         yield break;
@@ -1190,7 +1195,7 @@ public class AncientAspid : Boss
 
     public IEnumerator MainBossRoutine()
     {
-        WeaverLog.Log("MAIN BOSS ROUTINE START");
+        //WeaverLog.Log("MAIN BOSS ROUTINE START");
         if (MusicPlayer != null && !InPantheon)
         {
             Music.PlayMusicCue(blankCue, 0f, 0f, true);
@@ -1456,7 +1461,6 @@ public class AncientAspid : Boss
             clawsRoutine);
 
         yield return new WaitUntil(() => awaiter.Done);
-        WeaverLog.Log("FINISHED CHANGING DIRECTION to = " + newOrientation);
         Orientation = newOrientation;
     }
 
@@ -1539,6 +1543,20 @@ public class AncientAspid : Boss
         }
     }
 
+    static RaycastHit2D[] raycastTesting = new RaycastHit2D[1];
+
+    IEnumerator RaytracingRoutine()
+    {
+        while (true)
+        {
+            var vecToPlayer = (Player.Player1.transform.position + new Vector3(0, 0.5f) - Head.transform.position);
+            var result = Physics2D.RaycastNonAlloc(Head.transform.position, vecToPlayer.normalized, raycastTesting, vecToPlayer.magnitude, LayerMask.GetMask("Terrain"));
+            CanRaycastToPlayer = result == 0;
+
+            yield return new WaitForSeconds(pathRegenInterval);
+        }
+    }
+
     IEnumerator PathFindingRoutine()
     {
         while (true)
@@ -1548,7 +1566,6 @@ public class AncientAspid : Boss
             UpdatePath();
         }
     }
-
 
     private void Update()
     {
@@ -1704,6 +1721,18 @@ public class AncientAspid : Boss
         {
             Rbody.velocity = Vector2.Lerp(Rbody.velocity, directionToTarget.normalized * Rbody.velocity.magnitude, 5f * Time.fixedDeltaTime);
         }
+    }
+
+    public bool IsMouthVisible()
+    {
+        var rect = CamRect;
+
+        rect.xMin -= 3f;
+        rect.xMax += 3f;
+        rect.yMin -= 3f;
+        rect.yMax += 3f;
+
+        return rect.Contains(Head.ShotgunLasers.Lasers[2].position);
     }
 
     protected override void OnStun()
@@ -2026,6 +2055,9 @@ public class AncientAspid : Boss
         targetOverrides.Sort(TargetOverride.Sorter.Instance);
 
         targetOverrides.Add(target);
+
+        //WeaverLog.Log("ADDING TARGET OVERRIDE = " + target.guid);
+
         return target;
     }
 
@@ -2033,6 +2065,7 @@ public class AncientAspid : Boss
     {
         if (targetOverrides.Remove(target))
         {
+            //WeaverLog.Log("REMOVING TARGET OVERRIDE = " + target.guid);
             targetOverrides.Sort(TargetOverride.Sorter.Instance);
             return true;
         }

@@ -14,7 +14,8 @@ public class VomitShotMove : AncientAspidMove
     public override bool MoveEnabled => Boss.CanSeeTarget && moveEnabled &&
         Boss.CurrentRunningMode == Boss.TacticalMode &&
         !(Boss.CurrentPhase is GroundPhase) &&
-        Vector3.Distance(Player.Player1.transform.position, transform.position) <= 40 &&
+        Boss.IsMouthVisible() &&
+        //Vector3.Distance(Player.Player1.transform.position, transform.position) <= 25 &&
         Vector2.Distance(Player.Player1.transform.position, Boss.Head.transform.position) >= minDistance;
     [SerializeField]
     bool moveEnabled = true;

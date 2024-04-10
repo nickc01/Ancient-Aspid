@@ -24,9 +24,16 @@ public abstract class GroundModeVariationBase
 
     public virtual Vector3 GetLungeTarget()
     {
-        return UnityEngine.Random.Range(0, 2) == 1
-            ? Player.Player1.transform.position
-            : transform.position.With(y: Boss.CurrentRoomRect.yMin);
+        if (Mode.ForceTargetDirectlyToPlayer)
+        {
+            return Player.Player1.transform.position;
+        }
+        else
+        {
+            return UnityEngine.Random.Range(0, 2) == 1
+    ? Player.Player1.transform.position
+    : transform.position.With(y: Boss.CurrentRoomRect.yMin);
+        }
     }
 
     public virtual bool DoSlide(Vector3 lungeTarget)
