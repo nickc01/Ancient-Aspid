@@ -4,10 +4,10 @@
 Ancient Aspid is an all new bossfight for Hollow Knight. This adds a brand new boss with tons of different attacks that offers a brand new challenge to Hollow Knight players..
 
 ## Requirements
-Requires Modding API to be installed
-Requires WeaverCore v2.2.0.0 or newer to be installed
-Requires SFCore to be installed
-Requires MoreGodhomeSpace v1.0.0.0 to be installed
+- Requires Modding API to be installed
+- Requires WeaverCore v2.2.0.0 or newer to be installed
+- Requires SFCore to be installed
+- Requires MoreGodhomeSpace v1.0.0.0 to be installed
 
 ## Credits
 
