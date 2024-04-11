@@ -1,7 +1,9 @@
 ![Ancient Aspid Title](https://github.com/nickc01/Ancient-Aspid/blob/master/logo.png?raw=true)
 
 
-Ancient Aspid is an all new bossfight for Hollow Knight. This adds a brand new boss with tons of different attacks that offers a brand new challenge to Hollow Knight players..
+Ancient Aspid is an all new bossfight for Hollow Knight. This adds a brand new boss with tons of different attacks that offers a brand new challenge to Hollow Knight players.
+
+You can start fighting the boss in the campsite in Kingdom's East
 
 ## Requirements
 - Requires Modding API to be installed
