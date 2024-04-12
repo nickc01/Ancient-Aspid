@@ -151,7 +151,7 @@ public class ClawController : AspidBodyPart
         }
         while (true)
         {
-            if (Vector2.Distance(Boss.Head.transform.position, Player.Player1.transform.position) <= swingDistance && !FrontLeftClaw.ClawLocked && !FrontRightClaw.ClawLocked)
+            if (enabled && Vector2.Distance(Boss.Head.transform.position, Player.Player1.transform.position) <= swingDistance && !FrontLeftClaw.ClawLocked && !FrontRightClaw.ClawLocked)
             {
                 DoingBasicAttack = true;
                 yield return DoBasicAttack();
