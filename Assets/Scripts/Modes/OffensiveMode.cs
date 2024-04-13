@@ -390,6 +390,8 @@ public class OffensiveMode : AncientAspidMode
 
     public IEnumerator EnterFromBottomRoutine()
     {
+        var currentHealth = Boss.HealthComponent.Health;
+
         yield return new WaitUntil(() => Boss.FullyAwake);
         var enterBottomTarget = Boss.AddTargetOverride(int.MaxValue / 2);
 
@@ -469,6 +471,11 @@ public class OffensiveMode : AncientAspidMode
                     }
                 }
 
+            }
+
+            if (Boss.HealthComponent.Health < currentHealth - 100)
+            {
+                Boss.transform.Find("Terrain Collider").GetComponent<Collider2D>().enabled = false;
             }
 
             yield return null;
@@ -681,6 +688,8 @@ public class OffensiveMode : AncientAspidMode
             //yield return new WaitUntil(() => Boss.Orientation != AspidOrientation.Center);
             //WeaverLog.Log("END BEGINNING FORCE END WAITING FOR CENTER");
         }
+
+        Boss.transform.Find("Terrain Collider").GetComponent<Collider2D>().enabled = true;
 
         if (retry)
         {

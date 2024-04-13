@@ -932,26 +932,21 @@ public class AncientAspid : Boss
             awakeSound.AudioSource.pitch = sleepAwakeSoundPitch;
         }
 
-        var headRoutine = Head.LockHead(Head.LookingDirection >= 0f ? 60f : -60f, 1f);
-        var bodyRoutine = Body.RaiseTail(1000);
-
-
-
-
         bool playerOnRight = Player.Player1.transform.position.x >= transform.position.x;
-
         RoutineAwaiter awaiter = null;
 
         if (playerOnRight)
         {
             //Initialization.PerformanceLog("CHANGE DIRCTION");
-            awaiter = RoutineAwaiter.AwaitRoutine(ChangeDirection(AspidOrientation.Right, 1000));
+            awaiter = RoutineAwaiter.AwaitRoutine(ChangeDirection(AspidOrientation.Right, 100000));
+
             yield return awaiter.WaitTillDone();
         }
 
+        var headRoutine = Head.LockHead(Head.LookingDirection >= 0f ? 60f : -60f, 1f);
+        var bodyRoutine = Body.RaiseTail(1000);
         //Initialization.PerformanceLog("STARTING JUMP");
         awaiter = RoutineAwaiter.AwaitBoundRoutines(this, headRoutine, bodyRoutine);
-
         GroundMode.lungeDashEffect.SetActive(true);
         GroundMode.lungeDashRotationOrigin.SetZLocalRotation(90);
 
@@ -976,15 +971,14 @@ public class AncientAspid : Boss
         //Initialization.PerformanceLog("CLAWS LOCKED");
 
         yield return awaiter.WaitTillDone();
-
         //Initialization.PerformanceLog("AWAITER DONE");
 
         var time = Time.time;
 
         yield return new WaitUntil(() => Rbody.velocity.y <= 0f || Time.time > time + 3f);
+
         //Initialization.PerformanceLog("BEGINNING FALL");
         var prevVelocity = Rbody.velocity.y;
-
         for (float t = 0; t < 3f; t += 0f)
         {
             var pre = Time.time;
@@ -997,7 +991,6 @@ public class AncientAspid : Boss
                 break;
             }
         }
-
         sleepSprite.gameObject.SetActive(false);
 
         foreach (var renderer in renderers)
@@ -1005,20 +998,19 @@ public class AncientAspid : Boss
             renderer.enabled = true;
         }
 
-
         var headLandRoutine = Head.PlayLanding(true);
         var bodyLandRoutine = Body.PlayLanding(true);
         var wingPlateLandRoutine = WingPlates.PlayLanding(true);
         var wingsLandRoutine = Wings.PlayLanding(true);
         var clawsLandRoutine = Claws.PlayLanding(true);
         var shiftPartsRoutine = ShiftBodyParts(true, Body, WingPlates, Wings);
-
         List<uint> landingRoutines = new List<uint>();
 
         var landingAwaiter = RoutineAwaiter.AwaitBoundRoutines(this, landingRoutines, headLandRoutine, bodyLandRoutine, wingPlateLandRoutine, wingsLandRoutine, clawsLandRoutine, shiftPartsRoutine);
 
         //Initialization.PerformanceLog("BEGINNING LANDING AWAITE");
         yield return landingAwaiter.WaitTillDone();
+
         //Initialization.PerformanceLog("ENDING LANDING AWAITE");
 
         var headFinishRoutine = Head.FinishLanding(false);
@@ -1028,21 +1020,23 @@ public class AncientAspid : Boss
         var clawsFinishRoutine = Claws.FinishLanding(false);
 
         var finishAwaiter = RoutineAwaiter.AwaitBoundRoutines(this, headFinishRoutine, bodyFinishRoutine, wingPlateFinishRoutine, wingsFinishRoutine, clawsFinishRoutine);
+
         //Initialization.PerformanceLog("BEGINNING FINISHE AWAITE");
         yield return finishAwaiter.WaitTillDone();
+
         //Initialization.PerformanceLog("ENDING FINISHE AWAITE");
 
-        //WeaverLog.Log("TURN AROUND FULL TIME = " + (Time.timeAsDouble - timeStart));
-
-        if (health == HealthManager.Health)
+        //                if (health == HealthManager.Health)
         {
             yield return new WaitForSeconds(sleepPreJumpDelay);
             //Initialization.PerformanceLog("PRE JUMP DELAY");
         }
 
         Rbody.gravityScale = GroundMode.onGroundGravity;
+
         if (health == HealthManager.Health)
         {
+
             //Initialization.PerformanceLog("BEGIN - EXITING GROUND MODE SLOW");
             yield return GroundMode.ExitGroundMode(Enumerable.Repeat(jumpSound, 1));
             //Initialization.PerformanceLog("END - EXITING GROUND MODE SLOW");
@@ -1063,9 +1057,10 @@ public class AncientAspid : Boss
         }
 
         yield return Head.Animator.PlayAnimationTillDone("Fire - 2 - Prepare");
+
         //Initialization.PerformanceLog("Fire - 2 - Prepare DONE");
 
-        var attackStartFrame = Head.Animator.AnimationData.GetFrameFromClip("Fire - 1 - Attack",0);
+        var attackStartFrame = Head.Animator.AnimationData.GetFrameFromClip("Fire - 1 - Attack", 0);
 
         Head.MainRenderer.sprite = attackStartFrame;
 
@@ -1094,11 +1089,9 @@ public class AncientAspid : Boss
 
         //Music.PlayMusicCue(bossMusic, 0f, 0f, true);
 
-        yield return Roar(sleepRoarDuration,Head.transform.position, true);
+        yield return Roar(sleepRoarDuration, Head.transform.position, true);
         //Initialization.PerformanceLog("END - ROAR");
-
         StopCoroutine(shakeRoutine);
-
         FlightEnabled = true;
         //Initialization.PerformanceLog("BEGIN - SWING ATTACK ENABLE");
         yield return Claws.EnableSwingAttack(true);

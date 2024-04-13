@@ -10,7 +10,18 @@ public class RoutineAwaiter
     class AlternateRoutineSource : MonoBehaviour
     {
         static AlternateRoutineSource _instance;
-        public static AlternateRoutineSource Instance => _instance ??= Create();
+
+        public static AlternateRoutineSource Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = Create();
+                }
+                return _instance;
+            }
+        }
 
         static AlternateRoutineSource Create()
         {
