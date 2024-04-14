@@ -221,7 +221,6 @@ public class GodHomeIntroController : MonoBehaviour
 
         musicPlayer.Play(AncientAspidMusicController.MusicPhase.AR1);
 
-
         Player.Player1.EnterCutsceneLock(true);
 
         HeroController.instance.StopAnimationControl();

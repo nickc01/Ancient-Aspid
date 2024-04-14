@@ -182,7 +182,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: 53925bd5d3de07c4c99ae7f55fedf179, type: 2}
-  boolField: aspidBossDefeated
+  boolNames:
+  - aspidBossDefeated
+  - charmAcquired
+  boolValues: 0101
 --- !u!114 &253362527
 MonoBehaviour:
   m_ObjectHideFlags: 0
