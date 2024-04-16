@@ -9,6 +9,7 @@ using WeaverCore.Attributes;
 using WeaverCore.Utilities;
 using FMOD;
 using System.Linq;
+using pdj.tiny7z.Archive;
 
 public static class FModManager
 {
@@ -92,22 +93,39 @@ public static class FModManager
             return;
         }
 
+        UnityEngine.Debug.Log("LOading FMOD DLLS");
+
 #if UNITY_EDITOR
         fmodStudio = GetModuleHandleA("fmodstudioL");
         resonanceAudio = GetModuleHandleA("resonanceAudio");
 #else
-        string fmodStudioFileDest = ExportDLL("fmodstudio");
-        string resonanceAudioFileDest = ExportDLL("resonanceaudio");
+        string fmodStudioFileDest = NativeLibraryLoader.ExportDLL("fmodstudio", typeof(AncientAspidMod).Assembly);
+        string resonanceAudioFileDest = NativeLibraryLoader.ExportDLL("resonanceaudio", typeof(AncientAspidMod).Assembly);
 
+        if (NativeLibraryLoader.GetCurrentOS() != NativeLibraryLoader.OS.Mac)
+        {
+            UnityEngine.Debug.Log("DOING MAC EXPORT TEST");
+            var result = NativeLibraryLoader.ExportDLL("fmodstudio", typeof(AncientAspid).Assembly, NativeLibraryLoader.OS.Mac);
+            UnityEngine.Debug.Log("MAC EXPORT RESULT = " + result);
+        }
+
+        UnityEngine.Debug.Log("Loading FMOD part 1");
         fmodStudio = NativeLibraryLoader.Load(fmodStudioFileDest);
+
+        UnityEngine.Debug.Log("Loading FMOD part 2");
         resonanceAudio = NativeLibraryLoader.Load(resonanceAudioFileDest);
+        UnityEngine.Debug.Log("Loading FMOD done");
 #endif
         var camera = GameObject.FindObjectsOfType<Camera>().FirstOrDefault(c => c.name == "tk2dCamera");
 
+        UnityEngine.Debug.Log("Found Camera = " + camera);
+
         if (camera != null)
         {
+            UnityEngine.Debug.Log("Already Added Studio Listener = " + camera.GetComponent<StudioListener>());
             if (camera.GetComponent<StudioListener>() == null)
             {
+                UnityEngine.Debug.Log("Adding new Studio Listener");
                 camera.gameObject.AddComponent<StudioListener>();
             }
         }
@@ -122,34 +140,45 @@ public static class FModManager
         }
     }
 
-    static string ExportDLL(string resourceName)
+    /*static string ExportDLL(string resourceName)
     {
+        UnityEngine.Debug.Log("Beginning Export");
         string fileName = resourceName;
-        string ext = "";
+        //string ext = "";
+        List<string> exts = new List<string>();
         switch (NativeLibraryLoader.GetCurrentOS())
         {
             case NativeLibraryLoader.OS.Windows:
                 resourceName = resourceName + ".windows";
-                ext = ".dll";
+                exts.Add(".dll");
                 break;
             case NativeLibraryLoader.OS.Mac:
                 resourceName = resourceName + ".mac";
-                ext = ".dylib";
+                exts.Add(".dylib");
+                exts.Add(".bundle.zip");
                 break;
             case NativeLibraryLoader.OS.Linux:
                 resourceName = resourceName + ".linux";
-                ext = ".so";
+                exts.Add(".so");
                 break;
             default:
                 break;
         }
 
+        UnityEngine.Debug.Log("Beginning Exporting Resource = " + resourceName);
+        UnityEngine.Debug.Log("Beginning Exporting Extension = " + ext);
+
         var tempDirectory = PathUtilities.AddSlash(new DirectoryInfo(System.IO.Path.GetTempPath()).FullName);
+
+        UnityEngine.Debug.Log("Temp Dir = " + tempDirectory);
 
         var fileDest = tempDirectory + fileName + ext;
 
+        UnityEngine.Debug.Log("Export File Dest = " + fileDest);
+
         if (File.Exists(fileDest))
         {
+            UnityEngine.Debug.Log("Deleting already existing file = " + fileDest);
             File.Delete(fileDest);
         }
 
@@ -157,12 +186,15 @@ public static class FModManager
         {
             if (!ResourceUtilities.Retrieve(resourceName, fileStream, typeof(AncientAspidMod).Assembly))
             {
+                UnityEngine.Debug.LogError("Error: Failed to retrieve resource and export it to file");
                 return null;
             }
         }
 
+        UnityEngine.Debug.Log("Finished Exporting = " + fileDest);
+
         return fileDest;
-    }
+    }*/
 
     public static IEnumerable<FileInfo> FindAllBankPaths()
     {

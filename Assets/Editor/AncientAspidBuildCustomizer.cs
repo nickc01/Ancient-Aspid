@@ -38,9 +38,11 @@ public class AncientAspidBuildCustomizer : BuildPipelineCustomizer
                 "Assets/FMOD/platforms/win/lib/x86_64/resonanceaudio.dll"
             }},
             {NativeLibraryLoader.OS.Mac, new List<string>() {
-                "Assets/FMOD/platforms/mac/lib/fmodstudio.bundle/Contents/MacOS/fmodstudio",
+                //"Assets/FMOD/platforms/mac/lib/fmodstudio.bundle/Contents/MacOS/fmodstudio",
                 //"Assets/FMOD/platforms/mac/lib/fmodstudioL.bundle/Contents/MacOS/fmodstudioL",
-                "Assets/FMOD/platforms/mac/lib/resonanceaudio.bundle/Contents/MacOS/resonanceaudio"
+                //"Assets/FMOD/platforms/mac/lib/resonanceaudio.bundle/Contents/MacOS/resonanceaudio"
+                "Assets/FMOD/platforms/mac/lib/fmodstudio.bundle.7z",
+                "Assets/FMOD/platforms/mac/lib/resonanceaudio.bundle.7z",
             } },
             {NativeLibraryLoader.OS.Linux, new List<string>() {
                 "Assets/FMOD/platforms/linux/lib/x86_64/libfmodstudio.so",
@@ -48,6 +50,11 @@ public class AncientAspidBuildCustomizer : BuildPipelineCustomizer
                 "Assets/FMOD/platforms/linux/lib/x86_64/libresonanceaudio.so"
             } }
         };
+
+            static string GetFullExtension(string fileName)
+            {
+                return fileName.Substring(fileName.IndexOf('.'));
+            }
 
             static string FilterFileName(string fileName)
             {
@@ -72,7 +79,7 @@ public class AncientAspidBuildCustomizer : BuildPipelineCustomizer
                 foreach (var file in osPair.Value)
                 {
                     var fileInfo = new FileInfo(file);
-                    EmbedResourceCMD.EmbedResource(outputDLL, fileInfo.FullName, $"{FilterFileName(fileInfo.Name)}.{osPair.Key.ToString().ToLower()}", compression: WeaverBuildTools.Enums.CompressionMethod.NoCompression);
+                    EmbedResourceCMD.EmbedResource(outputDLL, fileInfo.FullName, $"{FilterFileName(fileInfo.Name)}.{osPair.Key.ToString().ToLower()}{GetFullExtension(fileInfo.Name)}", compression: WeaverBuildTools.Enums.CompressionMethod.NoCompression);
                 }
             }
 

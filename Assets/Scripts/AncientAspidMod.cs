@@ -17,7 +17,7 @@ public class AncientAspidMod : WeaverMod
 
     public override string GetVersion()
     {
-        return "1.0.0.3";
+        return "1.0.0.4";
     }
 
     public override void Initialize()
