@@ -108,6 +108,11 @@ namespace FMODUnity
 
         protected override void Start()
         {
+            if (FModManager.FMOD_DISABLED)
+            {
+                Destroy(this);
+                return;
+            }
             RuntimeUtils.EnforceLibraryOrder();
             if (Preload)
             {
@@ -133,6 +138,10 @@ namespace FMODUnity
 
         protected override void OnDestroy()
         {
+            if (FModManager.FMOD_DISABLED)
+            {
+                return;
+            }
             if (!isQuitting)
             {
                 HandleGameEvent(EmitterGameEvent.ObjectDestroy);
@@ -158,6 +167,10 @@ namespace FMODUnity
 
         protected override void HandleGameEvent(EmitterGameEvent gameEvent)
         {
+            if (FModManager.FMOD_DISABLED)
+            {
+                return;
+            }
             if (PlayEvent == gameEvent)
             {
                 Play();
@@ -185,6 +198,10 @@ namespace FMODUnity
 
         public void Play()
         {
+            if (FModManager.FMOD_DISABLED)
+            {
+                return;
+            }
             if (TriggerOnce && hasTriggered)
             {
                 return;
@@ -298,6 +315,10 @@ namespace FMODUnity
 
         public void Stop()
         {
+            if (FModManager.FMOD_DISABLED)
+            {
+                return;
+            }
             DeregisterActiveEmitter(this);
             IsActive = false;
             cachedParams.Clear();
@@ -401,15 +422,24 @@ namespace FMODUnity
             public EventReference EventReference;
         }
 
-        public void OnBeforeSerialize()
+        private void OnValidate()
         {
-#if UNITY_EDITOR
             WeaverSerializer.Serialize(new DataContainer
             {
                 Params = Params,
                 EventReference = EventReference
             }, out stored_data, out stored_objects);
-#endif
+        }
+
+        public void OnBeforeSerialize()
+        {
+/*#if UNITY_EDITOR
+            WeaverSerializer.Serialize(new DataContainer
+            {
+                Params = Params,
+                EventReference = EventReference
+            }, out stored_data, out stored_objects);
+#endif*/
         }
 
         public void OnAfterDeserialize()

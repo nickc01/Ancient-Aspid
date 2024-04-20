@@ -1191,7 +1191,10 @@ public class AncientAspid : Boss
         //WeaverLog.Log("MAIN BOSS ROUTINE START");
         if (MusicPlayer != null && !InPantheon)
         {
-            Music.PlayMusicCue(blankCue, 0f, 0f, true);
+            if (!MusicPlayer.UsingAlt)
+            {
+                Music.PlayMusicCue(blankCue, 0f, 0f, true);
+            }
             MusicPlayer.Play(AncientAspidMusicController.MusicPhase.AR1);
         }
 

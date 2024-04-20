@@ -201,8 +201,8 @@ public class FireLaserMove : AncientAspidMove
 
         var maxLength = laser.Laser.MaximumLength;
 
-        Debug.Log("ROT ANGLE = " + laserRotationOrigin.rotation.eulerAngles.z);
-        Debug.DrawRay(laserRotationOrigin.position, MathUtilities.PolarToCartesian(laserRotationOrigin.rotation.eulerAngles.z, maxLength), Color.magenta, 5f);
+        //Debug.Log("ROT ANGLE = " + laserRotationOrigin.rotation.eulerAngles.z);
+        //Debug.DrawRay(laserRotationOrigin.position, MathUtilities.PolarToCartesian(laserRotationOrigin.rotation.eulerAngles.z, maxLength), Color.magenta, 5f);
 
         Vector2 nearestPoint = laserRotationOrigin.position;
         float nearestDistance = Vector2.Distance(laserRotationOrigin.position, target);

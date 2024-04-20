@@ -94,7 +94,7 @@ public class GodHomeIntroController : MonoBehaviour
 
     private void Awake()
     {
-        if (blankMusicCue != null)
+        if (blankMusicCue != null && !musicPlayer.UsingAlt)
         {
             Music.PlayMusicCue(blankMusicCue, 0f, 1f, false);
         }

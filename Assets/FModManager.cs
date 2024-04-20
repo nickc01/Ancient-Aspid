@@ -13,6 +13,8 @@ using pdj.tiny7z.Archive;
 
 public static class FModManager
 {
+    public static bool FMOD_DISABLED => NativeLibraryLoader.GetCurrentOS() == NativeLibraryLoader.OS.Mac;
+
     [DllImport("kernel32.dll")]
     static extern IntPtr GetModuleHandleA(string moduleName);
 
@@ -23,7 +25,7 @@ public static class FModManager
     {
         get
         {
-            if (fmodStudio == default)
+            if (!FMOD_DISABLED && fmodStudio == default)
             {
                 LoadFMODDLLS();
             }
@@ -36,7 +38,7 @@ public static class FModManager
     {
         get
         {
-            if (resonanceAudio == default)
+            if (!FMOD_DISABLED && resonanceAudio == default)
             {
                 LoadFMODDLLS();
             }
@@ -53,6 +55,10 @@ public static class FModManager
 
     static T GetProc<T>(IntPtr handle, string symbol) where T : Delegate
     {
+        if (FMOD_DISABLED)
+        {
+            return default;
+        }
         var method_handle = NativeLibraryLoader.GetSymbol(handle, symbol);
 
         if (method_handle == default)
@@ -102,31 +108,37 @@ public static class FModManager
         string fmodStudioFileDest = NativeLibraryLoader.ExportDLL("fmodstudio", typeof(AncientAspidMod).Assembly);
         string resonanceAudioFileDest = NativeLibraryLoader.ExportDLL("resonanceaudio", typeof(AncientAspidMod).Assembly);
 
-        if (NativeLibraryLoader.GetCurrentOS() != NativeLibraryLoader.OS.Mac)
+        /*if (NativeLibraryLoader.GetCurrentOS() != NativeLibraryLoader.OS.Mac)
         {
             UnityEngine.Debug.Log("DOING MAC EXPORT TEST");
             var result = NativeLibraryLoader.ExportDLL("fmodstudio", typeof(AncientAspid).Assembly, NativeLibraryLoader.OS.Mac);
             UnityEngine.Debug.Log("MAC EXPORT RESULT = " + result);
+        }*/
+
+        if (!FMOD_DISABLED)
+        {
+            UnityEngine.Debug.Log("Loading FMOD part 1");
+            fmodStudio = NativeLibraryLoader.Load(fmodStudioFileDest);
+
+            UnityEngine.Debug.Log("Loading FMOD part 2");
+            resonanceAudio = NativeLibraryLoader.Load(resonanceAudioFileDest);
+            UnityEngine.Debug.Log("Loading FMOD done");
         }
-
-        UnityEngine.Debug.Log("Loading FMOD part 1");
-        fmodStudio = NativeLibraryLoader.Load(fmodStudioFileDest);
-
-        UnityEngine.Debug.Log("Loading FMOD part 2");
-        resonanceAudio = NativeLibraryLoader.Load(resonanceAudioFileDest);
-        UnityEngine.Debug.Log("Loading FMOD done");
 #endif
         var camera = GameObject.FindObjectsOfType<Camera>().FirstOrDefault(c => c.name == "tk2dCamera");
 
         UnityEngine.Debug.Log("Found Camera = " + camera);
 
-        if (camera != null)
+        if (!FMOD_DISABLED)
         {
-            UnityEngine.Debug.Log("Already Added Studio Listener = " + camera.GetComponent<StudioListener>());
-            if (camera.GetComponent<StudioListener>() == null)
+            if (camera != null)
             {
-                UnityEngine.Debug.Log("Adding new Studio Listener");
-                camera.gameObject.AddComponent<StudioListener>();
+                UnityEngine.Debug.Log("Already Added Studio Listener = " + camera.GetComponent<StudioListener>());
+                if (camera.GetComponent<StudioListener>() == null)
+                {
+                    UnityEngine.Debug.Log("Adding new Studio Listener");
+                    camera.gameObject.AddComponent<StudioListener>();
+                }
             }
         }
     }
@@ -134,7 +146,7 @@ public static class FModManager
     [WeaverCore.Attributes.AfterCameraLoad]
     static void OnCameraLoad()
     {
-        if (WeaverCamera.Instance.GetComponent<StudioListener>() == null)
+        if (!FMOD_DISABLED && WeaverCamera.Instance.GetComponent<StudioListener>() == null)
         {
             WeaverCamera.Instance.gameObject.AddComponent<StudioListener>();
         }
@@ -235,6 +247,11 @@ public static class FModManager
 
     public static void LoadBank(string bankName)
     {
+        if (FMOD_DISABLED)
+        {
+            return;
+        }
+
         Stream stream = null;
         try
         {

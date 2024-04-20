@@ -81,6 +81,11 @@ namespace FMODUnity
 
         private void OnEnable()
         {
+            if (FModManager.FMOD_DISABLED)
+            {
+                Destroy(this);
+                return;
+            }
             RuntimeUtils.EnforceLibraryOrder();
 #if UNITY_PHYSICS_EXIST
             rigidBody = gameObject.GetComponent<Rigidbody>();
@@ -93,11 +98,19 @@ namespace FMODUnity
 
         private void OnDisable()
         {
+            if (FModManager.FMOD_DISABLED)
+            {
+                return;
+            }
             RemoveListener(this);
         }
 
         private void Update()
         {
+            if (FModManager.FMOD_DISABLED)
+            {
+                return;
+            }
             if (ListenerNumber >= 0 && ListenerNumber < FMOD.CONSTANTS.MAX_LISTENERS)
             {
                 SetListenerLocation();

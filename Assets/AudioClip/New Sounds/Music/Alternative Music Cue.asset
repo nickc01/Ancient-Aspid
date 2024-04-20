@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe1dbd35e8b778f43b1ef1b7b90e914b, type: 3}
+  m_Name: Alternative Music Cue
+  m_EditorClassIdentifier: 
+  originalMusicEventName: ANCIENT ASPID
+  originalMusicTrackNumber: 0
+  snapshot: {fileID: 0}
+  channelInfos:
+  - clip: {fileID: 8300000, guid: 11666835ee7161c4ab6f06f56a614533, type: 3}
+    sync: 0
+  - clip: {fileID: 8300000, guid: b16c307e1e687da408a2096ea80f8f2a, type: 3}
+    sync: 0
+  - clip: {fileID: 8300000, guid: a53aa8304c115234f8f35144c5d87457, type: 3}
+    sync: 0
+  - clip: {fileID: 8300000, guid: 2494545a5cd229549ac347e88a359fba, type: 3}
+    sync: 0
+  - clip: {fileID: 8300000, guid: 4709cf0e656919a45afec3ffec58d3e2, type: 3}
+    sync: 0
+  - clip: {fileID: 0}
+    sync: 0
+  alternatives: []
+  useSnapshot: 1
+  m_snapshot: 0
+  channelInfos_clip:
+  - {fileID: 8300000, guid: 11666835ee7161c4ab6f06f56a614533, type: 3}
+  - {fileID: 8300000, guid: b16c307e1e687da408a2096ea80f8f2a, type: 3}
+  - {fileID: 8300000, guid: a53aa8304c115234f8f35144c5d87457, type: 3}
+  - {fileID: 8300000, guid: 2494545a5cd229549ac347e88a359fba, type: 3}
+  - {fileID: 8300000, guid: 4709cf0e656919a45afec3ffec58d3e2, type: 3}
+  - {fileID: 0}
+  channelInfos_sync: 000000000000000000000000000000000000000000000000
+  alternatives_PlayerDataBoolKey: []
+  alternatives_Cue: []

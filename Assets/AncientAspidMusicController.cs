@@ -1,13 +1,15 @@
 using FMOD.Studio;
 using FMODUnity;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using WeaverCore;
 
+
 public class AncientAspidMusicController : MonoBehaviour
 {
+    public bool UsingAlt => FModManager.FMOD_DISABLED;
+
     public enum MusicPhase
     {
         AR1,
@@ -15,6 +17,9 @@ public class AncientAspidMusicController : MonoBehaviour
         AR2,
         AR3
     }
+
+    [SerializeField]
+    AA_AlternativeMusicController alternativePlayer;
 
     public MusicPhase CurrentlyPlayingPhase { get; private set; }
     //MusicPhase? previousPhase = null;
@@ -40,7 +45,10 @@ public class AncientAspidMusicController : MonoBehaviour
         if (!hooked)
         {
             hooked = true;
-            bus = FMODUnity.RuntimeManager.GetBus("bus:/");
+            if (!FModManager.FMOD_DISABLED)
+            {
+                bus = FMODUnity.RuntimeManager.GetBus("bus:/");
+            }
             FModMusicManager.OnLevelsUpdated += FModMusicManager_OnLevelsUpdated;
             playerTransform = Player.Player1.transform;
         }
@@ -53,7 +61,10 @@ public class AncientAspidMusicController : MonoBehaviour
 
     private void FModMusicManager_OnLevelsUpdated(Music.SnapshotVolumeLevels levels)
     {
-        bus.setVolume(levels.Main);
+        if (!FModManager.FMOD_DISABLED)
+        {
+            bus.setVolume(levels.Main);
+        }
     }
 
     private void OnDestroy()
@@ -77,6 +88,12 @@ public class AncientAspidMusicController : MonoBehaviour
 
     public void Play(MusicPhase startPhase)
     {
+        if (FModManager.FMOD_DISABLED)
+        {
+            alternativePlayer.Play(startPhase);
+            return;
+        }
+
         if (Playing)
         {
             return;
@@ -85,7 +102,10 @@ public class AncientAspidMusicController : MonoBehaviour
         if (!hooked)
         {
             hooked = true;
-            bus = FMODUnity.RuntimeManager.GetBus("bus:/");
+            if (!FModManager.FMOD_DISABLED)
+            {
+                bus = FMODUnity.RuntimeManager.GetBus("bus:/");
+            }
             FModMusicManager.OnLevelsUpdated += FModMusicManager_OnLevelsUpdated;
             playerTransform = Player.Player1.transform;
         }
@@ -105,11 +125,19 @@ public class AncientAspidMusicController : MonoBehaviour
         }*/
         emitter.Play();
 
-        bus.setVolume(FModMusicManager.Levels.Main);
+        if (!FModManager.FMOD_DISABLED)
+        {
+            bus.setVolume(FModMusicManager.Levels.Main);
+        }
     }
 
     public void TransitionToPhase(MusicPhase phase)
     {
+        if (FModManager.FMOD_DISABLED)
+        {
+            alternativePlayer.TransitionToPhase(phase);
+            return;
+        }
         WeaverLog.Log("Transitioning To = " + phase);
         CurrentlyPlayingPhase = phase;
         StopAllCoroutines();
@@ -178,6 +206,11 @@ public class AncientAspidMusicController : MonoBehaviour
 
     public void Stop(float duration = 0.5f)
     {
+        if (FModManager.FMOD_DISABLED)
+        {
+            alternativePlayer.Stop(duration);
+            return;
+        }
         if (!Playing)
         {
             return;
