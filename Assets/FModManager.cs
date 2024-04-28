@@ -90,6 +90,40 @@ public static class FModManager
     }
 
 #if UNITY_EDITOR
+    sealed class DllAlloc : IDisposable
+    {
+        public readonly IntPtr LoadedDLL;
+
+        public DllAlloc(string dllToAlloc)
+        {
+            LoadedDLL = NativeLibraryLoader.Load(dllToAlloc);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (LoadedDLL != default)
+            {
+                NativeLibraryLoader.Free(LoadedDLL);
+            }
+        }
+
+         ~DllAlloc()
+         {
+             Dispose(disposing: false);
+         }
+
+        public void Dispose()
+        {
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+    }
+
+    static DllAlloc fmodStudioLoader;
+    static DllAlloc resonanceAudioLoader;
+#endif
+
+#if UNITY_EDITOR
     [OnInit(-99999)]
 #endif
     static void LoadFMODDLLS()
@@ -99,44 +133,48 @@ public static class FModManager
             return;
         }
 
-        UnityEngine.Debug.Log("LOading FMOD DLLS");
+        //UnityEngine.Debug.Log("LOading FMOD DLLS");
+        
 
 #if UNITY_EDITOR
-        fmodStudio = GetModuleHandleA("fmodstudioL");
-        resonanceAudio = GetModuleHandleA("resonanceAudio");
+        if (NativeLibraryLoader.GetCurrentOS() == NativeLibraryLoader.OS.Windows) {
+            fmodStudio = NativeLibraryLoader.GetLoadedHandle("fmodstudioL");
+            resonanceAudio = NativeLibraryLoader.GetLoadedHandle("resonanceAudio");
+        }
+        else {
+            var file = new DirectoryInfo("Assets").EnumerateFiles("libfmodstudioL.so", SearchOption.AllDirectories).FirstOrDefault();
+
+            if (file == null)
+            {
+                WeaverLog.LogError("Failed to find fmodstudioL.so");
+                return;
+            }
+            var assetsFolder = new DirectoryInfo("Assets").AddSlash();
+            var folder = file.Directory.AddSlash();
+            fmodStudioLoader = new DllAlloc(assetsFolder + "FMOD/platforms/linux/lib/x86_64/libfmodstudioL.so");
+            fmodStudio = fmodStudioLoader.LoadedDLL;
+            resonanceAudioLoader = new DllAlloc(assetsFolder + "FMOD/platforms/linux/lib/x86_64/libresonanceaudio.so");
+            resonanceAudio = resonanceAudioLoader.LoadedDLL;
+        }
 #else
         string fmodStudioFileDest = NativeLibraryLoader.ExportDLL("fmodstudio", typeof(AncientAspidMod).Assembly);
         string resonanceAudioFileDest = NativeLibraryLoader.ExportDLL("resonanceaudio", typeof(AncientAspidMod).Assembly);
 
-        /*if (NativeLibraryLoader.GetCurrentOS() != NativeLibraryLoader.OS.Mac)
-        {
-            UnityEngine.Debug.Log("DOING MAC EXPORT TEST");
-            var result = NativeLibraryLoader.ExportDLL("fmodstudio", typeof(AncientAspid).Assembly, NativeLibraryLoader.OS.Mac);
-            UnityEngine.Debug.Log("MAC EXPORT RESULT = " + result);
-        }*/
-
         if (!FMOD_DISABLED)
         {
-            UnityEngine.Debug.Log("Loading FMOD part 1");
             fmodStudio = NativeLibraryLoader.Load(fmodStudioFileDest);
 
-            UnityEngine.Debug.Log("Loading FMOD part 2");
             resonanceAudio = NativeLibraryLoader.Load(resonanceAudioFileDest);
-            UnityEngine.Debug.Log("Loading FMOD done");
         }
 #endif
         var camera = GameObject.FindObjectsOfType<Camera>().FirstOrDefault(c => c.name == "tk2dCamera");
-
-        UnityEngine.Debug.Log("Found Camera = " + camera);
 
         if (!FMOD_DISABLED)
         {
             if (camera != null)
             {
-                UnityEngine.Debug.Log("Already Added Studio Listener = " + camera.GetComponent<StudioListener>());
                 if (camera.GetComponent<StudioListener>() == null)
                 {
-                    UnityEngine.Debug.Log("Adding new Studio Listener");
                     camera.gameObject.AddComponent<StudioListener>();
                 }
             }

@@ -19,9 +19,9 @@ public class AncientAspidBuildCustomizer : BuildPipelineCustomizer
         {
             var modBuildFolder = BuildTools.GetModBuildFolder();
             var modName = BuildScreen.BuildSettings.ModName;
-            var outputDLL = modBuildFolder + modName + "\\" + modName + ".dll";
+            var outputDLL = modBuildFolder + modName + Path.DirectorySeparatorChar + modName + ".dll";
 
-            var secretFile = new FileInfo("Assets\\secret.7z");
+            var secretFile = new FileInfo($"Assets{Path.DirectorySeparatorChar}secret.7z");
 
             EmbedResourceCMD.EmbedResource(outputDLL, secretFile.FullName, "secret.7z", compression: WeaverBuildTools.Enums.CompressionMethod.NoCompression);
 

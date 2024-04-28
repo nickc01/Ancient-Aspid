@@ -451,7 +451,7 @@ MonoBehaviour:
   Path: Assets/Banks/Musique.bank
   Name: Musique
   StudioPath: bank:/Musique
-  lastModified: 638484845625568804
+  lastModified: 638498609070000000
   FileSizes: []
   Exists: 1
 --- !u!114 &-7018214361450059850
@@ -573,7 +573,7 @@ MonoBehaviour:
   Path: Assets/Banks/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638454213112481088
+  lastModified: 638498609070000000
   FileSizes:
   - Name: 
     Value: 856
@@ -1474,7 +1474,7 @@ MonoBehaviour:
   - {fileID: 410667061859438441}
   StringsBanks:
   - {fileID: -6651072471048381864}
-  cacheTime: 638484845625568804
+  cacheTime: 638498609070000000
   cacheVersion: 131609
 --- !u!114 &96159407911499594
 MonoBehaviour:
@@ -1560,7 +1560,7 @@ MonoBehaviour:
   Path: Assets/Banks/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638454213112471114
+  lastModified: 638498609070000000
   FileSizes: []
   Exists: 1
 --- !u!114 &499777197369420211
