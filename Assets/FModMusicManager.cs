@@ -47,15 +47,15 @@ public static class FModMusicManager
         TransitionPauseState(isPaused);
     }
 
-    private static void WeaverAudio_OnMusicVolumeUpdate(float masterLevel)
+    private static void WeaverAudio_OnMusicVolumeUpdate(float musicLevel)
     {
-        Levels = UnfilteredLevels * (masterLevel * WeaverAudio.MusicVolume);
+        Levels = UnfilteredLevels * (WeaverAudio.MasterVolume * musicLevel * currentPauseState);
         OnLevelsUpdated?.Invoke(Levels);
     }
 
-    private static void WeaverAudio_OnMasterVolumeUpdate(float musicLevel)
+    private static void WeaverAudio_OnMasterVolumeUpdate(float masterLevel)
     {
-        Levels = UnfilteredLevels * (WeaverAudio.MasterVolume * musicLevel);
+        Levels = UnfilteredLevels * (WeaverAudio.MusicVolume * masterLevel * currentPauseState);
         OnLevelsUpdated?.Invoke(Levels);
     }
 

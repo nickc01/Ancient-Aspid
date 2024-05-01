@@ -30,6 +30,9 @@ public class AncientAspidMusicController : MonoBehaviour
     [SerializeField]
     float phaseTransitionTime = 1f;
 
+    [SerializeField]
+    AnimationCurve volumeCurve = AnimationCurve.Linear(0,0,1,1);
+
     float phaseValue = 0f;
 
     FMOD.Studio.Bus bus;
@@ -63,7 +66,7 @@ public class AncientAspidMusicController : MonoBehaviour
     {
         if (!FModManager.FMOD_DISABLED)
         {
-            bus.setVolume(levels.Main);
+            bus.setVolume(levels.ApplyCurve(volumeCurve).Main);
         }
     }
 
