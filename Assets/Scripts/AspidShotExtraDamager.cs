@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection;
 using UnityEngine;
 using WeaverCore;
@@ -23,8 +23,11 @@ public class AspidShotExtraDamager : EnemyExtraDamager, IOnPool
     int oldPlayerDmg = -1;
     PlayerDamager playerDamager;
 
+    bool didDamage = false;
+
     private void Awake()
     {
+        didDamage = false;
         playerDamager = GetComponent<PlayerDamager>();
         if (playerDamager != null)
         {
@@ -40,6 +43,22 @@ public class AspidShotExtraDamager : EnemyExtraDamager, IOnPool
         if (disableWhenPlayerLocked && playerDamager != null)
         {
             playerDamager.damageDealt = HeroController.instance.controlReqlinquished ? 0 : oldPlayerDmg;
+        }
+    }
+
+    protected override void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (!didDamage)
+        {
+            base.OnTriggerEnter2D(collider);
+        }
+    }
+
+    protected override void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!didDamage)
+        {
+            base.OnCollisionEnter2D(collision);
         }
     }
 
@@ -61,9 +80,11 @@ public class AspidShotExtraDamager : EnemyExtraDamager, IOnPool
                     {
                         dmg = oldHealth;
                     }
-                    if (dmg > 0)
+                    if (dmg > 0 && !didDamage)
                     {
-                        (healthComponent as EntityHealth).Health -= dmg;
+                        didDamage = true;
+                        //WeaverLog.Log("DAMAGE A = " + dmg);
+                        (healthComponent as EntityHealth).Health -= dmg - 1;
                         validHit = true;
                     }
                     break;
@@ -74,8 +95,9 @@ public class AspidShotExtraDamager : EnemyExtraDamager, IOnPool
                     {
                         dmg = oldHealth;
                     }
-                    if (dmg > 0)
+                    if (dmg > 0 && !didDamage)
                     {
+                        didDamage = true;
                         healthComponent.SendMessage("ApplyExtraDamage", dmg);
                         validHit = true;
                     }
@@ -154,8 +176,10 @@ public class AspidShotExtraDamager : EnemyExtraDamager, IOnPool
             {
                 dmg = oldHealth;
             }
-            if (dmg > 0)
+            if (dmg > 0 && !didDamage)
             {
+                didDamage = true;
+                //WeaverLog.Log("DAMAGE B = " + dmg);
                 (healthComponent as EntityHealth).Health -= dmg;
                 validHit = true;
             }
@@ -168,8 +192,9 @@ public class AspidShotExtraDamager : EnemyExtraDamager, IOnPool
             {
                 dmg = oldHealth;
             }
-            if (dmg > 0)
+            if (dmg > 0 && !didDamage)
             {
+                didDamage = true;
                 healthComponent.SendMessage("ApplyExtraDamage", dmg);
                 validHit = true;
             }

@@ -443,7 +443,7 @@ MonoBehaviour:
   aspidShotVelocity: 15
   shotAngleSeperation: 35
   aspidShotPrefab: {fileID: 3513862580655549488, guid: 98fc49680cefb014d839d50cfe964a6f, type: 3}
-  aspidShotDamage: 4
+  aspidShotDamage: 8
   shootTriple: 1
   extraOffsetXRange: {x: -1, y: 1}
   extraOffsetYRange: {x: -1, y: 1}
