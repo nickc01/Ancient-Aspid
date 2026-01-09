@@ -72,13 +72,21 @@ public class MiniAspidPet : MonoBehaviour
         }
 
 
-        var hatchlingFSM = PlayMakerUtilities.GetPlaymakerFSMOnObject(charmEffects.gameObject, "Hatchling Spawn");
+        var hatchlingFSM = PlayMakerUtilities.FindPlayMakerFSM(charmEffects.gameObject, "Hatchling Spawn");
+        if (hatchlingFSM == null)
+        {
+            return;
+        }
 
-        var fsm = PlayMakerUtilities.GetFSMOnPlayMakerComponent(hatchlingFSM);
+        var fsm = PlayMakerUtilities.GetFsm(hatchlingFSM);
+        if (fsm == null)
+        {
+            return;
+        }
 
         GameObject hatchlingAspid = WeaverAssets.LoadAssetFromBundle<GameObject, AncientAspidMod>("Knight Hatchling Aspid");
 
-        foreach (var state in PlayMakerUtilities.GetStatesOnFSM(fsm))
+        foreach (var state in PlayMakerUtilities.GetStates(fsm))
         {
             var actionData = PlayMakerUtilities.GetActionData(state);
 
@@ -112,11 +120,19 @@ public class MiniAspidPet : MonoBehaviour
             return;
         }
 
-        var hatchlingFSM = PlayMakerUtilities.GetPlaymakerFSMOnObject(charmEffects.gameObject, "Hatchling Spawn");
+        var hatchlingFSM = PlayMakerUtilities.FindPlayMakerFSM(charmEffects.gameObject, "Hatchling Spawn");
+        if (hatchlingFSM == null)
+        {
+            return;
+        }
 
-        var fsm = PlayMakerUtilities.GetFSMOnPlayMakerComponent(hatchlingFSM);
+        var fsm = PlayMakerUtilities.GetFsm(hatchlingFSM);
+        if (fsm == null)
+        {
+            return;
+        }
 
-        foreach (var state in PlayMakerUtilities.GetStatesOnFSM(fsm))
+        foreach (var state in PlayMakerUtilities.GetStates(fsm))
         {
             var actionData = PlayMakerUtilities.GetActionData(state);
 

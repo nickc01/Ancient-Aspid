@@ -208,9 +208,9 @@ public class GodHomeIntroController : MonoBehaviour
     {
         if (lockPlayerVelocity)
         {
-            if (playerRB.velocity.y < -21)
+            if (playerRB.linearVelocity.y < -21)
             {
-                playerRB.velocity = playerRB.velocity.With(y: -21f);
+                playerRB.linearVelocity = playerRB.linearVelocity.With(y: -21f);
             }
         }
     }

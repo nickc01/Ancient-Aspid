@@ -3,19 +3,14 @@
 [LOG] SystemI::init                            : Initialize version=20219 (137979), maxchannels=256, flags=0x00020000
 [LOG] SystemI::setOutputInternal               : Setting output to 'FMOD PulseAudio Output'
 [LOG] OutputPulseAudio::registerLib            : Loaded PulseAudio version 17.0.0.
-[LOG] PulseAudio_EnumOutputCallback            : Found output device NAME:alsa_output.usb-Cosair_Corsair_VOID_ELITE_USB_Gaming_Headset_00000000-00.analog-stereo DESC:Corsair VOID ELITE USB Gaming Headset Analog Stereo CHANNELS:2 RATE:48000.
-[LOG] PulseAudio_EnumOutputCallback            : Found output device NAME:alsa_output.pci-0000_0c_00.1.hdmi-stereo-extra2 DESC:Navi 21/23 HDMI/DP Audio Controller Digital Stereo (HDMI 3) CHANNELS:2 RATE:48000.
-[LOG] PulseAudio_EnumOutputCallback            : Found output device NAME:alsa_output.pci-0000_0e_00.4.iec958-stereo DESC:Starship/Matisse HD Audio Controller Digital Stereo (IEC958) CHANNELS:2 RATE:48000.
-[LOG] PulseAudio_EnumInputCallback             : Found input device NAME:alsa_output.usb-Cosair_Corsair_VOID_ELITE_USB_Gaming_Headset_00000000-00.analog-stereo.monitor DESC:Monitor of Corsair VOID ELITE USB Gaming Headset Analog Stereo CHANNELS:2 RATE:48000.
-[LOG] PulseAudio_EnumInputCallback             : Found input device NAME:alsa_input.usb-Cosair_Corsair_VOID_ELITE_USB_Gaming_Headset_00000000-00.analog-stereo DESC:Corsair VOID ELITE USB Gaming Headset Analog Stereo CHANNELS:2 RATE:48000.
-[LOG] PulseAudio_EnumInputCallback             : Found input device NAME:alsa_output.pci-0000_0c_00.1.hdmi-stereo-extra2.monitor DESC:Monitor of Navi 21/23 HDMI/DP Audio Controller Digital Stereo (HDMI 3) CHANNELS:2 RATE:48000.
-[LOG] PulseAudio_EnumInputCallback             : Found input device NAME:alsa_output.pci-0000_0e_00.4.iec958-stereo.monitor DESC:Monitor of Starship/Matisse HD Audio Controller Digital Stereo (IEC958) CHANNELS:2 RATE:48000.
-[LOG] PulseAudio_EnumInputCallback             : Found input device NAME:alsa_input.pci-0000_0e_00.4.analog-stereo DESC:Starship/Matisse HD Audio Controller Analog Stereo CHANNELS:2 RATE:48000.
+[LOG] PulseAudio_EnumOutputCallback            : Found output device NAME:alsa_output.pci-0000_78_00.6.analog-stereo DESC:Family 17h/19h/1ah HD Audio Controller Analog Stereo CHANNELS:2 RATE:48000.
+[LOG] PulseAudio_EnumInputCallback             : Found input device NAME:alsa_output.pci-0000_78_00.6.analog-stereo.monitor DESC:Monitor of Family 17h/19h/1ah HD Audio Controller Analog Stereo CHANNELS:2 RATE:48000.
+[LOG] PulseAudio_EnumInputCallback             : Found input device NAME:alsa_input.pci-0000_78_00.6.analog-stereo DESC:Family 17h/19h/1ah HD Audio Controller Analog Stereo CHANNELS:2 RATE:48000.
 [LOG] Thread::initThread                       : Init FMOD stream thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFB, Stack Size: 98304, Semaphore: No, Sleep Time: 10, Looping: Yes.
 [LOG] FMOD_OS_Thread_Callback                  : Cannot set real-time thread priorities due to insufficient privileges
 [LOG] Thread::initThread                       : Init FMOD mixer thread. Affinity: 0x4000000000000001, Priority: 0xFFFF7FFA, Stack Size: 81920, Semaphore: No, Sleep Time: 0, Looping: Yes.
 [LOG] FMOD_OS_Thread_Callback                  : Cannot set real-time thread priorities due to insufficient privileges
-[LOG] AsyncManager::init                       : manager 0x5626e10ac7b8 isAsync 0 updatePeriod 0.02
+[LOG] AsyncManager::init                       : manager 0x556b62ec54f8 isAsync 0 updatePeriod 0.02
 [LOG] AsyncManager::init                       : done
 [LOG] PlaybackSystem::init                     : 
 [LOG] Thread::initThread                       : Init FMOD Studio sample load thread. Affinity: 0x4000000000000003, Priority: 0xFFFF7FFD, Stack Size: 98304, Semaphore: No, Sleep Time: 1, Looping: No.

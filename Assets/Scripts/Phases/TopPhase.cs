@@ -168,7 +168,7 @@ public class TopPhase : Phase
         while (Player.Player1.transform.position.y < upperRangeHeightTrigger)
         {
             //boss.Rbody.velocity = Mathf.Max(boss.Rbody.velocity.magnitude, 20f) * Vector2.up;
-            boss.Rbody.velocity = new Vector2(0f, verticalRiseVelocity);
+            boss.Rbody.linearVelocity = new Vector2(0f, verticalRiseVelocity);
             yield return null;
         }
 
@@ -199,7 +199,7 @@ public class TopPhase : Phase
         while (true)
         {
             //boss.Rbody.velocity = Mathf.Max(boss.Rbody.velocity.magnitude, 20f) * Vector2.up;
-            boss.Rbody.velocity = new Vector2(0f, upperRangeVelocity);
+            boss.Rbody.linearVelocity = new Vector2(0f, upperRangeVelocity);
             yield return null;
         }
     }

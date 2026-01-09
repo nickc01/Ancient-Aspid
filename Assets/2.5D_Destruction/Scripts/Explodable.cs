@@ -140,8 +140,8 @@ public class Explodable : MonoBehaviour
                 Rigidbody rb = p.AddComponent<Rigidbody>();
                 rb.mass = UnityEngine.Random.Range(MassPerFragment.minValue, MassPerFragment.maxValue);
                 rb.useGravity = UseGravityOnFragments;
-                rb.drag = UnityEngine.Random.Range(DragPerFragment.minValue, DragPerFragment.maxValue);
-                rb.angularDrag = UnityEngine.Random.Range(AngularDragPerFragment.minValue, AngularDragPerFragment.maxValue);
+                rb.linearDamping = UnityEngine.Random.Range(DragPerFragment.minValue, DragPerFragment.maxValue);
+                rb.angularDamping = UnityEngine.Random.Range(AngularDragPerFragment.minValue, AngularDragPerFragment.maxValue);
                 rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
                 meshCol.sharedMesh = p.GetComponent<MeshFilter>().sharedMesh;
                 meshCol.sharedMesh.RecalculateBounds();

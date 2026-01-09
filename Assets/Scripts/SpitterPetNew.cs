@@ -221,9 +221,9 @@ public class SpitterPetNew : MonoBehaviour
 
     private bool CollisionCounter_CollisionPredicates(Collider2D obj)
     {
-        var healthComponent = HealthUtilities.GetHealthComponent(obj.gameObject);
+        var healthComponent = EnemyHealthUtilities.GetHealthComponent(obj.gameObject);
 
-        if (healthComponent == null || (healthComponent != null && HealthUtilities.TryGetHealth(healthComponent, out var healthValue) && healthValue > 0))
+        if (healthComponent == null || healthComponent.Health > 0)
         {
             return true;
         }
@@ -431,7 +431,7 @@ public class SpitterPetNew : MonoBehaviour
 
         //var target = getTarget();
 
-        var velocity = Rigidbody.velocity;
+        var velocity = Rigidbody.linearVelocity;
         var oldVelocity = velocity;
 
         var trueMaxVelocity = maxVelocity * Mathf.Abs((Vector2.Distance(finalTarget, transform.position) / 2.5f) + 0.01f);
@@ -466,7 +466,7 @@ public class SpitterPetNew : MonoBehaviour
 
         velocity = newRotation * (Vector2.right * velocity.magnitude);
 
-        Rigidbody.velocity = velocity;
+        Rigidbody.linearVelocity = velocity;
 
         //WeaverLog.Log($"OLD = {oldVelocity}, NEW = {velocity}");
 
@@ -703,9 +703,9 @@ public class SpitterPetNew : MonoBehaviour
                         audio.Stop();
                         Animator.PlayAnimation(sleepAnticAnim);
 
-                        Rigidbody.velocity = Vector2.up * sleepFallVelocity;
+                        Rigidbody.linearVelocity = Vector2.up * sleepFallVelocity;
 
-                        while (Rigidbody.velocity.y < 0f)
+                        while (Rigidbody.linearVelocity.y < 0f)
                         {
                             if (!ShouldGoToSleep)
                             {
@@ -715,7 +715,7 @@ public class SpitterPetNew : MonoBehaviour
                             yield return null;
                         }
                         //yield return new WaitUntil(() => Rigidbody.velocity.y >= 0f);
-                        Rigidbody.velocity = default;
+                        Rigidbody.linearVelocity = default;
 
                         if (ShouldGoToSleep)
                         {
@@ -845,7 +845,7 @@ public class SpitterPetNew : MonoBehaviour
         NearestTarget = Player.Player1.transform.position;
         MainRenderer.color = MainRenderer.color.With(a: 0f);
         Flasher.FlashIntensity = 0f;
-        Rigidbody.velocity = default;
+        Rigidbody.linearVelocity = default;
         FadeIn();
 
         transform.position = Player.Player1.transform.position + new Vector3(0f, 0.75f);

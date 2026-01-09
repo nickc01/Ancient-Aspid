@@ -42,7 +42,7 @@ public class PlayerSweepController : ILaserController
         var rb = Player.Player1.transform.GetComponent<Rigidbody2D>();
 
         //return startPlayerPos;
-        return startPlayerPos + ((Vector3)rb.velocity * time) + (Vector3)((1f / 2f) * Physics2D.gravity * rb.gravityScale * time * time);
+        return startPlayerPos + ((Vector3)rb.linearVelocity * time) + (Vector3)((1f / 2f) * Physics2D.gravity * rb.gravityScale * time * time);
     }
 
     public Quaternion GetStartAngle(FireLaserMove laserMove, Vector2 playerVelocity)

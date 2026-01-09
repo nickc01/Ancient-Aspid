@@ -84,7 +84,7 @@ TextureImporter:
       213: -3132332215888478081
     second: AA_BG_LowerGround_midwall_2_pieces_31
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -101,10 +101,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -114,8 +116,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 2
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -143,8 +145,10 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 8192
     resizeAlgorithm: 0
@@ -154,9 +158,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: Standalone
     maxTextureSize: 8192
     resizeAlgorithm: 0
@@ -166,9 +171,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: WebGL
     maxTextureSize: 8192
     resizeAlgorithm: 0
@@ -178,6 +184,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -194,6 +201,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 130, y: -52}
         - {x: 151, y: -22}
@@ -235,6 +243,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 106, y: -5}
         - {x: 114, y: 17}
@@ -273,6 +282,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 96.5, y: 41.5}
         - {x: 65.5, y: 57.5}
@@ -312,6 +322,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 18.5, y: 103.5}
         - {x: -0.5, y: 103.5}
@@ -348,6 +359,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 67, y: 15.5}
         - {x: 54, y: 46.5}
@@ -381,6 +393,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 133, y: 32}
         - {x: 140, y: 53}
@@ -430,6 +443,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 34, y: 66.5}
         - {x: -23, y: 66.5}
@@ -462,6 +476,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 85.5, y: 88.5}
         - {x: 51.5, y: 108.5}
@@ -505,6 +520,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 106, y: -38.5}
         - {x: 100, y: -6.5}
@@ -543,6 +559,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 171, y: -25}
         - {x: 179, y: 19}
@@ -587,6 +604,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 82.5, y: -85.5}
         - {x: 108.5, y: -53.5}
@@ -623,6 +641,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 161.5, y: -54.5}
         - {x: 181.5, y: -27.5}
@@ -678,6 +697,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 13, y: 75}
         - {x: -40, y: 58}
@@ -711,6 +731,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 186.5, y: 15.5}
         - {x: 184.5, y: 77.5}
@@ -754,6 +775,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 96.5, y: 59}
         - {x: 62.5, y: 86}
@@ -796,6 +818,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 75.5, y: 26.5}
         - {x: 48.5, y: 61.5}
@@ -830,6 +853,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 79, y: 21}
         - {x: 70, y: 46}
@@ -869,6 +893,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 102.5, y: 10.5}
         - {x: 93.5, y: 48.5}
@@ -908,6 +933,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 120.5, y: 45}
         - {x: 71.5, y: 64}
@@ -944,6 +970,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 131.5, y: 48.5}
         - {x: 105.5, y: 82.5}
@@ -983,6 +1010,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 95.5, y: 111.5}
         - {x: 32.5, y: 125.5}
@@ -1018,6 +1046,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 70, y: 84}
         - {x: 40, y: 99}
@@ -1056,6 +1085,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 49, y: 24}
         - {x: 42, y: 63}
@@ -1089,6 +1119,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 63.5, y: 53}
         - {x: 45.5, y: 68}
@@ -1123,6 +1154,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 10, y: 66}
         - {x: -23, y: 59}
@@ -1157,6 +1189,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 87.5, y: 37.5}
         - {x: 53.5, y: 41.5}
@@ -1185,6 +1218,7 @@ TextureImporter:
       edges: []
       weights: []
     outline: []
+    customData: 
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -1194,9 +1228,37 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      AA_BG_LowerGround_midwall_2_pieces_0: 6337559423805630109
+      AA_BG_LowerGround_midwall_2_pieces_1: 5236018338224497982
+      AA_BG_LowerGround_midwall_2_pieces_10: 2770308540420520577
+      AA_BG_LowerGround_midwall_2_pieces_11: 3942489227851706964
+      AA_BG_LowerGround_midwall_2_pieces_12: -6787023364688915473
+      AA_BG_LowerGround_midwall_2_pieces_16: -6648698299803553902
+      AA_BG_LowerGround_midwall_2_pieces_17: 7268193110906116046
+      AA_BG_LowerGround_midwall_2_pieces_18: -3513328969299625668
+      AA_BG_LowerGround_midwall_2_pieces_19: -7374740536184879395
+      AA_BG_LowerGround_midwall_2_pieces_2: -7337780025271958693
+      AA_BG_LowerGround_midwall_2_pieces_20: -2296214580418273557
+      AA_BG_LowerGround_midwall_2_pieces_22: -7483082385672360645
+      AA_BG_LowerGround_midwall_2_pieces_23: 3220126416978760720
+      AA_BG_LowerGround_midwall_2_pieces_25: 1769218661164686141
+      AA_BG_LowerGround_midwall_2_pieces_26: 2426790595926123155
+      AA_BG_LowerGround_midwall_2_pieces_27: 6546562103914558566
+      AA_BG_LowerGround_midwall_2_pieces_28: -4248874506213371377
+      AA_BG_LowerGround_midwall_2_pieces_29: -2963972218773467904
+      AA_BG_LowerGround_midwall_2_pieces_3: -6948827949309043166
+      AA_BG_LowerGround_midwall_2_pieces_31: -3132332215888478081
+      AA_BG_LowerGround_midwall_2_pieces_4: 8226874581755403002
+      AA_BG_LowerGround_midwall_2_pieces_5: 3855525237755964050
+      AA_BG_LowerGround_midwall_2_pieces_6: 1492430834096165547
+      AA_BG_LowerGround_midwall_2_pieces_7: -8225162735344150272
+      AA_BG_LowerGround_midwall_2_pieces_8: 297919756809163552
+      AA_BG_LowerGround_midwall_2_pieces_9: -8107502231590897330
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

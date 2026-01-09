@@ -68,13 +68,17 @@ public class AspidShotExtraDamager : EnemyExtraDamager, IOnPool
         {
             bool validHit = false;
 
-            var healthComponent = HealthUtilities.GetHealthComponentInParent(component.gameObject);
-
-            HealthUtilities.TryGetHealth(healthComponent, out var oldHealth);
-            int dmg;
-            switch (HealthUtilities.GetHealthComponentType(healthComponent))
+            var healthComponent = EnemyHealthUtilities.GetHealthComponentInParent(component.gameObject);
+            if (healthComponent == null)
             {
-                case HealthUtilities.HealthComponentType.EntityHealth:
+                return;
+            }
+
+            var oldHealth = healthComponent.Health;
+            int dmg;
+            switch (healthComponent)
+            {
+                case EnemyHealthUtilities.EntityHealthWrapper entityWrapper:
                     dmg = AdditionalDamage;
                     if (dmg > oldHealth)
                     {
@@ -84,11 +88,11 @@ public class AspidShotExtraDamager : EnemyExtraDamager, IOnPool
                     {
                         didDamage = true;
                         //WeaverLog.Log("DAMAGE A = " + dmg);
-                        (healthComponent as EntityHealth).Health -= dmg - 1;
+                        entityWrapper.EntityHealthComponent.Health -= dmg - 1;
                         validHit = true;
                     }
                     break;
-                case HealthUtilities.HealthComponentType.HealthManager:
+                case EnemyHealthUtilities.HealthManagerWrapper otherEntityWrapper:
                     dmg = AdditionalDamage;
 
                     if (dmg > oldHealth)
@@ -98,7 +102,7 @@ public class AspidShotExtraDamager : EnemyExtraDamager, IOnPool
                     if (dmg > 0 && !didDamage)
                     {
                         didDamage = true;
-                        healthComponent.SendMessage("ApplyExtraDamage", dmg);
+                        healthComponent.HealthComponent.SendMessage("ApplyExtraDamage", dmg);
                         validHit = true;
                     }
                     break;
@@ -123,7 +127,7 @@ public class AspidShotExtraDamager : EnemyExtraDamager, IOnPool
 
             if (validHit)
             {
-                var flashers = healthComponent.GetComponentsInChildren<SpriteFlasher>();
+                var flashers = healthComponent.HealthComponent.GetComponentsInChildren<SpriteFlasher>();
 
                 foreach (var flasher in flashers)
                 {
@@ -139,7 +143,7 @@ public class AspidShotExtraDamager : EnemyExtraDamager, IOnPool
                         flashInfectedMethod = SpriteFlashType.GetMethod("flashInfected");
                     }
 
-                    var otherFlashers = healthComponent.GetComponentsInChildren(SpriteFlashType);
+                    var otherFlashers = healthComponent.HealthComponent.GetComponentsInChildren(SpriteFlashType);
 
                     foreach (var flasher in otherFlashers)
                     {
@@ -163,13 +167,16 @@ public class AspidShotExtraDamager : EnemyExtraDamager, IOnPool
 
         bool validHit = false;
 
-        var healthComponent = HealthUtilities.GetHealthComponentInParent(obj.gameObject);
-        var healthType = HealthUtilities.GetHealthComponentType(healthComponent);
+        var healthComponent = EnemyHealthUtilities.GetHealthComponentInParent(obj.gameObject);
+        if (healthComponent == null)
+        {
+            return;
+        }
 
-        HealthUtilities.TryGetHealth(healthComponent, out var oldHealth);
+        var oldHealth = healthComponent.Health;
 
         //if (obj.TryGetComponent<EntityHealth>(out var entityHealth))
-        if (healthType == HealthUtilities.HealthComponentType.EntityHealth)
+        if (healthComponent is EnemyHealthUtilities.EntityHealthWrapper entityWrapper)
         {
             int dmg = AdditionalDamage;
             if (dmg > oldHealth)
@@ -180,11 +187,11 @@ public class AspidShotExtraDamager : EnemyExtraDamager, IOnPool
             {
                 didDamage = true;
                 //WeaverLog.Log("DAMAGE B = " + dmg);
-                (healthComponent as EntityHealth).Health -= dmg;
+                entityWrapper.EntityHealthComponent.Health -= dmg;
                 validHit = true;
             }
         }
-        else if (healthType == HealthUtilities.HealthComponentType.HealthManager)
+        else if (healthComponent is EnemyHealthUtilities.HealthManagerWrapper)
         {
             int dmg = AdditionalDamage;
 
@@ -195,14 +202,14 @@ public class AspidShotExtraDamager : EnemyExtraDamager, IOnPool
             if (dmg > 0 && !didDamage)
             {
                 didDamage = true;
-                healthComponent.SendMessage("ApplyExtraDamage", dmg);
+                healthComponent.HealthComponent.SendMessage("ApplyExtraDamage", dmg);
                 validHit = true;
             }
         }
 
         if (validHit)
         {
-            var flashers = healthComponent.GetComponentsInChildren<SpriteFlasher>();
+            var flashers = healthComponent.HealthComponent.GetComponentsInChildren<SpriteFlasher>();
 
             foreach (var flasher in flashers)
             {
@@ -218,7 +225,7 @@ public class AspidShotExtraDamager : EnemyExtraDamager, IOnPool
                     flashInfectedMethod = SpriteFlashType.GetMethod("flashInfected");
                 }
 
-                var otherFlashers = healthComponent.GetComponentsInChildren(SpriteFlashType);
+                var otherFlashers = healthComponent.HealthComponent.GetComponentsInChildren(SpriteFlashType);
 
                 foreach (var flasher in otherFlashers)
                 {

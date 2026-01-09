@@ -428,13 +428,13 @@ public class GroundMode : AncientAspidMode
 
         bool doSlide = variation.DoSlide(destination);
 
-        Boss.Rbody.velocity = (destination - transform.position).normalized * lungeSpeed;
+        Boss.Rbody.linearVelocity = (destination - transform.position).normalized * lungeSpeed;
 
         yield return null;
 
-        float yVelocity = Boss.Rbody.velocity.y;
-        float xVelocity = Boss.Rbody.velocity.x;
-        float halfVelocity = Mathf.Abs(Boss.Rbody.velocity.y) / 2f;
+        float yVelocity = Boss.Rbody.linearVelocity.y;
+        float xVelocity = Boss.Rbody.linearVelocity.x;
+        float halfVelocity = Mathf.Abs(Boss.Rbody.linearVelocity.y) / 2f;
 
 
         variation.LungeStart();
@@ -443,7 +443,7 @@ public class GroundMode : AncientAspidMode
 
         for (float t = 0; t < 2; t += Time.deltaTime)
         {
-            if (Mathf.Abs(Boss.Rbody.velocity.y) < halfVelocity)
+            if (Mathf.Abs(Boss.Rbody.linearVelocity.y) < halfVelocity)
             {
                 landed = true;
                 break;
@@ -465,7 +465,7 @@ public class GroundMode : AncientAspidMode
 
             yield break;
         }
-        Boss.Rbody.velocity = default;
+        Boss.Rbody.linearVelocity = default;
 
         variation.LungeLand(doSlide);
 
@@ -537,18 +537,18 @@ public class GroundMode : AncientAspidMode
 
             float horizontalSpeed = Mathf.Lerp(Mathf.Abs(yVelocity), Mathf.Abs(xVelocity), 0.5f);
 
-            Boss.Rbody.velocity = downwardAngle >= 0f ? new Vector2(horizontalSpeed, 0f) : new Vector2(-horizontalSpeed, 0f);
+            Boss.Rbody.linearVelocity = downwardAngle >= 0f ? new Vector2(horizontalSpeed, 0f) : new Vector2(-horizontalSpeed, 0f);
 
             yield return null;
 
-            float lastVelocityX = Boss.Rbody.velocity.x;
+            float lastVelocityX = Boss.Rbody.linearVelocity.x;
 
             do
             {
-                lastVelocityX = Boss.Rbody.velocity.x;
-                Boss.Rbody.velocity = Boss.Rbody.velocity.x >= 0f
-                    ? Boss.Rbody.velocity.With(x: Boss.Rbody.velocity.x - (lungeSlideDeacceleration * Time.deltaTime))
-                    : Boss.Rbody.velocity.With(x: Boss.Rbody.velocity.x + (lungeSlideDeacceleration * Time.deltaTime));
+                lastVelocityX = Boss.Rbody.linearVelocity.x;
+                Boss.Rbody.linearVelocity = Boss.Rbody.linearVelocity.x >= 0f
+                    ? Boss.Rbody.linearVelocity.With(x: Boss.Rbody.linearVelocity.x - (lungeSlideDeacceleration * Time.deltaTime))
+                    : Boss.Rbody.linearVelocity.With(x: Boss.Rbody.linearVelocity.x + (lungeSlideDeacceleration * Time.deltaTime));
 
                 if (switchDirectionRoutine == 0)
                 {
@@ -560,9 +560,9 @@ public class GroundMode : AncientAspidMode
                             variation.OnSlideSwitchDirection(Boss.Orientation);
                             Boss.Head.ToggleLaserBubbles(true);
                             yield return SwitchDirectionDuringSlide();
-                            if (Boss.Rbody.velocity.x != 0)
+                            if (Boss.Rbody.linearVelocity.x != 0)
                             {
-                                yield return new WaitUntil(() => Boss.Rbody.velocity.x == 0);
+                                yield return new WaitUntil(() => Boss.Rbody.linearVelocity.x == 0);
                             }
                             Boss.Head.ToggleLaserBubbles(false);
                             yield break;
@@ -572,7 +572,7 @@ public class GroundMode : AncientAspidMode
                     }
                 }
 
-                if (Boss.Rbody.velocity.y < -0.5f)
+                if (Boss.Rbody.linearVelocity.y < -0.5f)
                 {
                     OnUntouchGround();
                 }
@@ -581,7 +581,7 @@ public class GroundMode : AncientAspidMode
                     OnTouchGround();
                 }
 
-                if (Boss.Rbody.velocity.y < -0.5f && Vector3.Distance(transform.position, Player.Player1.transform.position) >= 30)
+                if (Boss.Rbody.linearVelocity.y < -0.5f && Vector3.Distance(transform.position, Player.Player1.transform.position) >= 30)
                 {
                     variation.SlideCancel();
                     yield return DoGroundCancel(false);
@@ -590,9 +590,9 @@ public class GroundMode : AncientAspidMode
                 }
 
                 yield return null;
-            } while (Mathf.Abs(Boss.Rbody.velocity.x) > Mathf.Abs(lastVelocityX / 3f) && Mathf.Abs(Boss.Rbody.velocity.x) > 0.1f);
+            } while (Mathf.Abs(Boss.Rbody.linearVelocity.x) > Mathf.Abs(lastVelocityX / 3f) && Mathf.Abs(Boss.Rbody.linearVelocity.x) > 0.1f);
 
-            if (Mathf.Abs(Boss.Rbody.velocity.x - lastVelocityX) >= lungeSlideSlamThreshold)
+            if (Mathf.Abs(Boss.Rbody.linearVelocity.x - lastVelocityX) >= lungeSlideSlamThreshold)
             {
                 if (lungeLandSoundHeavy != null)
                 {
@@ -627,7 +627,7 @@ public class GroundMode : AncientAspidMode
             CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.EnemyKillShake);
         }
 
-        Boss.Rbody.velocity = Boss.Rbody.velocity.With(x: 0f);
+        Boss.Rbody.linearVelocity = Boss.Rbody.linearVelocity.With(x: 0f);
 
         yield return new WaitUntil(() => landingCancelled || landingAwaiter.Done);
 
@@ -646,7 +646,7 @@ public class GroundMode : AncientAspidMode
             yield return new WaitUntil(() => Boss.Orientation != oldOrientation);
         }
 
-        if (Boss.Rbody.velocity.y < -2)
+        if (Boss.Rbody.linearVelocity.y < -2)
         {
             variation.OnFallCancel();
             yield return DoGroundCancel(false);
@@ -659,7 +659,7 @@ public class GroundMode : AncientAspidMode
             yield return FireGroundLaser(laserDirection, laserDirection);
         }
 
-        if (Boss.Rbody.velocity.y < -2)
+        if (Boss.Rbody.linearVelocity.y < -2)
         {
             variation.OnFallCancel();
             yield return DoGroundCancel(false);
@@ -700,15 +700,15 @@ public class GroundMode : AncientAspidMode
         Vector2 velocity = MathUtilities.CalculateVelocityToReachPoint(transform.position, target, groundJumpMove.jumpTime, groundJumpMove.jumpGravity / 2);
 
         Boss.Rbody.gravityScale = groundJumpMove.jumpGravity;
-        Boss.Rbody.velocity = velocity;
+        Boss.Rbody.linearVelocity = velocity;
 
         yield return null;
         yield return null;
 
 
-        yield return new WaitUntil(() => Boss.Rbody.velocity.y <= 0);
+        yield return new WaitUntil(() => Boss.Rbody.linearVelocity.y <= 0);
 
-        Boss.Rbody.velocity = default;
+        Boss.Rbody.linearVelocity = default;
         Boss.Rbody.gravityScale = 0f;
 
         if (runningVariation != null)
@@ -795,7 +795,7 @@ public class GroundMode : AncientAspidMode
         Boss.Wings.PlayDefaultAnimation = true;
 
         Boss.FlightEnabled = true;
-        Boss.Rbody.velocity = default;
+        Boss.Rbody.linearVelocity = default;
         Boss.Rbody.gravityScale = 0f;
 
         foreach (ClawAnimator claw in Boss.Claws.claws)

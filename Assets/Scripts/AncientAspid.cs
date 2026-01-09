@@ -263,7 +263,7 @@ public class AncientAspid : Boss
                 flightEnabled = value;
                 if (!flightEnabled)
                 {
-                    Rbody.velocity = default;
+                    Rbody.linearVelocity = default;
                 }
             }
         }
@@ -975,17 +975,17 @@ public class AncientAspid : Boss
 
         var time = Time.time;
 
-        yield return new WaitUntil(() => Rbody.velocity.y <= 0f || Time.time > time + 3f);
+        yield return new WaitUntil(() => Rbody.linearVelocity.y <= 0f || Time.time > time + 3f);
 
         //Initialization.PerformanceLog("BEGINNING FALL");
-        var prevVelocity = Rbody.velocity.y;
+        var prevVelocity = Rbody.linearVelocity.y;
         for (float t = 0; t < 3f; t += 0f)
         {
             var pre = Time.time;
             yield return new WaitForSeconds(1f / 30f);
             t += Time.time - pre;
-            var diff = Rbody.velocity.y - prevVelocity;
-            prevVelocity = Rbody.velocity.y;
+            var diff = Rbody.linearVelocity.y - prevVelocity;
+            prevVelocity = Rbody.linearVelocity.y;
             if (Mathf.Abs(diff) <= 0.001f)
             {
                 break;
@@ -1507,7 +1507,7 @@ public class AncientAspid : Boss
         {
             if (!generatingPath)
             {
-                var pathStartPos = transform.position + aspidTerrainCollider.transform.localPosition + (Vector3)(Rbody.velocity * 0.25f);
+                var pathStartPos = transform.position + aspidTerrainCollider.transform.localPosition + (Vector3)(Rbody.linearVelocity * 0.25f);
 
 
                 if (pathfindingOverrides.Count > 0)
@@ -1674,7 +1674,7 @@ public class AncientAspid : Boss
                 maxVelocity = minFlightSpeed;
             }
 
-            var prevVelocity = Rbody.velocity;
+            var prevVelocity = Rbody.linearVelocity;
 
             var newVelocity = prevVelocity + (directionToTarget.normalized * (flightAcceleration * Time.deltaTime));
 
@@ -1683,7 +1683,7 @@ public class AncientAspid : Boss
                 newVelocity = newVelocity.normalized * maxVelocity;
             }
 
-            Rbody.velocity = newVelocity;
+            Rbody.linearVelocity = newVelocity;
         }
 
         if (Player.Player1.transform.position.y > transform.position.y && Mathf.Abs(Player.Player1.transform.position.x - transform.position.x) <= (Player.Player1.transform.position.y - transform.position.y))
@@ -1715,7 +1715,7 @@ public class AncientAspid : Boss
 
         if (Vector3.Distance(transform.position, Player.Player1.transform.position) >= 40)
         {
-            Rbody.velocity = Vector2.Lerp(Rbody.velocity, directionToTarget.normalized * Rbody.velocity.magnitude, 5f * Time.fixedDeltaTime);
+            Rbody.linearVelocity = Vector2.Lerp(Rbody.linearVelocity, directionToTarget.normalized * Rbody.linearVelocity.magnitude, 5f * Time.fixedDeltaTime);
         }
     }
 
@@ -1786,7 +1786,7 @@ public class AncientAspid : Boss
         ApplyFlightVariance = false;
         SetTarget(PlayerTarget);
         Rbody.gravityScale = 0f;
-        Rbody.velocity = default;
+        Rbody.linearVelocity = default;
 
         foreach (var collider in GetComponentsInChildren<Collider2D>(true))
         {
@@ -1941,7 +1941,7 @@ public class AncientAspid : Boss
 
             settings.TrySetFieldValue(bossDefeatedField, true);
             var spawnedItem = GameObject.Instantiate(itemPrefab, Head.transform.position, Quaternion.identity);
-            spawnedItem.RB.velocity = velocity;
+            spawnedItem.RB.linearVelocity = velocity;
 
             if (spitItemAudio != null)
             {
@@ -1960,7 +1960,7 @@ public class AncientAspid : Boss
 
         while (transform.position.y < camPosition.y + 15f)
         {
-            Rbody.velocity += new Vector2(0f,flyAwayAcceleration * Time.deltaTime);
+            Rbody.linearVelocity += new Vector2(0f,flyAwayAcceleration * Time.deltaTime);
             yield return null;
         }
 
@@ -1983,7 +1983,7 @@ public class AncientAspid : Boss
 
         if (!godhomeMode)
         {
-            Rbody.velocity = default;
+            Rbody.linearVelocity = default;
         }
 
         if (!godhomeMode)

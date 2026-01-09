@@ -300,7 +300,7 @@ public class ClawController : AspidBodyPart
         while (true)
         {
             Vector2 newPos = UnityEngine.Random.insideUnitCircle * shakeAmount;
-            newPos *= new Vector3(Mathf.Clamp01(Mathf.Abs(parentBody.velocity.x / 3)), Mathf.Clamp01(Mathf.Abs(parentBody.velocity.y / 3)));
+            newPos *= new Vector3(Mathf.Clamp01(Mathf.Abs(parentBody.linearVelocity.x / 3)), Mathf.Clamp01(Mathf.Abs(parentBody.linearVelocity.y / 3)));
             transform.localPosition = transform.localPosition.With(x: newPos.x, y: newPos.y);
             yield return new WaitForSeconds(shakeRate);
         }

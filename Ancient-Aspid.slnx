@@ -1,0 +1,15 @@
+﻿<Solution>
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="WeaverCore.csproj" />
+  <Project Path="WeaverCore.Editor.csproj" />
+  <Project Path="TMPro.Editor.csproj" />
+  <Project Path="HollowKnight.FirstPass.Editor.csproj" />
+  <Project Path="HollowKnight.csproj" />
+  <Project Path="HollowKnight.FirstPass.csproj" />
+  <Project Path="WeaverBuildTools.csproj" />
+  <Project Path="Unity.AssetBundleBrowser.Editor.csproj" />
+  <Project Path="AssetUsageDetector.Editor.csproj" />
+  <Project Path="UnityPlayModeSaver.csproj" />
+  <Project Path="UnityPlayModeSaverEditor.csproj" />
+</Solution>

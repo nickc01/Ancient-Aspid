@@ -24,7 +24,7 @@ public class AspidShot : AspidShotBase
     {
         AspidShot instance = Pooling.Instantiate(prefab, position, Quaternion.identity);
 
-        instance.Rigidbody.velocity = velocity;
+        instance.Rigidbody.linearVelocity = velocity;
 
         return instance;
     }
@@ -33,7 +33,7 @@ public class AspidShot : AspidShotBase
     {
         AspidShot instance = Pooling.Instantiate(AncientAspidPrefabs.Instance.AspidShotPrefab, position, Quaternion.identity);
 
-        instance.Rigidbody.velocity = velocity;
+        instance.Rigidbody.linearVelocity = velocity;
 
         return instance;
     }

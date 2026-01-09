@@ -134,7 +134,7 @@ public class AspidShotMove : AncientAspidMove
         var instance = Pooling.Instantiate(ShotPrefab, sourcePos, Quaternion.identity);
         if (instance.TryGetComponent(out Rigidbody2D rb))
         {
-            rb.velocity = MathUtilities.PolarToCartesian(playerAngle + angle + shotAngleRandomness.RandomInRange(), velocity);
+            rb.linearVelocity = MathUtilities.PolarToCartesian(playerAngle + angle + shotAngleRandomness.RandomInRange(), velocity);
         }
         if (instance.TryGetComponent(out AspidShotBase aspidShot))
         {

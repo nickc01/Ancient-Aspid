@@ -75,8 +75,8 @@ public class Bomb : MonoBehaviour
     public static Bomb Spawn(Bomb prefab, Vector3 position, Vector2 velocity, float angularVelocity)
     {
         var instance = Pooling.Instantiate(prefab, position, Quaternion.identity);
-        instance.rigidbody.velocity = velocity;
-        instance.rigidbody.angularDrag = 0f;
+        instance.rigidbody.linearVelocity = velocity;
+        instance.rigidbody.angularDamping = 0f;
         instance.rigidbody.angularVelocity = angularVelocity;
 
         return instance;

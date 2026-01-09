@@ -498,7 +498,7 @@ public class OffensiveMode : AncientAspidMode
         Boss.FlightEnabled = false;
         Boss.ApplyFlightVariance = false;
         transform.SetPosition2D(220.8f, 188.95f);
-        Boss.Rbody.velocity = default;
+        Boss.Rbody.linearVelocity = default;
         Boss.Rbody.simulated = false;
 
         var riseSpeed = CentralRiseSpeed.Default;
@@ -676,7 +676,7 @@ public class OffensiveMode : AncientAspidMode
 
         transform.position = centerModePlatformDest;
 
-        Boss.Rbody.velocity = default;
+        Boss.Rbody.linearVelocity = default;
         Boss.Rbody.simulated = true;
 
         Boss.FlightEnabled = true;

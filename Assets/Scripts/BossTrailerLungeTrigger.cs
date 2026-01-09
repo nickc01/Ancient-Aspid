@@ -83,13 +83,13 @@ public class BossTrailerLungeTrigger : MonoBehaviour
 
         bool steepAngle = true;
 
-        boss.Rbody.velocity = (destination - boss.transform.position).normalized * groundMode.lungeSpeed;
+        boss.Rbody.linearVelocity = (destination - boss.transform.position).normalized * groundMode.lungeSpeed;
 
         yield return null;
 
-        var yVelocity = boss.Rbody.velocity.y;
-        var xVelocity = boss.Rbody.velocity.x;
-        var halfVelocity = Mathf.Abs(boss.Rbody.velocity.y) / 2f;
+        var yVelocity = boss.Rbody.linearVelocity.y;
+        var xVelocity = boss.Rbody.linearVelocity.x;
+        var halfVelocity = Mathf.Abs(boss.Rbody.linearVelocity.y) / 2f;
 
 
 
@@ -97,7 +97,7 @@ public class BossTrailerLungeTrigger : MonoBehaviour
 
         transform.SetPositionY(trailerModeDestY);
 
-        boss.Rbody.velocity = default;
+        boss.Rbody.linearVelocity = default;
 
         var headLandRoutine = boss.Head.PlayLanding(steepAngle);
         var bodyLandRoutine = boss.Body.PlayLanding(steepAngle);
@@ -123,7 +123,7 @@ public class BossTrailerLungeTrigger : MonoBehaviour
         }
         CameraShaker.Instance.Shake(WeaverCore.Enums.ShakeType.EnemyKillShake);
 
-        boss.Rbody.velocity = boss.Rbody.velocity.With(x: 0f);
+        boss.Rbody.linearVelocity = boss.Rbody.linearVelocity.With(x: 0f);
 
         var headFinishRoutine = boss.Head.FinishLanding(slammed);
         var bodyFinishRoutine = boss.Body.FinishLanding(slammed);

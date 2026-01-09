@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
+  serializedVersion: 3
   tags:
   - TileMap
   - GameManager
@@ -77,6 +77,13 @@ TagManager:
   - Grimmchild
   - WindyGrass
   - Weaverling
+  - ground
+  - Obstacle
+  - BombPickup
+  - Enemy
+  - ExplosionFX
+  - Bullet
+  - HealthBar
   layers:
   - Default
   - TransparentFX
@@ -141,6 +148,9 @@ TagManager:
   - name: Immediate FG
     uniqueID: 31172181
     locked: 0
+  - name: Scene Border
+    uniqueID: 1371964999
+    locked: 0
   - name: Far FG
     uniqueID: 2577183099
     locked: 0
@@ -153,3 +163,8 @@ TagManager:
   - name: HUD
     uniqueID: 629535577
     locked: 0
+  - name: Inventory
+    uniqueID: 957720295
+    locked: 0
+  m_RenderingLayers:
+  - Default

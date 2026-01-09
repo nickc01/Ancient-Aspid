@@ -87,7 +87,7 @@ TextureImporter:
       213: 790774104836482945
     second: AA_BG_Arena_pieces_1_27
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,10 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -117,8 +119,8 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 2
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -146,8 +148,10 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 8192
     resizeAlgorithm: 0
@@ -157,9 +161,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: Standalone
     maxTextureSize: 8192
     resizeAlgorithm: 0
@@ -169,9 +174,10 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: WebGL
     maxTextureSize: 8192
     resizeAlgorithm: 0
@@ -181,6 +187,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -197,6 +204,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 108, y: 25.090921}
         - {x: 107.09546, y: 34.00001}
@@ -235,6 +243,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 123.1482, y: 22.818127}
         - {x: 65.865486, y: 78.81813}
@@ -272,6 +281,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 80.821556, y: 104.0909}
         - {x: 52.81667, y: 122.5}
@@ -308,6 +318,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 111.874245, y: 37.818195}
         - {x: 96.598854, y: 54.363647}
@@ -341,6 +352,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 144.5, y: 49.5454}
         - {x: 144.5, y: 50.818127}
@@ -374,6 +386,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 54.66658, y: 71.5}
         - {x: -50.988205, y: 71.5}
@@ -402,6 +415,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 130.54054, y: 47.81816}
         - {x: 119.08399, y: 69.45452}
@@ -436,6 +450,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 140, y: 24.727219}
         - {x: 136.48807, y: 60.363583}
@@ -473,6 +488,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: -29.504389, y: 129}
         - {x: -72.78466, y: 102.36359}
@@ -503,6 +519,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 13.5, y: -50}
         - {x: -0.5, y: -67}
@@ -543,6 +560,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: -47.045162, y: 125.5}
         - {x: -59.774654, y: 125.5}
@@ -577,6 +595,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: -95, y: 18.5}
         - {x: -95, y: 3.5}
@@ -604,6 +623,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 39.176517, y: 115}
         - {x: -8, y: 68}
@@ -633,6 +653,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 14.483915, y: 140}
         - {x: -14.5, y: 52}
@@ -663,6 +684,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: -44.820805, y: 139.5}
         - {x: -45, y: -37.5}
@@ -693,6 +715,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 2.5, y: 0}
         - {x: -65.5, y: 177}
@@ -726,6 +749,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 46.320152, y: 140.5}
         - {x: 8.131678, y: 50.636353}
@@ -758,6 +782,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 143.762, y: -156.09094}
         - {x: 131.0325, y: -137.00003}
@@ -843,6 +868,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 161, y: -78.5}
         - {x: 116, y: -65.5}
@@ -918,6 +944,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 92.5, y: 154.5}
         - {x: 79.5, y: 154.5}
@@ -986,6 +1013,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: -20, y: 77}
         - {x: -53, y: 8}
@@ -1015,6 +1043,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 75.813965, y: 178.00002}
         - {x: 77, y: 198.36365}
@@ -1055,6 +1084,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 53.76268, y: 40.36363}
         - {x: 75.40282, y: 139.63635}
@@ -1100,6 +1130,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 63.9758, y: 132.0909}
         - {x: 76.70529, y: 161.36363}
@@ -1141,6 +1172,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 135, y: -129}
         - {x: 144.03587, y: -128.45454}
@@ -1195,6 +1227,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: -116, y: -60}
         - {x: -102.72383, y: -156.63637}
@@ -1254,6 +1287,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 50, y: -28.5}
         - {x: 51, y: -21.5}
@@ -1339,6 +1373,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
       outline:
       - - {x: 68.5, y: 4}
         - {x: 115.5, y: 13}
@@ -1430,6 +1465,7 @@ TextureImporter:
       edges: []
       weights: []
     outline: []
+    customData: 
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
@@ -1439,9 +1475,39 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      AA_BG_Arena_pieces_1_0: -2051874523382512534
+      AA_BG_Arena_pieces_1_1: 2470395030915849129
+      AA_BG_Arena_pieces_1_10: -8867740770242141993
+      AA_BG_Arena_pieces_1_11: -2134431578741466673
+      AA_BG_Arena_pieces_1_12: 8677906823522514688
+      AA_BG_Arena_pieces_1_13: -6883981793806579872
+      AA_BG_Arena_pieces_1_14: 7855930664460546582
+      AA_BG_Arena_pieces_1_15: 3076667615115769879
+      AA_BG_Arena_pieces_1_16: 6585090188830668024
+      AA_BG_Arena_pieces_1_17: 4381384263824954048
+      AA_BG_Arena_pieces_1_18: 4465436869218665605
+      AA_BG_Arena_pieces_1_19: -4528182681052201571
+      AA_BG_Arena_pieces_1_2: -1102416369976700983
+      AA_BG_Arena_pieces_1_20: -2282752061215473112
+      AA_BG_Arena_pieces_1_21: -4267785197870258071
+      AA_BG_Arena_pieces_1_22: -5305309161242706227
+      AA_BG_Arena_pieces_1_23: -2247971967796995148
+      AA_BG_Arena_pieces_1_24: -6203667321728725190
+      AA_BG_Arena_pieces_1_25: 6537328806389865366
+      AA_BG_Arena_pieces_1_26: 8737282174139252504
+      AA_BG_Arena_pieces_1_27: 790774104836482945
+      AA_BG_Arena_pieces_1_3: 2199010680860947087
+      AA_BG_Arena_pieces_1_4: -1872327098852045813
+      AA_BG_Arena_pieces_1_5: 4475924745512079694
+      AA_BG_Arena_pieces_1_6: 1420254148341754429
+      AA_BG_Arena_pieces_1_7: 6148604201542730648
+      AA_BG_Arena_pieces_1_8: -3650055668357437674
+      AA_BG_Arena_pieces_1_9: 7618018589781402050
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

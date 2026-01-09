@@ -37,7 +37,7 @@ public class GroundJumpMove : AncientAspidMove
 
             if (rb != null)
             {
-                return Player.Player1.transform.position + new Vector3(rb.velocity.x * jumpTime + 0.1f, 0f);
+                return Player.Player1.transform.position + new Vector3(rb.linearVelocity.x * jumpTime + 0.1f, 0f);
             }
             else
             {
@@ -101,7 +101,7 @@ public class GroundJumpMove : AncientAspidMove
             var velocity = MathUtilities.CalculateVelocityToReachPoint(transform.position, target, jumpTime, jumpGravity);
 
             Boss.Rbody.gravityScale = jumpGravity;
-            Boss.Rbody.velocity = velocity;
+            Boss.Rbody.linearVelocity = velocity;
 
             Boss.Claws.OnGround = false;
 
@@ -130,14 +130,14 @@ public class GroundJumpMove : AncientAspidMove
                 }
             }
 
-            yield return new WaitUntil(() => Boss.Rbody.velocity.y <= 0f);
+            yield return new WaitUntil(() => Boss.Rbody.linearVelocity.y <= 0f);
             var fallingAwaiter = JumpBeginFalling(switchDirection);
-            yield return new WaitUntil(() => Boss.Rbody.velocity.y <= -0.5f);
+            yield return new WaitUntil(() => Boss.Rbody.linearVelocity.y <= -0.5f);
             bool cancel = true;
 
             for (float t = 0; t < 1.5f; t += Time.deltaTime)
             {
-                if (Boss.Rbody.velocity.y >= -0.5f)
+                if (Boss.Rbody.linearVelocity.y >= -0.5f)
                 {
                     cancel = false;
                     break;
@@ -152,7 +152,7 @@ public class GroundJumpMove : AncientAspidMove
             }
             yield return fallingAwaiter.WaitTillDone();
 
-            Boss.Rbody.velocity = Boss.Rbody.velocity.With(x: 0f);
+            Boss.Rbody.linearVelocity = Boss.Rbody.linearVelocity.With(x: 0f);
 
             Boss.Claws.OnGround = true;
 
@@ -167,7 +167,7 @@ public class GroundJumpMove : AncientAspidMove
             yield return JumpLand(i == jumpTimes - 1);
         }
 
-        Boss.Rbody.velocity = default;
+        Boss.Rbody.linearVelocity = default;
         Boss.Rbody.gravityScale = 0f;
 
     }

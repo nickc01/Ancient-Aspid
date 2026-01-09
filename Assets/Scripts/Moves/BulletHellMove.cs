@@ -244,7 +244,7 @@ public class BulletHellMove : AncientAspidMove
     {
         var instance = Pooling.Instantiate(shotPrefab, position, Quaternion.identity);
         Vector2 targetDirection = rotation * Vector2.right;
-        instance.GetComponent<Rigidbody2D>().velocity = targetDirection * shotFireVelocity * extraVelocity;
+        instance.GetComponent<Rigidbody2D>().linearVelocity = targetDirection * shotFireVelocity * extraVelocity;
     }
 
     float GetTargetAngle(float t)
